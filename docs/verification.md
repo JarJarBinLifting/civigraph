@@ -192,3 +192,26 @@ Les captures des comparaisons, chemins, Parcours, notices, sauvegardes et crédi
 Les images proviennent d’associations publiques Wikidata/Commons, vérifiées par identifiant ; licences, auteur, attribution, source et empreinte du fichier sont conservés. Les fonctions génériques ne reçoivent pas d’illustration institutionnelle supposée. Sur 875 candidates, 63 ont été exclues par le contrôle de licence/attribution/statut et deux GIF n’ont pas été retenus. La reprise `--cached` n’a aucun accès réseau ; les deux fichiers non téléchargés y sont signalés absents du cache. Les images ont leur propre licence, distincte de CC0 pour les données Wikidata. La navigation sert exclusivement des fichiers locaux ; l’import reste facultatif.
 
 Les chemins sont limités à trois résultats, quatre segments et 20 000 traversées de voisinage ; ils n’établissent pas que tout un chemin existait à une même date. Les noms denses nécessitent le zoom ou la sélection et restent intégralement disponibles dans Liste. Les PNG reproduisent le cadrage courant de l’explorateur, avec une limite explicite de 16 000 pixels de hauteur. Les sauvegardes sont propres au navigateur et à son origine. La couverture du corpus et des photos reste partielle ; les sources ne sont pas toutes vérifiées indépendamment. Les tests utilisent Chrome local, pas Firefox/Safari ni un téléphone physique. Tous les contrôles finaux demandés ont pu être exécutés. L’instance locale reste non indexable ; aucun domaine de production n’est configuré et rien n’a été publié.
+
+## Atlas éditorial — 7 septembre 2026
+
+Les trois passes sont terminées, à partir du commit propre `a524da6`, sans changement de corpus, de dépendances ou de contrat d’URL. A (`8922868`) compose une scène plus généreuse, des monogrammes et pictogrammes, des guides lisibles et des traits cohérents ; B (`c3ec639`) fixe la taille affichée des noms, leur priorité, les collisions et la préservation de caméra. C harmonise comparaison et chemins et corrige les défauts révélés sur mobile et dans le PNG. Les photos locales et leurs licences restent accessibles dans les fiches et notices. Le diagramme exporté décrit ses symboles, sans crédit d’image absente de la carte.
+
+| Contrôle final | Résultat réel |
+| --- | --- |
+| `npm run lint` | Réussi |
+| `npm run typecheck` | Réussi |
+| `npm test` | 77 tests réussis, 18 fichiers, 2,64 s |
+| `npm run build` | Réussi, `1QvhUFFiACaSBoD_0h50s` servi au port 4300 avant la recette |
+| `npm run test:e2e` | 77 réussis, 3 exclusions mobiles antérieures, 1,2 min |
+| Réseaux complets | ENA : 123 nœuds/130 déclarations ; Assas : 69/70 |
+| Navigation | Pivots continus, identité Cytoscape, interruption/retour/avance, anciennes URL, réduction des animations, Liste et sources au clavier |
+| Caméra et noms | Sélection réelle sans recadrage, priorité persistante après survol, noms à 12,5–14 pixels CSS, zoom progressif, étape précédente dégagée du centre sur mobile |
+| Comparaison et chemins | Preuves gauche/droite, sélection au clavier, géométrie propre, chemin indirect de quatre segments et chaque direction factuelle conservée |
+| PNG | Téléchargements réels inspectés ; test de pixels pour les légendes temporelles, dimensions et signature PNG vérifiées |
+
+Les échecs intermédiaires sont consignés dans [SPRINT-STATUS.md](SPRINT-STATUS.md). La recette complète a détecté une perte de hauteur du canvas mobile et une aide gestuelle masquée : les exigences existantes Areva/Attali ont été conservées et repassent après correction du CSS. Le contour papier effaçait les légendes dans l’export SVG ; la copie de l’ordre de peinture corrige le fichier réel. Le dernier chevauchement mobile du nom de Lecornu avec le centre a été reproduit puis corrigé, sans bouger les nœuds. Aucun échec restant.
+
+Les cinq couples `.working/sprint/atlas-before-*` / `atlas-final-*` ont les mêmes URL et dimensions : petite vue à 1440 × 1000, initial/mobile et Assas mobile à 390 × 844, ENA et Assas denses à 1982 × 1103. Les captures finales ont été inspectées, ainsi que les inconnues, la comparaison, le chemin indirect et le zoom intermédiaire ENA. Les noms affichés au zoom 0,42 sont au nombre de 39 sur bureau (94 nœuds dans le champ) et 9 sur mobile (31 dans le champ) ; les 123 nœuds restent dans le graphe. Les deux PNG finaux sont `lot5b-export-desktop.png` (1 428 × 1 548, 229 402 octets) et `lot5b-export-mobile.png` (1 296 × 2 115, 251 950 octets). Les fichiers de preuve restent locaux et ignorés par Git.
+
+Sur les 13 états instrumentés : aucun débordement horizontal, erreur console/page ni appel tiers. Mesure comparable de 120 pans synchrones à 1982 × 1103 : ENA 0,4 ms avant / 0,6 après ; Assas 0,7 / 0,6 ms, zéro événement de style dans les deux versions. Cette mesure ne couvre pas toute la peinture ; aucun gain de FPS n’est revendiqué. Le payload initial final mesuré est de 614 011 octets transférés : le corpus complet est toujours envoyé au client. Chrome local et émulation mobile seulement, sans test Firefox/Safari ou téléphone physique. Le zoom ou Liste reste nécessaire pour consulter tous les noms denses. Aucun push, déploiement ou activation d’indexation.

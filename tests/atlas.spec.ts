@@ -85,3 +85,46 @@ test('opening a profile preserves the observed area and persistent selection aft
   });
   expect(selection).toEqual({ active: true, opacity: 1, text: 1 });
 });
+
+test('comparison names remain readable after zoom and keyboard selection preserves the camera', async ({ page }) => {
+  await page.goto('/?root=Q3052772&compare=Q3579995&selected=Q273579');
+  const graph = page.getByTestId('comparison-graph');
+  await expect(graph).toHaveAttribute('data-ready', 'true');
+  await page.getByRole('button', { name: 'Zoom arrière de la comparaison', exact: true }).click({ clickCount: 2 });
+  const fontSizes = () => graph.evaluate(element => {
+    const cy = (element as Canvas)._cyreg.cy;
+    return cy.nodes().filter(node => Number(node.style('text-opacity')) > 0 && node.style('label') !== '').map(node => Number.parseFloat(node.style('font-size')) * cy.zoom());
+  });
+  await expect.poll(async () => Math.min(...await fontSizes())).toBeGreaterThanOrEqual(11.9);
+  expect(Math.max(...await fontSizes())).toBeLessThanOrEqual(14.1);
+  await graph.evaluate(element => {
+    const cy = (element as Canvas)._cyreg.cy;
+    cy.scratch('atlasComparisonCamera', { zoom: cy.zoom(), pan: cy.pan() });
+  });
+  const shortcut = page.getByRole('button', { name: 'Consulter Sciences Po Paris', exact: true });
+  await shortcut.focus(); await shortcut.press('Enter');
+  await expect(shortcut).toHaveAttribute('aria-pressed', 'true');
+  await page.mouse.move(5, 5);
+  await expect.poll(() => graph.evaluate(element => {
+    const cy = (element as Canvas)._cyreg.cy, before = cy.scratch('atlasComparisonCamera');
+    const selected = cy.$id('Q859363');
+    return Boolean(before && before.zoom === cy.zoom() && before.pan.x === cy.pan().x && before.pan.y === cy.pan().y && selected.hasClass('active') && Number(selected.style('text-opacity')) === 1 && cy.nodes().length === 5);
+  })).toBe(true);
+});
+
+test('the exploration step keeps its name and caption clear of the current center', async ({ page }) => {
+  await page.goto(assas.replace('selected=Q662976', 'selected=Q30527240'));
+  await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
+  const overlap = await page.locator('.graph-canvas').evaluate(element => {
+    const cy = (element as Canvas)._cyreg.cy;
+    const root = cy.nodes('.root').renderedBoundingBox({ includeLabels: false, includeOverlays: false, includeUnderlays: false });
+    const label = cy.$id('Q20089181').renderedBoundingBox({ includeNodes: false, includeEdges: false, includeLabels: true, includeOverlays: false, includeUnderlays: false });
+    const legend = [...document.querySelectorAll('.graph-guides text')].find(text => text.textContent === 'Parcours exploré')!.getBoundingClientRect();
+    const canvas = element.getBoundingClientRect();
+    const caption = { x1: legend.left - canvas.left, x2: legend.right - canvas.left, y1: legend.top - canvas.top, y2: legend.bottom - canvas.top };
+    const intersects = (a: typeof root, b: Pick<typeof root, 'x1' | 'x2' | 'y1' | 'y2'>) => a.x1 < b.x2 && a.x2 > b.x1 && a.y1 < b.y2 && a.y2 > b.y1;
+    return { label: intersects(root, label), caption: intersects(root, caption), text: cy.$id('Q20089181').style('label') };
+  });
+  expect(overlap.text).toContain('Lecornu');
+  expect(overlap.label).toBe(false); expect(overlap.caption).toBe(false);
+});

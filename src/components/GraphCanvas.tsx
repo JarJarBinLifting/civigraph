@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
 import type { Core, NodeSingular, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
-import { atlasNodeStyles, nodeShape, nodeSymbol } from '@/lib/graph-theme';
+import { atlasLabelStyle, atlasNodeStyles, nodeShape, nodeSymbol } from '@/lib/graph-theme';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import type { Entity, Relation } from '@/lib/types';
 import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
@@ -102,8 +102,7 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
     const byId = new Map(placements.map(label => [label.id, label]));
     for (const node of sceneNodes) {
       const label = byId.get(node.id());
-      if (!label) { styleChanged(node, { label: '', 'text-opacity': 0 }); continue; }
-      styleChanged(node, { label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': node.hasClass('root') || node.hasClass('active') || node.hasClass('hover') || node.hasClass('history-node') || node.hasClass('edge-endpoint') ? 'bold' : 'normal', 'text-max-width': 190 / zoom, 'text-background-padding': 3 / zoom, 'text-halign': label.side === 'left' || label.side === 'right' ? label.side : 'center', 'text-valign': label.side === 'top' || label.side === 'bottom' ? label.side : 'center', 'text-margin-x': label.side === 'right' ? label.offset / zoom : label.side === 'left' ? -label.offset / zoom : 0, 'text-margin-y': label.side === 'bottom' ? label.offset / zoom : label.side === 'top' ? -label.offset / zoom : 0 });
+      styleChanged(node, atlasLabelStyle(label, zoom, node.is('.root, .active, .hover, .history-node, .edge-endpoint')));
     }
     state.previous = new Set(byId.keys());
     for (const edge of instance.edges()) styleChanged(edge, { width: (edge.hasClass('active') || edge.hasClass('hover') ? 1.8 : edge.hasClass('inspected-neighbor') ? 1.2 : .65) / zoom, 'font-size': 12 / zoom, 'text-background-padding': 3 / zoom });
@@ -117,6 +116,7 @@ function syncGuides(svg: SVGSVGElement | null, instance: Core) {
 
 function sizeGuides(svg: SVGSVGElement | null, instance: Core, zoom = instance.zoom()) {
   svg?.querySelectorAll('text').forEach(label => { label.style.fontSize = `${11 / zoom}px`; });
+  svg?.querySelector('.guide-history-label')?.setAttribute('y', String(-64 / zoom));
 }
 
 function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Core) {
@@ -150,6 +150,7 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
   }
   if (layout.historyIds.length) {
     const label = document.createElementNS(ns, 'text');
+    label.setAttribute('class', 'guide-history-label');
     label.setAttribute('x', String(Math.min(...layout.historyIds.map(id => layout.positions.get(id)!.x))));
     label.setAttribute('y', '-90');
     label.textContent = 'Parcours exploré';

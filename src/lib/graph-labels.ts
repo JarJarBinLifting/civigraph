@@ -2,7 +2,7 @@ export type LabelLevel = 0 | 1 | 2;
 export type LabelSide = 'top' | 'bottom' | 'left' | 'right';
 export interface LabelBox { x1: number; y1: number; x2: number; y2: number }
 export interface LabelCandidate { id: string; text: string; x: number; y: number; radius: number; priority: number; side: LabelSide }
-export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; fontSize: number; box: LabelBox }
+export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox }
 export interface LabelOptions { level: LabelLevel; small: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox }
 export function labelLevel(zoom: number, previous: LabelLevel): LabelLevel {
   if (zoom >= .75 || previous === 2 && zoom >= .66) return 2;
@@ -49,14 +49,21 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
     for (const extra of essential ? [0, 12, 24] : [0]) {
       for (const side of sides) {
         const offset = 8 + extra;
-        const x = side === 'right' ? node.x + node.radius + offset : side === 'left' ? node.x - node.radius - offset - width : node.x - width / 2;
-        const y = side === 'bottom' ? node.y + node.radius + offset : side === 'top' ? node.y - node.radius - offset - height : node.y - height / 2;
+        let x = side === 'right' ? node.x + node.radius + offset : side === 'left' ? node.x - node.radius - offset - width : node.x - width / 2;
+        let y = side === 'bottom' ? node.y + node.radius + offset : side === 'top' ? node.y - node.radius - offset - height : node.y - height / 2;
+        const origin = { x, y };
+        // At the viewport edge, slide a name along its chosen side. The node stays
+        // fixed, and an exploration-step label need not cross the nearby center.
+        if (options.viewport) {
+          if (side === 'top' || side === 'bottom') x = Math.max(options.viewport.x1, Math.min(x, options.viewport.x2 - width));
+          else y = Math.max(options.viewport.y1, Math.min(y, options.viewport.y2 - height));
+        }
         const box = { x1: x, x2: x + width, y1: y, y2: y + height };
         // A little more room is needed for a new name than for one already visible.
         const margin = options.previous?.has(node.id) ? 2 : 4;
         const outside = options.viewport ? Math.max(0, width * height - intersection(box, options.viewport, 0)) : 0;
         const cost = occupied.reduce((sum, obstacle) => sum + intersection(box, obstacle, margin), 0) + bodies.reduce((sum, body) => sum + intersection(box, body, 3) * 3, 0) + outside * 8;
-        if (cost < minimum) { minimum = cost; best = { id: node.id, text, side, offset, fontSize, box }; }
+        if (cost < minimum) { minimum = cost; best = { id: node.id, text, side, offset, shiftX: x - origin.x, shiftY: y - origin.y, fontSize, box }; }
         if (minimum === 0) break;
       }
       if (minimum === 0) break;

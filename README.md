@@ -44,6 +44,8 @@ Toutes les entités du réseau filtré sont affichées sans pagination. Les vois
 
 Le cadrage initial inclut tous les nœuds. Pour les réseaux denses, les noms se révèlent au zoom, au survol ou à la sélection ; le nœud actif reste identifiable. La distance décrit un écart entre périodes, sans démontrer une rencontre ou une proximité personnelle.
 
+La carte et la comparaison partagent des disques à monogramme pour les personnes et des pictogrammes par type d’entité. Les noms affichés gardent une taille de 12,5 à 14 pixels CSS, sur deux lignes au maximum. Leur placement privilégie le centre, la sélection et le parcours ; masquer une étiquette ne retire jamais un nœud. Ouvrir une fiche conserve le zoom et la zone observée. « Lire les distances » précise la légende ; la taille du centre indique uniquement son rôle dans l’exploration.
+
 Les personnes s’ouvrent sur **Profil** : une présentation et des repères de fonctions, formations et activités, issus du corpus complet et reliés à leurs preuves. Ce profil reste indépendant des filtres du graphe ; **Connexions** et **Sources** permettent de poursuivre l’exploration. Les institutions conservent Connexions comme onglet initial.
 
 **Parcours** ordonne les passages datés et réserve une section aux événements sans dates exploitables. Les activités simultanées et les passages distincts dans une même institution restent séparés ; seules les preuves d’un fait strictement identique sont regroupées.
@@ -54,7 +56,7 @@ Le mode **Liste** permet d'explorer les relations au clavier et offre une altern
 
 **Agrandir la carte** garde les filtres, la sélection et le parcours. Le bouton de réduction ou Échap ferme cette vue ; le focus revient au déclencheur. **Mes explorations** enregistre jusqu’à 50 vues nommées sur cet appareil, dans ce navigateur. Une vue peut être restaurée ou supprimée ; les erreurs de stockage et les entités disparues sont signalées, sans remplacer des sauvegardes illisibles. Effacer les données du navigateur efface aussi ces vues.
 
-Le bouton de téléchargement de la carte crée un **PNG du cadrage courant** : titre, noms complets du réseau, catégories, filtre et repère temporels, date du corpus, légende, limites, URL et crédits d’images. Des entités peuvent être hors champ selon le cadrage. Une transition ou des images encore en chargement doivent terminer avant l’export. Aucun fichier n’est envoyé vers un service externe.
+Le bouton de téléchargement de la carte crée un **PNG du cadrage courant** : titre, noms complets du réseau, catégories, filtre et repère temporels, date du corpus, légende des symboles, limites et URL. Le diagramme utilise des monogrammes et pictogrammes ; les photos sourcées restent dans les fiches. Des entités peuvent être hors champ selon le cadrage. Une transition ou des symboles encore en chargement doivent terminer avant l’export. Aucun fichier n’est envoyé vers un service externe.
 
 Développer une entité la place au centre et affiche ses relations directes. Les étapes parcourues et leurs liens documentés restent visibles, selon les filtres actifs. Par exemple, depuis Bernard Cazeneuve, développer « Conseiller régional » garde Bernard relié à cette fonction et ouvre ses autres voisins. Le point de départ reste accessible dans la barre latérale ; revenir à une étape replie les étapes suivantes. Le paramètre `focus` de l'URL mémorise le centre indépendamment de la fiche sélectionnée ; les anciennes URL prennent la dernière entité développée comme centre. La préférence système de réduction des animations est respectée.
 

@@ -2,7 +2,8 @@
 
 import { useMemo } from 'react';
 import { findInstitutionalPaths } from '@/lib/paths';
-import { shortLabel, periodLabel } from '@/lib/presentation';
+import { shortLabel, periodLabel, typeInfo } from '@/lib/presentation';
+import { atlasTheme, nodeSymbol } from '@/lib/graph-theme';
 import type { Category, Entity, GraphData } from '@/lib/types';
 import { RelationEvidence } from './DetailPanel';
 
@@ -16,7 +17,10 @@ export function InstitutionPaths({ data, left, right, categories, onExplore }: {
     {!result.paths.length && <div className="empty-state"><strong>Aucun chemin trouvé dans le corpus avec ces filtres et cette profondeur</strong><p>L’absence de résultat ne démontre pas l’absence de lien.</p></div>}
     {result.paths.map((path, i) => <article className="institution-path" key={path.entities.map(entity => entity.id).join(':')}>
       <div className="path-heading"><span className="eyebrow">Chemin {i + 1}</span><span>{path.segments.length} segments · {path.segments.reduce((sum, segment) => sum + segment.relations.length, 0)} déclarations</span></div>
-      <ol className="path-chain" aria-label={`Parcours du chemin ${i + 1}`}>{path.entities.map(entity => <li key={entity.id}><button onClick={() => onExplore(entity.id)}>{shortLabel(entity)}</button></li>)}</ol>
+      <ol className="path-chain" aria-label={`Parcours du chemin ${i + 1}`}>{path.entities.map(entity => {
+        const anchor = entity.id === left.id ? atlasTheme.forest : entity.id === right.id ? atlasTheme.secondary : null;
+        return <li key={entity.id}><button onClick={() => onExplore(entity.id)}><span aria-hidden="true" className={`path-symbol symbol-${entity.type}`} style={{ backgroundColor: anchor ?? typeInfo[entity.type].soft, borderColor: anchor ?? typeInfo[entity.type].color }}><span style={{ backgroundImage: `url("${nodeSymbol(entity, Boolean(anchor))}")` }} /></span><span>{shortLabel(entity)}</span></button></li>;
+      })}</ol>
       <div className="path-segments">{path.segments.map((segment, number) => <details key={`${segment.from}:${segment.to}`}>
         <summary><span>Segment {number + 1} · {shortLabel(path.entities[number])} — {shortLabel(path.entities[number + 1])}</span><small>{segment.relations.length} source{segment.relations.length > 1 ? 's' : ''} · {segment.relations.map(relation => periodLabel(relation)).filter((value, index, values) => values.indexOf(value) === index).join(' / ')}</small></summary>
         <p className="section-caption">Sens et périodes de chaque déclaration d’origine :</p>

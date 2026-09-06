@@ -15,6 +15,6 @@ export function ChronologyControls({ chronology, customYear, onYear }: { chronol
       {customYear !== null && <button className="subtle-link" onClick={() => onYear(null)}>Repère initial</button>}
     </div>
     <div className="chronology-legend">{TIME_BANDS.map((label, band) => chronology.counts[band] > 0 && <span key={label}><i className={`time-band band-${band}`} />{label}</span>)}{chronology.unknown > 0 && <span><i className="time-band band-unknown" />Dates inconnues · hors échelle</span>}</div>
-    <details className="chronology-explanation"><summary>Lire les distances</summary><p>Les couronnes indiquent l’écart au repère, pas une proximité personnelle. Leur angle n’a pas de signification. L’année repère ne filtre pas les présences. Dates inconnues à droite ; parcours exploré à gauche.</p></details>
+    <details className="chronology-explanation"><summary>Lire les distances</summary><p>Les couronnes indiquent l’écart au repère, pas une proximité personnelle. Leur angle n’a pas de signification. L’année repère ne filtre pas les présences. Dates inconnues à droite ; parcours exploré à gauche.</p><p>Disque : personne. Pictogramme : type d’entité. La taille du centre indique son rôle dans l’exploration. Un contour marqué suit la sélection ; le double contour rappelle une étape du parcours.</p></details>
   </section>;
 }

@@ -25,11 +25,13 @@ export function graphExportInfo(data: GraphData, view: ViewState, graph: Pick<Gr
     notes: [
       `Entités du réseau : ${graph.entities.map(entity => entity.label).join(' · ')}.`,
       `Couronnes : ${TIME_BANDS.join(' · ')}. Dates inconnues : hors échelle.`,
+      'Disque : personne. Pictogramme : type d’entité. La taille du centre indique son rôle dans l’exploration. Contour marqué : sélection ; double contour : étape du parcours.',
       'Les distances représentent des classes d’écart temporel, pas une mesure d’influence. L’année repère seule ne filtre pas les personnes en fonction.',
       'Un lien documenté n’implique pas une proximité personnelle. Plusieurs déclarations peuvent documenter un même fait. Corpus non exhaustif.',
       'Cadrage courant : certaines entités peuvent être hors champ. Retrouvez les noms complets et chaque source dans la vue liée ci-dessous.',
     ],
     query: serializeView(view), filename: `civigraph-${view.focus.replace(/[^a-zA-Z0-9_-]/g, '-')}.png`,
-    credits: graph.entities.flatMap(entity => entity.image ? [`${entity.label} — ${entity.image.attribution || entity.image.author}. ${entity.image.license} : ${entity.image.licenseUrl} · ${entity.image.sourcePage} · Vignette redimensionnée ou recadrée ; licence d’origine conservée.`] : []),
+    // This canvas contains original diagram symbols, not the photographs in the profiles.
+    credits: [],
   };
 }

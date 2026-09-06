@@ -18,7 +18,8 @@ function guideSnapshot(svg: SVGSVGElement, width: number, height: number) {
   const originals = svg.querySelectorAll('*');
   clone.querySelectorAll('*').forEach((element, index) => {
     const style = getComputedStyle(originals[index]);
-    for (const key of ['fill', 'stroke', 'stroke-width', 'stroke-dasharray', 'font-family', 'font-size']) element.setAttribute(key, style.getPropertyValue(key));
+    // Preserve the paper outline behind the glyphs, not over their fill.
+    for (const key of ['fill', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linejoin', 'paint-order', 'vector-effect', 'font-family', 'font-size']) element.setAttribute(key, style.getPropertyValue(key));
   });
   return new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml' });
 }
