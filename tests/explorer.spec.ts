@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import type { Core } from 'cytoscape';
 
 async function ready(page: Page, query = '') {
   await page.goto(`/${query}`);
@@ -56,7 +57,7 @@ test('every filter can be disabled and restored', async ({ page }) => {
   await expect(page.getByRole('article').filter({ hasText: 'Emmanuel Macron' }).first()).toBeVisible();
 });
 
-test('canvas node click and expansion add the school’s sourced neighbors', async ({ page }) => {
+test('canvas node click and expansion center the school and preserve the previous person', async ({ page }) => {
   await ready(page);
   // Obtain the rendered position from Cytoscape, then exercise real pointer input.
   const position = await page.locator('.graph-canvas').evaluate(element => {
@@ -69,9 +70,13 @@ test('canvas node click and expansion add the school’s sourced neighbors', asy
   await expect(page.getByRole('heading', { name: 'ENA', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
   await expect(page).toHaveURL(/expanded=Q3052772%2CQ273579/);
-  await expect(page.getByRole('button', { name: 'Réseau développé', exact: true })).toBeDisabled();
-  const nodeCount = await page.locator('.graph-meta').innerText();
-  expect(Number(nodeCount.match(/(\d+) entités/)?.[1])).toBeGreaterThan(25);
+  await expect(page).toHaveURL(/focus=Q273579/);
+  await expect(page.getByRole('button', { name: 'Au centre du graphe', exact: true })).toBeDisabled();
+  await expect.poll(() => page.locator('.graph-canvas').evaluate(element => {
+    const cy = (element as HTMLElement & { _cyreg: { cy: Core } })._cyreg.cy;
+    const center = cy.getElementById('Q273579');
+    return { center: center.position(), previous: cy.getElementById('Q3052772').length, connected: center.edgesWith(cy.getElementById('Q3052772')).length > 0 };
+  })).toEqual({ center: { x: 0, y: 0 }, previous: 1, connected: true });
 });
 
 test('comparison exposes both proofs and responds to filters', async ({ page }, info) => {
@@ -97,6 +102,7 @@ test('share URL restores filters, expansion, selection and list mode', async ({ 
   await page.getByRole('button', { name: 'Partager la vue', exact: true }).click();
   const url = await page.getByLabel('Lien vers cette vue').inputValue();
   expect(url).toContain('mode=list');
+  expect(url).toContain('focus=Q273579');
   await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.getByRole('button', { name: 'Copier', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Copié', exact: true })).toBeVisible();

@@ -2,7 +2,7 @@
 
 Application testée en build de production local sur `http://127.0.0.1:4300`, avec Node.js 24.18.0 et Chrome installé sous Windows.
 
-## Résultats
+## Validation initiale
 
 | Contrôle | Résultat observé |
 | --- | --- |
@@ -50,3 +50,22 @@ La présence des références et des révisions est validée. La véracité ind�
 ## État de livraison
 
 V0 locale avec les neuf fonctions retenues. Documentation d'installation, d'import et de provenance présente. Aucun push, déploiement, compte ou hébergement externe créé. La V1 et ses 500–2 000 personnes restent hors périmètre.
+
+## Recentrage animé — complément du 6 septembre 2026
+
+Développer une entité déplace désormais cette entité au centre avec une transition de 620 ms, affiche ses voisins directs et conserve les étapes précédentes avec leurs liens documentés. Le centre (`focus`) est distinct du point de départ (`root`) et de la fiche sélectionnée. Le parcours permet le retour à une étape antérieure ; les anciennes URL déduisent le centre de la dernière extension.
+
+| Contrôle après modification | Résultat observé |
+| --- | --- |
+| `npm test` | 20 tests réussis dans 3 fichiers : voisinage du centre, maintien du chemin, retour et contrat d'URL compris |
+| `npm run lint` et `npm run typecheck` | Réussis |
+| `npm run build` | Build de production Next.js réussi |
+| `npx playwright test` | 20 parcours réussis : 11 sur ordinateur, 9 sur mobile ; les 2 cas réservés à l'ordinateur sont explicitement ignorés dans le projet mobile |
+| Bernard Cazeneuve → Conseiller régional | Même instance Cytoscape, même nœud et même lien conservés ; positions intermédiaires mesurées ; arrivée au centre et trois voisins distincts |
+| Retour pendant la transition, double-clic | Aucun retrait retardé du réseau restauré ; exploration encore utilisable |
+| Retour/avance navigateur, rechargement et ancienne URL | Centre restauré |
+| Préférence de réduction des animations | Position finale appliquée sans animation sur ordinateur et mobile |
+
+Inspection des captures avant, pendant et après le mouvement à **1982 × 1103**, soit le format du commentaire utilisateur. La vue finale contient Conseiller régional au centre, Bernard Cazeneuve, Jean-Pierre Raffarin et Ségolène Royal autour, avec leurs trois liens. Aucun `pageerror` dans le parcours animé testé. Inspection complémentaire à **390 × 844** : les quatre nœuds et leurs libellés tiennent dans le cadre grâce à une disposition plus compacte des petits réseaux. Les grands réseaux mobiles restent déplaçables comme précédemment.
+
+Captures locales dans `.working/pivot-motion-*.png` et `test-results/pivot-*.png`, ignorées par Git. Aperçu local reconstruit et relancé sur le port 4300 ; aucune publication distante effectuée.

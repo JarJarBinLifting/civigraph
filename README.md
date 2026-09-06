@@ -30,15 +30,17 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 | --- | --- |
 | Rechercher une personne | Recherche tolérant casse et accents ; personnes et entités connexes, dont ENA et Sciences Po |
 | Afficher son réseau | Graphe réel du corpus, point de départ explicite, compteurs de la vue |
-| Étendre le réseau | Sélection par clic, extension par double-clic ou bouton « Développer ce réseau », possibilité de replier |
+| Étendre le réseau | Sélection par clic ; double-clic ou « Développer ce réseau » pour centrer cette entité avec une transition animée et ouvrir ses voisins ; retour par le parcours |
 | Filtrer les relations | Formations, fonctions, partis et statuts, parcours professionnel, organisations |
 | Voir une fiche | Personnes, écoles, fonctions, partis et organisations ; connexions navigables |
 | Afficher les sources | Déclaration originale, révision à l'import, périodes et références disponibles |
 | Comparer deux personnes | Deux sélecteurs de personnes distinctes et filtres partagés |
 | Voir les relations communes | Entités communes et preuves de chaque côté, avec périodes distinctes |
-| Partager une vue | URL comprenant point de départ, extensions, sélection, filtres, comparaison et mode liste |
+| Partager une vue | URL comprenant point de départ, centre actif, parcours, sélection, filtres, comparaison et mode liste |
 
 Le mode **Liste** permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
+
+Développer une entité la place au centre et affiche ses relations directes. Les étapes parcourues et leurs liens documentés restent visibles, selon les filtres actifs. Par exemple, depuis Bernard Cazeneuve, développer « Conseiller régional » garde Bernard relié à cette fonction et ouvre ses autres voisins. Le point de départ reste accessible dans la barre latérale ; revenir à une étape replie les étapes suivantes. Le paramètre `focus` de l'URL mémorise le centre indépendamment de la fiche sélectionnée ; les anciennes URL prennent la dernière entité développée comme centre. La préférence système de réduction des animations est respectée.
 
 Un lien vers `127.0.0.1` fonctionne sur l'ordinateur qui héberge l'application. Le partage à distance nécessite un hébergement séparé. **Cette livraison ne déploie rien et ne pousse rien sur GitHub.**
 

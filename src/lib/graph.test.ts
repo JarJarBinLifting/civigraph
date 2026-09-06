@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getCommonConnections, getVisibleGraph, parseView, searchEntities, serializeView } from './graph';
+import { focusView, getCommonConnections, getVisibleGraph, parseView, searchEntities, serializeView } from './graph';
 import { CATEGORIES, type GraphData, type Relation, type ViewState } from './types';
 
 const entities = [
@@ -12,7 +12,7 @@ const relations = [
   ['r3', 'Q1', 'Q4', 'party'], ['r4', 'Q2', 'Q5', 'education'],
 ].map(([id, source, target, category]) => ({ id, source, target, category, property: 'P69', label: 'A étudié à', statementUrl: 'https://www.wikidata.org/', revisionUrl: 'https://www.wikidata.org/', references: [] })) as Relation[];
 const data = { entities, relations, meta: { version: 1, fetchedAt: '2026-09-06', source: 'fixture', license: 'CC0-1.0', peopleCount: 2, entityCount: 5, relationCount: 4, properties: ['P69'], description: '' } } satisfies GraphData;
-const state: ViewState = { root: 'Q1', expanded: ['Q1'], categories: [...CATEGORIES], selected: 'Q1', compare: null, edge: null, mode: 'graph' };
+const state: ViewState = { root: 'Q1', focus: 'Q1', expanded: ['Q1'], categories: [...CATEGORIES], selected: 'Q1', compare: null, edge: null, mode: 'graph' };
 
 describe('entity search', () => {
   it('finds names without accents or matching case', () => expect(searchEntities(data, ' EMILIE ').map(e => e.id)).toEqual(['Q1']));
@@ -21,9 +21,27 @@ describe('entity search', () => {
 });
 
 describe('progressive exploration', () => {
-  it('shows only one-hop neighbors until their node is expanded', () => {
+  it('opens the new center’s neighbors and retains the link to the previous center', () => {
     expect(getVisibleGraph(data, state).entities.map(e => e.id).sort()).toEqual(['Q1', 'Q3', 'Q4']);
-    expect(getVisibleGraph(data, { ...state, expanded: ['Q1', 'Q3'] }).entities.map(e => e.id).sort()).toEqual(['Q1', 'Q2', 'Q3', 'Q4']);
+    const graph = getVisibleGraph(data, { ...state, focus: 'Q3', expanded: ['Q1', 'Q3'] });
+    expect(graph.entities.map(e => e.id).sort()).toEqual(['Q1', 'Q2', 'Q3']);
+    expect(graph.relations.map(e => e.id).sort()).toEqual(['r1', 'r2']);
+  });
+  it('preserves the traversed chain after another pivot without reopening old branches', () => {
+    const graph = getVisibleGraph(data, { ...state, focus: 'Q2', expanded: ['Q1', 'Q3', 'Q2'] });
+    expect(graph.entities.map(e => e.id).sort()).toEqual(['Q1', 'Q2', 'Q3', 'Q5']);
+    expect(graph.relations.map(e => e.id).sort()).toEqual(['r1', 'r2', 'r4']);
+  });
+  it('changes center while keeping the starting point and permits returning along the trail', () => {
+    const school = focusView(state, 'Q3');
+    expect(school.root).toBe('Q1');
+    expect(school.focus).toBe('Q3');
+    expect(school.expanded).toEqual(['Q1', 'Q3']);
+    const next = focusView(school, 'Q2');
+    const back = focusView(next, 'Q3');
+    expect(back.focus).toBe('Q3');
+    expect(back.selected).toBe('Q3');
+    expect(back.expanded).toEqual(['Q1', 'Q3']);
   });
   it('removes filtered edges and unrelated nodes', () => {
     const graph = getVisibleGraph(data, { ...state, categories: ['party'] });
@@ -51,10 +69,17 @@ describe('common connections', () => {
 
 describe('shareable views', () => {
   it('restores selection, expansion, category filters, comparison, list mode and edge', () => {
-    const view: ViewState = { ...state, expanded: ['Q1', 'Q3'], selected: 'Q3', compare: 'Q2', categories: ['education'], mode: 'list', edge: 'r1' };
+    const view: ViewState = { ...state, focus: 'Q3', expanded: ['Q1', 'Q3'], selected: 'Q3', compare: 'Q2', categories: ['education'], mode: 'list', edge: 'r1' };
     expect(parseView(serializeView(view), data)).toEqual(view);
   });
   it('preserves an explicitly empty category filter', () => expect(parseView('?root=Q1&categories=', data).categories).toEqual([]));
+  it('restores the latest expanded node as center for an old shared URL', () => {
+    expect(parseView('?root=Q1&expanded=Q1,Q3&selected=Q3', data).focus).toBe('Q3');
+  });
+  it('rejects an unknown center and retains an explicit center independently of selection', () => {
+    expect(parseView('?root=Q1&focus=missing', data).focus).toBe('Q1');
+    expect(parseView('?root=Q1&focus=Q3&selected=Q1', data).focus).toBe('Q3');
+  });
   it('rejects unknown entity, category, comparison and relation parameters', () => {
     const view = parseView('?root=missing&expanded=missing,Q3&selected=missing&categories=bad&compare=Q3&edge=bad', data);
     expect(view.root).toBe('Q1');

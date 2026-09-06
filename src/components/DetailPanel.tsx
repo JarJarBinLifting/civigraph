@@ -30,14 +30,14 @@ interface Props {
   entity: Entity;
   categories: Category[];
   selectedEdge: Relation | undefined;
-  expanded: boolean;
+  focused: boolean;
   onSelect: (id: string) => void;
   onEdge: (id: string | null) => void;
   onExpand: (id: string) => void;
   onClose: () => void;
 }
 
-export function DetailPanel({ data, entity, categories, selectedEdge, expanded, onSelect, onEdge, onExpand, onClose }: Props) {
+export function DetailPanel({ data, entity, categories, selectedEdge, focused, onSelect, onEdge, onExpand, onClose }: Props) {
   const [tab, setTab] = useState<'connections' | 'sources'>('connections');
   const allRelations = data.relations.filter(relation => (relation.source === entity.id || relation.target === entity.id) && categories.includes(relation.category));
   const groups = new Map<string, Relation[]>();
@@ -58,7 +58,7 @@ export function DetailPanel({ data, entity, categories, selectedEdge, expanded, 
       <a className="subtle-link" href={entity.wikidataUrl} target="_blank" rel="noopener noreferrer">Fiche Wikidata<ArrowUpRight size={13} /></a>
     </div>
     <div className="profile-stats"><div><strong>{connectionCount}</strong><span>entités liées</span></div><div><strong>{allRelations.length}</strong><span>déclarations</span></div></div>
-    <button className="primary-button expand-button" onClick={() => onExpand(entity.id)} disabled={expanded}><GitBranch size={16} />{expanded ? 'Réseau développé' : 'Développer ce réseau'}{!expanded && <Plus size={15} />}</button>
+    <button className="primary-button expand-button" onClick={() => onExpand(entity.id)} disabled={focused}><GitBranch size={16} />{focused ? 'Au centre du graphe' : 'Développer ce réseau'}{!focused && <Plus size={15} />}</button>
     <div className="panel-tabs" role="tablist" aria-label="Contenu de la fiche">
       <button role="tab" aria-selected={activeTab === 'connections'} onClick={() => { setTab('connections'); onEdge(null); }}>Connexions <span>{connectionCount}</span></button>
       <button role="tab" aria-selected={activeTab === 'sources'} onClick={() => { setTab('sources'); onEdge(null); }}>Sources <ArrowUpRight size={13} /></button>

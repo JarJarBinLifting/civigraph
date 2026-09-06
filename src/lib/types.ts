@@ -61,6 +61,7 @@ export interface GraphData {
 
 export interface ViewState {
   root: string;
+  focus: string;
   expanded: string[];
   categories: Category[];
   selected: string;

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
-import { getVisibleGraph, parseView, serializeView } from '@/lib/graph';
+import { focusView, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
 import { categoryInfo, initials, periodLabel, shortLabel } from '@/lib/presentation';
 import { EntitySearch } from './EntitySearch';
 import { GraphCanvas } from './GraphCanvas';
@@ -22,10 +22,11 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   const [copyError, setCopyError] = useState(false);
   const [notice, setNotice] = useState('');
   const [corpusQuery, setCorpusQuery] = useState('');
-  const { root, expanded, categories, compare } = view;
-  const visible = useMemo(() => getVisibleGraph(data, { root, expanded, categories, compare }), [data, root, expanded, categories, compare]);
+  const { root, focus, expanded, categories, compare } = view;
+  const visible = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare }), [data, root, focus, expanded, categories, compare]);
   const entitiesById = useMemo(() => new Map(data.entities.map(entity => [entity.id, entity])), [data]);
   const rootEntity = entitiesById.get(root)!;
+  const focusEntity = entitiesById.get(focus)!;
   const selectedEntity = entitiesById.get(view.selected) ?? rootEntity;
   const selectedEdge = data.relations.find(relation => relation.id === view.edge);
   const importedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' }).format(new Date(data.meta.fetchedAt));
@@ -44,12 +45,12 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   }, [view]);
 
   function startFrom(entity: Entity) {
-    update({ root: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null });
+    update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null });
     setComparisonOpen(false); setShowDetail(true); setShowFilters(false); setModal(null);
   }
   function select(id: string) { update({ selected: id, edge: null }); setShowDetail(true); }
   function expand(id: string) {
-    update({ expanded: [...new Set([...view.expanded, id])], selected: id, edge: null });
+    update(focusView(view, id));
     setShowDetail(true);
   }
   function inspectEdge(id: string | null) {
@@ -62,9 +63,9 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     update({ categories: categories.includes(category) ? categories.filter(item => item !== category) : CATEGORIES.filter(item => item === category || categories.includes(item)), edge: null });
   }
   function openComparison() {
-    if (rootEntity.type !== 'person') {
-      const person = data.entities.find(entity => entity.id === 'Q3052772')!;
-      update({ root: person.id, selected: person.id, expanded: [person.id], compare: null, edge: null });
+    const person = focusEntity.type === 'person' ? focusEntity : rootEntity.type === 'person' ? rootEntity : entitiesById.get('Q3052772')!;
+    if (root !== person.id || focus !== person.id) {
+      update({ root: person.id, focus: person.id, selected: person.id, expanded: [person.id], compare: null, edge: null });
     }
     setComparisonOpen(true); setShowFilters(false);
   }
@@ -73,7 +74,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     try { await navigator.clipboard.writeText(shareUrl); setCopied(true); setCopyError(false); }
     catch { setCopyError(true); }
   }
-  const ownRelations = data.relations.filter(relation => expanded.includes(relation.source) || expanded.includes(relation.target));
+  const ownRelations = getVisibleGraph(data, { root, focus, expanded, categories: [...CATEGORIES], compare }).relations;
   const filteredPeople = data.entities.filter(entity => entity.inCorpus && entity.label.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().includes(corpusQuery.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()));
   const defaultComparisonLeft = rootEntity.type === 'person' ? rootEntity : data.entities.find(entity => entity.id === 'Q3052772')!;
 
@@ -89,27 +90,27 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     <main id="exploration" className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''}`}>
       <aside className={`sidebar ${showFilters ? 'mobile-open' : ''}`} aria-label="Filtres et parcours">
         <div className="sidebar-heading"><span className="eyebrow">Votre exploration</span><button className="icon-button mobile-only" aria-label="Fermer les filtres" onClick={() => setShowFilters(false)}><X size={17} /></button><Compass size={16} className="desktop-only" /></div>
-        <button className="root-receipt" onClick={() => select(root)}><span className="mini-avatar">{initials(rootEntity.label)}</span><span><small>Point de départ</small><strong>{shortLabel(rootEntity)}</strong></span><ChevronRight size={15} /></button>
+        <button className="root-receipt" onClick={() => expand(root)}><span className="mini-avatar">{initials(rootEntity.label)}</span><span><small>Point de départ</small><strong>{shortLabel(rootEntity)}</strong></span><ChevronRight size={15} /></button>
         <div className="filter-section"><div className="section-heading"><h2>Relations</h2><button onClick={() => update({ categories: categories.length === 5 ? [] : [...CATEGORIES], edge: null })}>{categories.length === 5 ? 'Tout masquer' : 'Tout afficher'}</button></div><p className="section-caption">Choisissez les liens à afficher.</p>
           <div className="category-filters">{CATEGORIES.map(category => <label key={category} style={{ '--category-color': categoryInfo[category].color } as React.CSSProperties}><input type="checkbox" checked={categories.includes(category)} onChange={() => toggleCategory(category)} /><span className="custom-checkbox"><Check size={11} /></span><span>{categoryInfo[category].label}</span><small>{ownRelations.filter(relation => relation.category === category).length}</small></label>)}</div>
         </div>
         <div className="scope-section"><div className="section-heading"><h2>Périmètre</h2><Info size={13} /></div><p><CalendarIcon />Toutes les périodes documentées</p><span>Les dates sont précisées dans les fiches.</span></div>
-        {expanded.length > 1 && <div className="expanded-section"><span className="eyebrow">Réseaux développés</span>{expanded.filter(id => id !== root).map(id => <div key={id}><button onClick={() => select(id)}>{shortLabel(entitiesById.get(id)!)}</button><button className="icon-button" aria-label={`Replier ${shortLabel(entitiesById.get(id)!)}`} onClick={() => update({ expanded: expanded.filter(item => item !== id), selected: root, edge: null })}><X size={12} /></button></div>)}</div>}
-        <button className="reset-button" onClick={() => { update({ expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
+        {expanded.length > 1 && <div className="expanded-section"><span className="eyebrow">Parcours d’exploration</span>{expanded.filter(id => id !== root).map(id => <div key={id}><button aria-current={id === focus ? 'step' : undefined} onClick={() => expand(id)}>{shortLabel(entitiesById.get(id)!)}</button><button className="icon-button" aria-label={`Revenir avant ${shortLabel(entitiesById.get(id)!)}`} onClick={() => expand(expanded[expanded.indexOf(id) - 1] ?? root)}><X size={12} /></button></div>)}</div>}
+        <button className="reset-button" onClick={() => { update({ focus: root, expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
         <div className="suggested-paths"><span className="eyebrow">Une piste à explorer</span><button onClick={() => startFrom(entitiesById.get('Q273579')!)}><span className="path-icon"><GraduationCap size={18} /></span><span><strong>Les parcours de l’ENA</strong><small>Une école, plusieurs trajectoires</small></span><ArrowUpRight size={15} /></button><button onClick={() => startFrom(entitiesById.get('Q1587677')!)}><span className="path-icon blue"><Landmark size={17} /></span><span><strong>Passages à Matignon</strong><small>Explorer une fonction publique</small></span><ArrowUpRight size={15} /></button></div>
         <div className="sidebar-bottom"><div className="prototype-tag"><span className="status-dot" />Prototype exploratoire</div><p>{data.meta.peopleCount} personnalités · corpus limité</p><button onClick={() => setModal('corpus')}>Découvrir le corpus<ArrowUpRight size={12} /></button></div>
       </aside>
 
       <section className="exploration-center" aria-label="Vue d’exploration">
         {comparisonOpen ? <Comparison data={data} left={defaultComparisonLeft} right={compare ? entitiesById.get(compare) : undefined} categories={categories}
-          onLeft={entity => update({ root: entity.id, selected: entity.id, expanded: [entity.id], edge: null })}
+          onLeft={entity => update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null })}
           onRight={entity => update({ compare: entity.id, edge: null })}
-          onExplore={id => { update({ selected: id, expanded: [...new Set([...expanded, id])], edge: null, compare: null }); setComparisonOpen(false); setShowDetail(true); }}
+          onExplore={id => { expand(id); setComparisonOpen(false); }}
           onClose={() => { setComparisonOpen(false); update({ compare: null }); }} /> : <>
-          <div className="graph-topbar"><div className="breadcrumb"><span>Explorer</span><ChevronRight size={12} /><strong>{shortLabel(rootEntity)}</strong></div><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={14} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={15} /><span>Liste</span></button></div></div>
+          <div className="graph-topbar"><div className="breadcrumb"><span>Au centre</span><ChevronRight size={12} /><strong>{shortLabel(focusEntity)}</strong></div><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={14} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={15} /><span>Liste</span></button></div></div>
           <div className="graph-meta"><span><i className="status-dot" />{visible.entities.length} entités</span><span>{visible.relations.length} liens</span><span className="graph-scope">dans cette vue</span>{!showDetail && <button className="subtle-link" onClick={() => setShowDetail(true)}>Ouvrir la fiche<ArrowUpRight size={12} /></button>}</div>
           {notice && <p className="inline-notice" role="status">{notice}</p>}
-          {view.mode === 'graph' ? <GraphCanvas entities={visible.entities} relations={visible.relations} root={root} selected={view.selected} selectedEdge={view.edge} compare={view.compare} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
+          {view.mode === 'graph' ? <GraphCanvas entities={visible.entities} relations={visible.relations} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {visible.relations.map(relation => <article className="graph-list-row" key={relation.id}>
               <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
               <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p><small>{periodLabel(relation)}</small></div>
@@ -121,7 +122,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
           <div className="graph-bottom"><span><Info size={13} />Un lien documenté n’implique pas une proximité personnelle.</span><button onClick={() => setModal('method')}>Lire la méthode<ArrowUpRight size={12} /></button></div>
         </>}
       </section>
-      {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={categories} selectedEdge={selectedEdge} expanded={expanded.includes(selectedEntity.id)} onSelect={select} onEdge={inspectEdge} onExpand={expand} onClose={() => setShowDetail(false)} />}
+      {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={categories} selectedEdge={selectedEdge} focused={focus === selectedEntity.id} onSelect={select} onEdge={inspectEdge} onExpand={expand} onClose={() => setShowDetail(false)} />}
     </main>
     <footer className="app-footer"><span><BookOpen size={12} />Source : Wikidata · instantané du {importedDate}</span><span>Données CC0 <span className="footer-divider">/</span> Un outil pour comprendre, librement.</span><button onClick={() => setModal('method')}>À propos de Civigraph<ArrowUpRight size={12} /></button></footer>
 
