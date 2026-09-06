@@ -1,0 +1,21 @@
+import { expect, test } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+test('exports a real PNG of the framed map with its context while preserving the view', async ({ page }, info) => {
+  await page.goto('/?root=Q3052772&categories=education&year=2001');
+  await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
+  const url = page.url();
+  const downloading = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Exporter la carte en PNG', exact: true }).click({ timeout: 4000 });
+  const download = await downloading;
+  expect(download.suggestedFilename()).toMatch(/^civigraph-.*\.png$/);
+  const path = `.working/sprint/lot5b-export-${info.project.name}.png`;
+  await download.saveAs(path);
+  const bytes = await readFile(path);
+  expect(bytes.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
+  expect(bytes.readUInt32BE(16)).toBeGreaterThanOrEqual(1200);
+  expect(bytes.readUInt32BE(20)).toBeGreaterThan(600);
+  expect(bytes.length).toBeGreaterThan(20_000);
+  await expect(page.getByRole('status').filter({ hasText: 'PNG exporté' })).toBeVisible();
+  expect(page.url()).toBe(url);
+  await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
+});

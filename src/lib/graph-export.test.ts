@@ -1,0 +1,22 @@
+import { expect, test } from 'vitest';
+import { loadDataset } from './dataset';
+import { getVisibleGraph, parseView } from './graph';
+import { getChronology, getTimeReference } from './graph-layout';
+import { graphExportInfo } from './graph-export';
+test('the exported receipt distinguishes filtered counts, temporal reference and actual period filter', () => {
+  const data = loadDataset();
+  const view = parseView('?root=Q3052772&focus=Q273579&expanded=Q3052772,Q273579&selected=Q273579&categories=education&time=all&year=2001', data);
+  const graph = getVisibleGraph(data, view);
+  const info = graphExportInfo(data, view, graph, getChronology(graph, view.focus, getTimeReference(data, view)));
+  expect(info.title).toContain('École nationale');
+  expect(info.context.join('\n')).toContain('Emmanuel Macron');
+  expect(info.context.join('\n')).toContain('Toutes périodes');
+  expect(info.context.join('\n')).toContain('2001');
+  expect(info.context.join('\n')).toContain(String(graph.entities.length));
+  expect(info.legend).toHaveLength(1);
+  expect(info.notes.join('\n')).toMatch(/pas une mesure d’influence/);
+  expect(info.query).toContain('year=2001');
+  expect(parseView(info.query, data)).toEqual(view);
+  const empty = { ...view, categories: [] };
+  expect(graphExportInfo(data, empty, getVisibleGraph(data, empty), getChronology(graph, view.focus, getTimeReference(data, view))).context.join('\n')).toContain('Aucune catégorie');
+});

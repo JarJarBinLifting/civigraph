@@ -42,7 +42,7 @@ Lots 1, 2A, 2B, 3 et 4 implémentés et vérifiés. Commits locaux : lot 1 `9ef0
 
 ## Prochaine action précise
 
-Lot 5B : exporter la carte actuellement cadrée en PNG avec son titre, ses filtres, sa période, la date du corpus, une légende, les limites de lecture et sa référence partageable. Vérifier le fichier téléchargé réellement, puis importer les images libres disponibles.
+Importer les portraits et images libres disponibles avec auteur, licence et source ; conserver les vignettes locales et l’absence de requêtes tierces pendant la navigation. Première requête Commons refusée par le contrôle automatique car le titre provenait du cache local : vérifier sa provenance publique avant de réessayer.
 
 ## Lot 2A — vérification
 
@@ -90,3 +90,11 @@ Lot 5B : exporter la carte actuellement cadrée en PNG avec son titre, ses filtr
 - Lint, typecheck et build réussis. Huit scénarios Chrome passent, dont sauvegarde/restauration/suppression et clavier sur ordinateur/mobile. Le sélecteur d’erreur du test de corruption ciblait aussi l’annonceur Next ; limité au dialogue sans changement produit. Recontrôle : les 4 scénarios de sauvegarde passent, 4,7 s.
 - Captures `.working/sprint/lot5a-saved-{desktop,mobile}.png` inspectées ; aucun débordement horizontal mesuré. Fichiers : `saved-views.ts`, `saved-views.test.ts`, `SavedExplorations.tsx`, `Explorer.tsx`, `globals.css`, `tests/saved-views.spec.ts`.
 - Limites explicites : sauvegardes propres au navigateur et à l’origine, supprimées si ses données sont effacées ; une URL de partage peut être conservée ailleurs. Lot 4 enregistré dans le commit local `11cb517`.
+
+## Lot 5B — export PNG
+
+- Test unitaire du contexte et scénario navigateur observés en échec avant implémentation, puis réussis. Export de la vue Cytoscape cadrée et des guides temporels, avec titre, noms, compteurs du réseau filtré, catégories, filtre temporel distinct du repère, date du corpus, légende, limites et URL de la vue.
+- Deux fichiers PNG effectivement téléchargés et inspectés sur ordinateur/mobile : `.working/sprint/lot5b-export-{desktop,mobile}.png`. Signature, taille et dimensions vérifiées, URL et carte conservées. Liste complète des noms ajoutée pour accompagner les libellés compacts sur mobile ; libellés de couronne déplacés après observation d’une collision avec ENA.
+- Lint, typecheck, build et 4 tests unitaires ciblés réussis. Une incompatibilité de typage Cytoscape pour le contrôle d’animation a été corrigée avec son sélecteur `:animated`. L’export indique d’attendre si une transition est encore en cours.
+- Fichiers : `graph-export.ts`, `graph-export.test.ts`, `export-png.ts`, `GraphCanvas.tsx`, `Explorer.tsx`, `globals.css`, `tests/export.spec.ts`. Le lot 5A est conservé dans le commit local `ffba96f`.
+- Après ajustement : build réussi, 8 scénarios PNG/exploration/clavier réussis sur ordinateur/mobile, 11,1 s. Les PNG finaux incluent aussi les noms complets du réseau. Aucun changement du corpus ni des positions de nœuds.

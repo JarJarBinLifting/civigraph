@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
+import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
 import type { Core, Position, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, initials, shortLabel, typeInfo } from '@/lib/presentation';
 import type { Entity, Relation } from '@/lib/types';
 import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
+import type { GraphExportInfo } from '@/lib/graph-export';
 
 interface Props {
   entities: Entity[];
@@ -17,6 +18,7 @@ interface Props {
   selected: string;
   selectedEdge: string | null;
   compare: string | null;
+  exportInfo: GraphExportInfo;
   onSelect: (id: string) => void;
   onEdge: (id: string) => void;
   onExpand: (id: string) => void;
@@ -110,8 +112,9 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     circle.setAttribute('class', `guide-ring band-${ring.band}`);
     group.append(circle);
     const label = document.createElementNS(ns, 'text');
-    label.setAttribute('x', '8');
-    label.setAttribute('y', String(-ring.radius + 22));
+    label.setAttribute('x', String(-ring.radius / Math.SQRT2 - 8));
+    label.setAttribute('y', String(-ring.radius / Math.SQRT2));
+    label.setAttribute('text-anchor', 'end');
     label.textContent = TIME_BANDS[ring.band];
     group.append(label);
   }
@@ -204,6 +207,22 @@ export function GraphCanvas(props: Props) {
   const callbacks = useRef(props);
   const refresh = useRef<(animate?: boolean, overview?: boolean) => void>(() => {});
   const [ready, setReady] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [exportMessage, setExportMessage] = useState('');
+  const mounted = useRef(true);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
+  async function download() {
+    if (!cy.current || !guides.current || exporting) return;
+    const instance = cy.current, svg = guides.current;
+    setExporting(true); setExportMessage('');
+    try {
+      const { exportGraphPng } = await import('@/lib/export-png');
+      if (!mounted.current || instance.destroyed()) return;
+      await exportGraphPng(instance, svg, callbacks.current.exportInfo);
+      if (mounted.current) setExportMessage('PNG exporté avec le contexte et la référence de la vue.');
+    } catch (error) { if (mounted.current) setExportMessage(error instanceof Error ? error.message : 'L’export PNG a échoué.'); }
+    finally { if (mounted.current) setExporting(false); }
+  }
   useEffect(() => { callbacks.current = props; });
   const { entities, relations, focus, anchor, selected, selectedEdge, compare, chronology, trail } = props;
 
@@ -297,7 +316,9 @@ export function GraphCanvas(props: Props) {
       <button className="icon-button" aria-label="Zoom avant" onClick={() => cy.current?.zoom({ level: cy.current.zoom() * 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Plus size={18} /></button>
       <button className="icon-button" aria-label="Zoom arrière" onClick={() => cy.current?.zoom({ level: cy.current.zoom() / 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Minus size={18} /></button>
       <span /><button className="icon-button" aria-label="Recentrer le graphe" onClick={() => refresh.current(false, true)}><Maximize size={17} /></button>
+      <span /><button className="icon-button" aria-label="Exporter la carte en PNG" title="Exporter la carte en PNG" disabled={!ready || exporting} onClick={download}><Download size={17} /></button>
     </div>
+    {exportMessage && <p className="graph-export-message" role="status">{exportMessage}</p>}
     <p className="graph-tip"><MousePointer2 size={13} /><span className="desktop-tip">{entities.length > 28 ? 'Zoomez pour lire les noms. Un clic ouvre la fiche.' : 'Un clic pour comprendre. Deux pour explorer.'}</span><span className="mobile-tip">Glissez ou zoomez pour explorer.</span></p>
   </div>;
 }

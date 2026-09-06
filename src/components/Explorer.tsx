@@ -16,6 +16,7 @@ import { PeriodControls } from './PeriodControls';
 import { getGraphIndex } from '@/lib/graph-index';
 import { containFocus } from '@/lib/focus';
 import { SavedExplorations } from './SavedExplorations';
+import { graphExportInfo } from '@/lib/graph-export';
 
 export function Explorer({ data, initialView }: { data: GraphData; initialView: ViewState }) {
   const [view, setView] = useState(initialView);
@@ -34,6 +35,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   const visible = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare, temporal, period }), [data, root, focus, expanded, categories, compare, temporal, period]);
   const chronology = useMemo(() => getChronology(visible, focus, getTimeReference(data, { year: view.year, period })), [visible, focus, data, view.year, period]);
   const periodContext = useMemo(() => getPeriodContext(data, { root, focus, expanded, period, categories }), [data, root, focus, expanded, period, categories]);
+  const exportInfo = useMemo(() => graphExportInfo(data, view, visible, chronology), [data, view, visible, chronology]);
   const index = useMemo(() => getGraphIndex(data), [data]);
   const entitiesById = index.entities;
   const rootEntity = entitiesById.get(root)!;
@@ -162,7 +164,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
           <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />
           {notice && <p className="inline-notice" role="status">{notice}</p>}
           {view.mode === 'graph' && <ChronologyControls key={`${focus}:${chronology.reference.label}`} chronology={chronology} customYear={view.year} onYear={year => update({ year })} />}
-          {view.mode === 'graph' ? <GraphCanvas entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
+          {view.mode === 'graph' ? <GraphCanvas entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {visible.relations.map(relation => <article className="graph-list-row" key={relation.id}>
               <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
               <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p>{relation.role && <small className="connection-role">{relation.role}</small>}<small>{relation.cohort?.label ?? periodLabel(relation)}</small></div>
