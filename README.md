@@ -130,6 +130,16 @@ La vérification porte sur les neuf fonctions, les cas vides, les paramètres in
 
 ## Suite du PRD
 
+### Notices documentaires et publication
+
+Les notices `/entite/[identifiant canonique]` et `/methode` sont rendues sur le serveur et restent lisibles sans JavaScript. Une entité inconnue renvoie HTTP 404. Les liens « Explorer ce réseau » retrouvent la carte sans confondre une notice avec ses multiples états de filtrage.
+
+L’indexation est **désactivée par défaut**. `.env.example` documente `CIVIGRAPH_INDEXING=false` et `CIVIGRAPH_SITE_URL` vide. Pour une publication expressément autorisée, définir `CIVIGRAPH_INDEXING=true` et `CIVIGRAPH_SITE_URL` avec l’origine HTTPS du domaine effectivement retenu, sans chemin, identifiants ni paramètres. Aucune adresse de production n’est prédéfinie. Le développement et les environnements de prévisualisation identifiés restent en `noindex` ; laisser le drapeau désactivé sur toute autre prévisualisation.
+
+Après activation, seules la méthode et les notices éligibles émettent une URL canonique, les métadonnées de partage et `index, follow`. Une notice éligible possède un nom, une source et au moins une relation ; les personnes appartiennent au corpus et les institutions ont un contexte explicite. Les intitulés de fonctions génériques restent exclus du sitemap. L’explorateur, ses filtres et les comparaisons restent en `noindex`. Sans activation valide, le sitemap est vide et `robots.txt` interdit l’exploration.
+
+`node scripts/verify-publication.mjs`, après un build, vérifie le HTML et le sitemap sur une instance locale temporaire au port 4301. Le domaine réservé `example.org` sert uniquement de fixture de test ; aucune publication ni requête vers ce domaine n’est effectuée. Le script ferme uniquement son propre serveur.
+
 Cette livraison enrichit la V0 avec 492 personnes, des mandats parlementaires et un premier lot HATVP. La couverture demeure limitée aux personnes et organismes sélectionnés ; elle ne constitue pas un annuaire exhaustif. Timeline interactive, couverture générale des cabinets, comptes, exports et API professionnelle restent hors de cette livraison. Aucun score de proximité ni causalité n’est déduit.
 
 Les données structurées de Wikidata sont sous [CC0](https://www.wikidata.org/wiki/Wikidata:Licensing). Les documents officiels conservent leurs conditions de réutilisation ; ils sont référencés sans être redistribués. Les polices DM Sans et Manrope sont distribuées localement via Fontsource sous SIL OFL ; leurs licences sont incluses dans les dépendances. Aucune photographie distante n'est utilisée.

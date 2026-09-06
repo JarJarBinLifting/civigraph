@@ -7,6 +7,7 @@ import type { Category, Entity, GraphData, Relation, ViewState } from '@/lib/typ
 import { matchesPeriod } from '@/lib/graph';
 import { PersonProfile } from './PersonProfile';
 import { getGraphIndex } from '@/lib/graph-index';
+import { entityPath } from '@/lib/publication';
 
 export function RelationEvidence({ relation, data, compact = false }: { relation: Relation; data: GraphData; compact?: boolean }) {
   const { entities } = getGraphIndex(data);
@@ -68,6 +69,7 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
       <span className="type-label">{typeInfo[entity.type].label}</span>
       <h2>{shortLabel(entity)}</h2>
       <p>{entity.description || entity.label}</p>
+      <a className="subtle-link" href={entityPath(entity.id)}>Notice documentaire<ArrowUpRight size={13} /></a>
       {(entity.wikidataUrl || entity.sourceUrl) && <a className="subtle-link" href={entity.wikidataUrl ?? entity.sourceUrl} target="_blank" rel="noopener noreferrer">{entity.wikidataUrl ? 'Fiche Wikidata' : entity.sourceLabel ?? 'Source de l’entité'}<ArrowUpRight size={13} /></a>}
       {entity.labelSource && <a className="subtle-link" href={entity.labelSource.url} target="_blank" rel="noopener noreferrer">{entity.labelSource.title}<ArrowUpRight size={13} /></a>}
     </div>

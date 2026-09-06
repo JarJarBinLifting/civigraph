@@ -17,7 +17,7 @@ Les sources, identifiants, précisions temporelles, réseau complet et ancienne 
 
 ## Dernier lot stable
 
-Lots 1, 2A, 2B et 3 implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`, lot 2B `b991949`. Le lot 3 ajoute le parcours chronologique sourcé dans les profils. Aucune donnée source modifiée.
+Lots 1, 2A, 2B, 3 et 4 implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`, lot 2B `b991949`, lot 3 `dfa242e`. Aucune donnée source modifiée.
 
 ## Vérification et mesures
 
@@ -42,7 +42,7 @@ Lots 1, 2A, 2B et 3 implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb
 
 ## Prochaine action précise
 
-Lot 4 : pages serveur `/entite/[id]`, méthode et couverture, vraie 404 ; publication et sitemap seulement sur activation explicite avec une URL valide. Ne rien publier.
+Lot 5A : sauvegardes nommées locales, versionnées et restaurables selon le contrat d’URL ; traiter stockage indisponible, contenu corrompu et entités disparues avant l’export PNG.
 
 ## Lot 2A — vérification
 
@@ -71,3 +71,14 @@ Lot 4 : pages serveur `/entite/[id]`, méthode et couverture, vraie 404 ; public
 - Chrome : 6 parcours profil/chronologie réussis, puis 2 parcours ciblés pour captures lisibles du panneau. Source, retour à Parcours, catégories du graphe toutes masquées et pivot vers Assas vérifiés sur les deux formats.
 - Captures pertinentes inspectées : `.working/sprint/lot3-profile-*.png`, `lot3-undated-*.png`. La première capture d'un élément dépassant son conteneur défilant était inutilisable et a été remplacée par celles des panneaux réellement visibles.
 - Fichiers : `profile.ts`, `profile.test.ts`, `temporal.ts` (export du calcul des bornes, sans changement de logique), `PersonProfile.tsx`, `DetailPanel.tsx`, `globals.css`, `tests/career.spec.ts`.
+
+## Lot 4 — vérification
+
+- Notices serveur par identifiant canonique, relations et sources complètes, parcours personnel et méthode avec nombres recalculés. Lien depuis la fiche de l’explorateur. Identifiant inconnu : vraie réponse 404.
+- Tests de configuration observés en échec avant implémentation puis 2 réussis. Test navigateur initial : 404 attendue avant création de la route ; après implémentation, les 2 scénarios sans JavaScript passent (ordinateur/mobile). Lint, typecheck et build réussis après adoption des liens Next vers la racine.
+- Métadonnées réellement émises avec le drapeau activé sur un serveur local temporaire : 2 notices/méthode en `index, follow`, canonicals vers le domaine réservé de test, graphe en `noindex`, inconnue en 404. Sitemap : 1 780 URL documentaires uniques, aucune URL locale ou état combinatoire ; aucune requête tierce. Le serveur de test est arrêté après contrôle. L’instance usuelle reste non indexable.
+- Le premier contrôle de sitemap cherchait `?` dans tout le XML (y compris son en-tête) ; corrigé pour vérifier les URL uniquement. Aucun comportement produit modifié pour contourner ce contrôle.
+- Captures des sources inspectées : `.working/sprint/lot4-entity-{desktop,mobile}.png` ; captures du haut de notice ajoutées au scénario final du lot.
+- Fichiers : `publication.ts`, `publication.test.ts`, routes `entite/[id]`, `methode`, `robots.ts`, `sitemap.ts`, `not-found.tsx`, `DocumentLayout.tsx`, liens `Explorer.tsx`/`DetailPanel.tsx`, `globals.css`, `.env.example`, `README.md`, `tests/documents.spec.ts`, `scripts/verify-publication.mjs`.
+- Aucune publication effectuée. Domaine de production non configuré ; variable désactivée par défaut. Les notices non éligibles restent consultables mais non indexables.
+- Contrôle d’intégration avant bonus : lint, typecheck, 64 tests unitaires / 13 fichiers réussis ; build `n2PmhO9rxZh5ygczafoxK` ; suite Chrome complète 55 réussis, 3 scénarios bureau ignorés sur mobile, 55,8 s. Sources et notices d’institution vérifiées sans JavaScript ; aucune erreur de page, requête tierce ou débordement mesuré.
