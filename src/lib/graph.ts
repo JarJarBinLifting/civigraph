@@ -123,6 +123,7 @@ export function parseView(search: string, data: GraphData): ViewState {
     categories: categories.length || requestedCategories === '' ? categories : [...CATEGORIES],
     selected: ids.has(params.get('selected') ?? '') ? params.get('selected')! : root,
     compare: validComparison ? compare : null,
+    ...(params.get('comparisonView') === 'cards' ? { comparisonView: 'cards' as const } : {}),
     mode: params.get('mode') === 'list' ? 'list' : 'graph',
     edge: index.relations.has(params.get('edge') ?? '') ? params.get('edge') : null,
     temporal: 'all', period: null, year: /^[1-9]\d{0,3}$/.test(params.get('year') ?? '') ? Number(params.get('year')) : null,
@@ -141,6 +142,7 @@ export function parseView(search: string, data: GraphData): ViewState {
 export function serializeView(state: ViewState): string {
   const params = new URLSearchParams({ root: state.root, focus: state.focus, expanded: [...new Set(state.expanded)].join(','), categories: CATEGORIES.filter(category => state.categories.includes(category)).join(','), selected: state.selected });
   if (state.compare) params.set('compare', state.compare);
+  if (state.compare && state.comparisonView === 'cards') params.set('comparisonView', 'cards');
   if (state.mode === 'list') params.set('mode', 'list');
   if (state.edge) params.set('edge', state.edge);
   params.set('time', state.temporal);

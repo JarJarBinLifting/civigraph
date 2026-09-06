@@ -74,6 +74,7 @@ export interface ViewState {
   categories: Category[];
   selected: string;
   compare: string | null;
+  comparisonView?: 'map' | 'cards';
   mode: 'graph' | 'list';
   edge: string | null;
   temporal: 'all' | 'same';

@@ -144,6 +144,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
 
       <section className={`exploration-center${periodContext.institution && !comparisonOpen ? ' has-period-controls' : ''}`} aria-label="Vue d’exploration">
         {comparisonOpen ? <Comparison data={data} left={defaultComparisonLeft} right={compare ? entitiesById.get(compare) : undefined} categories={categories}
+          selected={view.selected} presentation={view.comparisonView} onSelect={id => update({ selected: id })} onPresentation={comparisonView => update({ comparisonView })}
           onLeft={entity => update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, period: null, temporal: 'all' })}
           onRight={entity => update({ compare: entity.id, edge: null })}
           onExplore={id => { expand(id); setComparisonOpen(false); }}

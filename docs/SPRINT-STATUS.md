@@ -17,7 +17,7 @@ Les sources, identifiants, précisions temporelles, réseau complet et ancienne 
 
 ## Dernier lot stable
 
-Lot 1 implémenté et vérifié : index partagé, recherche normalisée une fois, chronologie linéaire, séparation pan/zoom, voisinage inspecté, labels prioritaires, carte agrandie et confinement du focus. Aucune donnée source modifiée.
+Lots 1 et 2A implémentés et vérifiés. Lot 1 : commit local `9ef08eb`. Lot 2A : carte comparative, géométrie mobile, sélection partageable, preuves des deux côtés, comptes séparant institutions et déclarations, bilans temporels par paire. Aucune donnée source modifiée.
 
 ## Vérification et mesures
 
@@ -42,4 +42,14 @@ Lot 1 implémenté et vérifié : index partagé, recherche normalisée une fois
 
 ## Prochaine action précise
 
-Lot 2A : ajouter une carte comparative avec A à gauche, B à droite, entités communes au milieu, sélection et preuves de chaque côté. Conserver les cartes accessibles et le contrat d'URL. Ensuite seulement, ouvrir le lot 2B.
+Lot 2B : recherche pure, déterministe et bornée de trois chemins institutionnels au plus, quatre segments au plus ; preuves intégrales, catégories actives et mode partageable distinct.
+
+## Lot 2A — vérification
+
+- Test navigateur ajouté avant la carte : échec attendu, élément absent. Deux tests unitaires avant calcul des périodes : échecs attendus, puis réussite.
+- `npm run lint`, `npm run typecheck`, build : réussis. Tests ciblés comparaison/graphe/périodes : 25 réussis.
+- Chrome : 6 parcours de comparaison réussis (nouveau scénario et deux scénarios existants, ordinateur/mobile) ; après adaptation mobile, les 2 nouveaux parcours repassent.
+- Cartes existantes conservées avec toutes leurs preuves ; paramètre `comparisonView=cards` restauré après rechargement, sélection par `selected`. Le paramètre `mode` de l'explorateur reste distinct.
+- Captures `.working/sprint/lot2a-*.png`, détails de la carte inspectés sur ordinateur et mobile. Sources à gauche et à droite, navigation vers ENA, filtres et absence de débordement vérifiés.
+- Fichiers : `ComparisonGraph.tsx`, `Comparison.tsx`, `Explorer.tsx`, `comparison.ts`, `comparison.test.ts`, `graph.ts`, `types.ts`, `globals.css`, `tests/comparison-map.spec.ts`.
+- Limite assumée : les bilans comptent les comparaisons de déclarations, pas des rencontres ni des personnes supplémentaires. Un intitulé générique est identifié séparément d'une institution.

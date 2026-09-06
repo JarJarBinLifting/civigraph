@@ -297,6 +297,28 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .comparison-result-heading { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin: 27px 0 10px; }
 .comparison-result-heading strong { font-size: 14px; font-weight: 500; }
 .comparison-result-heading > span { font-size: 10px; color: #6e7665; }
+.comparison-counts { color: #52684f; font-size: 11px; margin: 10px 0; }
+.comparison-display { width: fit-content; margin: 12px 0; }
+.comparison-display button { min-height: 35px; }
+.comparison-map { border: 1px solid #dde5d7; border-radius: 8px; background: #fafbf7; overflow: hidden; margin-bottom: 24px; }
+.comparison-map-legend { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px; font-size: 12px; }
+.comparison-map-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.comparison-map-legend i { width: 8px; height: 8px; border-radius: 50%; }
+.comparison-canvas { width: 100%; height: 370px; }
+.comparison-map-tools { display: flex; align-items: center; gap: 4px; padding: 8px 14px; }
+.comparison-map-tools > span { font-size: 11px; color: #5a6f53; margin-left: 9px; line-height: 1.6; }
+.common-shortcuts { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px 18px; }
+.common-shortcuts button { font-size: 12px; padding: 8px 12px; border: 1px solid #d7e2cf; border-radius: 5px; background: #fff; }
+.common-shortcuts button[aria-pressed=true] { color: #fff; background: var(--forest); border-color: var(--forest); }
+.common-card.is-selected { border-color: #8aa381; box-shadow: 0 2px 9px #243e3010; }
+.comparison-periods { margin-top: 16px; padding: 12px 0; border-block: 1px solid var(--line); font-size: 11px; color: #56684e; line-height: 1.6; }
+.comparison-periods p { margin: 5px 0; }
+.comparison-periods small { font-size: 10px; }
+@media (max-width: 640px) {
+  .comparison-map-legend { flex-wrap: wrap; padding: 14px; font-size: 11px; }
+  .comparison-map-legend > span:nth-child(2) { display: none; }
+  .comparison-map-tools { align-items: flex-start; }
+}
 .comparison-note { font-size: 10px; line-height: 1.7; padding: 12px 16px; border-left: 2px solid #bccdad; color: #6a7a5e; background: #f0f5e9; margin-bottom: 22px; }
 .common-card { border: 1px solid #e2e9d8; border-radius: 8px; background: #fff; margin-top: 15px; padding: 18px; }
 .common-card-heading { display: flex; gap: 12px; align-items: center; }

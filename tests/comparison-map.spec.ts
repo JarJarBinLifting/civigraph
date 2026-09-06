@@ -1,0 +1,36 @@
+import { expect, test } from '@playwright/test';
+import type { Core } from 'cytoscape';
+type Canvas = HTMLElement & { _cyreg: { cy: Core } };
+test('comparison map joins both people to common entities and opens the two sets of proofs', async ({ page }, info) => {
+  await page.goto('/?root=Q3052772&compare=Q3579995&categories=education');
+  const graph = page.getByTestId('comparison-graph');
+  await expect(graph).toHaveAttribute('data-ready', 'true', { timeout: 3000 });
+  const structure = await graph.evaluate(element => {
+    const cy = (element as Canvas)._cyreg.cy;
+    return { left: cy.$id('Q3052772').position('x'), right: cy.$id('Q3579995').position('x'), direct: cy.edges().filter(edge => edge.source().id() === 'Q3052772' && edge.target().id() === 'Q3579995').length, middle: cy.nodes('.common-entity').map(node => node.id()) };
+  });
+  expect(structure.left).toBeLessThan(structure.right);
+  expect(structure.direct).toBe(0);
+  expect(structure.middle).toContain('Q273579');
+  await page.getByRole('button', { name: 'Consulter ENA', exact: true }).click();
+  await expect(page).toHaveURL(/selected=Q273579/);
+  const card = page.locator('.common-card').filter({ has: page.getByRole('heading', { name: 'ENA', exact: true }) });
+  await expect(card).toContainText('Emmanuel Macron');
+  await expect(card).toContainText('Édouard Philippe');
+  await expect(card.locator('.common-evidence > div').first().getByRole('link', { name: 'Déclaration Wikidata', exact: true }).first()).toBeVisible();
+  await expect(card.locator('.common-evidence > div').last().getByRole('link', { name: 'Déclaration Wikidata', exact: true }).first()).toBeVisible();
+  await expect(card.locator('.comparison-periods')).toContainText('comparaisons de passages');
+  await page.getByRole('button', { name: 'Cartes et sources', exact: true }).click();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Cartes et sources', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `.working/sprint/lot2a-cards-${info.project.name}.png`, fullPage: true });
+  await page.getByRole('button', { name: 'Carte comparative', exact: true }).click();
+  await expect(graph).toHaveAttribute('data-ready', 'true');
+  await graph.scrollIntoViewIfNeeded();
+  await page.locator('.comparison-map').screenshot({ path: `.working/sprint/lot2a-map-detail-${info.project.name}.png`, scale: 'css' });
+  await page.screenshot({ path: `.working/sprint/lot2a-map-${info.project.name}.png`, fullPage: true });
+  await card.getByRole('button', { name: 'Explorer ENA', exact: true }).click();
+  await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
+  expect(new URL(page.url()).searchParams.get('compare')).toBeNull();
+});
