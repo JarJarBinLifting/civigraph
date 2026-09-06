@@ -1,7 +1,7 @@
 import type { Entity, Relation, SourceDate } from './types';
 
 export type Overlap = 'documented' | 'possible' | 'outside' | 'unknown';
-function dateBounds(date?: SourceDate) {
+export function dateBounds(date?: SourceDate) {
   if (!date || date.precision < 9 || !/^\d{4}-\d{2}-\d{2}$/.test(date.value)) return null;
   const [year, month, day] = date.value.split('-').map(Number);
   if (!year || month > 12 || day > 31) return null;

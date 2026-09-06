@@ -49,6 +49,7 @@ interface Props {
 
 export function DetailPanel({ data, entity, categories, temporal, periodAnchor, selectedEdge, focused, onSelect, onEdge, onExpand, onClose, onAllPeriods, onCareer }: Props) {
   const [tab, setTab] = useState<'profile' | 'connections' | 'sources'>(entity.type === 'person' ? 'profile' : 'connections');
+  const [profileMode, setProfileMode] = useState<'overview' | 'career'>('overview');
   const index = getGraphIndex(data);
   const availableRelations = (index.incident.get(entity.id) ?? []).filter(relation => categories.includes(relation.category));
   const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort((a, b) => Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)));
@@ -79,7 +80,7 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
       <button role="tab" aria-selected={activeTab === 'sources'} onClick={() => { setTab('sources'); onEdge(null); }}>Sources <ArrowUpRight size={13} /></button>
     </div>
     <div className="panel-content" role="tabpanel" aria-label={activeTab === 'profile' ? 'Profil de la personne' : activeTab === 'connections' ? 'Connexions de l’entité' : 'Sources des relations'}>
-      {activeTab === 'profile' ? <PersonProfile data={data} person={entity} onEvidence={onEdge} onConnections={() => { setTab('connections'); onEdge(null); }} /> : activeTab === 'connections' ? <>
+      {activeTab === 'profile' ? <PersonProfile data={data} person={entity} mode={profileMode} onMode={setProfileMode} onSelect={onSelect} onExplore={onExpand} onEvidence={onEdge} onConnections={() => { setTab('connections'); onEdge(null); }} /> : activeTab === 'connections' ? <>
         <p className="section-caption">{temporal === 'same' ? 'Participations selon la période retenue' : categories.length === 5 ? 'Tous les liens du corpus' : 'Liens selon les filtres actifs'}{entity.id === 'Q2986712' && ' · sélection non exhaustive'}</p>
         {[...groups.entries()].map(([key, group]) => {
           const relation = group[0];

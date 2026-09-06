@@ -1,9 +1,29 @@
 import type { Category, Entity, GraphData, Relation } from './types';
-import { periodBounds } from './temporal';
+import { dateBounds, periodBounds } from './temporal';
 import { periodLabel, shortLabel } from './presentation';
 import { getGraphIndex } from './graph-index';
 
 export interface ProfileFact { entity: Entity; relation: Relation }
+export interface CareerEntry { entity: Entity; relations: Relation[]; category: Category; sortDate: number | null; key: string }
+export function getCareerTimeline(data: GraphData, person: Entity): { dated: CareerEntry[]; undated: CareerEntry[] } {
+  const index = getGraphIndex(data);
+  const entries = new Map<string, CareerEntry>();
+  for (const relation of index.outgoing.get(person.id) ?? []) {
+    const entity = index.entities.get(relation.target);
+    if (!entity) continue;
+    const key = JSON.stringify([entity.id, relation.category, relation.label, relation.role, relation.start, relation.end, relation.pointInTime, relation.cohort]);
+    const existing = entries.get(key);
+    if (existing) { existing.relations.push(relation); continue; }
+    const validPeriod = !relation.start || !relation.end || periodBounds(relation);
+    const date = validPeriod ? dateBounds(relation.start) ?? dateBounds(relation.pointInTime) ?? dateBounds(relation.end) : null;
+    entries.set(key, { key, entity, category: relation.category, relations: [relation], sortDate: date?.first ?? null });
+  }
+  const all = [...entries.values()];
+  return {
+    dated: all.filter(entry => entry.sortDate !== null).sort((a, b) => a.sortDate! - b.sortDate! || a.entity.label.localeCompare(b.entity.label, 'fr') || a.key.localeCompare(b.key)),
+    undated: all.filter(entry => entry.sortDate === null).sort((a, b) => a.category.localeCompare(b.category) || a.entity.label.localeCompare(b.entity.label, 'fr')),
+  };
+}
 const categories: Category[] = ['office', 'employment', 'education', 'party', 'membership'];
 
 export function getPersonProfile(data: GraphData, person: Entity) {

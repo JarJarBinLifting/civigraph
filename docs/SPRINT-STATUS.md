@@ -17,7 +17,7 @@ Les sources, identifiants, précisions temporelles, réseau complet et ancienne 
 
 ## Dernier lot stable
 
-Lots 1, 2A et 2B implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`. Le lot 2B ajoute des chemins institutionnels courts, bornés, sourcés et partageables. Aucune donnée source modifiée.
+Lots 1, 2A, 2B et 3 implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`, lot 2B `b991949`. Le lot 3 ajoute le parcours chronologique sourcé dans les profils. Aucune donnée source modifiée.
 
 ## Vérification et mesures
 
@@ -42,7 +42,7 @@ Lots 1, 2A et 2B implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, 
 
 ## Prochaine action précise
 
-Lot 3 : ajouter « Parcours » dans le profil, avec passages datés, bornes incomplètes et événements sans date, en préservant les sources et l'indépendance des filtres du graphe.
+Lot 4 : pages serveur `/entite/[id]`, méthode et couverture, vraie 404 ; publication et sitemap seulement sur activation explicite avec une URL valide. Ne rien publier.
 
 ## Lot 2A — vérification
 
@@ -63,3 +63,11 @@ Lot 3 : ajouter « Parcours » dans le profil, avec passages datés, bornes inco
 - Le premier scénario de filtre vide construisait deux paramètres `categories` ; fixture corrigée pour remplacer le paramètre, sans modifier le comportement de l'application.
 - Captures `.working/sprint/lot2b-path-*.png` inspectées. Fichiers : `paths.ts`, `paths.test.ts`, `InstitutionPaths.tsx`, `Comparison.tsx`, `Explorer.tsx`, `graph.ts`, `types.ts`, `globals.css`, `tests/paths.spec.ts`.
 - Partage : `comparisonMode=paths`, indépendant de `mode=graph|list` ; anciennes URL préservées. Toutes périodes explicite, aucune simultanéité globale inférée.
+
+## Lot 3 — vérification
+
+- Vue « Parcours » dans Profil, ordre chronologique des dates disponibles et section distincte sans dates exploitables. Plusieurs passages et activités concomitantes restent séparés. Seuls les faits strictement identiques (cible, catégorie, formulation, rôle et période avec précision) regroupent leurs sources.
+- Test ajouté et observé en échec avant implémentation, puis réussi : passages répétés, preuves parallèles, début seul, fin seule et précision mensuelle. Tests profil/temps : 10 réussis ; lint, typecheck et build réussis.
+- Chrome : 6 parcours profil/chronologie réussis, puis 2 parcours ciblés pour captures lisibles du panneau. Source, retour à Parcours, catégories du graphe toutes masquées et pivot vers Assas vérifiés sur les deux formats.
+- Captures pertinentes inspectées : `.working/sprint/lot3-profile-*.png`, `lot3-undated-*.png`. La première capture d'un élément dépassant son conteneur défilant était inutilisable et a été remplacée par celles des panneaux réellement visibles.
+- Fichiers : `profile.ts`, `profile.test.ts`, `temporal.ts` (export du calcul des bornes, sans changement de logique), `PersonProfile.tsx`, `DetailPanel.tsx`, `globals.css`, `tests/career.spec.ts`.

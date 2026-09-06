@@ -1,0 +1,22 @@
+import { expect, test } from '@playwright/test';
+test('career includes dated and undated evidence even with all graph filters disabled', async ({ page }, info) => {
+  await page.goto('/?root=Q30527240&categories=');
+  await page.getByRole('button', { name: 'Parcours', exact: true }).click();
+  const timeline = page.getByRole('region', { name: 'Parcours chronologique' });
+  await expect(timeline).toContainText('2017');
+  await expect(timeline).toContainText('2022');
+  await expect(timeline).toContainText('Sans dates exploitables');
+  await expect(timeline).toContainText('Paris-Panthéon-Assas');
+  await page.locator('.detail-panel').screenshot({ path: `.working/sprint/lot3-profile-${info.project.name}.png`, scale: 'css' });
+  await timeline.getByRole('heading', { name: 'Sans dates exploitables', exact: true }).scrollIntoViewIfNeeded();
+  await page.locator('.panel-content').screenshot({ path: `.working/sprint/lot3-undated-${info.project.name}.png`, scale: 'css' });
+  const first = timeline.locator('.career-entry').first();
+  await first.getByRole('button', { name: /^Source 1 du passage/ }).click();
+  await expect(page.getByRole('tab', { name: 'Sources' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('.evidence-card').first().getByRole('link').first()).toBeVisible();
+  await page.getByRole('tab', { name: 'Profil', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Parcours', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await timeline.locator('.undated-career .career-entry').filter({ hasText: 'Paris-Panthéon-Assas' }).getByRole('button', { name: 'Explorer ce réseau', exact: true }).click();
+  expect(new URL(page.url()).searchParams.get('focus')).toBe('Q662976');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
