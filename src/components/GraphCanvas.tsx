@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
-import type { Core, SingularElementArgument } from 'cytoscape';
+import type { Core, NodeSingular, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
 import { atlasNodeStyles, nodeShape, nodeSymbol } from '@/lib/graph-theme';
+import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import type { Entity, Relation } from '@/lib/types';
 import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
 import type { GraphExportInfo } from '@/lib/graph-export';
@@ -28,38 +29,30 @@ interface Props {
 
 function frame(instance: Core, layout: GraphLayout) {
   const { positions } = layout;
-  let zoom = Math.min(instance.zoom(), 1.1);
-  let center = { x: 0, y: 0 };
-  // Fit the destination positions, including labels whose legibility is kept in screen pixels.
-  for (let i = 0; i < 6; i++) {
-    scaleLabels(instance, zoom);
-    const radius = Math.max(60, ...layout.rings.map(ring => ring.radius));
-    let x1 = -radius, x2 = radius, y1 = -radius, y2 = radius;
-    if (layout.unknownBox) {
-      const box = layout.unknownBox;
-      x2 = Math.max(x2, box.x + box.width); y1 = Math.min(y1, box.y - 24 / zoom); y2 = Math.max(y2, box.y + box.height);
-    }
-    for (const node of instance.nodes().not('.leaving')) {
-      const point = positions.get(node.id());
-      if (!point) continue;
-      const bounds = node.boundingBox({ includeLabels: true, includeOverlays: false });
-      const current = node.position();
-      x1 = Math.min(x1, point.x + bounds.x1 - current.x); x2 = Math.max(x2, point.x + bounds.x2 - current.x);
-      y1 = Math.min(y1, point.y + bounds.y1 - current.y); y2 = Math.max(y2, point.y + bounds.y2 - current.y);
-    }
-    center = { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
-    zoom = Math.max(.02, Math.min((instance.width() - 40) / (x2 - x1), (instance.height() - 40) / (y2 - y1), 1.1));
+  // Fit factual positions and guides first. Screen-sized labels adapt to this viewport,
+  // rather than shrinking the entire network to make room for a peripheral name.
+  const radius = Math.max(60, ...layout.rings.map(ring => ring.radius));
+  let x1 = -radius, x2 = radius, y1 = -radius, y2 = radius;
+  if (layout.unknownBox) {
+    const box = layout.unknownBox;
+    x2 = Math.max(x2, box.x + box.width); y1 = Math.min(y1, box.y); y2 = Math.max(y2, box.y + box.height);
   }
-  scaleLabels(instance);
+  for (const point of positions.values()) { x1 = Math.min(x1, point.x); x2 = Math.max(x2, point.x); y1 = Math.min(y1, point.y); y2 = Math.max(y2, point.y); }
+  // Retain the existing centered-pivot contract on small networks. A dense overview
+  // balances the whole extent, including unknown dates and the navigation trail.
+  if (positions.size <= 28) { x2 = Math.max(Math.abs(x1), x2); x1 = -x2; y2 = Math.max(Math.abs(y1), y2); y1 = -y2; }
+  const center = { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
+  const zoom = Math.max(.02, Math.min((instance.width() - 58) / (x2 - x1), (instance.height() - 82) / (y2 - y1), 1.1));
   return { zoom, pan: { x: instance.width() / 2 - center.x * zoom, y: instance.height() / 2 - center.y * zoom } };
 }
 
-function markSelection(instance: Core, { selected, selectedEdge, compare }: Props) {
-  instance.elements().removeClass('active compared inspected-neighbor dimmed');
+function markSelection(instance: Core, { selected, selectedEdge, compare }: Props, hovered?: SingularElementArgument) {
+  instance.elements().removeClass('active compared inspected-neighbor dimmed edge-endpoint');
   instance.getElementById(selected).addClass('active');
   if (selectedEdge) instance.getElementById(selectedEdge).addClass('active');
   if (compare) instance.getElementById(compare).addClass('compared');
-  const inspected = selectedEdge ? instance.getElementById(selectedEdge) : instance.getElementById(selected);
+  const inspected = hovered ?? (selectedEdge ? instance.getElementById(selectedEdge) : instance.getElementById(selected));
+  inspected.edges().connectedNodes().addClass('edge-endpoint');
   if (inspected.length && (!inspected.hasClass('root') || selectedEdge)) {
     const neighborhood = instance.collection().union(inspected).union(inspected.nodes().closedNeighborhood()).union(inspected.edges().connectedNodes());
     neighborhood.addClass('inspected-neighbor');
@@ -68,29 +61,52 @@ function markSelection(instance: Core, { selected, selectedEdge, compare }: Prop
   scaleLabels(instance);
 }
 
+const labelStates = new WeakMap<Core, { level: LabelLevel; previous: Set<string>; widths: Map<string, number>; context: CanvasRenderingContext2D | null }>();
+function styleChanged(element: SingularElementArgument, styles: Record<string, string | number>) {
+  const before = element.scratch('atlasStyle') ?? {};
+  const changed = Object.fromEntries(Object.entries(styles).filter(([key, value]) => before[key] !== value));
+  if (Object.keys(changed).length) { element.style(changed); element.scratch('atlasStyle', { ...before, ...changed }); }
+}
+
 function scaleLabels(instance: Core, zoom = instance.zoom()) {
-  instance.batch(() => {
-    const overview = zoom < .55;
-    instance.nodes().toggleClass('compact-labels', overview).removeStyle('font-size');
-    const dated = instance.nodes().filter(node => typeof node.data('timeBand') === 'number');
-    const sparseDates = instance.width() >= 500 && dated.length <= 3 ? dated : instance.collection();
-    sparseDates.removeClass('compact-labels');
-    instance.nodes().removeStyle('text-max-width');
-    const readable = !overview && instance.width() >= 500 && instance.nodes().length <= 28;
-    const revealed = readable ? instance.nodes() : instance.nodes('.root, .active, .hover, .history-node').union(sparseDates);
-    revealed.style('font-size', Math.max(14, 12 / zoom)).style('text-max-width', Math.max(115, 110 / zoom));
-    instance.nodes('.root').style('width', Math.max(76, 36 / zoom)).style('height', Math.max(76, 36 / zoom));
-    instance.nodes().removeClass('collision-label');
-    // Keep important labels first; other labels can be revealed by zoom, hover or selection.
-    const priority = (node: SingularElementArgument) => Number(node.hasClass('root')) * 8 + Number(node.hasClass('active')) * 4 + Number(node.hasClass('hover')) * 2 + Number(node.hasClass('history-node'));
-    const visible = instance.nodes().filter(node => Number(node.style('text-opacity')) > 0).sort((a, b) => priority(b) - priority(a) || a.id().localeCompare(b.id()));
-    const occupied: { x1: number; x2: number; y1: number; y2: number }[] = [];
-    for (const node of visible) {
-      const box = node.boundingBox({ includeNodes: false, includeEdges: false, includeLabels: true, includeOverlays: false });
-      const overlaps = occupied.some(other => box.x1 < other.x2 + 5 / zoom && box.x2 > other.x1 - 5 / zoom && box.y1 < other.y2 + 5 / zoom && box.y2 > other.y1 - 5 / zoom);
-      if (overlaps && priority(node) === 0) node.addClass('collision-label');
-      else occupied.push(box);
+  let state = labelStates.get(instance);
+  if (!state) { state = { level: 0, previous: new Set(), widths: new Map(), context: document.createElement('canvas').getContext('2d') }; labelStates.set(instance, state); }
+  state.level = labelLevel(zoom, state.level);
+  const current = state;
+  const measure = (text: string, size: number, bold: boolean) => {
+    const key = `${size}:${bold}:${text}`;
+    if (!current.widths.has(key)) {
+      if (current.context) current.context.font = `${bold ? 'bold' : 'normal'} ${size}px Arial`;
+      current.widths.set(key, current.context?.measureText(text).width ?? text.length * size * .55);
     }
+    return current.widths.get(key)!;
+  };
+  const svg = instance.scratch('atlasGuides') as SVGSVGElement | null;
+  sizeGuides(svg, instance, zoom);
+  const obstacles = Array.from(svg?.querySelectorAll('text') ?? []).map(label => {
+    const box = label.getBBox();
+    return { x1: box.x * zoom - 3, x2: (box.x + box.width) * zoom + 3, y1: box.y * zoom - 3, y2: (box.y + box.height) * zoom + 3 };
+  });
+  instance.batch(() => {
+    const sceneNodes = instance.nodes().not('.leaving');
+    const candidates: LabelCandidate[] = sceneNodes.map(node => {
+      const priority = node.hasClass('root') ? 100 : node.hasClass('active') ? 90 : node.hasClass('hover') ? 80 : node.hasClass('edge-endpoint') ? 75 : node.hasClass('compared') ? 70 : node.hasClass('history-node') ? 60 : node.hasClass('inspected-neighbor') ? 20 : 0;
+      const position = (node as NodeSingular).position();
+      const diameter = node.hasClass('root') ? 46 : Math.max(priority >= 60 ? 25 : 12, Math.min(46, 47 * zoom));
+      styleChanged(node, { width: diameter / zoom, height: diameter / zoom, 'border-width': (priority >= 60 ? 2 : 1.2) / zoom });
+      const side = node.hasClass('root') || node.hasClass('unknown-date') || node.hasClass('history-node') ? 'bottom' : Math.abs(position.x) > Math.abs(position.y) ? position.x < 0 ? 'left' : 'right' : position.y < 0 ? 'top' : 'bottom';
+      return { id: node.id(), text: node.data('label'), x: position.x * zoom, y: position.y * zoom, radius: diameter / 2, priority, side };
+    });
+    const pan = instance.pan();
+    const placements = placeLabels(candidates, { level: state.level, previous: state.previous, small: instance.width() < 500, measure, obstacles, viewport: { x1: 6 - pan.x, x2: instance.width() - pan.x - 6, y1: 6 - pan.y, y2: instance.height() - pan.y - 6 } });
+    const byId = new Map(placements.map(label => [label.id, label]));
+    for (const node of sceneNodes) {
+      const label = byId.get(node.id());
+      if (!label) { styleChanged(node, { label: '', 'text-opacity': 0 }); continue; }
+      styleChanged(node, { label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': node.hasClass('root') || node.hasClass('active') || node.hasClass('hover') || node.hasClass('history-node') || node.hasClass('edge-endpoint') ? 'bold' : 'normal', 'text-max-width': 190 / zoom, 'text-background-padding': 3 / zoom, 'text-halign': label.side === 'left' || label.side === 'right' ? label.side : 'center', 'text-valign': label.side === 'top' || label.side === 'bottom' ? label.side : 'center', 'text-margin-x': label.side === 'right' ? label.offset / zoom : label.side === 'left' ? -label.offset / zoom : 0, 'text-margin-y': label.side === 'bottom' ? label.offset / zoom : label.side === 'top' ? -label.offset / zoom : 0 });
+    }
+    state.previous = new Set(byId.keys());
+    for (const edge of instance.edges()) styleChanged(edge, { width: (edge.hasClass('active') || edge.hasClass('hover') ? 1.8 : edge.hasClass('inspected-neighbor') ? 1.2 : .65) / zoom, 'font-size': 12 / zoom, 'text-background-padding': 3 / zoom });
   });
 }
 
@@ -99,8 +115,8 @@ function syncGuides(svg: SVGSVGElement | null, instance: Core) {
   svg?.firstElementChild?.setAttribute('transform', `translate(${pan.x} ${pan.y}) scale(${instance.zoom()})`);
 }
 
-function sizeGuides(svg: SVGSVGElement | null, instance: Core) {
-  svg?.querySelectorAll('text').forEach(label => { label.style.fontSize = `${11 / instance.zoom()}px`; });
+function sizeGuides(svg: SVGSVGElement | null, instance: Core, zoom = instance.zoom()) {
+  svg?.querySelectorAll('text').forEach(label => { label.style.fontSize = `${11 / zoom}px`; });
 }
 
 function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Core) {
@@ -170,7 +186,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
         node = instance.add({ group: 'nodes', data, position: { ...(motion ? origin : point) } });
         entering.add(entity.id);
       } else node.data(data);
-      node.removeStyle('width height').classes(isFocus ? 'root' : location);
+      node.classes(isFocus ? 'root' : location);
       if (!motion) node.position(point);
     }
     for (const relation of relations) {
@@ -189,6 +205,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
   });
   if (!motion) {
     instance.viewport(frame(instance, layout));
+    scaleLabels(instance);
     return () => {};
   }
   for (const [id, position] of positions) {
@@ -201,7 +218,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
   leaving.animate({ style: { opacity: 0 } }, { duration: 180, queue: false });
   instance.animate(frame(instance, layout), { duration, easing: 'ease-in-out-cubic', queue: false });
   const removal = window.setTimeout(() => leaving.remove(), 200);
-  const finish = window.setTimeout(() => instance.elements().removeStyle('opacity'), duration + 50);
+  const finish = window.setTimeout(() => { instance.elements().removeStyle('opacity'); scaleLabels(instance); }, duration + 50);
   return () => {
     window.clearTimeout(removal);
     window.clearTimeout(finish);
@@ -242,6 +259,7 @@ export function GraphCanvas(props: Props) {
     let observer: ResizeObserver | undefined;
     let cancelTransition = () => {};
     let zoomFrame = 0;
+    let panTimer = 0;
     import('cytoscape').then(({ default: cytoscape }) => {
       if (disposed || !container.current) return;
       const instance = cytoscape({
@@ -260,9 +278,6 @@ export function GraphCanvas(props: Props) {
           { selector: 'node.compared', style: { 'border-width': 3, 'border-color': '#a47947', 'underlay-color': '#a47947', 'underlay-opacity': 0.08, 'underlay-padding': 8 } },
           { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.52, 'curve-style': 'bezier', 'control-point-step-size': 16, 'overlay-padding': 5, 'overlay-opacity': 0 } },
           { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#34463d', 'text-background-color': '#fafbf8', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
-          { selector: 'node.compact-labels', style: { 'text-opacity': 0 } },
-          { selector: 'node.root, node.active, node.hover, node.history-node', style: { 'text-opacity': 1 } },
-          { selector: 'node.collision-label', style: { 'text-opacity': 0 } },
           { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
           { selector: 'node.dimmed', style: { opacity: .38 } },
           { selector: 'edge.dimmed', style: { opacity: .08 } },
@@ -270,20 +285,24 @@ export function GraphCanvas(props: Props) {
           { selector: 'node.root.dimmed, node.history-node.dimmed', style: { opacity: .7 } },
           { selector: '.leaving', style: { events: 'no' } },
           ...atlasNodeStyles,
+          { selector: 'node', style: { 'line-height': 1.2 } },
+          { selector: 'node.active.dimmed, node.hover.dimmed', style: { opacity: 1 } },
         ],
       });
       cy.current = instance;
+      instance.scratch('atlasGuides', guides.current);
       instance.on('tap', 'node', event => callbacks.current.onSelect(event.target.id()));
       instance.on('dbltap', 'node', event => callbacks.current.onExpand(event.target.id()));
       instance.on('tap', 'edge', event => callbacks.current.onEdge(event.target.id()));
-      instance.on('mouseover', 'edge', event => { event.target.addClass('hover'); if (container.current) container.current.style.cursor = 'pointer'; });
-      instance.on('mouseout', 'edge', event => { event.target.removeClass('hover'); if (container.current) container.current.style.cursor = 'grab'; });
-      instance.on('mouseover', 'node', event => { event.target.addClass('hover'); scaleLabels(instance); if (container.current) container.current.style.cursor = 'pointer'; });
-      instance.on('mouseout', 'node', event => { event.target.removeClass('hover'); scaleLabels(instance); if (container.current) container.current.style.cursor = 'grab'; });
-      instance.on('pan', () => syncGuides(guides.current, instance));
+      instance.on('mouseover', 'node, edge', event => { event.target.addClass('hover'); markSelection(instance, callbacks.current, event.target); if (container.current) container.current.style.cursor = 'pointer'; });
+      instance.on('mouseout', 'node, edge', event => { event.target.removeClass('hover'); markSelection(instance, callbacks.current); if (container.current) container.current.style.cursor = 'grab'; });
+      instance.on('pan', () => {
+        syncGuides(guides.current, instance);
+        window.clearTimeout(panTimer);
+        panTimer = window.setTimeout(() => { if (!disposed) scaleLabels(instance); }, 100);
+      });
       instance.on('zoom', () => {
         syncGuides(guides.current, instance);
-        sizeGuides(guides.current, instance);
         if (!zoomFrame) zoomFrame = requestAnimationFrame(() => { zoomFrame = 0; if (!disposed) scaleLabels(instance); });
       });
       cancelTransition = updateScene(instance, callbacks.current, false, guides.current);
@@ -299,17 +318,18 @@ export function GraphCanvas(props: Props) {
       let height = container.current.clientHeight;
       observer = new ResizeObserver(() => {
         if (!container.current || (width === container.current.clientWidth && height === container.current.clientHeight)) return;
+        const dx = (container.current.clientWidth - width) / 2, dy = (container.current.clientHeight - height) / 2;
         width = container.current.clientWidth;
         height = container.current.clientHeight;
         const moving = instance.animated() || instance.nodes().filter(':animated').length > 0;
-        cancelTransition();
         instance.resize();
-        cancelTransition = updateScene(instance, callbacks.current, moving, guides.current);
+        if (moving) { cancelTransition(); cancelTransition = updateScene(instance, callbacks.current, true, guides.current); }
+        else { instance.panBy({ x: dx, y: dy }); scaleLabels(instance); }
       });
       observer.observe(container.current);
       setReady(true);
     }).catch(() => { if (!disposed) callbacks.current.onFallback(); });
-    return () => { disposed = true; observer?.disconnect(); cancelAnimationFrame(zoomFrame); cancelTransition(); refresh.current = () => {}; cy.current?.destroy(); cy.current = null; };
+    return () => { disposed = true; observer?.disconnect(); cancelAnimationFrame(zoomFrame); window.clearTimeout(panTimer); cancelTransition(); refresh.current = () => {}; cy.current?.destroy(); cy.current = null; };
   }, []);
 
   useEffect(() => { refresh.current(); }, [entities, relations, focus, anchor, chronology, trail]);
