@@ -1,0 +1,12 @@
+[
+  {
+    "id": "Q2087733",
+    "label": "Philippe Sanmarco",
+    "labelSource": {
+      "url": "https://www2.assemblee-nationale.fr/sycomore/fiche/%28num_dept%29/6275",
+      "title": "Assemblée nationale · nom vérifié",
+      "checkedAt": "2026-09-06"
+    },
+    "reason": "Le libellé français du snapshot Wikidata diverge du nom de la notice parlementaire et du titre de l’article français associé. Correction locale explicite ; identifiant et déclarations conservés."
+  }
+]

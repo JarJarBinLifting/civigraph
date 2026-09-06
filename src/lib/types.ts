@@ -5,11 +5,15 @@ export type EntityType = 'person' | 'school' | 'office' | 'party' | 'organizatio
 export interface Entity {
   id: string;
   label: string;
+  abbreviatedLabel?: string;
   description: string;
   type: EntityType;
   inCorpus: boolean;
-  wikidataUrl: string;
-  revision: number;
+  wikidataUrl?: string;
+  revision?: number;
+  sourceUrl?: string;
+  sourceLabel?: string;
+  labelSource?: { url: string; title: string; checkedAt: string };
   modified: string;
   sourceEntityId?: string;
   contexts?: StatementContext[];
@@ -43,7 +47,7 @@ export interface Relation {
   sourceTarget?: string;
   role?: string;
   cohort?: { id: string; label: string };
-  evidence?: { kind: 'official'; title: string; locator: string; note: string; checkedAt: string };
+  evidence?: { kind: 'official' | 'declaration'; title: string; locator: string; note: string; checkedAt: string };
 }
 
 export interface GraphData {
@@ -74,6 +78,7 @@ export interface ViewState {
   edge: string | null;
   temporal: 'all' | 'same';
   period: string | null;
+  page: number;
 }
 
 export interface CommonConnection {

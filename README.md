@@ -2,9 +2,9 @@
 
 **Explorer les relations documentées de la vie politique française.**
 
-V0 locale, construite à partir du mini PRD « Cartographie interactive du pouvoir politique français ». Le périmètre choisi est un prototype de 30 à 50 personnes avec les neuf fonctions d'exploration. L'instantané initial contient **40 personnes, 297 entités et 717 déclarations Wikidata**, importées le 6 septembre 2026.
+V0 locale, construite à partir du mini PRD « Cartographie interactive du pouvoir politique français ». Le périmètre initial était un prototype de 30 à 50 personnes avec les neuf fonctions d'exploration. L'instantané initial contient **40 personnes, 297 entités et 717 déclarations Wikidata**, importées le 6 septembre 2026.
 
-Le complément sur la commission Attali porte le corpus à **45 personnes, 346 entités et 797 liens** : 787 déclarations Wikidata et 10 participations issues de sources officielles. Les compositions de 2007 et 2010 servent de premier exemple d'exploration des institutions par période.
+L’enrichissement depuis douze institutions porte le corpus à **492 personnes, 2 394 entités et 7 568 déclarations** : Wikidata, mandats de l’Assemblée nationale, activités HATVP via Integrity Watch France et compositions officielles. Les 797 déclarations de la version précédente restent conservées. [Couverture avant/après](docs/data-coverage.md).
 
 ## Démarrer
 
@@ -40,11 +40,13 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 | Voir les relations communes | Entités communes et preuves de chaque côté, avec périodes distinctes |
 | Partager une vue | URL comprenant point de départ, centre actif, parcours, sélection, filtres, période, comparaison et mode liste |
 
+Les grands réseaux s’affichent par pages de 12 voisins au-delà de 24 voisins supplémentaires. Le centre et les étapes du parcours restent présents ; la page se conserve dans l’URL. La sélection dans une fiche rejoint la page du voisin. La liste donne accès à toutes les déclarations du réseau.
+
 Le mode **Liste** permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
 
 Développer une entité la place au centre et affiche ses relations directes. Les étapes parcourues et leurs liens documentés restent visibles, selon les filtres actifs. Par exemple, depuis Bernard Cazeneuve, développer « Conseiller régional » garde Bernard relié à cette fonction et ouvre ses autres voisins. Le point de départ reste accessible dans la barre latérale ; revenir à une étape replie les étapes suivantes. Le paramètre `focus` de l'URL mémorise le centre indépendamment de la fiche sélectionnée ; les anciennes URL prennent la dernière entité développée comme centre. La préférence système de réduction des animations est respectée.
 
-Depuis une personne, développer une institution, une entreprise ou une école propose ses passages documentés. **Même période** affiche les liens dont le chevauchement est établi, ou les participants d'une même composition officielle. **Toutes les périodes** rend aussi accessibles les dates absentes ou insuffisantes. Les fonctions génériques sans contexte institutionnel restent de simples intitulés et ne déclenchent pas ce mode.
+Depuis une personne, développer une institution, une entreprise ou une école propose ses passages documentés. **Même période** affiche les liens dont le chevauchement est établi, ou les participants d'une même composition officielle. **Autres personnes liées — dates insuffisantes** propose séparément les personnes dont la présence sur cette période reste incertaine, avec leur preuve. **Explorer toute sa carrière** quitte explicitement le repère temporel en conservant le parcours. **Toutes les périodes** rend aussi accessibles les dates absentes ou insuffisantes. Les fonctions génériques sans contexte institutionnel restent de simples intitulés et ne déclenchent pas ce mode.
 
 Exemple : Emmanuel Macron → Commission Attali ouvre la composition initiale de 2007. Choisir **2010 · Seconde mission** change les participants affichés et le rôle de Macron. Chaque participant permet de poursuivre l'exploration ; le repère temporel reste actif jusqu'au changement de période ou au retour au point de départ. Le graphe, la liste et les fiches partagent ce filtre. Les paramètres `time=all|same` et `period=<identifiant du lien de référence>` le conservent dans le partage et l'historique. La comparaison entre personnes reste en toutes périodes.
 
@@ -52,9 +54,9 @@ Un lien vers `127.0.0.1` fonctionne sur l'ordinateur qui héberge l'application.
 
 ## Ce que les liens signifient
 
-Les **déclarations Wikidata** ne sont pas vérifiées indépendamment par Civigraph. Les participations ajoutées à la commission Attali proviennent d'un décret et du rapport officiel de 2010. Cliquer sur un trait ou sur l'icône de source permet de consulter sa provenance.
+Les **déclarations Wikidata** ne sont pas vérifiées indépendamment par Civigraph. Les compléments proviennent de compositions officielles, des mandats publiés par l’Assemblée nationale et d’activités publiques déclarées à la HATVP. Integrity Watch France distribue ces dernières ; leurs fichiers HATVP d’origine et dates de dépôt restent accessibles. Cliquer sur un trait ou sur l'icône de source permet de consulter sa provenance.
 
-- 117 des 787 déclarations Wikidata comportent au moins une URL de référence externe dans le corpus complété. Les autres sont explicitement signalées comme déclarations à recouper ; certaines citent une publication sans URL directe. Les 10 participations officielles ont chacune un lien direct vers le document et sa page ou son article.
+- 594 des 4 699 déclarations Wikidata comportent au moins une URL de référence externe. Les autres sont explicitement signalées comme déclarations à recouper ; certaines citent une publication sans URL directe. Les 2 869 déclarations supplémentaires renvoient à une source publique avec leur mandat, rubrique, page ou article.
 - Une date de fin manquante ne signifie jamais « en poste ». Une date à la précision de l'année n'est pas transformée en date au jour près.
 - Deux plages qui partagent seulement une année frontière ne suffisent pas à établir un chevauchement. Une composition officielle atteste un groupe à un repère donné, sans inventer de durée individuelle entre deux compositions.
 - La comparaison révèle une entité ou une fonction commune, sans inférer une rencontre, une collaboration ou une proximité personnelle.
@@ -68,6 +70,11 @@ Voir [la provenance et les règles de transformation](docs/sources.md).
 ```sh
 npm run data:import
 npm run data:import:attali
+npm run data:discover
+npm run data:import:network
+npm run data:import:assembly
+npm run data:import:integrity
+node scripts/audit-data.mjs
 npm test
 npm run build
 ```
@@ -76,7 +83,11 @@ npm run build
 
 Le complément suit le même import avec les cinq noms de `scripts/people-attali.json`, écrit dans `src/data/attali-wikidata.json` et ne remplace pas l'instantané initial. Les participations officielles sont maintenues séparément dans `src/data/attali-participations.json`, avec la date de vérification, le rôle et la provenance. Leur mise à jour nécessite de vérifier les documents cités.
 
-Les réponses brutes sont conservées localement dans `.cache/wikidata/` et `.cache/wikidata-attali/`, ignorés par Git. `src/lib/dataset.ts` fusionne les trois fichiers de données en préservant les déclarations initiales. L'interface utilise exclusivement ces instantanés : aucun appel à Wikidata ni aucune ressource tierce pendant l'exploration. Les liens de source s'ouvrent seulement à la demande de l'utilisateur.
+`data:discover` conserve les requêtes institution → personnes et leur plafond dans `network-discovery.json`. `data:import:network` récupère les parcours des 447 QID retenus. L’import de l’Assemblée utilise leurs identifiants P4123 ; celui d’Integrity Watch utilise P4703, vérifie l’identité du déclarant et l’UUID du document original, puis applique exclusivement les correspondances relues de `organization-aliases.json`. Les organismes non rapprochés et les mandats rejetés sont consignés dans les manifestes.
+
+Pour reprendre les imports officiels à partir des réponses locales, ajouter `-- --cached` aux commandes `data:import:assembly` et `data:import:integrity` ; `data:discover` accepte aussi ce mode. Les caches doivent déjà exister. L’audit de couverture utilise Node.js 24 pour lire le module temporel TypeScript. Un import peut modifier le corpus : relire les manifestes, régénérer l’audit et vérifier les écarts avant de retenir un nouvel instantané.
+
+Les réponses brutes sont conservées localement sous `.cache/`, ignoré par Git. `src/lib/dataset.ts` fusionne les compléments par identifiant en préservant les déclarations initiales. Les corrections explicites de libellé ont leur source dans `entity-corrections.json`. L'interface utilise exclusivement ces instantanés : aucun appel à Wikidata ni aucune ressource tierce pendant l'exploration. Les liens de source s'ouvrent seulement à la demande de l'utilisateur.
 
 ## Structure
 
@@ -113,6 +124,6 @@ La vérification porte sur les neuf fonctions, les cas vides, les paramètres in
 
 ## Suite du PRD
 
-La V1 à 500–2 000 personnes et les données parlementaires ne font pas partie du périmètre choisi. Timeline interactive, HATVP, cabinets, scores de proximité, comptes, exports et API professionnelle restent des étapes ultérieures. La V0 n'affiche ni score ni causalité déduite.
+Cette livraison enrichit la V0 avec 492 personnes, des mandats parlementaires et un premier lot HATVP. La couverture demeure limitée aux personnes et organismes sélectionnés ; elle ne constitue pas un annuaire exhaustif. Timeline interactive, couverture générale des cabinets, comptes, exports et API professionnelle restent hors de cette livraison. Aucun score de proximité ni causalité n’est déduit.
 
 Les données structurées de Wikidata sont sous [CC0](https://www.wikidata.org/wiki/Wikidata:Licensing). Les documents officiels conservent leurs conditions de réutilisation ; ils sont référencés sans être redistribués. Les polices DM Sans et Manrope sont distribuées localement via Fontsource sous SIL OFL ; leurs licences sont incluses dans les dépendances. Aucune photographie distante n'est utilisée.

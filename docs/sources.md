@@ -4,7 +4,7 @@
 
 La V0 importe les données structurées de [Wikidata](https://www.wikidata.org/wiki/Wikidata:Data_access) par l'API `wbgetentities`. Wikidata est la source immédiate des déclarations du graphe ; ce n'est pas une validation indépendante de leur vérité. Les références secondaires ou officielles renseignées par ses contributeurs restent accessibles.
 
-Les 40 personnes initiales sont résolues à partir des titres d'articles français de `scripts/people.json`. Le complément `scripts/people-attali.json` ajoute cinq parcours selon la même procédure. Aucun profil privé, lien familial, relation personnelle ou score d'influence n'est collecté. Les descriptions des fiches sont les descriptions du snapshot Wikidata, en français lorsqu'elles sont disponibles.
+Les 40 personnes initiales sont résolues à partir des titres d'articles français de `scripts/people.json`. Le complément `scripts/people-attali.json` ajoute cinq parcours selon la même procédure. Une recherche inverse dans douze institutions ajoute 447 personnes et leurs parcours. Les données distribuées dans le graphe se limitent aux parcours publics ; aucune activité de conjoint, rémunération, patrimoine ou relation personnelle n’est importée depuis Integrity Watch. Les descriptions des fiches proviennent du snapshot Wikidata, en français lorsqu'elles sont disponibles.
 
 ## Propriétés retenues
 
@@ -39,7 +39,7 @@ Les URL sont récupérées depuis Wikidata et limitées aux protocoles HTTP(S). 
 
 ## Exploration par période
 
-Un lien de référence porte la période choisie. Lors d'un pivot depuis une personne, les passages datés de cette personne dans l'institution sont proposés, du plus ancien au plus récent. Le premier est choisi en l'absence de repère antérieur compatible. Les catégories masquées ne suppriment pas ce repère ; elles continuent à filtrer les liens affichés.
+Un lien de référence porte la période choisie. Lors d'un pivot depuis une personne, les passages datés de cette personne dans l'institution sont proposés, du plus ancien au plus récent. Sans repère antérieur compatible, une composition officielle de cette personne est privilégiée, sinon son premier passage daté. Les catégories masquées ne suppriment pas ce repère ; elles continuent à filtrer les liens affichés.
 
 Le mode « Même période » accepte les intervalles dont le chevauchement est établi à la précision des sources. Une année ou un mois représente une plage d'incertitude pour chaque borne. Par exemple, 2007–2008 et 2008–2010 peuvent se croiser en 2008, mais ne le prouvent pas ; ils restent accessibles en toutes périodes avec les cas incertains. Deux dates ponctuelles connues uniquement à l'année ne prouvent pas davantage une date commune.
 
@@ -48,6 +48,8 @@ Une même composition officielle peut établir la participation au même groupe 
 Un début seul, une fin seule, une date invalide ou une précision inférieure à l'année ne suffit pas à déduire une présence sur une période. Sans passage exploitable pour la personne d'entrée, le mode toutes périodes reste actif et l'interface explique la limite. Les institutions, entreprises, écoles, partis et fonctions contextualisées utilisent ces règles ; un intitulé générique de fonction ne devient pas un groupe de personnes ayant travaillé ensemble.
 
 Le filtre s'applique au graphe, à la liste, aux fiches et aux compteurs. Les étapes du parcours sont conservées ; leurs liens restent soumis aux filtres. Il se conserve en poursuivant vers une personne et dans l'URL, puis se réinitialise au point de départ. La comparaison entre deux personnes utilise toutes les périodes et présente les preuves de chaque côté.
+
+La section dépliable « Autres personnes liées — dates insuffisantes » expose les personnes aux dates inconnues ou au chevauchement incertain. Elle exclut les personnes déjà attestées dans la vue et celles dont toutes les dates sont extérieures. Chaque déclaration garde sa preuve ; une sélection ne transforme pas le lien en co-présence. « Explorer toute sa carrière » conserve le parcours et remet `time=all`, sans repère de période. Les grands réseaux sont paginés visuellement, avec toutes leurs déclarations disponibles en liste ; les compteurs du réseau portent sur l’ensemble filtré.
 
 ## Commission Attali : complément vérifié le 6 septembre 2026
 
@@ -62,7 +64,46 @@ La nomination de Macron comme membre et la fin des fonctions d'Ana Palacio figur
 
 La date du décret de 2007 est un repère de composition, pas une date de rencontre. Le rapport de 2010 est conservé avec une précision annuelle ; aucune continuité individuelle entre les deux éditions n'est inférée. Les liens PDF utilisent la page du fichier, supérieure d'une unité au numéro imprimé dans ce rapport. Les fiches indiquent explicitement le numéro imprimé.
 
-Les parcours Wikidata de Jacques Attali, Franco Bassanini, Mario Monti, Ana Palacio et Evelyne Gebhardt sont importés séparément afin de permettre l'exploration depuis leurs fiches. Le corpus fusionné comporte 45 personnes, 346 entités et 797 liens : 787 déclarations Wikidata, dont 117 avec URL de référence externe, et 10 participations officielles. Les trois jeux sont fusionnés par identifiant ; les déclarations initiales gardent la priorité et leur provenance d'origine.
+Les parcours Wikidata de Jacques Attali, Franco Bassanini, Mario Monti, Ana Palacio et Evelyne Gebhardt sont importés séparément afin de permettre l'exploration depuis leurs fiches. Avant l’enrichissement suivant, ce lot portait le corpus à 45 personnes, 346 entités et 797 liens : 787 déclarations Wikidata et 10 participations officielles. Ces déclarations gardent la priorité et leur provenance d'origine.
+
+## Recherche inverse dans douze institutions
+
+`scripts/institutions.json` fixe les points d’entrée : Areva, deux entités Rothschild distinctes, IGF, French-American Foundation, commission Attali et six écoles/universités. Les requêtes SPARQL cherchent des personnes reliées par les propriétés autorisées, avec une notice française. Pour les écoles, les profils ont la nationalité française et une déclaration d’affiliation politique dans Wikidata. Ce critère ne prétend pas définir exhaustivement la profession politique.
+
+Chaque requête est ordonnée par identifiant et plafonnée à 60 résultats. Le manifeste `network-discovery.json` conserve requête, URL, personnes retenues et présence du plafond. Les profils trouvés dans plusieurs institutions ne sont importés qu’une fois. Leurs parcours complets pour les cinq propriétés retenues peuvent relier d’autres institutions, d’où des effectifs finaux supérieurs à 60 à certaines écoles. Ce classement technique n’est ni un classement d’importance ni un échantillonnage représentatif.
+
+Le corpus résultant compte **492 personnes, 2 394 entités et 7 568 déclarations**. Voir les [effectifs et dates par institution](data-coverage.md). Un même passage peut être documenté par plusieurs sources : les compteurs de déclarations ne dédupliquent pas les faits supposés équivalents.
+
+## Assemblée nationale
+
+Source : [Historique des députés](https://data.assemblee-nationale.fr/acteurs/historique-des-deputes), archive JSON des acteurs, mandats et organes depuis la XIe législature. Les identifiants Wikidata [P4123](https://www.wikidata.org/wiki/Property:P4123) sont rapprochés des acteurs `PA`. 119 personnes sont présentes dans l’archive ; 11 identifiants recherchés en sont absents. Aucun rapprochement par homonymie n’est effectué.
+
+2 836 mandats sont retenus : Assemblée, commissions, missions, délégations, offices et groupes. Les rattachements financiers à des partis (`PARPOL`) sont exclus ; un groupe parlementaire garde son identité propre. Les organes sont identifiés par leur code `PO`, avec leur source officielle et sans fausse page Wikidata.
+
+Le champ officiel `libelleAbrege` sert à afficher les intitulés longs dans le graphe. Le nom complet, l'identifiant et les preuves restent disponibles dans les fiches et la liste.
+
+La date individuelle `mandature.datePriseFonction` prime sur `dateDebut`. Exemple : le mandat PM545051 d’Édouard Philippe commence personnellement le 23 mars 2012, tandis que `dateDebut` porte le début de la législature en 2007. Une fin absente reste inconnue. Deux mandats d’Olivier Becht aux dates inversées dans l’archive sont écartés et recensés dans `assembly-import.json` ; aucune correction de date n’est inventée.
+
+## HATVP via Integrity Watch France
+
+[Integrity Watch France](https://www.integritywatch.fr/) est réutilisé comme distributeur des déclarations publiques de la [HATVP](https://www.hatvp.fr/open-data/). L’export actif utilisé est **20260905_210004**, identifié par son manifeste public ; les dates de dépôt et de publication des déclarations sont distinctes de cette date d’export. `integrity-watch-import.json` conserve les URL d’export, leurs empreintes SHA-256, l’identifiant de chaque déclaration et l’empreinte de son fichier HATVP original.
+
+Le rapprochement utilise l’identifiant [P4703](https://www.wikidata.org/wiki/Property:P4703), puis contrôle nom, prénom, date de naissance et date de dépôt pour relier le corps de déclaration à l’index public. L’UUID est vérifié dans le XML original HATVP. Cela contrôle le rattachement des documents, sans constituer une vérification indépendante de toutes les activités déclarées.
+
+29 déclarants du corpus ont une déclaration complète ainsi rapprochée. Le premier lot publie **17 activités concernant 11 personnes**, uniquement dans des organismes explicitement identifiés par les correspondances relues de `scripts/organization-aliases.json`. Les **175 autres intitulés** sont consignés pour examen ; aucun nom ressemblant n’est fusionné automatiquement.
+
+Seules deux rubriques sont retenues : activités professionnelles des cinq dernières années et participations aux organes dirigeants. Conjoints, collaborateurs, patrimoine, participations financières et rémunérations ne sont pas distribués dans Civigraph. Les instantanés bruts locaux de l’export public restent dans `.cache/`, exclu de Git. Un rôle de professeur à HEC ne devient pas une scolarité à HEC ; une activité auprès d’un parti ne devient pas une adhésion inférée.
+
+Les identifiants de relation utilisent l’UUID et le contenu du passage ; des copies identiques sont dédupliquées. Les déclarations d’autres sources restent distinctes. Les dates au mois près restent au mois près, et `conservee` n’est jamais traduit en « toujours en cours » à la date actuelle. Chaque preuve cite la HATVP, son fichier original, Integrity Watch, l’intitulé déclaré, le dépôt et l’export.
+
+## Repères officiels ciblés et correction de nom
+
+`institution-participations.json` ajoute six participations ponctuelles :
+
+- **Areva au 31 décembre 2009** : Anne Lauvergeon et Gérald Arbola, membres du directoire dans le [Document de référence 2009](https://cdn.orano.group/arevasa/Finance/docs/dorref2009/Doc%20de%20ref%202009_vdef2_vFR_08042010.pdf), pages imprimées 200–201 (pages PDF 202–203). Cette sélection rend ces personnes accessibles sur le passage documenté d’Édouard Philippe, sans affirmer une rencontre.
+- **ENA, sortie du 31 mars 2004** : Emmanuel Macron, Sébastien Proto, Julien Aubert et Olivier Becht, dans l’[arrêté du 9 avril 2004](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000437029). Le repère porte sur la sortie commune ; aucun classement ni durée individuelle n’est reconstruit.
+
+Le nom de Philippe Sanmarco diverge du libellé français du snapshot Wikidata. `entity-corrections.json` applique une correction explicite depuis sa [notice de l’Assemblée nationale](https://www2.assemblee-nationale.fr/sycomore/fiche/%28num_dept%29/6275), également liée dans sa fiche. Son QID et ses déclarations sont conservés. L’examen des 447 noms importés face aux titres des notices françaises a permis d’isoler ce cas ; il ne valide pas toutes les biographies.
 
 ## Sélection et attribution
 

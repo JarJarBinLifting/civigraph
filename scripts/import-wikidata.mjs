@@ -4,8 +4,10 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const supplement = process.argv.includes('--attali');
-const titles = JSON.parse(await readFile(path.join(root, supplement ? 'scripts/people-attali.json' : 'scripts/people.json'), 'utf8'));
-const cache = path.join(root, supplement ? '.cache/wikidata-attali' : '.cache/wikidata');
+const network = process.argv.includes('--network');
+if (supplement && network) throw new Error('Choisir un seul complément à importer.');
+const titles = JSON.parse(await readFile(path.join(root, network ? 'scripts/people-network.json' : supplement ? 'scripts/people-attali.json' : 'scripts/people.json'), 'utf8'));
+const cache = path.join(root, network ? '.cache/wikidata-network' : supplement ? '.cache/wikidata-attali' : '.cache/wikidata');
 await mkdir(cache, { recursive: true });
 const propertyMap = {
   P69: { category: 'education', label: 'A étudié à', type: 'school' },
@@ -39,7 +41,7 @@ async function api(params) {
 const people = [];
 for (let offset = 0; offset < titles.length; offset += 10) {
   const chunk = titles.slice(offset, offset + 10);
-  const result = await api({ sites: 'frwiki', titles: chunk.join('|'), props: 'info|labels|descriptions|claims|sitelinks', languages: 'fr|en|mul', sitefilter: 'frwiki' });
+  const result = await api({ ...(network ? { ids: chunk.join('|') } : { sites: 'frwiki', titles: chunk.join('|') }), props: 'info|labels|descriptions|claims|sitelinks', languages: 'fr|en|mul', sitefilter: 'frwiki' });
   if (result.length !== chunk.length || result.some(entity => !entity.id || entity.missing !== undefined)) {
     throw new Error(`Résolution incomplète des personnes : ${chunk.join(', ')}`);
   }
@@ -47,7 +49,7 @@ for (let offset = 0; offset < titles.length; offset += 10) {
   console.log(`Personnes résolues : ${people.length}/${titles.length}`);
 }
 const personIds = new Set(people.map(person => person.id));
-if (personIds.size !== titles.length || (!supplement && (personIds.size < 30 || personIds.size > 50))) throw new Error('Effectif du corpus incohérent avec la sélection.');
+if (personIds.size !== titles.length || (!supplement && !network && (personIds.size < 30 || personIds.size > 50))) throw new Error('Effectif du corpus incohérent avec la sélection.');
 const label = entity => entity.labels?.fr?.value || entity.labels?.mul?.value || entity.labels?.en?.value || entity.id;
 const targetTypes = new Map();
 const rawRelations = [];
@@ -139,14 +141,14 @@ const data = {
     version: 1, fetchedAt, source: 'Wikidata', license: 'CC0-1.0',
     peopleCount: personIds.size, entityCount: entities.length, relationCount: relations.length,
     properties: Object.keys(propertyMap),
-    description: `Corpus exploratoire de ${personIds.size} personnalités${supplement ? ' liées à la commission Attali' : ' de la vie politique française'}. Non exhaustif et non représentatif.`,
+    description: `Corpus exploratoire de ${personIds.size} personnalités${network ? ' découvertes depuis les institutions' : supplement ? ' liées à la commission Attali' : ' de la vie politique française'}. Non exhaustif et non représentatif.`,
   },
   entities, relations,
 };
 await writeFile(path.join(cache, 'raw-entities.json'), JSON.stringify(allRaw));
 const destination = path.join(root, 'src/data');
 await mkdir(destination, { recursive: true });
-const filename = supplement ? 'attali-wikidata.json' : 'graph.json';
+const filename = network ? 'network-wikidata.json' : supplement ? 'attali-wikidata.json' : 'graph.json';
 const temporary = path.join(destination, `${filename}.tmp`);
 await writeFile(temporary, JSON.stringify(data, null, 2) + '\n');
 await rename(temporary, path.join(destination, filename));

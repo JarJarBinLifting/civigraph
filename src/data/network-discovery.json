@@ -1,0 +1,2240 @@
+{
+  "fetchedAt": "2026-09-06T12:07:10.022Z",
+  "source": "Wikidata Query Service",
+  "description": "Sélection bornée de profils avec une notice française. Pour les formations : citoyenneté française et affiliation politique renseignées. Ordre des QID, sans classement de personnes.",
+  "peopleCount": 447,
+  "institutions": [
+    {
+      "id": "Q455484",
+      "label": "Areva",
+      "properties": [
+        "P108",
+        "P463"
+      ],
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP108+wdt%3AP463+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ455484%3B+wdt%3AP31+wd%3AQ5.%0A++++%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P108 wdt:P463 }\n    ?person ?property wd:Q455484; wdt:P31 wd:Q5.\n    \n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": false,
+      "selected": [
+        {
+          "id": "Q3092308",
+          "article": "https://fr.wikipedia.org/wiki/F%C3%A9licit%C3%A9_Herzog"
+        },
+        {
+          "id": "Q3123589",
+          "article": "https://fr.wikipedia.org/wiki/G%C3%A9rald_Arbola"
+        },
+        {
+          "id": "Q3576507",
+          "article": "https://fr.wikipedia.org/wiki/Z%C3%A9phirin_Diabr%C3%A9"
+        },
+        {
+          "id": "Q3579995",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89douard_Philippe"
+        },
+        {
+          "id": "Q85516155",
+          "article": "https://fr.wikipedia.org/wiki/Maureen_Kearney"
+        }
+      ]
+    },
+    {
+      "id": "Q3022385",
+      "label": "Rothschild & Cie",
+      "properties": [
+        "P108",
+        "P463"
+      ],
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP108+wdt%3AP463+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ3022385%3B+wdt%3AP31+wd%3AQ5.%0A++++%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P108 wdt:P463 }\n    ?person ?property wd:Q3022385; wdt:P31 wd:Q5.\n    \n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": false,
+      "selected": [
+        {
+          "id": "Q16267725",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Fournier_(banquier)"
+        },
+        {
+          "id": "Q18744966",
+          "article": "https://fr.wikipedia.org/wiki/S%C3%A9bastien_Proto"
+        },
+        {
+          "id": "Q3052772",
+          "article": "https://fr.wikipedia.org/wiki/Emmanuel_Macron"
+        },
+        {
+          "id": "Q33120440",
+          "article": "https://fr.wikipedia.org/wiki/Anne_Lalou"
+        },
+        {
+          "id": "Q55340961",
+          "article": "https://fr.wikipedia.org/wiki/Anne-Laure_Kiechel"
+        }
+      ]
+    },
+    {
+      "id": "Q1961890",
+      "label": "NM Rothschild & Sons",
+      "properties": [
+        "P108",
+        "P463"
+      ],
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP108+wdt%3AP463+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ1961890%3B+wdt%3AP31+wd%3AQ5.%0A++++%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P108 wdt:P463 }\n    ?person ?property wd:Q1961890; wdt:P31 wd:Q5.\n    \n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": false,
+      "selected": [
+        {
+          "id": "Q13530034",
+          "article": "https://fr.wikipedia.org/wiki/Lionel_Nathan_de_Rothschild"
+        },
+        {
+          "id": "Q269697",
+          "article": "https://fr.wikipedia.org/wiki/Liam_Byrne"
+        },
+        {
+          "id": "Q3068171",
+          "article": "https://fr.wikipedia.org/wiki/Felix_Rohatyn"
+        },
+        {
+          "id": "Q332546",
+          "article": "https://fr.wikipedia.org/wiki/Norman_Lamont"
+        },
+        {
+          "id": "Q333480",
+          "article": "https://fr.wikipedia.org/wiki/Oliver_Letwin"
+        },
+        {
+          "id": "Q333605",
+          "article": "https://fr.wikipedia.org/wiki/Lionel_de_Rothschild"
+        },
+        {
+          "id": "Q333846",
+          "article": "https://fr.wikipedia.org/wiki/John_Redwood"
+        },
+        {
+          "id": "Q334298",
+          "article": "https://fr.wikipedia.org/wiki/John_Wakeham"
+        },
+        {
+          "id": "Q335467",
+          "article": "https://fr.wikipedia.org/wiki/Edward_George"
+        },
+        {
+          "id": "Q335517",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Guthrie"
+        },
+        {
+          "id": "Q335930",
+          "article": "https://fr.wikipedia.org/wiki/David_Neuberger"
+        },
+        {
+          "id": "Q382070",
+          "article": "https://fr.wikipedia.org/wiki/Ren%C3%A9_Mayer"
+        },
+        {
+          "id": "Q4773176",
+          "article": "https://fr.wikipedia.org/wiki/Anthony_Nelson_(homme_politique)"
+        },
+        {
+          "id": "Q547291",
+          "article": "https://fr.wikipedia.org/wiki/Nathan_Mayer_Rothschild_(1777-1836)"
+        },
+        {
+          "id": "Q574980",
+          "article": "https://fr.wikipedia.org/wiki/Jacob_Rees-Mogg"
+        },
+        {
+          "id": "Q6527093",
+          "article": "https://fr.wikipedia.org/wiki/Leopold_de_Rothschild"
+        },
+        {
+          "id": "Q8000233",
+          "article": "https://fr.wikipedia.org/wiki/Wilbur_Ross"
+        },
+        {
+          "id": "Q951381",
+          "article": "https://fr.wikipedia.org/wiki/John_Kingman"
+        },
+        {
+          "id": "Q2185",
+          "article": "https://fr.wikipedia.org/wiki/Georges_Pompidou"
+        },
+        {
+          "id": "Q2530",
+          "article": "https://fr.wikipedia.org/wiki/Gerhard_Schr%C3%B6der"
+        }
+      ]
+    },
+    {
+      "id": "Q3151643",
+      "label": "Inspection générale des finances",
+      "properties": [
+        "P108",
+        "P463"
+      ],
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP108+wdt%3AP463+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ3151643%3B+wdt%3AP31+wd%3AQ5.%0A++++%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P108 wdt:P463 }\n    ?person ?property wd:Q3151643; wdt:P31 wd:Q5.\n    \n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q1193378",
+          "article": "https://fr.wikipedia.org/wiki/Albin_Chalandon"
+        },
+        {
+          "id": "Q11985034",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_de_Fouchier"
+        },
+        {
+          "id": "Q1363641",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_de_Larosi%C3%A8re"
+        },
+        {
+          "id": "Q1381360",
+          "article": "https://fr.wikipedia.org/wiki/Henri_de_Castries"
+        },
+        {
+          "id": "Q1384681",
+          "article": "https://fr.wikipedia.org/wiki/Louis_Schweitzer_(haut_fonctionnaire)"
+        },
+        {
+          "id": "Q1518898",
+          "article": "https://fr.wikipedia.org/wiki/Pierre-Andr%C3%A9_de_Chalendar"
+        },
+        {
+          "id": "Q152905",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Claude_Trichet"
+        },
+        {
+          "id": "Q15314881",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Georges-Picot"
+        },
+        {
+          "id": "Q15314973",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Georges-Picot"
+        },
+        {
+          "id": "Q1556700",
+          "article": "https://fr.wikipedia.org/wiki/Louis_Gallois"
+        },
+        {
+          "id": "Q15814147",
+          "article": "https://fr.wikipedia.org/wiki/Maurice_Bloch_(magistrat)"
+        },
+        {
+          "id": "Q15829933",
+          "article": "https://fr.wikipedia.org/wiki/Georges_Privat-Deschanel"
+        },
+        {
+          "id": "Q15845457",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Henri_Allix"
+        },
+        {
+          "id": "Q15971722",
+          "article": "https://fr.wikipedia.org/wiki/Jean_du_Buit"
+        },
+        {
+          "id": "Q15971738",
+          "article": "https://fr.wikipedia.org/wiki/Octave_Homberg_(1844-1907)"
+        },
+        {
+          "id": "Q15971740",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Homberg"
+        },
+        {
+          "id": "Q15971742",
+          "article": "https://fr.wikipedia.org/wiki/Jack_Franc%C3%A8s"
+        },
+        {
+          "id": "Q15972088",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Ledoux"
+        },
+        {
+          "id": "Q15973156",
+          "article": "https://fr.wikipedia.org/wiki/Adrien_Delahante_(1815-1884)"
+        },
+        {
+          "id": "Q15973158",
+          "article": "https://fr.wikipedia.org/wiki/Adrien_de_Germiny"
+        },
+        {
+          "id": "Q15974147",
+          "article": "https://fr.wikipedia.org/wiki/Guy_de_Carmoy"
+        },
+        {
+          "id": "Q15991191",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Jacques_Bizot"
+        },
+        {
+          "id": "Q16011253",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_de_Flers"
+        },
+        {
+          "id": "Q16034087",
+          "article": "https://fr.wikipedia.org/wiki/Thierry_de_Clermont-Tonnerre"
+        },
+        {
+          "id": "Q16669282",
+          "article": "https://fr.wikipedia.org/wiki/Paul_Reverdy"
+        },
+        {
+          "id": "Q1685206",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Pierre_Fourcade"
+        },
+        {
+          "id": "Q18214967",
+          "article": "https://fr.wikipedia.org/wiki/Nicolas_Jachiet"
+        },
+        {
+          "id": "Q18221526",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Bass%C3%A8res"
+        },
+        {
+          "id": "Q19629776",
+          "article": "https://fr.wikipedia.org/wiki/Georges_de_Liron_d%27Airoles"
+        },
+        {
+          "id": "Q19819371",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Ferronni%C3%A8re"
+        },
+        {
+          "id": "Q21427451",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Guyot_(banquier)"
+        },
+        {
+          "id": "Q215569",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Jupp%C3%A9"
+        },
+        {
+          "id": "Q2360382",
+          "article": "https://fr.wikipedia.org/wiki/St%C3%A9phane_Richard"
+        },
+        {
+          "id": "Q2447812",
+          "article": "https://fr.wikipedia.org/wiki/Paul_Delouvrier"
+        },
+        {
+          "id": "Q2571055",
+          "article": "https://fr.wikipedia.org/wiki/Wilfrid_Baumgartner"
+        },
+        {
+          "id": "Q2669405",
+          "article": "https://fr.wikipedia.org/wiki/Yves_Bouthillier"
+        },
+        {
+          "id": "Q277183",
+          "article": "https://fr.wikipedia.org/wiki/Pascal_Lamy"
+        },
+        {
+          "id": "Q2829864",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Gomez"
+        },
+        {
+          "id": "Q2833767",
+          "article": "https://fr.wikipedia.org/wiki/Alexandre_Jevakhoff"
+        },
+        {
+          "id": "Q2847654",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Diethelm"
+        },
+        {
+          "id": "Q2850785",
+          "article": "https://fr.wikipedia.org/wiki/Anne-Gabrielle_Heilbronner"
+        },
+        {
+          "id": "Q28537404",
+          "article": "https://fr.wikipedia.org/wiki/Maxime_de_Margerie"
+        },
+        {
+          "id": "Q2854012",
+          "article": "https://fr.wikipedia.org/wiki/Antoine_Gosset-Grainville"
+        },
+        {
+          "id": "Q2856787",
+          "article": "https://fr.wikipedia.org/wiki/Antoine_Veil"
+        },
+        {
+          "id": "Q2897693",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_Clappier"
+        },
+        {
+          "id": "Q2899445",
+          "article": "https://fr.wikipedia.org/wiki/Bertrand_Badr%C3%A9"
+        },
+        {
+          "id": "Q2899508",
+          "article": "https://fr.wikipedia.org/wiki/Bertrand_Eveno"
+        },
+        {
+          "id": "Q2926671",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_B%C3%A9zard"
+        },
+        {
+          "id": "Q2926729",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_Deletr%C3%A9"
+        },
+        {
+          "id": "Q2926756",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_Durieux"
+        },
+        {
+          "id": "Q2958118",
+          "article": "https://fr.wikipedia.org/wiki/Charles-Henri_Filippi"
+        },
+        {
+          "id": "Q2960618",
+          "article": "https://fr.wikipedia.org/wiki/Charles_de_Lasteyrie"
+        },
+        {
+          "id": "Q2965623",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Sautter"
+        },
+        {
+          "id": "Q2966496",
+          "article": "https://fr.wikipedia.org/wiki/Christophe_Tardieu"
+        },
+        {
+          "id": "Q2977964",
+          "article": "https://fr.wikipedia.org/wiki/Claude_Pierre-Brossolette"
+        },
+        {
+          "id": "Q3022692",
+          "article": "https://fr.wikipedia.org/wiki/Denis_Gautier-Sauvagnac"
+        },
+        {
+          "id": "Q3035275",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Leca"
+        },
+        {
+          "id": "Q3047839",
+          "article": "https://fr.wikipedia.org/wiki/Edmond_Giscard_d%27Estaing"
+        },
+        {
+          "id": "Q3083360",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois-Ernest_Dutilleul"
+        },
+        {
+          "id": "Q3084015",
+          "article": "https://fr.wikipedia.org/wiki/Maurice_Laur%C3%A9"
+        }
+      ]
+    },
+    {
+      "id": "Q3075672",
+      "label": "French-American Foundation",
+      "properties": [
+        "P108",
+        "P463"
+      ],
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP108+wdt%3AP463+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ3075672%3B+wdt%3AP31+wd%3AQ5.%0A++++%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P108 wdt:P463 }\n    ?person ?property wd:Q3075672; wdt:P31 wd:Q5.\n    \n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q157",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande"
+        },
+        {
+          "id": "Q1083732",
+          "article": "https://fr.wikipedia.org/wiki/Christine_Ockrent"
+        },
+        {
+          "id": "Q112791137",
+          "article": "https://fr.wikipedia.org/wiki/Antoine_Hubert_(entrepreneur)"
+        },
+        {
+          "id": "Q13250260",
+          "article": "https://fr.wikipedia.org/wiki/St%C3%A9phane_Isra%C3%ABl"
+        },
+        {
+          "id": "Q1379752",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Toubon"
+        },
+        {
+          "id": "Q1381360",
+          "article": "https://fr.wikipedia.org/wiki/Henri_de_Castries"
+        },
+        {
+          "id": "Q1394083",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_L%C3%A9otard"
+        },
+        {
+          "id": "Q15926300",
+          "article": "https://fr.wikipedia.org/wiki/Yves_de_Kerdrel"
+        },
+        {
+          "id": "Q16013769",
+          "article": "https://fr.wikipedia.org/wiki/Nicholas_Wahl"
+        },
+        {
+          "id": "Q16661304",
+          "article": "https://fr.wikipedia.org/wiki/Louis_Dreyfus_(homme_de_m%C3%A9dias)"
+        },
+        {
+          "id": "Q1714990",
+          "article": "https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Cl%C3%A9ment"
+        },
+        {
+          "id": "Q180746",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89rik_Izraelewicz"
+        },
+        {
+          "id": "Q2055316",
+          "article": "https://fr.wikipedia.org/wiki/Pascal_Rich%C3%A9"
+        },
+        {
+          "id": "Q21294669",
+          "article": "https://fr.wikipedia.org/wiki/Fr%C3%A9d%C3%A9ric_Mazzella"
+        },
+        {
+          "id": "Q215569",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Jupp%C3%A9"
+        },
+        {
+          "id": "Q24006669",
+          "article": "https://fr.wikipedia.org/wiki/Sh%C3%A9h%C3%A9razade_Semsar_de_Boiss%C3%A9son"
+        },
+        {
+          "id": "Q268529",
+          "article": "https://fr.wikipedia.org/wiki/Najat_Vallaud-Belkacem"
+        },
+        {
+          "id": "Q268595",
+          "article": "https://fr.wikipedia.org/wiki/Nathalie_Kosciusko-Morizet"
+        },
+        {
+          "id": "Q268660",
+          "article": "https://fr.wikipedia.org/wiki/Fleur_Pellerin"
+        },
+        {
+          "id": "Q270094",
+          "article": "https://fr.wikipedia.org/wiki/Marisol_Touraine"
+        },
+        {
+          "id": "Q2859265",
+          "article": "https://fr.wikipedia.org/wiki/Aquilino_Morelle"
+        },
+        {
+          "id": "Q2898005",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_Guetta"
+        },
+        {
+          "id": "Q2926861",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_Le_Roux"
+        },
+        {
+          "id": "Q3022846",
+          "article": "https://fr.wikipedia.org/wiki/Denis_Olivennes"
+        },
+        {
+          "id": "Q3052623",
+          "article": "https://fr.wikipedia.org/wiki/Emmanuel_Chain"
+        },
+        {
+          "id": "Q3052772",
+          "article": "https://fr.wikipedia.org/wiki/Emmanuel_Macron"
+        },
+        {
+          "id": "Q3062857",
+          "article": "https://fr.wikipedia.org/wiki/Ezra_Suleiman"
+        },
+        {
+          "id": "Q3166786",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Louis_Gergorin"
+        },
+        {
+          "id": "Q3167071",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Luc_Allavena"
+        },
+        {
+          "id": "Q3167397",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Marc_Jancovici"
+        },
+        {
+          "id": "Q3167615",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Marie_Colombani"
+        },
+        {
+          "id": "Q3176259",
+          "article": "https://fr.wikipedia.org/wiki/Jeannette_Bougrab"
+        },
+        {
+          "id": "Q3190850",
+          "article": "https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Chartier"
+        },
+        {
+          "id": "Q3219132",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Cohen-Tanugi"
+        },
+        {
+          "id": "Q3219299",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Joffrin"
+        },
+        {
+          "id": "Q3296102",
+          "article": "https://fr.wikipedia.org/wiki/Marwan_Lahoud"
+        },
+        {
+          "id": "Q3299831",
+          "article": "https://fr.wikipedia.org/wiki/Matthias_Fekl"
+        },
+        {
+          "id": "Q3299881",
+          "article": "https://fr.wikipedia.org/wiki/Matthieu_Croissandeau"
+        },
+        {
+          "id": "Q3340297",
+          "article": "https://fr.wikipedia.org/wiki/Nicolas_Escoulan"
+        },
+        {
+          "id": "Q334065",
+          "article": "https://fr.wikipedia.org/wiki/C%C3%A9dric_Villani"
+        },
+        {
+          "id": "Q3350908",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Chevrillon"
+        },
+        {
+          "id": "Q3379248",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Auberger"
+        },
+        {
+          "id": "Q3380300",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Mani%C3%A8re"
+        },
+        {
+          "id": "Q3385685",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Kosciusko-Morizet"
+        },
+        {
+          "id": "Q3386126",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Mariani"
+        },
+        {
+          "id": "Q3386789",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Richard_(banquier)"
+        },
+        {
+          "id": "Q3387061",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Tabatoni"
+        },
+        {
+          "id": "Q3507347",
+          "article": "https://fr.wikipedia.org/wiki/Sylvie_Kauffmann"
+        },
+        {
+          "id": "Q3524471",
+          "article": "https://fr.wikipedia.org/wiki/Thierry_Pfister"
+        },
+        {
+          "id": "Q356919",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Moscovici"
+        },
+        {
+          "id": "Q3591330",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89ric_Raoult"
+        },
+        {
+          "id": "Q455023",
+          "article": "https://fr.wikipedia.org/wiki/Val%C3%A9rie_P%C3%A9cresse"
+        },
+        {
+          "id": "Q458260",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Minc"
+        },
+        {
+          "id": "Q469310",
+          "article": "https://fr.wikipedia.org/wiki/Anne_Lauvergeon"
+        },
+        {
+          "id": "Q555421",
+          "article": "https://fr.wikipedia.org/wiki/Stanley_Hoffmann"
+        },
+        {
+          "id": "Q58214823",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Chevalier"
+        },
+        {
+          "id": "Q632834",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Dufour_(journaliste)"
+        },
+        {
+          "id": "Q714993",
+          "article": "https://fr.wikipedia.org/wiki/Jean-No%C3%ABl_Jeanneney"
+        },
+        {
+          "id": "Q737311",
+          "article": "https://fr.wikipedia.org/wiki/Arnaud_Montebourg"
+        },
+        {
+          "id": "Q930418",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Richard_(homme_politique)"
+        }
+      ]
+    },
+    {
+      "id": "Q2986712",
+      "label": "Commission Attali",
+      "properties": [
+        "P108",
+        "P463"
+      ],
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP108+wdt%3AP463+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ2986712%3B+wdt%3AP31+wd%3AQ5.%0A++++%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P108 wdt:P463 }\n    ?person ?property wd:Q2986712; wdt:P31 wd:Q5.\n    \n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": false,
+      "selected": [
+        {
+          "id": "Q15926300",
+          "article": "https://fr.wikipedia.org/wiki/Yves_de_Kerdrel"
+        },
+        {
+          "id": "Q29578021",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Ferracci"
+        },
+        {
+          "id": "Q3052772",
+          "article": "https://fr.wikipedia.org/wiki/Emmanuel_Macron"
+        },
+        {
+          "id": "Q3101149",
+          "article": "https://fr.wikipedia.org/wiki/Geoffroy_Roux_de_B%C3%A9zieux"
+        },
+        {
+          "id": "Q3311212",
+          "article": "https://fr.wikipedia.org/wiki/Michel_de_Virville"
+        },
+        {
+          "id": "Q3570671",
+          "article": "https://fr.wikipedia.org/wiki/Xavier_Fontanet"
+        }
+      ]
+    },
+    {
+      "id": "Q273579",
+      "label": "ENA",
+      "properties": [
+        "P69"
+      ],
+      "political": true,
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP69+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ273579%3B+wdt%3AP31+wd%3AQ5.%0A++++%3Fperson+wdt%3AP27+wd%3AQ142.+FILTER+EXISTS+%7B+%3Fperson+wdt%3AP102+%3Fparty.+%7D%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P69 }\n    ?person ?property wd:Q273579; wdt:P31 wd:Q5.\n    ?person wdt:P27 wd:Q142. FILTER EXISTS { ?person wdt:P102 ?party. }\n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q157",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande"
+        },
+        {
+          "id": "Q1031645",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Louis_Bianco"
+        },
+        {
+          "id": "Q1074632",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Cyril_Spinetta"
+        },
+        {
+          "id": "Q1267749",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Fr%C3%A9mont"
+        },
+        {
+          "id": "Q1305536",
+          "article": "https://fr.wikipedia.org/wiki/Robert_Pandraud"
+        },
+        {
+          "id": "Q131660",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_de_Villepin"
+        },
+        {
+          "id": "Q135922868",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Bertinotti"
+        },
+        {
+          "id": "Q1360173",
+          "article": "https://fr.wikipedia.org/wiki/G%C3%A9rard_Longuet"
+        },
+        {
+          "id": "Q1366170",
+          "article": "https://fr.wikipedia.org/wiki/Herv%C3%A9_de_Charette"
+        },
+        {
+          "id": "Q1379752",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Toubon"
+        },
+        {
+          "id": "Q1394083",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_L%C3%A9otard"
+        },
+        {
+          "id": "Q1394814",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Fran%C3%A7ois-Poncet"
+        },
+        {
+          "id": "Q1399412",
+          "article": "https://fr.wikipedia.org/wiki/Paul-Marie_Co%C3%BBteaux"
+        },
+        {
+          "id": "Q1457778",
+          "article": "https://fr.wikipedia.org/wiki/Julien_Aubert"
+        },
+        {
+          "id": "Q152905",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Claude_Trichet"
+        },
+        {
+          "id": "Q1534217",
+          "article": "https://fr.wikipedia.org/wiki/Charles_de_La_Verpilli%C3%A8re"
+        },
+        {
+          "id": "Q15973233",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Alexandre"
+        },
+        {
+          "id": "Q16637081",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Froment-Meurice"
+        },
+        {
+          "id": "Q16663096",
+          "article": "https://fr.wikipedia.org/wiki/Mario_B%C3%A9nard"
+        },
+        {
+          "id": "Q1678056",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Nikonoff"
+        },
+        {
+          "id": "Q1685157",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Philippe_Lecat"
+        },
+        {
+          "id": "Q1685206",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Pierre_Fourcade"
+        },
+        {
+          "id": "Q16855112",
+          "article": "https://fr.wikipedia.org/wiki/Robert_de_Caumont"
+        },
+        {
+          "id": "Q1685665",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Herly"
+        },
+        {
+          "id": "Q1717882",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Ferrand"
+        },
+        {
+          "id": "Q17353198",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Gustin"
+        },
+        {
+          "id": "Q17353202",
+          "article": "https://fr.wikipedia.org/wiki/Claude_Rochet"
+        },
+        {
+          "id": "Q17628923",
+          "article": "https://fr.wikipedia.org/wiki/Gaspard_Gantzer"
+        },
+        {
+          "id": "Q18202525",
+          "article": "https://fr.wikipedia.org/wiki/Claude_Raynal"
+        },
+        {
+          "id": "Q18214171",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Paul_Bolufer"
+        },
+        {
+          "id": "Q182786",
+          "article": "https://fr.wikipedia.org/wiki/Herv%C3%A9_Gaymard"
+        },
+        {
+          "id": "Q187099",
+          "article": "https://fr.wikipedia.org/wiki/Lionel_Jospin"
+        },
+        {
+          "id": "Q19360792",
+          "article": "https://fr.wikipedia.org/wiki/G%C3%A9rard_Prioux"
+        },
+        {
+          "id": "Q19629275",
+          "article": "https://fr.wikipedia.org/wiki/Juliette_M%C3%A9adel"
+        },
+        {
+          "id": "Q19629335",
+          "article": "https://fr.wikipedia.org/wiki/Constance_Rivi%C3%A8re"
+        },
+        {
+          "id": "Q2067897",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Paul_Huchon"
+        },
+        {
+          "id": "Q2087733",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Sanmarco"
+        },
+        {
+          "id": "Q2093637",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Lelong_(homme_politique)"
+        },
+        {
+          "id": "Q215569",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Jupp%C3%A9"
+        },
+        {
+          "id": "Q217070",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Fabius"
+        },
+        {
+          "id": "Q22683089",
+          "article": "https://fr.wikipedia.org/wiki/Audrey_Azoulay"
+        },
+        {
+          "id": "Q2277782",
+          "article": "https://fr.wikipedia.org/wiki/Clotilde_Valter"
+        },
+        {
+          "id": "Q228977",
+          "article": "https://fr.wikipedia.org/wiki/Martine_Aubry"
+        },
+        {
+          "id": "Q23060444",
+          "article": "https://fr.wikipedia.org/wiki/Fabrice_Leggeri"
+        },
+        {
+          "id": "Q2386047",
+          "article": "https://fr.wikipedia.org/wiki/Didier_Quentin"
+        },
+        {
+          "id": "Q23926123",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Mendelson"
+        },
+        {
+          "id": "Q2441800",
+          "article": "https://fr.wikipedia.org/wiki/Josselin_de_Rohan"
+        },
+        {
+          "id": "Q2472833",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Bernard_Raimond"
+        },
+        {
+          "id": "Q247924",
+          "article": "https://fr.wikipedia.org/wiki/Sylvie_Goulard"
+        },
+        {
+          "id": "Q24937876",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Fran%C3%A7ois_Kesler"
+        },
+        {
+          "id": "Q2647273",
+          "article": "https://fr.wikipedia.org/wiki/Sylvie_Hubac"
+        },
+        {
+          "id": "Q268660",
+          "article": "https://fr.wikipedia.org/wiki/Fleur_Pellerin"
+        },
+        {
+          "id": "Q273396",
+          "article": "https://fr.wikipedia.org/wiki/Catherine_Colonna"
+        },
+        {
+          "id": "Q274689",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89lisabeth_Guigou"
+        },
+        {
+          "id": "Q2749277",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Souchet"
+        },
+        {
+          "id": "Q277183",
+          "article": "https://fr.wikipedia.org/wiki/Pascal_Lamy"
+        },
+        {
+          "id": "Q27755011",
+          "article": "https://fr.wikipedia.org/wiki/Gilles_Clavreul"
+        },
+        {
+          "id": "Q28052654",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89liane_Brault"
+        },
+        {
+          "id": "Q28105007",
+          "article": "https://fr.wikipedia.org/wiki/Gilles_Dufeigneux"
+        },
+        {
+          "id": "Q2829611",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Bournazel"
+        }
+      ]
+    },
+    {
+      "id": "Q859363",
+      "label": "Sciences Po Paris",
+      "properties": [
+        "P69"
+      ],
+      "political": true,
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP69+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ859363%3B+wdt%3AP31+wd%3AQ5.%0A++++%3Fperson+wdt%3AP27+wd%3AQ142.+FILTER+EXISTS+%7B+%3Fperson+wdt%3AP102+%3Fparty.+%7D%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P69 }\n    ?person ?property wd:Q859363; wdt:P31 wd:Q5.\n    ?person wdt:P27 wd:Q142. FILTER EXISTS { ?person wdt:P102 ?party. }\n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q157",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande"
+        },
+        {
+          "id": "Q101410",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Fillon"
+        },
+        {
+          "id": "Q1031645",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Louis_Bianco"
+        },
+        {
+          "id": "Q1074632",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Cyril_Spinetta"
+        },
+        {
+          "id": "Q108702159",
+          "article": "https://fr.wikipedia.org/wiki/M%C3%A9lanie_Vogel"
+        },
+        {
+          "id": "Q108846334",
+          "article": "https://fr.wikipedia.org/wiki/Le%C3%AFla_Benali"
+        },
+        {
+          "id": "Q109969696",
+          "article": "https://fr.wikipedia.org/wiki/Cl%C3%A9mence_Guett%C3%A9"
+        },
+        {
+          "id": "Q112638162",
+          "article": "https://fr.wikipedia.org/wiki/Nicolas_Ray"
+        },
+        {
+          "id": "Q112650708",
+          "article": "https://fr.wikipedia.org/wiki/Julie_Laernoes"
+        },
+        {
+          "id": "Q112652262",
+          "article": "https://fr.wikipedia.org/wiki/Marie-Charlotte_Garin"
+        },
+        {
+          "id": "Q112892896",
+          "article": "https://fr.wikipedia.org/wiki/Fanta_Berete"
+        },
+        {
+          "id": "Q117340",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_de_Rugy"
+        },
+        {
+          "id": "Q121033454",
+          "article": "https://fr.wikipedia.org/wiki/Anne-C%C3%A9cile_Suzanne"
+        },
+        {
+          "id": "Q1238159",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Baudis"
+        },
+        {
+          "id": "Q1238702",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Jamet"
+        },
+        {
+          "id": "Q124439687",
+          "article": "https://fr.wikipedia.org/wiki/Claire_Lejeune_(femme_politique)"
+        },
+        {
+          "id": "Q124620577",
+          "article": "https://fr.wikipedia.org/wiki/C%C3%A9line_Imart"
+        },
+        {
+          "id": "Q126368693",
+          "article": "https://fr.wikipedia.org/wiki/Rachel-Flore_Pardo"
+        },
+        {
+          "id": "Q126539921",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Alloncle"
+        },
+        {
+          "id": "Q127256447",
+          "article": "https://fr.wikipedia.org/wiki/Vincent_Caure"
+        },
+        {
+          "id": "Q129193465",
+          "article": "https://fr.wikipedia.org/wiki/Sophie_Briante_Guillemont"
+        },
+        {
+          "id": "Q129458",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois-Georges_Dreyfus"
+        },
+        {
+          "id": "Q1305536",
+          "article": "https://fr.wikipedia.org/wiki/Robert_Pandraud"
+        },
+        {
+          "id": "Q131660",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_de_Villepin"
+        },
+        {
+          "id": "Q1347791",
+          "article": "https://fr.wikipedia.org/wiki/Henri_Emmanuelli"
+        },
+        {
+          "id": "Q1353605",
+          "article": "https://fr.wikipedia.org/wiki/Pascal_Cl%C3%A9ment"
+        },
+        {
+          "id": "Q135922868",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Bertinotti"
+        },
+        {
+          "id": "Q1360173",
+          "article": "https://fr.wikipedia.org/wiki/G%C3%A9rard_Longuet"
+        },
+        {
+          "id": "Q1366170",
+          "article": "https://fr.wikipedia.org/wiki/Herv%C3%A9_de_Charette"
+        },
+        {
+          "id": "Q1383590",
+          "article": "https://fr.wikipedia.org/wiki/Patrick_Devedjian"
+        },
+        {
+          "id": "Q1415007",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Beauvais"
+        },
+        {
+          "id": "Q1457778",
+          "article": "https://fr.wikipedia.org/wiki/Julien_Aubert"
+        },
+        {
+          "id": "Q14626624",
+          "article": "https://fr.wikipedia.org/wiki/Claude_du_Granrut"
+        },
+        {
+          "id": "Q1521083",
+          "article": "https://fr.wikipedia.org/wiki/Michel_d%27Ailli%C3%A8res"
+        },
+        {
+          "id": "Q152472",
+          "article": "https://fr.wikipedia.org/wiki/%C3%8Dngrid_Betancourt"
+        },
+        {
+          "id": "Q152905",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Claude_Trichet"
+        },
+        {
+          "id": "Q1534217",
+          "article": "https://fr.wikipedia.org/wiki/Charles_de_La_Verpilli%C3%A8re"
+        },
+        {
+          "id": "Q15869276",
+          "article": "https://fr.wikipedia.org/wiki/Guillaume_Bigot_(homme_politique)"
+        },
+        {
+          "id": "Q15973233",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Alexandre"
+        },
+        {
+          "id": "Q16011466",
+          "article": "https://fr.wikipedia.org/wiki/Odile_Leperre-Verrier"
+        },
+        {
+          "id": "Q160640",
+          "article": "https://fr.wikipedia.org/wiki/Raymond_Aron"
+        },
+        {
+          "id": "Q16266390",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Jos%C3%A9_Cl%C3%A9ment"
+        },
+        {
+          "id": "Q16266609",
+          "article": "https://fr.wikipedia.org/wiki/Nicole_Chouraqui"
+        },
+        {
+          "id": "Q16266697",
+          "article": "https://fr.wikipedia.org/wiki/Gis%C3%A8le_Charzat"
+        },
+        {
+          "id": "Q16266968",
+          "article": "https://fr.wikipedia.org/wiki/Aymeric_Simon-Lori%C3%A8re"
+        },
+        {
+          "id": "Q1627344",
+          "article": "https://fr.wikipedia.org/wiki/Sabine_Herold"
+        },
+        {
+          "id": "Q16645322",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Paul_Benoit_(homme_politique)"
+        },
+        {
+          "id": "Q16646407",
+          "article": "https://fr.wikipedia.org/wiki/Jo%C3%ABl_Bruneau"
+        },
+        {
+          "id": "Q16666184",
+          "article": "https://fr.wikipedia.org/wiki/Nathalie_Loiseau"
+        },
+        {
+          "id": "Q1677979",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Huntzinger"
+        },
+        {
+          "id": "Q1684958",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Louis_Brugui%C3%A8re"
+        },
+        {
+          "id": "Q1685157",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Philippe_Lecat"
+        },
+        {
+          "id": "Q1717882",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Ferrand"
+        },
+        {
+          "id": "Q17628923",
+          "article": "https://fr.wikipedia.org/wiki/Gaspard_Gantzer"
+        },
+        {
+          "id": "Q1768192",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Rousset"
+        },
+        {
+          "id": "Q1778536",
+          "article": "https://fr.wikipedia.org/wiki/Karine_Berger"
+        },
+        {
+          "id": "Q18202524",
+          "article": "https://fr.wikipedia.org/wiki/Louis-Jean_de_Nicola%C3%BF"
+        },
+        {
+          "id": "Q18202533",
+          "article": "https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Durain"
+        },
+        {
+          "id": "Q18214171",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Paul_Bolufer"
+        },
+        {
+          "id": "Q18222179",
+          "article": "https://fr.wikipedia.org/wiki/Roger_de_Saivre"
+        }
+      ]
+    },
+    {
+      "id": "Q273535",
+      "label": "HEC Paris",
+      "properties": [
+        "P69"
+      ],
+      "political": true,
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP69+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ273535%3B+wdt%3AP31+wd%3AQ5.%0A++++%3Fperson+wdt%3AP27+wd%3AQ142.+FILTER+EXISTS+%7B+%3Fperson+wdt%3AP102+%3Fparty.+%7D%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P69 }\n    ?person ?property wd:Q273535; wdt:P31 wd:Q5.\n    ?person wdt:P27 wd:Q142. FILTER EXISTS { ?person wdt:P102 ?party. }\n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q157",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande"
+        },
+        {
+          "id": "Q111685323",
+          "article": "https://fr.wikipedia.org/wiki/Renaud_Labaye"
+        },
+        {
+          "id": "Q124315934",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_de_Gaulle_(n%C3%A9_en_1963)"
+        },
+        {
+          "id": "Q126539921",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Alloncle"
+        },
+        {
+          "id": "Q135922868",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Bertinotti"
+        },
+        {
+          "id": "Q1366170",
+          "article": "https://fr.wikipedia.org/wiki/Herv%C3%A9_de_Charette"
+        },
+        {
+          "id": "Q1432745",
+          "article": "https://fr.wikipedia.org/wiki/Xavier_de_Villepin"
+        },
+        {
+          "id": "Q15973233",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Alexandre"
+        },
+        {
+          "id": "Q16012493",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Perroy"
+        },
+        {
+          "id": "Q161076",
+          "article": "https://fr.wikipedia.org/wiki/Paul_Reynaud"
+        },
+        {
+          "id": "Q1627344",
+          "article": "https://fr.wikipedia.org/wiki/Sabine_Herold"
+        },
+        {
+          "id": "Q16980202",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_Monot"
+        },
+        {
+          "id": "Q1717882",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Ferrand"
+        },
+        {
+          "id": "Q200525",
+          "article": "https://fr.wikipedia.org/wiki/Louis_Daquin"
+        },
+        {
+          "id": "Q2093915",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Rosanvallon"
+        },
+        {
+          "id": "Q21163373",
+          "article": "https://fr.wikipedia.org/wiki/Alfred_Pose"
+        },
+        {
+          "id": "Q24940106",
+          "article": "https://fr.wikipedia.org/wiki/Nicolas_Daragon"
+        },
+        {
+          "id": "Q277183",
+          "article": "https://fr.wikipedia.org/wiki/Pascal_Lamy"
+        },
+        {
+          "id": "Q2847751",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Ferrand"
+        },
+        {
+          "id": "Q2856743",
+          "article": "https://fr.wikipedia.org/wiki/Antoine_Spire"
+        },
+        {
+          "id": "Q288486",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89ric_Woerth"
+        },
+        {
+          "id": "Q2896127",
+          "article": "https://fr.wikipedia.org/wiki/Benjamin_Lancar"
+        },
+        {
+          "id": "Q2897604",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_Brochand"
+        },
+        {
+          "id": "Q2899503",
+          "article": "https://fr.wikipedia.org/wiki/Bertrand_Denis"
+        },
+        {
+          "id": "Q29210910",
+          "article": "https://fr.wikipedia.org/wiki/Benjamin_Griveaux"
+        },
+        {
+          "id": "Q29634279",
+          "article": "https://fr.wikipedia.org/wiki/Marc_Ferracci"
+        },
+        {
+          "id": "Q2965680",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Vieljeux"
+        },
+        {
+          "id": "Q29848005",
+          "article": "https://fr.wikipedia.org/wiki/Sophie_Ferracci"
+        },
+        {
+          "id": "Q29896279",
+          "article": "https://fr.wikipedia.org/wiki/Ma%C3%ABl_de_Calan"
+        },
+        {
+          "id": "Q30339190",
+          "article": "https://fr.wikipedia.org/wiki/B%C3%A9n%C3%A9dicte_Peyrol"
+        },
+        {
+          "id": "Q30339198",
+          "article": "https://fr.wikipedia.org/wiki/Jean-No%C3%ABl_Barrot"
+        },
+        {
+          "id": "Q30343112",
+          "article": "https://fr.wikipedia.org/wiki/Stanislas_Guerini"
+        },
+        {
+          "id": "Q3035111",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Dord"
+        },
+        {
+          "id": "Q30379410",
+          "article": "https://fr.wikipedia.org/wiki/Am%C3%A9lie_de_Montchalin"
+        },
+        {
+          "id": "Q30417849",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Ren%C3%A9_Cazeneuve"
+        },
+        {
+          "id": "Q3074223",
+          "article": "https://fr.wikipedia.org/wiki/Florian_Philippot"
+        },
+        {
+          "id": "Q3085545",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Peugeot"
+        },
+        {
+          "id": "Q3086090",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_d%27Aubert"
+        },
+        {
+          "id": "Q3103250",
+          "article": "https://fr.wikipedia.org/wiki/Georges_M%C3%A9nier"
+        },
+        {
+          "id": "Q3106149",
+          "article": "https://fr.wikipedia.org/wiki/Gilles_Carrez"
+        },
+        {
+          "id": "Q3122301",
+          "article": "https://fr.wikipedia.org/wiki/Guy_de_Wendel"
+        },
+        {
+          "id": "Q3131999",
+          "article": "https://fr.wikipedia.org/wiki/Henri_Sellier"
+        },
+        {
+          "id": "Q3132080",
+          "article": "https://fr.wikipedia.org/wiki/Henri_Torre"
+        },
+        {
+          "id": "Q3158580",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Cotta_(politique)"
+        },
+        {
+          "id": "Q3159696",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Oudin_(homme_politique)"
+        },
+        {
+          "id": "Q3165004",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Claude_Guibal"
+        },
+        {
+          "id": "Q3169936",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Richard_Sulzer"
+        },
+        {
+          "id": "Q3175427",
+          "article": "https://fr.wikipedia.org/wiki/Jean_de_Gaulle"
+        },
+        {
+          "id": "Q325235",
+          "article": "https://fr.wikipedia.org/wiki/Joseph_Fontanet"
+        },
+        {
+          "id": "Q3309809",
+          "article": "https://fr.wikipedia.org/wiki/Michel_Grall"
+        },
+        {
+          "id": "Q33103571",
+          "article": "https://fr.wikipedia.org/wiki/C%C3%A9dric_O"
+        },
+        {
+          "id": "Q33106414",
+          "article": "https://fr.wikipedia.org/wiki/Astrid_Panosyan-Bouvet"
+        },
+        {
+          "id": "Q33111521",
+          "article": "https://fr.wikipedia.org/wiki/Guillaume_Boudy"
+        },
+        {
+          "id": "Q33142338",
+          "article": "https://fr.wikipedia.org/wiki/Emmanuelle_Wargon"
+        },
+        {
+          "id": "Q33230494",
+          "article": "https://fr.wikipedia.org/wiki/Agn%C3%A8s_Pannier-Runacher"
+        },
+        {
+          "id": "Q3385940",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Lequiller"
+        },
+        {
+          "id": "Q3386306",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Moca%C3%ABr"
+        },
+        {
+          "id": "Q3479423",
+          "article": "https://fr.wikipedia.org/wiki/Serge_Lepeltier"
+        },
+        {
+          "id": "Q3524070",
+          "article": "https://fr.wikipedia.org/wiki/Thibaut_de_La_Tocnaye"
+        },
+        {
+          "id": "Q3559620",
+          "article": "https://fr.wikipedia.org/wiki/Vincent_Feltesse"
+        }
+      ]
+    },
+    {
+      "id": "Q273626",
+      "label": "École polytechnique",
+      "properties": [
+        "P69"
+      ],
+      "political": true,
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP69+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ273626%3B+wdt%3AP31+wd%3AQ5.%0A++++%3Fperson+wdt%3AP27+wd%3AQ142.+FILTER+EXISTS+%7B+%3Fperson+wdt%3AP102+%3Fparty.+%7D%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P69 }\n    ?person ?property wd:Q273626; wdt:P31 wd:Q5.\n    ?person wdt:P27 wd:Q142. FILTER EXISTS { ?person wdt:P102 ?party. }\n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q105761610",
+          "article": "https://fr.wikipedia.org/wiki/Louis-Spiridion_Frain_de_La_Villegontier"
+        },
+        {
+          "id": "Q114756434",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_de_Lassus_Saint-Geni%C3%A8s"
+        },
+        {
+          "id": "Q1248451",
+          "article": "https://fr.wikipedia.org/wiki/Marc_Sangnier"
+        },
+        {
+          "id": "Q1398687",
+          "article": "https://fr.wikipedia.org/wiki/Jacques_Rueff"
+        },
+        {
+          "id": "Q1424117",
+          "article": "https://fr.wikipedia.org/wiki/Georges_Humbert"
+        },
+        {
+          "id": "Q154353",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Arago"
+        },
+        {
+          "id": "Q15696910",
+          "article": "https://fr.wikipedia.org/wiki/Virginie_Rozi%C3%A8re"
+        },
+        {
+          "id": "Q158749",
+          "article": "https://fr.wikipedia.org/wiki/Albert_Lebrun"
+        },
+        {
+          "id": "Q15968696",
+          "article": "https://fr.wikipedia.org/wiki/Charles_B%C3%A9rigny"
+        },
+        {
+          "id": "Q15968787",
+          "article": "https://fr.wikipedia.org/wiki/Adrien-Gustave-Thibaut_Sanlot-Baguenault"
+        },
+        {
+          "id": "Q15969360",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Marie_Philibert_de_Saget"
+        },
+        {
+          "id": "Q16011118",
+          "article": "https://fr.wikipedia.org/wiki/Marcel_Delaune"
+        },
+        {
+          "id": "Q16011242",
+          "article": "https://fr.wikipedia.org/wiki/Joseph_Jules_de_Foucauld"
+        },
+        {
+          "id": "Q16025724",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Fournier_(homme_politique,_1810-1889)"
+        },
+        {
+          "id": "Q16026204",
+          "article": "https://fr.wikipedia.org/wiki/Georges_Noblemaire"
+        },
+        {
+          "id": "Q16026275",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89mile_Paturet"
+        },
+        {
+          "id": "Q16026582",
+          "article": "https://fr.wikipedia.org/wiki/Georges_Vandame"
+        },
+        {
+          "id": "Q16027198",
+          "article": "https://fr.wikipedia.org/wiki/F%C3%A9lix_Jean-Baptiste_Joseph_Reibell"
+        },
+        {
+          "id": "Q1778536",
+          "article": "https://fr.wikipedia.org/wiki/Karine_Berger"
+        },
+        {
+          "id": "Q1973016",
+          "article": "https://fr.wikipedia.org/wiki/Robert_Mitterrand"
+        },
+        {
+          "id": "Q20020731",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89lisabeth_Borne"
+        },
+        {
+          "id": "Q20027704",
+          "article": "https://fr.wikipedia.org/wiki/Charles-Andr%C3%A9_de_La_Jaille"
+        },
+        {
+          "id": "Q2020016",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Paul_Alduy"
+        },
+        {
+          "id": "Q20666464",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Cotereau"
+        },
+        {
+          "id": "Q20961772",
+          "article": "https://fr.wikipedia.org/wiki/Eug%C3%A8ne_Chaper"
+        },
+        {
+          "id": "Q215778",
+          "article": "https://fr.wikipedia.org/wiki/Sadi_Carnot_(homme_d%27%C3%89tat)"
+        },
+        {
+          "id": "Q22575690",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Tupinier"
+        },
+        {
+          "id": "Q2447029",
+          "article": "https://fr.wikipedia.org/wiki/Maurice_Lemaire"
+        },
+        {
+          "id": "Q2469507",
+          "article": "https://fr.wikipedia.org/wiki/Napol%C3%A9on_Daru"
+        },
+        {
+          "id": "Q2487707",
+          "article": "https://fr.wikipedia.org/wiki/Raymond_Abellio"
+        },
+        {
+          "id": "Q2564543",
+          "article": "https://fr.wikipedia.org/wiki/Jules_Moch"
+        },
+        {
+          "id": "Q268595",
+          "article": "https://fr.wikipedia.org/wiki/Nathalie_Kosciusko-Morizet"
+        },
+        {
+          "id": "Q27179079",
+          "article": "https://fr.wikipedia.org/wiki/Claude_Martinand"
+        },
+        {
+          "id": "Q2788498",
+          "article": "https://fr.wikipedia.org/wiki/Louis_Loucheur"
+        },
+        {
+          "id": "Q2795878",
+          "article": "https://fr.wikipedia.org/wiki/Ernest_C%C3%A9zanne"
+        },
+        {
+          "id": "Q2823045",
+          "article": "https://fr.wikipedia.org/wiki/Achille_Chaper"
+        },
+        {
+          "id": "Q2831353",
+          "article": "https://fr.wikipedia.org/wiki/Albert_Louppe"
+        },
+        {
+          "id": "Q2831368",
+          "article": "https://fr.wikipedia.org/wiki/Albert_Mahieu_(1864-1943)"
+        },
+        {
+          "id": "Q2834191",
+          "article": "https://fr.wikipedia.org/wiki/Alexandre_de_Lavrignais"
+        },
+        {
+          "id": "Q2847229",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Baud"
+        },
+        {
+          "id": "Q2847253",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Bellon"
+        },
+        {
+          "id": "Q2847355",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Boulloche"
+        },
+        {
+          "id": "Q2848727",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Turcat"
+        },
+        {
+          "id": "Q2849286",
+          "article": "https://fr.wikipedia.org/wiki/Ange_Gu%C3%A9pin"
+        },
+        {
+          "id": "Q2871179",
+          "article": "https://fr.wikipedia.org/wiki/Auguste_Ernest_d%27Aboville"
+        },
+        {
+          "id": "Q28872760",
+          "article": "https://fr.wikipedia.org/wiki/Vincent_Chriqui"
+        },
+        {
+          "id": "Q2898848",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_de_Vesins"
+        },
+        {
+          "id": "Q2926756",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_Durieux"
+        },
+        {
+          "id": "Q2934973",
+          "article": "https://fr.wikipedia.org/wiki/Camille_Krantz"
+        },
+        {
+          "id": "Q2958982",
+          "article": "https://fr.wikipedia.org/wiki/Maurice_Dutheil_de_La_Roch%C3%A8re"
+        },
+        {
+          "id": "Q2959806",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Meunier-Surcouf"
+        },
+        {
+          "id": "Q2965623",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Sautter"
+        },
+        {
+          "id": "Q30130489",
+          "article": "https://fr.wikipedia.org/wiki/Roland_Lescure"
+        },
+        {
+          "id": "Q3022530",
+          "article": "https://fr.wikipedia.org/wiki/Denis_Badr%C3%A9"
+        },
+        {
+          "id": "Q30339276",
+          "article": "https://fr.wikipedia.org/wiki/C%C3%A9lia_de_Lavergne"
+        },
+        {
+          "id": "Q30343005",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Baptiste_Djebbari"
+        },
+        {
+          "id": "Q3074087",
+          "article": "https://fr.wikipedia.org/wiki/Florent_Guillain"
+        },
+        {
+          "id": "Q3079081",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89mile_Zuccarelli"
+        },
+        {
+          "id": "Q3085037",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Kosciusko-Morizet"
+        },
+        {
+          "id": "Q3086350",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_du_Castel"
+        }
+      ]
+    },
+    {
+      "id": "Q1394262",
+      "label": "Paris-Nanterre",
+      "properties": [
+        "P69"
+      ],
+      "political": true,
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP69+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ1394262%3B+wdt%3AP31+wd%3AQ5.%0A++++%3Fperson+wdt%3AP27+wd%3AQ142.+FILTER+EXISTS+%7B+%3Fperson+wdt%3AP102+%3Fparty.+%7D%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P69 }\n    ?person ?property wd:Q1394262; wdt:P31 wd:Q5.\n    ?person wdt:P27 wd:Q142. FILTER EXISTS { ?person wdt:P102 ?party. }\n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q111975875",
+          "article": "https://fr.wikipedia.org/wiki/Pierre_Mouterde"
+        },
+        {
+          "id": "Q131660",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_de_Villepin"
+        },
+        {
+          "id": "Q139967943",
+          "article": "https://fr.wikipedia.org/wiki/Charlotte_Puiseux"
+        },
+        {
+          "id": "Q15629749",
+          "article": "https://fr.wikipedia.org/wiki/Gilbert_Badia"
+        },
+        {
+          "id": "Q158030",
+          "article": "https://fr.wikipedia.org/wiki/Cornelius_Castoriadis"
+        },
+        {
+          "id": "Q1684726",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Christophe_Cambad%C3%A9lis"
+        },
+        {
+          "id": "Q1684904",
+          "article": "https://fr.wikipedia.org/wiki/Jean-Jacques_Becker"
+        },
+        {
+          "id": "Q19629335",
+          "article": "https://fr.wikipedia.org/wiki/Constance_Rivi%C3%A8re"
+        },
+        {
+          "id": "Q20024083",
+          "article": "https://fr.wikipedia.org/wiki/Anne_Courtill%C3%A9"
+        },
+        {
+          "id": "Q20857507",
+          "article": "https://fr.wikipedia.org/wiki/Danielle_Simonnet"
+        },
+        {
+          "id": "Q21634444",
+          "article": "https://fr.wikipedia.org/wiki/Gilles_Boyer"
+        },
+        {
+          "id": "Q23701432",
+          "article": "https://fr.wikipedia.org/wiki/Natalie_Depraz"
+        },
+        {
+          "id": "Q2398475",
+          "article": "https://fr.wikipedia.org/wiki/Gilles_Catoire"
+        },
+        {
+          "id": "Q273143",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7oise_de_Panafieu"
+        },
+        {
+          "id": "Q2829621",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Brossat"
+        },
+        {
+          "id": "Q2848031",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Kaspi"
+        },
+        {
+          "id": "Q2851133",
+          "article": "https://fr.wikipedia.org/wiki/Anne_Hidalgo"
+        },
+        {
+          "id": "Q2897924",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_Friot_(sociologue)"
+        },
+        {
+          "id": "Q2926688",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_Chauvierre"
+        },
+        {
+          "id": "Q2926861",
+          "article": "https://fr.wikipedia.org/wiki/Bruno_Le_Roux"
+        },
+        {
+          "id": "Q2939987",
+          "article": "https://fr.wikipedia.org/wiki/Caroline_De_Haas"
+        },
+        {
+          "id": "Q2940040",
+          "article": "https://fr.wikipedia.org/wiki/Caroline_M%C3%A9cary"
+        },
+        {
+          "id": "Q2956266",
+          "article": "https://fr.wikipedia.org/wiki/Chantal_Brunel"
+        },
+        {
+          "id": "Q29574353",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Messiha"
+        },
+        {
+          "id": "Q2964194",
+          "article": "https://fr.wikipedia.org/wiki/Chlo%C3%A9_Delaume"
+        },
+        {
+          "id": "Q2966268",
+          "article": "https://fr.wikipedia.org/wiki/Christophe_Gr%C3%A9bert"
+        },
+        {
+          "id": "Q29863171",
+          "article": "https://fr.wikipedia.org/wiki/Ludovic_Chaker"
+        },
+        {
+          "id": "Q30339422",
+          "article": "https://fr.wikipedia.org/wiki/Ya%C3%ABl_Braun-Pivet"
+        },
+        {
+          "id": "Q30341962",
+          "article": "https://fr.wikipedia.org/wiki/Marie-Pierre_Vieu"
+        },
+        {
+          "id": "Q30349408",
+          "article": "https://fr.wikipedia.org/wiki/Olivia_Gr%C3%A9goire"
+        },
+        {
+          "id": "Q3035420",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Raimbourg"
+        },
+        {
+          "id": "Q3035512",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_Versini"
+        },
+        {
+          "id": "Q30511578",
+          "article": "https://fr.wikipedia.org/wiki/Nathalie_%C3%89limas"
+        },
+        {
+          "id": "Q3052772",
+          "article": "https://fr.wikipedia.org/wiki/Emmanuel_Macron"
+        },
+        {
+          "id": "Q3084310",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Cornut-Gentille"
+        },
+        {
+          "id": "Q3084390",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Delapierre"
+        },
+        {
+          "id": "Q3124179",
+          "article": "https://fr.wikipedia.org/wiki/G%C3%A9rard_Miller"
+        },
+        {
+          "id": "Q3144806",
+          "article": "https://fr.wikipedia.org/wiki/H%C3%A9l%C3%A8ne_Lipietz"
+        },
+        {
+          "id": "Q3154887",
+          "article": "https://fr.wikipedia.org/wiki/Isabelle_Caullery"
+        },
+        {
+          "id": "Q3157257",
+          "article": "https://fr.wikipedia.org/wiki/Jack_Marchal"
+        },
+        {
+          "id": "Q3176052",
+          "article": "https://fr.wikipedia.org/wiki/Jeanne_Gaillard"
+        },
+        {
+          "id": "Q3219206",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Escure"
+        },
+        {
+          "id": "Q3219320",
+          "article": "https://fr.wikipedia.org/wiki/Laurent_Lafon"
+        },
+        {
+          "id": "Q3281828",
+          "article": "https://fr.wikipedia.org/wiki/Malek_Boutih"
+        },
+        {
+          "id": "Q3291817",
+          "article": "https://fr.wikipedia.org/wiki/Marie-France_Stirbois"
+        },
+        {
+          "id": "Q3309933",
+          "article": "https://fr.wikipedia.org/wiki/Michel_Husson"
+        },
+        {
+          "id": "Q3328127",
+          "article": "https://fr.wikipedia.org/wiki/Muriel_P%C3%A9nicaud"
+        },
+        {
+          "id": "Q3340073",
+          "article": "https://fr.wikipedia.org/wiki/Nicolas_Bay"
+        },
+        {
+          "id": "Q3340381",
+          "article": "https://fr.wikipedia.org/wiki/Nicolas_Grimaldi"
+        },
+        {
+          "id": "Q3341068",
+          "article": "https://fr.wikipedia.org/wiki/Nicole_Lapierre"
+        },
+        {
+          "id": "Q3350998",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Duhamel"
+        },
+        {
+          "id": "Q3351279",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Pichon"
+        },
+        {
+          "id": "Q3378990",
+          "article": "https://fr.wikipedia.org/wiki/Philip_Cordery"
+        },
+        {
+          "id": "Q3379261",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Augier"
+        },
+        {
+          "id": "Q3379675",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Darriulat"
+        },
+        {
+          "id": "Q3380274",
+          "article": "https://fr.wikipedia.org/wiki/Philippe_Machefer"
+        },
+        {
+          "id": "Q3420616",
+          "article": "https://fr.wikipedia.org/wiki/Raymond-Max_Aubert"
+        },
+        {
+          "id": "Q3437024",
+          "article": "https://fr.wikipedia.org/wiki/Robi_Morder"
+        },
+        {
+          "id": "Q3476900",
+          "article": "https://fr.wikipedia.org/wiki/S%C3%A9bastien_Nadot"
+        },
+        {
+          "id": "Q3505930",
+          "article": "https://fr.wikipedia.org/wiki/Suzanne_Citron"
+        }
+      ]
+    },
+    {
+      "id": "Q662976",
+      "label": "Paris-Panthéon-Assas",
+      "properties": [
+        "P69"
+      ],
+      "political": true,
+      "limit": 60,
+      "sourceUrl": "https://query.wikidata.org/sparql?query=SELECT+DISTINCT+%3Fperson+%3Farticle+WHERE+%7B%0A++++VALUES+%3Fproperty+%7B+wdt%3AP69+%7D%0A++++%3Fperson+%3Fproperty+wd%3AQ662976%3B+wdt%3AP31+wd%3AQ5.%0A++++%3Fperson+wdt%3AP27+wd%3AQ142.+FILTER+EXISTS+%7B+%3Fperson+wdt%3AP102+%3Fparty.+%7D%0A++++%3Farticle+schema%3Aabout+%3Fperson%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Ffr.wikipedia.org%2F%3E.%0A++%7D+ORDER+BY+%3Fperson+LIMIT+61&format=json",
+      "query": "SELECT DISTINCT ?person ?article WHERE {\n    VALUES ?property { wdt:P69 }\n    ?person ?property wd:Q662976; wdt:P31 wd:Q5.\n    ?person wdt:P27 wd:Q142. FILTER EXISTS { ?person wdt:P102 ?party. }\n    ?article schema:about ?person; schema:isPartOf <https://fr.wikipedia.org/>.\n  } ORDER BY ?person LIMIT 61",
+      "capped": true,
+      "selected": [
+        {
+          "id": "Q157",
+          "article": "https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande"
+        },
+        {
+          "id": "Q100980908",
+          "article": "https://fr.wikipedia.org/wiki/Charles_Prats"
+        },
+        {
+          "id": "Q107447817",
+          "article": "https://fr.wikipedia.org/wiki/Gr%C3%A9goire_Potton"
+        },
+        {
+          "id": "Q112654108",
+          "article": "https://fr.wikipedia.org/wiki/Louis_Boyard"
+        },
+        {
+          "id": "Q11984595",
+          "article": "https://fr.wikipedia.org/wiki/Nicole_Belloubet"
+        },
+        {
+          "id": "Q126537376",
+          "article": "https://fr.wikipedia.org/wiki/Bartolom%C3%A9_Lenoir"
+        },
+        {
+          "id": "Q131660",
+          "article": "https://fr.wikipedia.org/wiki/Dominique_de_Villepin"
+        },
+        {
+          "id": "Q1321340",
+          "article": "https://fr.wikipedia.org/wiki/George_Pau-Langevin"
+        },
+        {
+          "id": "Q1360173",
+          "article": "https://fr.wikipedia.org/wiki/G%C3%A9rard_Longuet"
+        },
+        {
+          "id": "Q1383590",
+          "article": "https://fr.wikipedia.org/wiki/Patrick_Devedjian"
+        },
+        {
+          "id": "Q15869276",
+          "article": "https://fr.wikipedia.org/wiki/Guillaume_Bigot_(homme_politique)"
+        },
+        {
+          "id": "Q16024859",
+          "article": "https://fr.wikipedia.org/wiki/R%C3%A9gis_de_Castelnau"
+        },
+        {
+          "id": "Q16549460",
+          "article": "https://fr.wikipedia.org/wiki/Gilles_Lebreton"
+        },
+        {
+          "id": "Q1685859",
+          "article": "https://fr.wikipedia.org/wiki/Jean_Tiberi"
+        },
+        {
+          "id": "Q1778536",
+          "article": "https://fr.wikipedia.org/wiki/Karine_Berger"
+        },
+        {
+          "id": "Q18202568",
+          "article": "https://fr.wikipedia.org/wiki/Agn%C3%A8s_Canayer"
+        },
+        {
+          "id": "Q1922673",
+          "article": "https://fr.wikipedia.org/wiki/Gilbert_Collard"
+        },
+        {
+          "id": "Q19629414",
+          "article": "https://fr.wikipedia.org/wiki/Abel_Mestre"
+        },
+        {
+          "id": "Q20089181",
+          "article": "https://fr.wikipedia.org/wiki/S%C3%A9bastien_Lecornu"
+        },
+        {
+          "id": "Q20882460",
+          "article": "https://fr.wikipedia.org/wiki/Marie_Le_Vern"
+        },
+        {
+          "id": "Q228977",
+          "article": "https://fr.wikipedia.org/wiki/Martine_Aubry"
+        },
+        {
+          "id": "Q2409427",
+          "article": "https://fr.wikipedia.org/wiki/Patrick_Klugman"
+        },
+        {
+          "id": "Q2566436",
+          "article": "https://fr.wikipedia.org/wiki/Renaud_Camus"
+        },
+        {
+          "id": "Q268675",
+          "article": "https://fr.wikipedia.org/wiki/Christiane_Taubira"
+        },
+        {
+          "id": "Q271537",
+          "article": "https://fr.wikipedia.org/wiki/Christine_Boutin"
+        },
+        {
+          "id": "Q273701",
+          "article": "https://fr.wikipedia.org/wiki/Martine_Billard"
+        },
+        {
+          "id": "Q2746785",
+          "article": "https://fr.wikipedia.org/wiki/Claude_Goasguen"
+        },
+        {
+          "id": "Q28142272",
+          "article": "https://fr.wikipedia.org/wiki/Arash_Derambarsh"
+        },
+        {
+          "id": "Q2830145",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Orsoni"
+        },
+        {
+          "id": "Q2830267",
+          "article": "https://fr.wikipedia.org/wiki/Alain_Schmitz"
+        },
+        {
+          "id": "Q2832067",
+          "article": "https://fr.wikipedia.org/wiki/Alb%C3%A9ric_de_Montgolfier"
+        },
+        {
+          "id": "Q2841410",
+          "article": "https://fr.wikipedia.org/wiki/Amaury_de_Saint-Quentin"
+        },
+        {
+          "id": "Q2847578",
+          "article": "https://fr.wikipedia.org/wiki/Andr%C3%A9_Damien"
+        },
+        {
+          "id": "Q2851219",
+          "article": "https://fr.wikipedia.org/wiki/Anne_M%C3%A9aux"
+        },
+        {
+          "id": "Q2856427",
+          "article": "https://fr.wikipedia.org/wiki/Florent_Boudi%C3%A9"
+        },
+        {
+          "id": "Q288486",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89ric_Woerth"
+        },
+        {
+          "id": "Q2897641",
+          "article": "https://fr.wikipedia.org/wiki/Bernard_Carayon"
+        },
+        {
+          "id": "Q29018357",
+          "article": "https://fr.wikipedia.org/wiki/Damien_Rieu"
+        },
+        {
+          "id": "Q291341",
+          "article": "https://fr.wikipedia.org/wiki/Corinne_Lepage"
+        },
+        {
+          "id": "Q292458",
+          "article": "https://fr.wikipedia.org/wiki/Marion_Mar%C3%A9chal"
+        },
+        {
+          "id": "Q2935125",
+          "article": "https://fr.wikipedia.org/wiki/Camille_de_Rocca_Serra_(homme_politique,_1954)"
+        },
+        {
+          "id": "Q2965111",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Cambon"
+        },
+        {
+          "id": "Q2965229",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Dupuy"
+        },
+        {
+          "id": "Q2965615",
+          "article": "https://fr.wikipedia.org/wiki/Christian_Saint-%C3%89tienne"
+        },
+        {
+          "id": "Q2965938",
+          "article": "https://fr.wikipedia.org/wiki/Christine_Lazerges"
+        },
+        {
+          "id": "Q2976646",
+          "article": "https://fr.wikipedia.org/wiki/Claude-Annick_Tissot"
+        },
+        {
+          "id": "Q2977194",
+          "article": "https://fr.wikipedia.org/wiki/Claude_Chirac"
+        },
+        {
+          "id": "Q29848005",
+          "article": "https://fr.wikipedia.org/wiki/Sophie_Ferracci"
+        },
+        {
+          "id": "Q3014035",
+          "article": "https://fr.wikipedia.org/wiki/Daniel_Fasquelle"
+        },
+        {
+          "id": "Q3014427",
+          "article": "https://fr.wikipedia.org/wiki/Daniel_Marsin"
+        },
+        {
+          "id": "Q30334715",
+          "article": "https://fr.wikipedia.org/wiki/Anne-Laurence_Petel"
+        },
+        {
+          "id": "Q30337897",
+          "article": "https://fr.wikipedia.org/wiki/Typhanie_Degois"
+        },
+        {
+          "id": "Q30339190",
+          "article": "https://fr.wikipedia.org/wiki/B%C3%A9n%C3%A9dicte_Peyrol"
+        },
+        {
+          "id": "Q30339350",
+          "article": "https://fr.wikipedia.org/wiki/Gabriel_Attal"
+        },
+        {
+          "id": "Q30339394",
+          "article": "https://fr.wikipedia.org/wiki/%C3%89lodie_Jacquier-Laforge"
+        },
+        {
+          "id": "Q30348845",
+          "article": "https://fr.wikipedia.org/wiki/Olivier_Becht"
+        },
+        {
+          "id": "Q30349307",
+          "article": "https://fr.wikipedia.org/wiki/Isabelle_Florennes"
+        },
+        {
+          "id": "Q30349465",
+          "article": "https://fr.wikipedia.org/wiki/Sacha_Houli%C3%A9"
+        },
+        {
+          "id": "Q30388327",
+          "article": "https://fr.wikipedia.org/wiki/Marie-Pierre_Rixain"
+        },
+        {
+          "id": "Q30527240",
+          "article": "https://fr.wikipedia.org/wiki/Albane_Gaillot"
+        }
+      ]
+    }
+  ]
+}

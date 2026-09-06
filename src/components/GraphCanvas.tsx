@@ -52,8 +52,9 @@ function arrange({ entities, relations, focus, anchor }: Props, mobile: boolean)
 
 function frame(instance: Core, positions: Map<string, Position>, overview = false) {
   const points = [...positions.values()];
-  const halfWidth = Math.max(80, ...points.map(point => Math.abs(point.x))) + 135;
-  const halfHeight = Math.max(80, ...points.map(point => Math.abs(point.y))) + 95;
+  const bounds = overview ? instance.nodes().not('.leaving').boundingBox({ includeLabels: true }) : null;
+  const halfWidth = bounds ? Math.max(Math.abs(bounds.x1), Math.abs(bounds.x2)) + 18 : Math.max(80, ...points.map(point => Math.abs(point.x))) + 135;
+  const halfHeight = bounds ? Math.max(Math.abs(bounds.y1), Math.abs(bounds.y2)) + 24 : Math.max(80, ...points.map(point => Math.abs(point.y))) + 95;
   const zoom = Math.min(instance.width() / (halfWidth * 2), instance.height() / (halfHeight * 2), 1.1);
   return { zoom: Math.max(instance.width() < 500 && !overview ? .65 : .18, zoom), pan: { x: instance.width() / 2, y: instance.height() / 2 } };
 }
@@ -82,7 +83,8 @@ function updateScene(instance: Core, props: Props, animate: boolean) {
       const point = positions.get(entity.id)!;
       const isFocus = entity.id === focus;
       const location = Math.abs(point.x) > 180 ? (point.x < 0 ? 'label-left' : 'label-right') : point.y < 0 ? 'label-top' : '';
-      const data = { id: entity.id, label: shortLabel(entity).replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: badge(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12 };
+      const label = entity.label.length > 65 && entity.abbreviatedLabel ? entity.abbreviatedLabel : shortLabel(entity);
+      const data = { id: entity.id, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: badge(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12 };
       let node = instance.getElementById(entity.id);
       if (!node.length) {
         node = instance.add({ group: 'nodes', data, position: { ...(motion ? origin : point) } });

@@ -1,0 +1,233 @@
+{
+  "checkedAt": "2026-09-06T12:34:47.336Z",
+  "people": 492,
+  "entities": 2394,
+  "before": {
+    "statements": 797,
+    "datedStatements": 496
+  },
+  "after": {
+    "statements": 7568,
+    "datedStatements": 4766
+  },
+  "sources": {
+    "wikidata": 4699,
+    "assembly": 2836,
+    "hatvpViaIntegrityWatch": 17,
+    "officialCompositions": 16
+  },
+  "institutions": [
+    {
+      "id": "Q455484",
+      "label": "Areva",
+      "before": {
+        "people": 1,
+        "peopleWithUsableDates": 1,
+        "statements": 1,
+        "datedStatements": 1
+      },
+      "after": {
+        "people": 6,
+        "peopleWithUsableDates": 3,
+        "statements": 7,
+        "datedStatements": 3
+      }
+    },
+    {
+      "id": "Q3022385",
+      "label": "Rothschild & Cie",
+      "before": {
+        "people": 1,
+        "peopleWithUsableDates": 1,
+        "statements": 1,
+        "datedStatements": 1
+      },
+      "after": {
+        "people": 5,
+        "peopleWithUsableDates": 3,
+        "statements": 5,
+        "datedStatements": 3
+      }
+    },
+    {
+      "id": "Q1961890",
+      "label": "NM Rothschild & Sons",
+      "before": {
+        "people": 1,
+        "peopleWithUsableDates": 0,
+        "statements": 1,
+        "datedStatements": 0
+      },
+      "after": {
+        "people": 20,
+        "peopleWithUsableDates": 1,
+        "statements": 20,
+        "datedStatements": 1
+      }
+    },
+    {
+      "id": "Q3151643",
+      "label": "Inspection générale des finances",
+      "before": {
+        "people": 3,
+        "peopleWithUsableDates": 0,
+        "statements": 3,
+        "datedStatements": 0
+      },
+      "after": {
+        "people": 63,
+        "peopleWithUsableDates": 2,
+        "statements": 63,
+        "datedStatements": 2
+      }
+    },
+    {
+      "id": "Q3075672",
+      "label": "French-American Foundation",
+      "before": {
+        "people": 3,
+        "peopleWithUsableDates": 0,
+        "statements": 3,
+        "datedStatements": 0
+      },
+      "after": {
+        "people": 60,
+        "peopleWithUsableDates": 2,
+        "statements": 60,
+        "datedStatements": 2
+      }
+    },
+    {
+      "id": "Q2986712",
+      "label": "Commission Attali",
+      "before": {
+        "people": 6,
+        "peopleWithUsableDates": 6,
+        "statements": 11,
+        "datedStatements": 10
+      },
+      "after": {
+        "people": 11,
+        "peopleWithUsableDates": 6,
+        "statements": 16,
+        "datedStatements": 10
+      }
+    },
+    {
+      "id": "Q273579",
+      "label": "ENA",
+      "before": {
+        "people": 16,
+        "peopleWithUsableDates": 16,
+        "statements": 17,
+        "datedStatements": 16
+      },
+      "after": {
+        "people": 122,
+        "peopleWithUsableDates": 101,
+        "statements": 130,
+        "datedStatements": 106
+      }
+    },
+    {
+      "id": "Q859363",
+      "label": "Sciences Po Paris",
+      "before": {
+        "people": 20,
+        "peopleWithUsableDates": 3,
+        "statements": 21,
+        "datedStatements": 3
+      },
+      "after": {
+        "people": 170,
+        "peopleWithUsableDates": 12,
+        "statements": 179,
+        "datedStatements": 13
+      }
+    },
+    {
+      "id": "Q273535",
+      "label": "HEC Paris",
+      "before": {
+        "people": 2,
+        "peopleWithUsableDates": 0,
+        "statements": 2,
+        "datedStatements": 0
+      },
+      "after": {
+        "people": 79,
+        "peopleWithUsableDates": 5,
+        "statements": 81,
+        "datedStatements": 5
+      }
+    },
+    {
+      "id": "Q273626",
+      "label": "École polytechnique",
+      "before": {
+        "people": 3,
+        "peopleWithUsableDates": 1,
+        "statements": 4,
+        "datedStatements": 2
+      },
+      "after": {
+        "people": 78,
+        "peopleWithUsableDates": 7,
+        "statements": 81,
+        "datedStatements": 9
+      }
+    },
+    {
+      "id": "Q1394262",
+      "label": "Paris-Nanterre",
+      "before": {
+        "people": 4,
+        "peopleWithUsableDates": 0,
+        "statements": 4,
+        "datedStatements": 0
+      },
+      "after": {
+        "people": 63,
+        "peopleWithUsableDates": 10,
+        "statements": 69,
+        "datedStatements": 12
+      }
+    },
+    {
+      "id": "Q662976",
+      "label": "Paris-Panthéon-Assas",
+      "before": {
+        "people": 8,
+        "peopleWithUsableDates": 1,
+        "statements": 8,
+        "datedStatements": 1
+      },
+      "after": {
+        "people": 68,
+        "peopleWithUsableDates": 3,
+        "statements": 70,
+        "datedStatements": 3
+      }
+    }
+  ],
+  "assemblyPeopleMatched": 119,
+  "assemblyRejected": [
+    {
+      "person": "Q30348845",
+      "mandate": "PM779996",
+      "reason": "Dates inversées : PM779996",
+      "start": "2021-01-28",
+      "end": "2021-01-27"
+    },
+    {
+      "person": "Q30348845",
+      "mandate": "PM779997",
+      "reason": "Dates inversées : PM779997",
+      "start": "2021-01-28",
+      "end": "2021-01-27"
+    }
+  ],
+  "integrityPeopleChecked": 29,
+  "integrityPeopleWithImportedActivities": 11,
+  "integrityUnmatchedLabels": 175
+}

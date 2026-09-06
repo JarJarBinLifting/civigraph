@@ -25,7 +25,7 @@ test('Attali shows sourced compositions, role changes and the matching graph and
   await expect(page.getByRole('button', { name: 'Même période', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.detail-panel')).toContainText('Rapporteur général adjoint');
   await expect.poll(() => graph(page)).toEqual({ center: 'Q2986712', edges: 6, nodes: ['Q2986712', 'Q3052772', 'Q364315', 'Q438185', 'Q47904', 'Q74191', 'Q929763'] });
-  await expect(page.locator('.period-summary')).toContainText('1 lien sans période exploitable');
+  await expect(page.locator('.period-summary')).toContainText('6 liens sans période exploitable');
   if (info.project.name === 'mobile') {
     expect(await page.locator('.graph-canvas').evaluate(element => {
       const cy = (element as Canvas)._cyreg.cy;
@@ -44,7 +44,7 @@ test('Attali shows sourced compositions, role changes and the matching graph and
   await expect(page.locator('.graph-list > article')).toHaveCount(4);
   await expect(page.locator('.graph-list')).toContainText('2010 · Seconde mission');
   await page.getByRole('button', { name: 'Toutes les périodes', exact: true }).click();
-  await expect(page.locator('.graph-list > article')).toHaveCount(11);
+  await expect(page.locator('.graph-list > article')).toHaveCount(16);
   await expect(page.locator('.graph-list')).toContainText('Période non renseignée');
   await page.getByRole('button', { name: 'Même période', exact: true }).click();
   await expect(page.locator('.graph-list > article')).toHaveCount(4);

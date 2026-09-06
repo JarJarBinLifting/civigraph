@@ -1,0 +1,664 @@
+{
+  "checkedAt": "2026-09-06T12:57:30.738Z",
+  "source": "https://data.assemblee-nationale.fr/static/openData/repository/17/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip",
+  "matching": "Wikidata P4123 → acteur PA",
+  "matched": [
+    {
+      "person": "Q3579995",
+      "actor": "PA345619",
+      "property": "P4123"
+    },
+    {
+      "person": "Q157",
+      "actor": "PA1654",
+      "property": "P4123"
+    },
+    {
+      "person": "Q20020731",
+      "actor": "PA717161",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30339350",
+      "actor": "PA722190",
+      "property": "P4123"
+    },
+    {
+      "person": "Q438465",
+      "actor": "PA368",
+      "property": "P4123"
+    },
+    {
+      "person": "Q12963",
+      "actor": "PA410",
+      "property": "P4123"
+    },
+    {
+      "person": "Q10287",
+      "actor": "PA267622",
+      "property": "P4123"
+    },
+    {
+      "person": "Q560890",
+      "actor": "PA785",
+      "property": "P4123"
+    },
+    {
+      "person": "Q7711",
+      "actor": "PA328",
+      "property": "P4123"
+    },
+    {
+      "person": "Q101410",
+      "actor": "PA1310",
+      "property": "P4123"
+    },
+    {
+      "person": "Q215569",
+      "actor": "PA1750",
+      "property": "P4123"
+    },
+    {
+      "person": "Q217070",
+      "actor": "PA1268",
+      "property": "P4123"
+    },
+    {
+      "person": "Q12927",
+      "actor": "PA720614",
+      "property": "P4123"
+    },
+    {
+      "person": "Q5829",
+      "actor": "PA2150",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3085763",
+      "actor": "PA722142",
+      "property": "P4123"
+    },
+    {
+      "person": "Q27182",
+      "actor": "PA387829",
+      "property": "P4123"
+    },
+    {
+      "person": "Q993472",
+      "actor": "PA331481",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3123610",
+      "actor": "PA607846",
+      "property": "P4123"
+    },
+    {
+      "person": "Q268675",
+      "actor": "PA2791",
+      "property": "P4123"
+    },
+    {
+      "person": "Q81923",
+      "actor": "PA2650",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3351018",
+      "actor": "PA609332",
+      "property": "P4123"
+    },
+    {
+      "person": "Q984375",
+      "actor": "PA267285",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30339422",
+      "actor": "PA721908",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1031645",
+      "actor": "PA503",
+      "property": "P4123"
+    },
+    {
+      "person": "Q109969696",
+      "actor": "PA795310",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112638162",
+      "actor": "PA793094",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112650708",
+      "actor": "PA794146",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112652262",
+      "actor": "PA795010",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112654108",
+      "actor": "PA795318",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112892896",
+      "actor": "PA721828",
+      "property": "P4123"
+    },
+    {
+      "person": "Q117340",
+      "actor": "PA332747",
+      "property": "P4123"
+    },
+    {
+      "person": "Q124439687",
+      "actor": "PA842029",
+      "property": "P4123"
+    },
+    {
+      "person": "Q126537376",
+      "actor": "PA840983",
+      "property": "P4123"
+    },
+    {
+      "person": "Q126539921",
+      "actor": "PA841207",
+      "property": "P4123"
+    },
+    {
+      "person": "Q127256447",
+      "actor": "PA842311",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1305536",
+      "actor": "PA2320",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1321340",
+      "actor": "PA335532",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1347791",
+      "actor": "PA1252",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1353605",
+      "actor": "PA876",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1366170",
+      "actor": "PA825",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1383590",
+      "actor": "PA1124",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1457778",
+      "actor": "PA609726",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1534217",
+      "actor": "PA1012",
+      "property": "P4123"
+    },
+    {
+      "person": "Q15869276",
+      "actor": "PA842001",
+      "property": "P4123"
+    },
+    {
+      "person": "Q16646407",
+      "actor": "PA840817",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1684726",
+      "actor": "PA719",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1685859",
+      "actor": "PA2816",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1717882",
+      "actor": "PA605499",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1768192",
+      "actor": "PA331990",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1778536",
+      "actor": "PA605143",
+      "property": "P4123"
+    },
+    {
+      "person": "Q18202568",
+      "actor": "PA703510",
+      "property": "P4123"
+    },
+    {
+      "person": "Q182786",
+      "actor": "PA1445",
+      "property": "P4123"
+    },
+    {
+      "person": "Q1922673",
+      "actor": "PA606212",
+      "property": "P4123"
+    },
+    {
+      "person": "Q19629275",
+      "actor": "PA711562",
+      "property": "P4123"
+    },
+    {
+      "person": "Q20089181",
+      "actor": "PA643210",
+      "property": "P4123"
+    },
+    {
+      "person": "Q20857507",
+      "actor": "PA796018",
+      "property": "P4123"
+    },
+    {
+      "person": "Q20882460",
+      "actor": "PA642962",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2277782",
+      "actor": "PA605606",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2386047",
+      "actor": "PA2492",
+      "property": "P4123"
+    },
+    {
+      "person": "Q24940106",
+      "actor": "PA847633",
+      "property": "P4123"
+    },
+    {
+      "person": "Q268595",
+      "actor": "PA267628",
+      "property": "P4123"
+    },
+    {
+      "person": "Q270094",
+      "actor": "PA2825",
+      "property": "P4123"
+    },
+    {
+      "person": "Q271537",
+      "actor": "PA632",
+      "property": "P4123"
+    },
+    {
+      "person": "Q273143",
+      "actor": "PA2319",
+      "property": "P4123"
+    },
+    {
+      "person": "Q273701",
+      "actor": "PA267950",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2746785",
+      "actor": "PA1498",
+      "property": "P4123"
+    },
+    {
+      "person": "Q274689",
+      "actor": "PA1579",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2749277",
+      "actor": "PA412525",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2856427",
+      "actor": "PA606507",
+      "property": "P4123"
+    },
+    {
+      "person": "Q288486",
+      "actor": "PA2960",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2897604",
+      "actor": "PA223837",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2897641",
+      "actor": "PA732",
+      "property": "P4123"
+    },
+    {
+      "person": "Q29210910",
+      "actor": "PA721560",
+      "property": "P4123"
+    },
+    {
+      "person": "Q292458",
+      "actor": "PA609709",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2926861",
+      "actor": "PA1886",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2935125",
+      "actor": "PA267689",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2956266",
+      "actor": "PA267810",
+      "property": "P4123"
+    },
+    {
+      "person": "Q29634279",
+      "actor": "PA795884",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30130489",
+      "actor": "PA721134",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3014035",
+      "actor": "PA334149",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3014427",
+      "actor": "PA2091",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30334715",
+      "actor": "PA718930",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30337897",
+      "actor": "PA721398",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30339190",
+      "actor": "PA718736",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30339198",
+      "actor": "PA721836",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30339276",
+      "actor": "PA719310",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30339394",
+      "actor": "PA719874",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30343005",
+      "actor": "PA722236",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30343112",
+      "actor": "PA721498",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30348845",
+      "actor": "PA642935",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30349307",
+      "actor": "PA721742",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30349408",
+      "actor": "PA721764",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30349465",
+      "actor": "PA722150",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3035111",
+      "actor": "PA1152",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3035420",
+      "actor": "PA2503",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30379410",
+      "actor": "PA721670",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30388327",
+      "actor": "PA722252",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30417849",
+      "actor": "PA719472",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30511578",
+      "actor": "PA720924",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30527240",
+      "actor": "PA721246",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3079081",
+      "actor": "PA2973",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3084310",
+      "actor": "PA923",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3106149",
+      "actor": "PA746",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3165004",
+      "actor": "PA1574",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3190850",
+      "actor": "PA267895",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3281828",
+      "actor": "PA610045",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3299831",
+      "actor": "PA607287",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3309809",
+      "actor": "PA333457",
+      "property": "P4123"
+    },
+    {
+      "person": "Q33106414",
+      "actor": "PA795050",
+      "property": "P4123"
+    },
+    {
+      "person": "Q33230494",
+      "actor": "PA759832",
+      "property": "P4123"
+    },
+    {
+      "person": "Q334065",
+      "actor": "PA722260",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3378990",
+      "actor": "PA610891",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3385940",
+      "actor": "PA1954",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3476900",
+      "actor": "PA719464",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3559620",
+      "actor": "PA642743",
+      "property": "P4123"
+    },
+    {
+      "person": "Q356919",
+      "actor": "PA2240",
+      "property": "P4123"
+    },
+    {
+      "person": "Q3591330",
+      "actor": "PA2511",
+      "property": "P4123"
+    },
+    {
+      "person": "Q455023",
+      "actor": "PA267605",
+      "property": "P4123"
+    },
+    {
+      "person": "Q737311",
+      "actor": "PA2224",
+      "property": "P4123"
+    }
+  ],
+  "missing": [
+    {
+      "person": "Q329",
+      "path": "json/acteur/PA2680.json"
+    },
+    {
+      "person": "Q2124",
+      "path": "json/acteur/PA1494.json"
+    },
+    {
+      "person": "Q12963",
+      "path": "json/acteur/PA125869.json"
+    },
+    {
+      "person": "Q1238159",
+      "path": "json/acteur/PA399.json"
+    },
+    {
+      "person": "Q1394083",
+      "path": "json/acteur/PA1949.json"
+    },
+    {
+      "person": "Q2472833",
+      "path": "json/acteur/PA2504.json"
+    },
+    {
+      "person": "Q2965938",
+      "path": "json/acteur/PA1858.json"
+    },
+    {
+      "person": "Q3086090",
+      "path": "json/acteur/PA304.json"
+    },
+    {
+      "person": "Q3175427",
+      "path": "json/acteur/PA1437.json"
+    },
+    {
+      "person": "Q3379248",
+      "path": "json/acteur/PA301.json"
+    },
+    {
+      "person": "Q356919",
+      "path": "json/acteur/PA121449.json"
+    }
+  ],
+  "rejected": [
+    {
+      "person": "Q30348845",
+      "mandate": "PM779996",
+      "reason": "Dates inversées : PM779996",
+      "start": "2021-01-28",
+      "end": "2021-01-27"
+    },
+    {
+      "person": "Q30348845",
+      "mandate": "PM779997",
+      "reason": "Dates inversées : PM779997",
+      "start": "2021-01-28",
+      "end": "2021-01-27"
+    }
+  ]
+}

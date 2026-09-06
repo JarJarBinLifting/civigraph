@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-09-06",
+  "method": "Correspondances explicites et relues vers les entités du corpus. Seuls ces intitulés sont acceptés après normalisation des accents, de la casse et des espaces. Aucun rapprochement approximatif ; les autres intitulés sont consignés pour examen.",
+  "organizations": [
+    { "id": "Q193582", "aliases": ["Assemblée nationale"] },
+    { "id": "Q273535", "aliases": ["HEC Paris"] },
+    { "id": "Q273579", "aliases": ["Ecole nationale d'administration"] },
+    { "id": "Q846484", "aliases": ["Caisse des Dépôts et consignations Paris"] },
+    { "id": "Q789848", "aliases": ["Ministère de l'Europe et des Affaires Etrangères"] },
+    { "id": "Q1416512", "aliases": ["Ministère de l'économie et des finances"] },
+    { "id": "Q1518496", "aliases": ["Ministère de l'Intérieur"] },
+    { "id": "Q75706", "aliases": ["Ministère des Armées"] },
+    { "id": "Q1124861", "aliases": ["FRANCE TELEVISION"] },
+    { "id": "Q587370", "aliases": ["Mouvement Démocrate"] },
+    { "id": "Q205150", "aliases": ["Rassemblement National"] },
+    { "id": "AN:PO59048", "aliases": ["Commission des Finances de l'Assemblée Nationale"] },
+    { "id": "AN:PO59047", "aliases": ["Commission des Affaires Etrangères de L'Assemblée Nationale"] }
+  ]
+}

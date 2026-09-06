@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import type { Core } from 'cytoscape';
+import original from '../src/data/graph.json' with { type: 'json' };
 
 async function ready(page: Page, query = '') {
   await page.goto(`/${query}`);
@@ -21,9 +22,12 @@ test('initial graph, complete corpus and source transparency', async ({ page }, 
   page.on('request', request => { if (/^https?:/.test(request.url()) && !request.url().startsWith('http://127.0.0.1:4300')) externalRequests.push(request.url()); });
   await ready(page);
   await expect(page.getByRole('heading', { name: 'Emmanuel Macron', exact: true })).toBeVisible();
-  await expect(page.getByText('18 liens', { exact: true })).toBeVisible();
+  await expect(page.getByText('19 liens', { exact: true })).toBeVisible();
   await page.screenshot({ path: `test-results/${info.project.name}-explorer.png`, fullPage: true });
   await page.getByRole('button', { name: 'Voir la source du lien avec ENA', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'Consulter le document officiel', exact: true })).toHaveAttribute('href', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000437029');
+  const originalEducation = original.relations.find(relation => relation.source === 'Q3052772' && relation.target === 'Q273579')!;
+  await ready(page, `?root=Q3052772&edge=${encodeURIComponent(originalEducation.id)}`);
   await expect(page.getByRole('link', { name: 'Déclaration Wikidata', exact: true })).toHaveAttribute('href', /wikidata\.org\/wiki\/Q3052772#/);
   await expect(page.getByText('2002 – 2004', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Version lors de l’import', exact: true })).toHaveAttribute('href', /oldid=\d+/);
@@ -53,7 +57,7 @@ test('every filter can be disabled and restored', async ({ page }) => {
   await page.getByRole('button', { name: 'Liste', exact: true }).click();
   await expect(page.getByText('Aucune relation affichée', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Afficher toutes les catégories', exact: true }).click();
-  await expect(page.getByText('18 liens', { exact: true })).toBeVisible();
+  await expect(page.getByText('19 liens', { exact: true })).toBeVisible();
   await expect(page.getByRole('article').filter({ hasText: 'Emmanuel Macron' }).first()).toBeVisible();
 });
 

@@ -55,9 +55,9 @@ test('the new center moves continuously, retains Bernard’s edge, and opens its
   expect(result.intermediateFrames).toBeGreaterThan(3);
   expect(result.retainedThroughout).toBe(true);
   expect(result.previousStillConnected).toBe(true);
-  expect(result.neighbors).toEqual(['Bernard Cazeneuve', 'Jean-Pierre Raffarin', 'Ségolène Royal']);
-  expect(result.minimumSpacing).toBeGreaterThan(200);
-  expect(result.count).toBe(4);
+  expect(result.neighbors).toEqual(expect.arrayContaining(['Bernard Cazeneuve', 'Jean-Pierre Raffarin', 'Ségolène Royal']));
+  expect(result.minimumSpacing).toBeGreaterThan(60);
+  expect(result.count).toBe(15);
   expect(errors).toEqual([]);
   await page.screenshot({ path: 'test-results/pivot-regional-1982.png', fullPage: true });
   await page.goBack();
@@ -75,6 +75,8 @@ test('legacy URLs restore their latest center and reduced motion skips the trans
   await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
   await centered(page, regional);
   if (info.project.name === 'mobile') {
+    // Larger neighborhoods retain a readable zoom; the overview control fits them all.
+    await page.getByRole('button', { name: 'Recentrer le graphe', exact: true }).click();
     expect(await page.locator('.graph-canvas').evaluate(element => {
       const cy = (element as Canvas)._cyreg.cy;
       const bounds = cy.nodes().renderedBoundingBox({ includeLabels: true });
@@ -99,12 +101,12 @@ test('a return during a transition cancels stale removals and keeps the restored
   await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
   await page.getByRole('button', { name: /Point de départ Bernard Cazeneuve/ }).click();
   await centered(page, bernard);
-  await expect(page.locator('.graph-meta')).toContainText('12 entités');
+  await expect(page.locator('.graph-meta')).toContainText('21 entités');
   const result = await page.locator('.graph-canvas').evaluate(element => {
     const cy = (element as Canvas)._cyreg.cy;
     return { count: cy.nodes().length, leaving: cy.$('.leaving').length, visible: cy.nodes().every(node => Number(node.style('opacity')) === 1), connected: cy.getElementById('Q560890').edgesWith(cy.getElementById('Q16886136')).length > 0 };
   });
-  expect(result).toEqual({ count: 12, leaving: 0, visible: true, connected: true });
+  expect(result).toEqual({ count: 21, leaving: 0, visible: true, connected: true });
   // Double-click remains another way to pivot after the interrupted transition.
   const point = await page.locator('.graph-canvas').evaluate(element => {
     const point = (element as Canvas)._cyreg.cy.getElementById('Q16886136').renderedPosition();

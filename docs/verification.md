@@ -2,6 +2,8 @@
 
 Application testée en build de production local sur `http://127.0.0.1:4300`, avec Node.js 24.18.0 et Chrome installé sous Windows.
 
+Les sections ci-dessous conservent les résultats de chaque livraison. Les chiffres et comportements antérieurs sont historiques ; l'état enrichi est décrit dans la dernière section.
+
 ## Validation initiale
 
 | Contrôle | Résultat observé |
@@ -96,3 +98,30 @@ Inspection visuelle à **1982 × 1103** et **390 × 844** : contrôles temporels
 Aucun `pageerror` sur les parcours initial et Attali vérifiés ; aucune requête vers un domaine tiers pendant l'exploration initiale. Journal d'erreurs du serveur vide après les tests. Aperçu de production reconstruit et relancé sur le port 4300. Aucun push ni déploiement distant.
 
 Limites : la sélection Attali n'est pas l'ensemble des membres ; les deux compositions ne documentent pas une présence individuelle continue de 2007 à 2010. Les autres institutions utilisent leurs dates disponibles, avec une couverture variable. Les contrôles automatisés ne vérifient pas indépendamment toutes les déclarations Wikidata, ni la disponibilité future des sources. Les navigateurs et appareils physiques non testés restent ceux signalés plus haut.
+
+## Enrichissement des institutions — complément du 6 septembre 2026
+
+Le corpus comporte **492 personnes, 2 394 entités et 7 568 déclarations**, dont 4 699 déclarations Wikidata, 2 836 mandats de l'Assemblée nationale, 17 activités HATVP distribuées par Integrity Watch France et 16 participations dans des compositions officielles. Les 797 déclarations antérieures sont préservées. Le nombre de déclarations avec une période utilisable passe de 496 à 4 766 ; ces compteurs n'assimilent pas plusieurs sources d'un même fait à des faits indépendants. Le détail par institution figure dans [data-coverage.md](data-coverage.md).
+
+| Contrôle après enrichissement | Résultat observé |
+| --- | --- |
+| `npm test` | 51 tests réussis dans 9 fichiers |
+| `npm run lint`, `npm run typecheck` | Réussis ; contrôle TypeScript également exécuté dans le build final |
+| `npm run build` | Build de production Next.js réussi |
+| `npm run test:e2e` | 35 parcours réussis sur ordinateur et mobile ; 3 scénarios réservés à l'ordinateur explicitement ignorés sur mobile |
+| Après l'ajustement des libellés parlementaires | Nouveau build et 51 tests unitaires réussis ; les 8 parcours d'enrichissement repassent sur ordinateur et mobile, dont le maintien du nom complet en fiche |
+| Mélenchon → Philippe → Areva, période de Philippe | Anne Lauvergeon et Gérald Arbola présents grâce au directoire attesté au 31 décembre 2009 ; trois personnes supplémentaires accessibles avec leurs dates insuffisantes, sans co-présence affirmée |
+| Félicité Herzog depuis la section des dates insuffisantes | Carrière complète ouverte ; suppression du filtre temporel ; retour et rechargement vérifiés |
+| ENA | Composition officielle de la promotion Senghor de 2004 ; 123 entités en toutes périodes, accessibles par pages de 12 voisins et en liste intégrale ; page partagée et rechargée |
+| Assemblée nationale | 119 personnes rapprochées par P4123 ; mandat individuel, organe, rôle et dates conservés ; pour les remplacements, priorité à la date personnelle de prise de fonction |
+| Integrity Watch / HATVP | 29 déclarants rapprochés par P4703 ; contrôle du nom, prénom, date de naissance et de l'UUID dans le XML original ; 17 activités importées pour 11 personnes |
+| Preuve HATVP dans la fiche | Enseignement et recherche de Jean-Noël Barrot auprès d'HEC, janvier 2020–juillet 2022 ; URL du XML original, précision mensuelle et provenance visibles |
+| Intégrité et couverture | Identifiants uniques, extrémités présentes, invariants temporels et compteurs concordants ; 15 780 URL contrôlées syntaxiquement, toutes HTTP(S) |
+
+Inspection visuelle à **1982 × 1103**, **1440 × 1000** et **390 × 844** : Areva avec continuation dépliée, réseau dense de l'ENA, fiche HATVP et organes parlementaires. La pagination limite les grands voisinages sans retirer les données de la liste ou de la fiche. Le canvas mobile conserve une hauteur suffisante sous les contrôles temporels ; son zoom lisible peut laisser des nœuds hors champ, accessibles par déplacement ou recentrage. Le recentrage tient compte des libellés. Les intitulés longs d'organes parlementaires utilisent leur libellé abrégé officiel dans le graphe ; le nom complet reste dans la fiche. Captures locales `test-results/enrichment-*.png`, ignorées par Git.
+
+Les reprises d'import depuis les fichiers bruts en cache ont été exécutées pour l'Assemblée et Integrity Watch. Les deux mandats parlementaires aux dates inversées dans la source sont écartés avec leur motif dans le manifeste. Les 175 intitulés d'organismes HATVP sans correspondance validée restent dans le rapport d'import et ne créent pas de liens. Un libellé Wikidata incorrect de Philippe Sanmarco est corrigé à partir de sa fiche officielle Sycomore, avec la provenance de la correction.
+
+Aucun `pageerror` dans les parcours initial et Areva vérifiés ; aucune requête vers un domaine tiers pendant l'exploration initiale. L'aperçu utilise les instantanés locaux. Aucun push ni déploiement distant.
+
+Limites : recherche inverse plafonnée à 60 profils par institution, corpus non exhaustif et non représentatif. Les 17 activités HATVP constituent un premier lot limité aux organismes explicitement identifiés, pas l'ensemble des déclarations d'intérêts. Une présence attestée en 2009 ou une promotion de 2004 ne crée pas une durée individuelle continue. Les données sans fin ne prouvent pas une activité actuelle. La véracité indépendante de toutes les déclarations Wikidata et la disponibilité future des sources ne sont pas garanties par les tests. Les limites de navigateurs et d'appareils signalées plus haut demeurent.

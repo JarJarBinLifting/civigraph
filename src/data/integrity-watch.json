@@ -1,0 +1,623 @@
+{
+  "meta": {
+    "version": 1,
+    "fetchedAt": "2026-09-06T12:24:31.813Z",
+    "source": "HATVP via Integrity Watch France",
+    "license": "Données HATVP : licence ouverte Etalab",
+    "peopleCount": 0,
+    "entityCount": 0,
+    "relationCount": 17,
+    "properties": [
+      "HATVP:participationDirigeantDto",
+      "HATVP:activProfCinqDerniereDto"
+    ],
+    "description": "Dernières déclarations complètes présentes dans l’export, personnes rapprochées par P4703 et organismes explicitement identifiés. Activités professionnelles et organes dirigeants uniquement."
+  },
+  "entities": [],
+  "relations": [
+    {
+      "id": "HATVP:73a9595a-8031-4c0c-80c6-47119fabc18c:95dedfb7ec6c0123",
+      "source": "Q18202525",
+      "target": "Q846484",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Membre de la Commission de surveillance",
+      "start": {
+        "value": "2017-12-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2020-12-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/raynal-claude-diam17612-senateur-31.xml",
+      "references": [
+        {
+          "id": "73a9595a-8031-4c0c-80c6-47119fabc18c",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "raynal-claude-diam17612-senateur-31 · UUID 73a9595a-8031-4c0c-80c6-47119fabc18c · participationDirigeantDto · intitulé déclaré : Caisse des Dépôts et consignations Paris",
+        "note": "Dépôt : 05/02/2021 16:06:24. Publication : 2021-12-08. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:686f6751-46e7-46d0-bad9-083453b25ffa:68035fb0ed1e9598",
+      "source": "Q20020731",
+      "target": "Q193582",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Députée",
+      "start": {
+        "value": "2024-02-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2024-12-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/borne-elisabeth-diam34700-depute-14.xml",
+      "references": [
+        {
+          "id": "686f6751-46e7-46d0-bad9-083453b25ffa",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "borne-elisabeth-diam34700-depute-14 · UUID 686f6751-46e7-46d0-bad9-083453b25ffa · activProfCinqDerniereDto · intitulé déclaré : Assemblée Nationale",
+        "note": "Dépôt : 31/01/2026 12:45:34. Publication : 2026-03-31. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:451b3ba0-a737-4a8e-9d2b-8b5920f26fdf:35872237bcc04702",
+      "source": "Q3123610",
+      "target": "Q1518496",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Ministre",
+      "start": {
+        "value": "2020-07-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/darmanin-gerald-di34806-gouvernement.xml",
+      "references": [
+        {
+          "id": "451b3ba0-a737-4a8e-9d2b-8b5920f26fdf",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "darmanin-gerald-di34806-gouvernement · UUID 451b3ba0-a737-4a8e-9d2b-8b5920f26fdf · activProfCinqDerniereDto · intitulé déclaré : Ministère de l'Intérieur",
+        "note": "Dépôt : 05/12/2025 17:17:55. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:451b3ba0-a737-4a8e-9d2b-8b5920f26fdf:f79672acf1f3ca27",
+      "source": "Q3123610",
+      "target": "Q193582",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Député du Nord",
+      "start": {
+        "value": "2024-08-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2024-12-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/darmanin-gerald-di34806-gouvernement.xml",
+      "references": [
+        {
+          "id": "451b3ba0-a737-4a8e-9d2b-8b5920f26fdf",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "darmanin-gerald-di34806-gouvernement · UUID 451b3ba0-a737-4a8e-9d2b-8b5920f26fdf · activProfCinqDerniereDto · intitulé déclaré : Assemblée Nationale",
+        "note": "Dépôt : 05/12/2025 17:17:55. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:14cdf207-c58a-463b-ae1a-2881c089050d:753807883d405cd3",
+      "source": "Q30349307",
+      "target": "Q193582",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Députée",
+      "start": {
+        "value": "2018-01-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2022-06-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/florennes-isabelle-diam33980-senateur-92.xml",
+      "references": [
+        {
+          "id": "14cdf207-c58a-463b-ae1a-2881c089050d",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "florennes-isabelle-diam33980-senateur-92 · UUID 14cdf207-c58a-463b-ae1a-2881c089050d · activProfCinqDerniereDto · intitulé déclaré : Assemblée nationale",
+        "note": "Dépôt : 23/12/2024 21:25:20. Publication : 2026-01-07. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:47181d41-3cc5-4d83-8397-3d21318ad680:b1d0616cd1960966",
+      "source": "Q30339198",
+      "target": "Q273535",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Enseignement et recherche",
+      "start": {
+        "value": "2020-01-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2022-07-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/barrot-jean-noel-di34824-gouvernement.xml",
+      "references": [
+        {
+          "id": "47181d41-3cc5-4d83-8397-3d21318ad680",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "barrot-jean-noel-di34824-gouvernement · UUID 47181d41-3cc5-4d83-8397-3d21318ad680 · activProfCinqDerniereDto · intitulé déclaré : HEC Paris",
+        "note": "Dépôt : 05/12/2025 12:27:56. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:47181d41-3cc5-4d83-8397-3d21318ad680:184de3a76a42edc6",
+      "source": "Q30339198",
+      "target": "Q587370",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Secrétaire général",
+      "start": {
+        "value": "2020-12-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2022-07-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/barrot-jean-noel-di34824-gouvernement.xml",
+      "references": [
+        {
+          "id": "47181d41-3cc5-4d83-8397-3d21318ad680",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "barrot-jean-noel-di34824-gouvernement · UUID 47181d41-3cc5-4d83-8397-3d21318ad680 · participationDirigeantDto · intitulé déclaré : Mouvement Démocrate",
+        "note": "Dépôt : 05/12/2025 12:27:56. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:47181d41-3cc5-4d83-8397-3d21318ad680:5f7cc173431b7659",
+      "source": "Q30339198",
+      "target": "Q587370",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Vice-Président",
+      "start": {
+        "value": "2022-07-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/barrot-jean-noel-di34824-gouvernement.xml",
+      "references": [
+        {
+          "id": "47181d41-3cc5-4d83-8397-3d21318ad680",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "barrot-jean-noel-di34824-gouvernement · UUID 47181d41-3cc5-4d83-8397-3d21318ad680 · participationDirigeantDto · intitulé déclaré : Mouvement Démocrate",
+        "note": "Dépôt : 05/12/2025 12:27:56. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:47181d41-3cc5-4d83-8397-3d21318ad680:ebce9fee8394b550",
+      "source": "Q30339198",
+      "target": "AN:PO59048",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Vice-Président",
+      "start": {
+        "value": "2020-01-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2022-05-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/barrot-jean-noel-di34824-gouvernement.xml",
+      "references": [
+        {
+          "id": "47181d41-3cc5-4d83-8397-3d21318ad680",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "barrot-jean-noel-di34824-gouvernement · UUID 47181d41-3cc5-4d83-8397-3d21318ad680 · participationDirigeantDto · intitulé déclaré : Commission des Finances de l'Assemblée Nationale",
+        "note": "Dépôt : 05/12/2025 12:27:56. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:47181d41-3cc5-4d83-8397-3d21318ad680:aa18e94c2ad53238",
+      "source": "Q30339198",
+      "target": "AN:PO59047",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Président",
+      "start": {
+        "value": "2024-06-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2024-09-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/barrot-jean-noel-di34824-gouvernement.xml",
+      "references": [
+        {
+          "id": "47181d41-3cc5-4d83-8397-3d21318ad680",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "barrot-jean-noel-di34824-gouvernement · UUID 47181d41-3cc5-4d83-8397-3d21318ad680 · participationDirigeantDto · intitulé déclaré : Commission des Affaires Etrangères de L'Assemblée Nationale",
+        "note": "Dépôt : 05/12/2025 12:27:56. Publication : 2026-04-20. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:df0b0ef8-adcb-4e6f-a258-d39ffc20b58b:b5d9564b6b84af18",
+      "source": "Q3219320",
+      "target": "Q1124861",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Administrateur",
+      "start": {
+        "value": "2021-03-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2023-09-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/lafon-laurent-diam28438-senateur-94.xml",
+      "references": [
+        {
+          "id": "df0b0ef8-adcb-4e6f-a258-d39ffc20b58b",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "lafon-laurent-diam28438-senateur-94 · UUID df0b0ef8-adcb-4e6f-a258-d39ffc20b58b · participationDirigeantDto · intitulé déclaré : FRANCE TELEVISION",
+        "note": "Dépôt : 10/01/2024 15:07:31. Publication : 2024-05-14. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:8d4d0d8f-d239-4b4a-8994-898e8cc05765:d3329b8f31e7ea0a",
+      "source": "Q29634279",
+      "target": "Q1416512",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Ministre délégué chargé de l'industrie",
+      "start": {
+        "value": "2024-09-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2024-12-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/ferracci-marc-dia34714-depute-099.xml",
+      "references": [
+        {
+          "id": "8d4d0d8f-d239-4b4a-8994-898e8cc05765",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "ferracci-marc-dia34714-depute-099 · UUID 8d4d0d8f-d239-4b4a-8994-898e8cc05765 · activProfCinqDerniereDto · intitulé déclaré : Ministère de l'économie et des finances",
+        "note": "Dépôt : 06/01/2026 08:44:31. Publication : 2026-03-30. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:8d4d0d8f-d239-4b4a-8994-898e8cc05765:97e4d7c601a0c912",
+      "source": "Q29634279",
+      "target": "Q1416512",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "MInistre en charge de l'industrie et de l'énergie",
+      "start": {
+        "value": "2025-01-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2025-10-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/ferracci-marc-dia34714-depute-099.xml",
+      "references": [
+        {
+          "id": "8d4d0d8f-d239-4b4a-8994-898e8cc05765",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "ferracci-marc-dia34714-depute-099 · UUID 8d4d0d8f-d239-4b4a-8994-898e8cc05765 · activProfCinqDerniereDto · intitulé déclaré : Ministère de l'économie et des finances",
+        "note": "Dépôt : 06/01/2026 08:44:31. Publication : 2026-03-30. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:20d15cdd-6a8d-4252-b04f-762c97dc2bd2:08dff60fe9e6fdbe",
+      "source": "Q12927",
+      "target": "Q205150",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "Membre du bureau exécutif (bureau du conseil d'administration du RN) et présidente de groupe à l'AN",
+      "start": {
+        "value": "2017-01-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2024-06-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/le-pen-marine-diam35065-depute-62.xml",
+      "references": [
+        {
+          "id": "20d15cdd-6a8d-4252-b04f-762c97dc2bd2",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "le-pen-marine-diam35065-depute-62 · UUID 20d15cdd-6a8d-4252-b04f-762c97dc2bd2 · participationDirigeantDto · intitulé déclaré : Rassemblement National",
+        "note": "Dépôt : 30/01/2026 11:17:43. Publication : 2026-05-27. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:b5cfc7a7-59de-41cc-b8d3-62879c809f10:8922c881383acf7b",
+      "source": "Q30348845",
+      "target": "Q789848",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Ministre délégué en charge du commerce extérieur de l'attractivité et des Français de l'étranger",
+      "start": {
+        "value": "2022-07-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2024-01-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/becht-olivier-diam35088-depute-68.xml",
+      "references": [
+        {
+          "id": "b5cfc7a7-59de-41cc-b8d3-62879c809f10",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "becht-olivier-diam35088-depute-68 · UUID b5cfc7a7-59de-41cc-b8d3-62879c809f10 · activProfCinqDerniereDto · intitulé déclaré : Ministère de l'Europe et des Affaires Etrangères",
+        "note": "Dépôt : 07/02/2026 19:55:30. Publication : 2026-05-27. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:b8e70e3c-c7a6-45b7-b4a5-b8a4640d20f2:135326bd69ef25ca",
+      "source": "Q30349465",
+      "target": "Q273579",
+      "property": "HATVP:participationDirigeantDto",
+      "category": "membership",
+      "label": "A déclaré siéger dans",
+      "role": "membre du conseil d'adminitration",
+      "start": {
+        "value": "2017-10-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2021-11-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/houlie-sacha-diam30929-depute-86.xml",
+      "references": [
+        {
+          "id": "b8e70e3c-c7a6-45b7-b4a5-b8a4640d20f2",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "houlie-sacha-diam30929-depute-86 · UUID b8e70e3c-c7a6-45b7-b4a5-b8a4640d20f2 · participationDirigeantDto · intitulé déclaré : Ecole nationale d'administration",
+        "note": "Dépôt : 27/11/2024 12:28:22. Publication : 2025-06-18. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    },
+    {
+      "id": "HATVP:f0f1acca-0721-494c-af26-84fc59abc0e3:b644428e9255d044",
+      "source": "Q20089181",
+      "target": "Q75706",
+      "property": "HATVP:activProfCinqDerniereDto",
+      "category": "employment",
+      "label": "A déclaré une activité auprès de",
+      "role": "Ministre des armées",
+      "start": {
+        "value": "2022-05-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2025-09-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.hatvp.fr/livraison/dossiers/lecornu-sebastien-dim35257-gouvernement.xml",
+      "references": [
+        {
+          "id": "f0f1acca-0721-494c-af26-84fc59abc0e3",
+          "urls": [
+            "https://www.integritywatch.fr/",
+            "https://www.hatvp.fr/open-data/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "declaration",
+        "title": "HATVP · déclaration publique, via Integrity Watch France",
+        "locator": "lecornu-sebastien-dim35257-gouvernement · UUID f0f1acca-0721-494c-af26-84fc59abc0e3 · activProfCinqDerniereDto · intitulé déclaré : Ministère des Armées",
+        "note": "Dépôt : 04/06/2026 15:06:23. Publication : 2026-06-18. Export Integrity Watch : 20260905_210004. Les dates sont celles de la déclaration ; une fin absente ne signifie pas une activité en cours.",
+        "checkedAt": "2026-09-06T12:24:31.813Z"
+      }
+    }
+  ]
+}

@@ -16,10 +16,10 @@ export function RelationEvidence({ relation, data, compact = false }: { relation
     <p className="evidence-statement"><strong>{source.label}</strong><span>{relation.label.toLowerCase()}</span><strong>{shortLabel(target)}</strong></p>
     <p className="period"><CalendarDays size={13} />{periodLabel(relation)}</p>
     {relation.role && <p className="evidence-role">{relation.role}</p>}
-    {relation.evidence && <div className="official-evidence"><span className="eyebrow">Source officielle</span><p>{relation.evidence.title}</p><small>{relation.evidence.locator}</small><p className="evidence-note">{relation.evidence.note}</p></div>}
+    {relation.evidence && <div className="official-evidence"><span className="eyebrow">{relation.evidence.kind === 'declaration' ? 'Déclaration publique' : 'Source officielle'}</span><p>{relation.evidence.title}</p><small>{relation.evidence.locator}</small><p className="evidence-note">{relation.evidence.note}</p></div>}
     {relation.contexts?.length ? <p className="context-note">Périmètre précisé dans la déclaration : {relation.contexts.map(context => context.label).join(' · ')}.</p> : null}
     <div className="evidence-links">
-      <a href={relation.statementUrl} target="_blank" rel="noopener noreferrer"><BookOpen size={14} />{relation.evidence ? 'Consulter le document officiel' : 'Déclaration Wikidata'}<ArrowUpRight size={14} /></a>
+      <a href={relation.statementUrl} target="_blank" rel="noopener noreferrer"><BookOpen size={14} />{relation.evidence?.kind === 'declaration' ? 'Consulter la déclaration HATVP' : relation.evidence ? 'Consulter le document officiel' : 'Déclaration Wikidata'}<ArrowUpRight size={14} /></a>
       {relation.revisionUrl && <a href={relation.revisionUrl} target="_blank" rel="noopener noreferrer">Version lors de l’import<ArrowUpRight size={13} /></a>}
       {urls.filter(url => !relation.evidence || url !== relation.statementUrl.split('#')[0]).map((url, index) => <a key={url} href={url} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} />Référence {index + 1} · {new URL(url).hostname.replace(/^www\./, '')}<ArrowUpRight size={13} /></a>)}
       {statedIn.map(id => <a key={id} href={`https://www.wikidata.org/wiki/${id}`} target="_blank" rel="noopener noreferrer">Publication citée · {id}<ArrowUpRight size={13} /></a>)}
@@ -41,9 +41,10 @@ interface Props {
   onExpand: (id: string) => void;
   onClose: () => void;
   onAllPeriods: () => void;
+  onCareer: (id: string) => void;
 }
 
-export function DetailPanel({ data, entity, categories, temporal, periodAnchor, selectedEdge, focused, onSelect, onEdge, onExpand, onClose, onAllPeriods }: Props) {
+export function DetailPanel({ data, entity, categories, temporal, periodAnchor, selectedEdge, focused, onSelect, onEdge, onExpand, onClose, onAllPeriods, onCareer }: Props) {
   const [tab, setTab] = useState<'connections' | 'sources'>('connections');
   const availableRelations = data.relations.filter(relation => (relation.source === entity.id || relation.target === entity.id) && categories.includes(relation.category));
   const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort((a, b) => Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)));
@@ -62,10 +63,12 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
       <span className="type-label">{typeInfo[entity.type].label}</span>
       <h2>{shortLabel(entity)}</h2>
       <p>{entity.description || entity.label}</p>
-      <a className="subtle-link" href={entity.wikidataUrl} target="_blank" rel="noopener noreferrer">Fiche Wikidata<ArrowUpRight size={13} /></a>
+      {(entity.wikidataUrl || entity.sourceUrl) && <a className="subtle-link" href={entity.wikidataUrl ?? entity.sourceUrl} target="_blank" rel="noopener noreferrer">{entity.wikidataUrl ? 'Fiche Wikidata' : entity.sourceLabel ?? 'Source de l’entité'}<ArrowUpRight size={13} /></a>}
+      {entity.labelSource && <a className="subtle-link" href={entity.labelSource.url} target="_blank" rel="noopener noreferrer">{entity.labelSource.title}<ArrowUpRight size={13} /></a>}
     </div>
     <div className="profile-stats"><div><strong>{connectionCount}</strong><span>entités liées</span></div><div><strong>{allRelations.length}</strong><span>déclarations</span></div></div>
     <button className="primary-button expand-button" onClick={() => onExpand(entity.id)} disabled={focused}><GitBranch size={16} />{focused ? 'Au centre du graphe' : 'Développer ce réseau'}{!focused && <Plus size={15} />}</button>
+    {entity.type === 'person' && temporal === 'same' && <button className="career-button" onClick={() => onCareer(entity.id)}>Explorer toute sa carrière<ArrowUpRight size={14} /></button>}
     <div className="panel-tabs" role="tablist" aria-label="Contenu de la fiche">
       <button role="tab" aria-selected={activeTab === 'connections'} onClick={() => { setTab('connections'); onEdge(null); }}>Connexions <span>{connectionCount}</span></button>
       <button role="tab" aria-selected={activeTab === 'sources'} onClick={() => { setTab('sources'); onEdge(null); }}>Sources <ArrowUpRight size={13} /></button>

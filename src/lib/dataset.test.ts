@@ -18,7 +18,7 @@ describe('committed Wikidata corpus', () => {
     expect(data.meta.peopleCount).toBe(people.length);
     expect(data.meta.entityCount).toBe(data.entities.length);
     expect(data.meta.relationCount).toBe(data.relations.length);
-    expect(data.entities.every(entity => entity.label !== entity.id && entity.revision > 0)).toBe(true);
+    expect(data.entities.every(entity => entity.label !== entity.id && (entity.revision ?? 0) > 0)).toBe(true);
   });
 
   it('has no dangling edges and a real statement and fixed revision for every relationship', () => {

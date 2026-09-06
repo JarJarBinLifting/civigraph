@@ -155,6 +155,11 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .graph-meta > span:nth-child(2)::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: #c4cdba; margin-right: 3px; }
 .graph-meta .graph-scope { color: #707668; }
 .graph-meta .subtle-link { margin-left: auto; font-size: 10px; }
+.graph-pages { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 9px 20px 3px; font-size: 10px; color: #65725d; }
+.graph-pages > div { display: flex; align-items: center; gap: 8px; }
+.graph-pages > div button { width: 30px; height: 28px; border: 1px solid #dce4d5; background: #fff; border-radius: 4px; font-size: 14px; }
+.graph-pages button:disabled { opacity: .35; cursor: default; }
+.graph-pages .subtle-link { margin-left: auto; font-size: 10px; }
 .graph-stage { flex: 1; min-height: 0; position: relative; background-image: radial-gradient(#dce4d480 .7px, transparent .7px); background-size: 18px 18px; overflow: hidden; }
 .graph-stage::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 45px 16px #fafbf8; pointer-events: none; }
 .graph-canvas { width: 100%; height: 100%; min-height: 0; cursor: grab; }
@@ -195,6 +200,21 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .period-choice .subtle-link { margin-left: auto; font-size: 10px; }
 .period-summary, .period-empty { font-size: 10px; line-height: 1.6; color: #677360; margin: 9px 0 0; }
 .period-empty { font-size: 11px; }
+.uncertain-connections { border-top: 1px solid #d7e1d0; margin-top: 10px; padding-top: 8px; }
+.uncertain-connections summary { cursor: pointer; color: #496347; font-size: 11px; font-weight: 600; line-height: 1.8; }
+.uncertain-connections summary span { padding: 1px 5px; background: #dfe8d7; border-radius: 3px; margin-left: 5px; }
+.uncertain-connections summary small { font-size: 10px; font-weight: 400; color: #6c7863; margin-left: 9px; }
+.uncertain-connections > p { font-size: 10px; color: #64735e; line-height: 1.6; margin: 7px 0; }
+.uncertain-list { max-height: 150px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 7px; }
+.uncertain-list article { padding: 9px 0; border-top: 1px solid #dce4d6; }
+.uncertain-person { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.uncertain-person button { font-size: 11px; font-weight: 600; text-align: left; }
+.uncertain-person button:last-child { display: inline-flex; align-items: center; gap: 4px; color: #54704b; font-size: 10px; font-weight: 400; flex-shrink: 0; padding: 3px 0; }
+.uncertain-proof { display: flex; align-items: flex-start; gap: 5px; margin-top: 6px; font-size: 10px; color: #68745f; text-align: left; line-height: 1.5; }
+.uncertain-proof svg { flex-shrink: 0; margin-top: 2px; }
+.uncertain-person button:hover, .uncertain-proof:hover { text-decoration: underline; }
+.career-button { display: flex; align-items: center; justify-content: center; gap: 6px; color: #3c624b; font-size: 11px; padding: 10px 12px; margin: 0 20px 4px; border: 1px solid #d8e3d0; border-radius: 4px; flex-shrink: 0; }
+.official-evidence small, .evidence-note { overflow-wrap: anywhere; }
 .connection-row .connection-role, .graph-list-row .connection-role { display: block; color: #526c55; line-height: 1.5; margin-top: 4px; }
 .evidence-role { color: #36573f; font-size: 12px; font-weight: 550; }
 .official-evidence { padding: 11px; background: #f1f5ed; border-left: 2px solid #829a73; margin: 10px 0; }
@@ -410,7 +430,8 @@ svg { flex-shrink: 0; vertical-align: middle; }
   .primary-button, .secondary-button { font-size: 11px; padding: 10px 12px; min-height: 38px; }
   .workspace, .workspace.detail-closed, .workspace.is-comparing { display: flex; flex-direction: column; margin: 0 12px; height: auto; min-height: 0; border-radius: 8px; overflow: clip; }
   .exploration-center { min-height: 545px; height: 545px; flex: auto; }
-  .exploration-center.has-period-controls { min-height: 800px; height: 800px; }
+  .exploration-center.has-period-controls { min-height: 800px; height: auto; }
+  .has-period-controls .graph-stage { min-height: 500px; flex: 1 0 500px; }
   .has-period-controls .graph-canvas { height: calc(100% - 42px); }
   .period-controls { margin: 13px 12px 3px; padding: 12px; }
   .period-mode { width: 100%; }

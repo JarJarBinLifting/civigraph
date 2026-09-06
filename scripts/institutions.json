@@ -1,0 +1,14 @@
+[
+  { "id": "Q455484", "label": "Areva", "properties": ["P108", "P463"], "limit": 60 },
+  { "id": "Q3022385", "label": "Rothschild & Cie", "properties": ["P108", "P463"], "limit": 60 },
+  { "id": "Q1961890", "label": "NM Rothschild & Sons", "properties": ["P108", "P463"], "limit": 60 },
+  { "id": "Q3151643", "label": "Inspection générale des finances", "properties": ["P108", "P463"], "limit": 60 },
+  { "id": "Q3075672", "label": "French-American Foundation", "properties": ["P108", "P463"], "limit": 60 },
+  { "id": "Q2986712", "label": "Commission Attali", "properties": ["P108", "P463"], "limit": 60 },
+  { "id": "Q273579", "label": "ENA", "properties": ["P69"], "political": true, "limit": 60 },
+  { "id": "Q859363", "label": "Sciences Po Paris", "properties": ["P69"], "political": true, "limit": 60 },
+  { "id": "Q273535", "label": "HEC Paris", "properties": ["P69"], "political": true, "limit": 60 },
+  { "id": "Q273626", "label": "École polytechnique", "properties": ["P69"], "political": true, "limit": 60 },
+  { "id": "Q1394262", "label": "Paris-Nanterre", "properties": ["P69"], "political": true, "limit": 60 },
+  { "id": "Q662976", "label": "Paris-Panthéon-Assas", "properties": ["P69"], "political": true, "limit": 60 }
+]

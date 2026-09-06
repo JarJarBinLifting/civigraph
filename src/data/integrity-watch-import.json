@@ -1,0 +1,984 @@
+{
+  "checkedAt": "2026-09-06T12:24:31.813Z",
+  "snapshot": "20260905_210004",
+  "files": [
+    {
+      "url": "https://integritywatch.fr/autoupdate_data_fr/mps/latest/declarations/declarations.json",
+      "name": "declarations.json",
+      "sha256": "b5880614c72bc6f6d7cedc32a4e9dc55837dfe316a2118885150d8f03c606b14"
+    },
+    {
+      "url": "https://integritywatch.fr/autoupdate_data_fr/mps/latest/declarations/peopleList.json",
+      "name": "peopleList.json",
+      "sha256": "c832649e87664e585c31b6ea7726860cd9e84c87e9a5aa716a649b05f4db9bbb"
+    }
+  ],
+  "importedAt": "2026-09-06T12:24:31.813Z",
+  "matching": "P4703 + contrôle nom, prénom, date de naissance et UUID original HATVP",
+  "matched": [
+    {
+      "person": "Q18202568",
+      "hatvpId": "canayer-agnes",
+      "declaration": "dd341f64-42a9-4922-996d-07db51b16b09",
+      "file": "canayer-agnes-diam30601-senateur-76",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "2eab9459acb100995744ebaf4d9f19b66a592439bf5db5bdff6d7f93c225dcb1"
+    },
+    {
+      "person": "Q33230494",
+      "hatvpId": "pannier-runacher-agnes",
+      "declaration": "39684a69-d8f3-4616-b51e-a554727f628e",
+      "file": "pannier-runacher-agnes-diam34764-depute-62",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "b89c5bc4b0fe1521e0c138c0038893bd3d29b3b4e3164c5d5f16741e3feee34b"
+    },
+    {
+      "person": "Q2832067",
+      "hatvpId": "de-montgolfier-alberic",
+      "declaration": "56a3588b-bbfd-45c6-8da0-5f6734116d26",
+      "file": "de-montgolfier-alberic-diam30515-senateur-28",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "2764c47f57f1d82440dd720b9b7ee4aedb2e84ea7f583724647d55096ee746c2"
+    },
+    {
+      "person": "Q2965111",
+      "hatvpId": "cambon-christian",
+      "declaration": "e02e2d1f-89cd-458b-b2d7-424bfe671519",
+      "file": "cambon-christian-diam28979-senateur-94",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "6ca2ffb6b68a6a8ddab0b5575a960422f62fd80aae064b90fa59de08ed6e91a4"
+    },
+    {
+      "person": "Q18202525",
+      "hatvpId": "raynal-claude",
+      "declaration": "73a9595a-8031-4c0c-80c6-47119fabc18c",
+      "file": "raynal-claude-diam17612-senateur-31",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "427e87acfc06db3c4f38c5493b50c337bb8635db5027bc79266492f5a4763745"
+    },
+    {
+      "person": "Q20020731",
+      "hatvpId": "borne-elisabeth",
+      "declaration": "686f6751-46e7-46d0-bad9-083453b25ffa",
+      "file": "borne-elisabeth-diam34700-depute-14",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "4691c4ef08d2bce11f52254d9c876603f0f17d0071d50f1d04c74a36ff00879e"
+    },
+    {
+      "person": "Q3085763",
+      "hatvpId": "ruffin-francois",
+      "declaration": "0fa514ba-59be-40aa-bd0e-0a45a9368bdc",
+      "file": "ruffin-francois-diam30973-depute-80",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "b08ff492f812e042fcb33a914fded67bcb5b222fc994e0f294d13adacb9a85fc"
+    },
+    {
+      "person": "Q30339350",
+      "hatvpId": "attal-gabriel",
+      "declaration": "7b3abec4-664f-4c5e-8829-736841a9ed8d",
+      "file": "attal-gabriel-diam30321-depute-92",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "61febf108958f24943dc925a6232c717d7cdb6d6310856c0d11d0871a07a86fb"
+    },
+    {
+      "person": "Q3123610",
+      "hatvpId": "darmanin-gerald",
+      "declaration": "451b3ba0-a737-4a8e-9d2b-8b5920f26fdf",
+      "file": "darmanin-gerald-di34806-gouvernement",
+      "property": "P4703",
+      "relations": 2,
+      "originalSha256": "653f93e40f55e6ea78bd8e394d1b3940983df3dbf00625b739cc73fa5130b763"
+    },
+    {
+      "person": "Q784021",
+      "hatvpId": "larcher-gerard",
+      "declaration": "78610b60-f6bc-4eeb-9f51-f3c28b11f23e",
+      "file": "larcher-gerard-diam28408-senateur-78",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "c1c822cd6b17bd8163df896909a8e59e86b827e1c914c2c774225b179d6b5fba"
+    },
+    {
+      "person": "Q21634444",
+      "hatvpId": "boyer-gilles",
+      "declaration": "42b7b3c2-29ee-4094-af3d-8664af755f5e",
+      "file": "boyer-gilles-dim33368-europe",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "7bdbad763a3af798086d8607b64f07c6ff06ea166cfc3c1a66fab20bafc8cfe3"
+    },
+    {
+      "person": "Q30349307",
+      "hatvpId": "florennes-isabelle",
+      "declaration": "14cdf207-c58a-463b-ae1a-2881c089050d",
+      "file": "florennes-isabelle-diam33980-senateur-92",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "8506b96a2ebe4a08ed50b829159539bf6b721acf56e029ebfeca8e862e772068"
+    },
+    {
+      "person": "Q30339198",
+      "hatvpId": "barrot-jean-noel",
+      "declaration": "47181d41-3cc5-4d83-8397-3d21318ad680",
+      "file": "barrot-jean-noel-di34824-gouvernement",
+      "property": "P4703",
+      "relations": 5,
+      "originalSha256": "10b9c82b89a415705743b22bd329d717ca1f0cb9839176b293c5685d5aebc797"
+    },
+    {
+      "person": "Q30417849",
+      "hatvpId": "cazeneuve-jean-rene",
+      "declaration": "ba518644-4f20-4e77-a8a5-df80024196c5",
+      "file": "cazeneuve-jean-rene-diam35046-depute-32",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "a5e1ccc88cafd4524e4e1ea4f8a79779b24d09e3b8d577d046772321383eeb5c"
+    },
+    {
+      "person": "Q3219320",
+      "hatvpId": "lafon-laurent",
+      "declaration": "df0b0ef8-adcb-4e6f-a258-d39ffc20b58b",
+      "file": "lafon-laurent-diam28438-senateur-94",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "559678e4253e44c0c11da6b3b57509aafa573a8037292f57bb4d0ab6d672b65c"
+    },
+    {
+      "person": "Q984375",
+      "hatvpId": "wauquiez-laurent",
+      "declaration": "9d88c289-ccb9-46dc-96ff-c1e4d23385a7",
+      "file": "wauquiez-laurent-diam30985-depute-43",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "ca744c5d2ecc2167c8e64da894ce275e3c4fcd1c738417de8674436026f6bbb2"
+    },
+    {
+      "person": "Q18202524",
+      "hatvpId": "de-nicolay-louis-jean",
+      "declaration": "fb1075e9-9917-4dfa-a7c1-f2fba999fd7a",
+      "file": "de-nicolay-louis-jean-diam17657-senateur-72",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "c9a155f004325d36c53935990cff5c5fa6ecc2d57b10abaeb8edf913b595792e"
+    },
+    {
+      "person": "Q29634279",
+      "hatvpId": "ferracci-marc",
+      "declaration": "8d4d0d8f-d239-4b4a-8994-898e8cc05765",
+      "file": "ferracci-marc-dia34714-depute-099",
+      "property": "P4703",
+      "relations": 2,
+      "originalSha256": "9918b51c8de7b79ed8d935279a5cdf322fc2af9f6ccf3151debee4643051479b"
+    },
+    {
+      "person": "Q30388327",
+      "hatvpId": "rixain-marie-pierre",
+      "declaration": "5e1b801f-ec46-479e-9656-0109ea566918",
+      "file": "rixain-marie-pierre-diam35079-depute-91",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "605739942949b103febba59d4212b8da979e4e7434b915d0ab1e3ada69fd8fb7"
+    },
+    {
+      "person": "Q12927",
+      "hatvpId": "le-pen-marine",
+      "declaration": "20d15cdd-6a8d-4252-b04f-762c97dc2bd2",
+      "file": "le-pen-marine-diam35065-depute-62",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "2591211c3123db9911a23edc5b7c8bb36999d1c15fba2a30bcbb6332b33af4ad"
+    },
+    {
+      "person": "Q16666184",
+      "hatvpId": "loiseau-nathalie",
+      "declaration": "f1bb7a28-ac1b-4957-bdb8-fb27051365ad",
+      "file": "loiseau-nathalie-dim33270-europe",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "e2f3710ac88290bb87af08a4261aa11414cd74a3981bccd9362d9e8fa5ecd563"
+    },
+    {
+      "person": "Q3340073",
+      "hatvpId": "bay-nicolas",
+      "declaration": "97aa915a-a1df-4445-b88c-ce0e564b8b68",
+      "file": "bay-nicolas-dim33120-europe",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "071f5312f8aa1909252bfee35dfbf49e6c92d4b7118023fabf5a012b2fca41be"
+    },
+    {
+      "person": "Q30349408",
+      "hatvpId": "gregoire-olivia",
+      "declaration": "b5093997-0cf0-44b7-875f-9891b8b0cd14",
+      "file": "gregoire-olivia-diam30305-depute-75",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "fbb54d59f1f09f0b67218b7611333e418b2ca90fa735dc9a9e0364f1f450e8fd"
+    },
+    {
+      "person": "Q30348845",
+      "hatvpId": "becht-olivier",
+      "declaration": "b5cfc7a7-59de-41cc-b8d3-62879c809f10",
+      "file": "becht-olivier-diam35088-depute-68",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "ac65902018d31a33f462450e8c759199859e09c109d7be19cb607b986c72d9ea"
+    },
+    {
+      "person": "Q3351018",
+      "hatvpId": "faure-olivier",
+      "declaration": "5046842d-543e-455b-b270-9f47221597ed",
+      "file": "faure-olivier-diam30920-depute-77",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "e3c2656a8606afdfb6374a33c0688dc5ec9ce79fc2fce1ce48e4a1bd01f01ac7"
+    },
+    {
+      "person": "Q30130489",
+      "hatvpId": "lescure-roland",
+      "declaration": "24cf6e15-5156-4d46-803d-1740fb0f8cf8",
+      "file": "lescure-roland-dim34812-gouvernement",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "dcb1c036938ab12696598298f850c5fe0f14907752808ae3bc4c0bc8c0e29aed"
+    },
+    {
+      "person": "Q30349465",
+      "hatvpId": "houlie-sacha",
+      "declaration": "b8e70e3c-c7a6-45b7-b4a5-b8a4640d20f2",
+      "file": "houlie-sacha-diam30929-depute-86",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "8129a0c29607226f5c9e94c391d5d1f07118bd75fd6f8c22beb55161dab547f0"
+    },
+    {
+      "person": "Q20089181",
+      "hatvpId": "lecornu-sebastien",
+      "declaration": "f0f1acca-0721-494c-af26-84fc59abc0e3",
+      "file": "lecornu-sebastien-dim35257-gouvernement",
+      "property": "P4703",
+      "relations": 1,
+      "originalSha256": "8878dc794604f35c4c6a0d41bbd98fbbdcb2ad29f244bd2dd2bde4c62ffc518e"
+    },
+    {
+      "person": "Q30339422",
+      "hatvpId": "braun-pivet-yael",
+      "declaration": "e3090d42-d7cf-4554-8077-fea64b04cb23",
+      "file": "braun-pivet-yael-diam35339-depute-78",
+      "property": "P4703",
+      "relations": 0,
+      "originalSha256": "a7b42a1870a351ca8a134805a4fa26fe68d92bf9dc5c9f9952293b64ef50b0a8"
+    }
+  ],
+  "skipped": [],
+  "unmatchedOrganizations": [
+    {
+      "label": "Etat",
+      "people": 1
+    },
+    {
+      "label": "Association Régionale des Missions locales",
+      "people": 1
+    },
+    {
+      "label": "Mission Locale le Havre Estuaire et Littoral",
+      "people": 1
+    },
+    {
+      "label": "Médiaction",
+      "people": 1
+    },
+    {
+      "label": "Union nationale des Missions Locales",
+      "people": 1
+    },
+    {
+      "label": "Association Louis Delamare",
+      "people": 1
+    },
+    {
+      "label": "Ecole de production de la Métropole havraise",
+      "people": 1
+    },
+    {
+      "label": "Conseil de développement HAROPA Le Havre",
+      "people": 1
+    },
+    {
+      "label": "AURH",
+      "people": 1
+    },
+    {
+      "label": "GIP Normandie Impressionniste",
+      "people": 1
+    },
+    {
+      "label": "Association des villes pour le vote électronique",
+      "people": 1
+    },
+    {
+      "label": "Pole Métropolitaine de l Estuaire de la Seine",
+      "people": 1
+    },
+    {
+      "label": "Etat Francais",
+      "people": 1
+    },
+    {
+      "label": "Ministère de la transition énergétique",
+      "people": 1
+    },
+    {
+      "label": "Ministère de l'agriculture et de la souveraineté alimentaire",
+      "people": 1
+    },
+    {
+      "label": "Ministère de la transition écologique",
+      "people": 1
+    },
+    {
+      "label": "Ministere de la transition écologique",
+      "people": 1
+    },
+    {
+      "label": "FONDATION MANSART fondation reconnue d'utilité publique",
+      "people": 1
+    },
+    {
+      "label": "SA HLM La Roseraie",
+      "people": 1
+    },
+    {
+      "label": "SEDIF",
+      "people": 1
+    },
+    {
+      "label": "Ministère de la Transition Ecologique et Solidaire",
+      "people": 1
+    },
+    {
+      "label": "Ministère du Travail de l'Emploi et de l'Insertion",
+      "people": 1
+    },
+    {
+      "label": "Première Ministre",
+      "people": 1
+    },
+    {
+      "label": "Ministère de l'Education Nationale de l'Enseignement Supérieur et de la Recherche",
+      "people": 1
+    },
+    {
+      "label": "Affaire personnelle commerçant",
+      "people": 1
+    },
+    {
+      "label": "à mon compte",
+      "people": 1
+    },
+    {
+      "label": "400 CLOUS ET CS",
+      "people": 1
+    },
+    {
+      "label": "Ministère de l'Education nationale et de la Jeunsse",
+      "people": 1
+    },
+    {
+      "label": "Secrétaire d'Etat Porte-parole du Gouvernement",
+      "people": 1
+    },
+    {
+      "label": "Ministère des Comptes Publics",
+      "people": 1
+    },
+    {
+      "label": "Ministère de l'Education nationale et de la jeunesse",
+      "people": 1
+    },
+    {
+      "label": "Premier ministre",
+      "people": 2
+    },
+    {
+      "label": "Ministère de l'action et des comptes publics",
+      "people": 1
+    },
+    {
+      "label": "Humensis",
+      "people": 1
+    },
+    {
+      "label": "HUMENSIS",
+      "people": 1
+    },
+    {
+      "label": "ministère de la justice",
+      "people": 1
+    },
+    {
+      "label": "SEM VR",
+      "people": 1
+    },
+    {
+      "label": "SPL Euralille",
+      "people": 1
+    },
+    {
+      "label": "CH Dron",
+      "people": 1
+    },
+    {
+      "label": "Tourcoing Lille Métropole",
+      "people": 1
+    },
+    {
+      "label": "Lille Agency",
+      "people": 1
+    },
+    {
+      "label": "LMH",
+      "people": 1
+    },
+    {
+      "label": "Opéra de Lille",
+      "people": 1
+    },
+    {
+      "label": "Pictanovo",
+      "people": 1
+    },
+    {
+      "label": "Le Fresnoy",
+      "people": 1
+    },
+    {
+      "label": "SPEL",
+      "people": 1
+    },
+    {
+      "label": "IEP de Lille",
+      "people": 1
+    },
+    {
+      "label": "Assemblée des Régions d'Europe",
+      "people": 1
+    },
+    {
+      "label": "Société du Canal Seine Nord Europe",
+      "people": 1
+    },
+    {
+      "label": "SMALIM",
+      "people": 1
+    },
+    {
+      "label": "DELTA 3",
+      "people": 1
+    },
+    {
+      "label": "SPL Delta 3 platefourme de Dourges",
+      "people": 1
+    },
+    {
+      "label": "Grand Port maritime de Dunkerque",
+      "people": 1
+    },
+    {
+      "label": "SMIRT",
+      "people": 1
+    },
+    {
+      "label": "Association Seine-Nord Europe",
+      "people": 1
+    },
+    {
+      "label": "Comité régional des partenaires du Transport Public",
+      "people": 1
+    },
+    {
+      "label": "Consortium pour la modernisation du réseau navigable du Nord",
+      "people": 1
+    },
+    {
+      "label": "Railenium",
+      "people": 1
+    },
+    {
+      "label": "Aéroport Beauvais Tillé",
+      "people": 1
+    },
+    {
+      "label": "EPF de Lille",
+      "people": 1
+    },
+    {
+      "label": "Commission de délégation des Services Publics Locaux",
+      "people": 1
+    },
+    {
+      "label": "SPLA Fabrique des Quartiers",
+      "people": 1
+    },
+    {
+      "label": "GIP Lille Métropole Rénovation Urbaine",
+      "people": 1
+    },
+    {
+      "label": "GIP IMA",
+      "people": 1
+    },
+    {
+      "label": "Groupement des autorités responsables des transports",
+      "people": 1
+    },
+    {
+      "label": "Promotion of Opérational Links with Integrated Services",
+      "people": 1
+    },
+    {
+      "label": "CAO-DSP mobilité-accessibilité",
+      "people": 1
+    },
+    {
+      "label": "Comité syndical au sein du Syndicat mixte du Schéma de Cohérence Territoriale de Lille Métropole",
+      "people": 1
+    },
+    {
+      "label": "Commission Locale d'évaluation des transferts de charge",
+      "people": 1
+    },
+    {
+      "label": "Comité départemental du souvenir du Général de Gaulle en Ille-et-Vilaine",
+      "people": 1
+    },
+    {
+      "label": "Atelier lyrique de Tourcoing",
+      "people": 1
+    },
+    {
+      "label": "Collège Cardinal Liénart à Tourcoing",
+      "people": 1
+    },
+    {
+      "label": "Collège Charles Péguy à Tourcoing",
+      "people": 1
+    },
+    {
+      "label": "Société des courses de Rambouillet",
+      "people": 1
+    },
+    {
+      "label": "JC Lattes",
+      "people": 1
+    },
+    {
+      "label": "Horizons (parti politique)",
+      "people": 1
+    },
+    {
+      "label": "New Europeans (association politique européenne)",
+      "people": 1
+    },
+    {
+      "label": "Centre national de la fonction publique territoriale",
+      "people": 1
+    },
+    {
+      "label": "LCP - La Chaine Parlementaire",
+      "people": 1
+    },
+    {
+      "label": "Caisse des écoles de Suresnes",
+      "people": 1
+    },
+    {
+      "label": "Association du Clos du Pas Saint-Maurice",
+      "people": 1
+    },
+    {
+      "label": "IMEPS - Suresnes sport",
+      "people": 1
+    },
+    {
+      "label": "République Française",
+      "people": 1
+    },
+    {
+      "label": "Mouvement Européen",
+      "people": 1
+    },
+    {
+      "label": "Etablissement Public Local ILE DE FRANCE MOBILITES",
+      "people": 1
+    },
+    {
+      "label": "Sciences Po Ecole d'Affaires Publiques",
+      "people": 1
+    },
+    {
+      "label": "Conseil de surveillance Caisse des dépots et consignation",
+      "people": 1
+    },
+    {
+      "label": "CNAM",
+      "people": 1
+    },
+    {
+      "label": "VINCEM",
+      "people": 1
+    },
+    {
+      "label": "CIG PETITE COURONNE",
+      "people": 1
+    },
+    {
+      "label": "EM Lyon",
+      "people": 1
+    },
+    {
+      "label": "Association internationale des régions francophones",
+      "people": 1
+    },
+    {
+      "label": "Comité régional d'orientation de la BPI",
+      "people": 1
+    },
+    {
+      "label": "Société aéroportuaire \"Aéroports de Lyon SA\"",
+      "people": 1
+    },
+    {
+      "label": "Auvergne Rhône Alpes Entreprises",
+      "people": 1
+    },
+    {
+      "label": "Association des régions de France",
+      "people": 1
+    },
+    {
+      "label": "Comité régional franco-genevois",
+      "people": 1
+    },
+    {
+      "label": "Fondation MOVEO",
+      "people": 1
+    },
+    {
+      "label": "SEM Volcans",
+      "people": 1
+    },
+    {
+      "label": "Syndicat mixte des mobilités des territoires de l'aire métropolitaine lyonnaise",
+      "people": 1
+    },
+    {
+      "label": "Assemblée générale conseil de surveillance et du comité d'audit de la Compagnie nationale du Rhône",
+      "people": 1
+    },
+    {
+      "label": "CRAIG",
+      "people": 1
+    },
+    {
+      "label": "Conférence territoriale de l'action publique (CTAP)",
+      "people": 1
+    },
+    {
+      "label": "Commission départementale de la coopération intercommunale (CDCI) de Haute Loire",
+      "people": 1
+    },
+    {
+      "label": "Conseil de surveillance du Centre hospitalier Emile Roux du Puy en Velay",
+      "people": 1
+    },
+    {
+      "label": "Contrat de ville du Puy en Velay",
+      "people": 1
+    },
+    {
+      "label": "Les Républicains 43 (ex-UMP 43)",
+      "people": 1
+    },
+    {
+      "label": "Droite sociale",
+      "people": 1
+    },
+    {
+      "label": "Conseil de surveillance et comité syndical du syndicat mixte de gestion de l'aérodrome départemental du Puy",
+      "people": 1
+    },
+    {
+      "label": "Conseil régional d'orientation du CNFPT",
+      "people": 1
+    },
+    {
+      "label": "Assemblée générale du GIP Musée des Tissus",
+      "people": 1
+    },
+    {
+      "label": "Comité plénier du Comité régional de l'emploi de la formation et de l'orientation professionnelle (CREFOP)",
+      "people": 1
+    },
+    {
+      "label": "Assemblée générale du GIP du Centre d'animation ressources d'information sur la formation/observatoire régional emploi-formation (CARIF-OREF)",
+      "people": 1
+    },
+    {
+      "label": "Groupe parlementaire Droite républicaine",
+      "people": 1
+    },
+    {
+      "label": "GIP pour la préservation la valorisation et le développement du Plateau de Gergovie et des Sites Arvernes",
+      "people": 1
+    },
+    {
+      "label": "Société Alpes du Nord Aménagement Tourisme (Anat)",
+      "people": 1
+    },
+    {
+      "label": "Compagnie des Alpes (CDA)",
+      "people": 1
+    },
+    {
+      "label": "SOPARMA FINANCE",
+      "people": 1
+    },
+    {
+      "label": "SARL Les Terres du Lude",
+      "people": 1
+    },
+    {
+      "label": "SPL vallee du loir tourisme",
+      "people": 1
+    },
+    {
+      "label": "Ministère du travail",
+      "people": 1
+    },
+    {
+      "label": "Premier Ministre",
+      "people": 1
+    },
+    {
+      "label": "Marine Le Pen",
+      "people": 1
+    },
+    {
+      "label": "maisons d'édition",
+      "people": 1
+    },
+    {
+      "label": "Syndicat Mixte de l'Aéroport de Deauville-Normandie",
+      "people": 1
+    },
+    {
+      "label": "Ministère de l économie des finances et de la relance",
+      "people": 1
+    },
+    {
+      "label": "Service premier ministre",
+      "people": 1
+    },
+    {
+      "label": "Ministère de l économie des finances",
+      "people": 1
+    },
+    {
+      "label": "Le cherche midi editions",
+      "people": 1
+    },
+    {
+      "label": "Ministere de l'economie des finances et de la souveraineté industrielle et numérique",
+      "people": 1
+    },
+    {
+      "label": "Université du Haute Alsace",
+      "people": 1
+    },
+    {
+      "label": "Université de Haute Alsace",
+      "people": 1
+    },
+    {
+      "label": "France Europe Avenir",
+      "people": 1
+    },
+    {
+      "label": "Initiative Développement Alsace",
+      "people": 1
+    },
+    {
+      "label": "L'Union pour l'Alsace",
+      "people": 1
+    },
+    {
+      "label": "Centre européen d'études japonaises en Alsace",
+      "people": 1
+    },
+    {
+      "label": "Agir",
+      "people": 1
+    },
+    {
+      "label": "Association de promotion du projet de musée européen du manga de l'animation des figurines et arts graphiques japonais : european manga art museum",
+      "people": 1
+    },
+    {
+      "label": "Association de gestion du groupe Agir ensemble à l'Assemblée nationale",
+      "people": 1
+    },
+    {
+      "label": "SOMCO",
+      "people": 1
+    },
+    {
+      "label": "Intercommunalités de France ADCF",
+      "people": 1
+    },
+    {
+      "label": "Centre Européen d'Etudes Japonaises d'Alsace (CEEJA) Agence Alsace Japon",
+      "people": 1
+    },
+    {
+      "label": "Le Projet France",
+      "people": 1
+    },
+    {
+      "label": "France Japan Foundation",
+      "people": 1
+    },
+    {
+      "label": "parti",
+      "people": 1
+    },
+    {
+      "label": "Etat Français",
+      "people": 1
+    },
+    {
+      "label": "Etats français",
+      "people": 1
+    },
+    {
+      "label": "Gouvernement",
+      "people": 1
+    },
+    {
+      "label": "Editions Plon",
+      "people": 1
+    },
+    {
+      "label": "Etablissement Public Foncier de Normandie (EPFN)",
+      "people": 1
+    },
+    {
+      "label": "EPCC Musée des Impressionnismes de Giverny",
+      "people": 1
+    },
+    {
+      "label": "Comité départemental du Tourisme",
+      "people": 1
+    },
+    {
+      "label": "Collège Ariane Vernon",
+      "people": 1
+    },
+    {
+      "label": "Collège Cervantès Vernon",
+      "people": 1
+    },
+    {
+      "label": "Collège César Lemaître Vernon",
+      "people": 1
+    },
+    {
+      "label": "Eure Normandie Numérique",
+      "people": 1
+    },
+    {
+      "label": "Normandie Impressionniste (GIP)",
+      "people": 1
+    },
+    {
+      "label": "Agence de développement stratégique de l'Eure",
+      "people": 1
+    },
+    {
+      "label": "Générations Vernon (parti politique)",
+      "people": 1
+    },
+    {
+      "label": "Syndicat Mixte de la Base Régionale de Plein Air et de Loisirs de Léry-Poses",
+      "people": 1
+    },
+    {
+      "label": "Ensemble pour l'Eure",
+      "people": 1
+    },
+    {
+      "label": "Fondation Vernon Patrimoine",
+      "people": 1
+    },
+    {
+      "label": "Groupement d'intérêt public \"Centre Ressources Prévention de la Radicalisation\"",
+      "people": 1
+    },
+    {
+      "label": "Association de Préfiguration \"Ecole de la deuxième chance Vernon\"",
+      "people": 1
+    },
+    {
+      "label": "Commission départementale de l'organisation et de modernisation des services publics (CDOMSP)",
+      "people": 1
+    },
+    {
+      "label": "Commission départementale de la coopération intercommunale (CDCI)",
+      "people": 1
+    },
+    {
+      "label": "Agence d'urbanisme de Rouen et des Boucles de Seine et Eure",
+      "people": 1
+    },
+    {
+      "label": "Conférence régionale de l'aménagement et du développement du territoires (CRADT)",
+      "people": 1
+    },
+    {
+      "label": "Service départemental d'Incendie et de Secours (SDIS) de l'Eure",
+      "people": 1
+    },
+    {
+      "label": "office national des anciens combattants et victimes de guerre",
+      "people": 1
+    },
+    {
+      "label": "La République en marche",
+      "people": 1
+    },
+    {
+      "label": "Manufacture des Capucins",
+      "people": 1
+    },
+    {
+      "label": "SPL Campus de l'espace",
+      "people": 1
+    },
+    {
+      "label": "Ministère des Outre-Mer",
+      "people": 1
+    },
+    {
+      "label": "La Chaîne Parlementaire",
+      "people": 1
+    }
+  ]
+}
