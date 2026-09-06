@@ -368,6 +368,26 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .share-input { display: flex; gap: 9px; }
 .share-input > input { border: 1px solid #dae6ce; border-radius: 5px; padding: 11px; font-size: 11px; background: white; color: #657757; flex: 1; }
 .modal-body .local-share-note { font-size: 11px; color: #6e7663; margin: 20px 0 0; }
+.saved-explorations > p { font-size: 13px; line-height: 1.8; color: var(--muted); }
+.save-view-form { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin: 22px 0 10px; }
+.save-view-form label { grid-column: 1 / -1; font-size: 12px; font-weight: 600; }
+.save-view-form input { min-width: 0; width: 100%; background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 11px 12px; font: inherit; font-size: 13px; }
+.saved-explorations h3 { font-size: 14px; margin: 26px 0 12px; }
+.saved-explorations h3 span { font-weight: 400; color: var(--muted); }
+.saved-status { min-height: 20px; }
+.saved-view-list { list-style: none; padding: 0; margin: 0 0 22px; }
+.saved-view-list li { display: flex; align-items: center; justify-content: space-between; gap: 14px; border-top: 1px solid var(--line); padding: 16px 0; }
+.saved-view-list li > div:first-child { min-width: 0; overflow-wrap: anywhere; }
+.saved-view-list strong { display: block; font-size: 14px; }
+.saved-view-list p { font-size: 12px; line-height: 1.7; margin: 6px 0; }
+.saved-view-list small { color: var(--muted); font-size: 11px; }
+.saved-view-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+@media (max-width: 700px) {
+  .saved-trigger > span { display: none; }
+  .save-view-form { grid-template-columns: 1fr; }
+  .save-view-form button { justify-self: start; }
+  .saved-view-list li { align-items: start; flex-direction: column; }
+}
 .corpus-stats { display: flex; margin: 25px 0 19px; padding: 18px 0; border-block: 1px solid var(--line); }
 .corpus-stats > div { flex: 1; display: flex; align-items: center; flex-direction: column; gap: 5px; border-right: 1px solid var(--line); }
 .corpus-stats > div:last-child { border: 0; }

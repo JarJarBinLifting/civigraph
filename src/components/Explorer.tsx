@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
 import { careerView, focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
 import { categoryInfo, initials, periodLabel, shortLabel } from '@/lib/presentation';
@@ -15,6 +15,7 @@ import { Modal } from './Modal';
 import { PeriodControls } from './PeriodControls';
 import { getGraphIndex } from '@/lib/graph-index';
 import { containFocus } from '@/lib/focus';
+import { SavedExplorations } from './SavedExplorations';
 
 export function Explorer({ data, initialView }: { data: GraphData; initialView: ViewState }) {
   const [view, setView] = useState(initialView);
@@ -23,7 +24,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   const [showDetail, setShowDetail] = useState(true);
   const [enlarged, setEnlarged] = useState(false);
   const workspace = useRef<HTMLElement>(null);
-  const [modal, setModal] = useState<'method' | 'share' | 'corpus' | null>(null);
+  const [modal, setModal] = useState<'method' | 'share' | 'corpus' | 'saved' | null>(null);
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
@@ -110,6 +111,12 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     setComparisonOpen(true); setShowFilters(false);
   }
   function openShare() { setShareUrl(`${window.location.origin}${window.location.pathname}${serializeView(view)}`); setCopied(false); setCopyError(false); setModal('share'); }
+  function restoreExploration(next: ViewState, adjusted: boolean) {
+    setView(next);
+    window.history.pushState(null, '', `${window.location.pathname}${serializeView(next)}`);
+    setComparisonOpen(Boolean(next.compare)); setShowDetail(true); setShowFilters(false); setModal(null);
+    setNotice(adjusted ? 'Exploration restaurée avec les éléments encore disponibles dans le corpus.' : 'Exploration restaurée.');
+  }
   async function copyShare() {
     try { await navigator.clipboard.writeText(shareUrl); setCopied(true); setCopyError(false); }
     catch { setCopyError(true); }
@@ -126,7 +133,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
       <button className="header-source" onClick={() => setModal('corpus')}><span className="status-dot" />Données ouvertes <ArrowUpRight size={14} /></button>
     </header>
     <section className="intro-bar"><div><p className="eyebrow">Cartographie de la vie publique française</p><h1>Les liens éclairent les parcours<span>.</span></h1><p className="intro-subtitle">Explorez les institutions, les trajectoires et ce qui les relie.</p></div><div className="intro-side"><span className="mini-orbit" aria-hidden="true"><i /><i /><i /></span><p>Chaque lien a une histoire.<br /><strong>Et une source.</strong></p></div></section>
-    <div className="workspace-toolbar"><div className="search-area"><EntitySearch data={data} onSelect={startFrom} /></div><div className="toolbar-actions"><button className="secondary-button mobile-filter-toggle" onClick={() => { setShowFilters(!showFilters); setShowDetail(false); }} aria-expanded={showFilters}><SlidersHorizontal size={16} /><span>Filtres</span></button><button className="secondary-button compare-trigger" onClick={openComparison}><GitCompareArrows size={16} /><span>Comparer deux personnes</span></button><button className="primary-button share-trigger" onClick={openShare}><Share2 size={15} /><span>Partager la vue</span></button></div></div>
+    <div className="workspace-toolbar"><div className="search-area"><EntitySearch data={data} onSelect={startFrom} /></div><div className="toolbar-actions"><button className="secondary-button mobile-filter-toggle" onClick={() => { setShowFilters(!showFilters); setShowDetail(false); }} aria-expanded={showFilters}><SlidersHorizontal size={16} /><span>Filtres</span></button><button className="secondary-button compare-trigger" onClick={openComparison}><GitCompareArrows size={16} /><span>Comparer deux personnes</span></button><button className="secondary-button saved-trigger" onClick={() => setModal('saved')} aria-label="Mes explorations" title="Mes explorations"><Bookmark size={16} /><span>Mes explorations</span></button><button className="primary-button share-trigger" onClick={openShare}><Share2 size={15} /><span>Partager la vue</span></button></div></div>
     <main id="exploration" ref={workspace} role={enlarged ? 'dialog' : undefined} aria-modal={enlarged || undefined} aria-label={enlarged ? 'Carte agrandie' : undefined} className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''} ${enlarged ? 'map-expanded' : ''}`}>
       {enlarged && <div className="enlarged-bar"><button className="secondary-button enlarged-close" onClick={() => setEnlarged(false)}><X size={16} />Réduire la carte</button><span>Explorer, filtrer, consulter les sources</span><button className="secondary-button mobile-only" onClick={() => setShowFilters(!showFilters)} aria-expanded={showFilters}>Filtres</button></div>}
       <aside className={`sidebar ${showFilters ? 'mobile-open' : ''}`} aria-label="Filtres et parcours">
@@ -170,6 +177,8 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
       {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={categories} temporal={temporal} periodAnchor={periodContext.anchor} selectedEdge={selectedEdge} focused={focus === selectedEntity.id} onSelect={select} onEdge={inspectEdge} onExpand={expand} onCareer={exploreCareer} onAllPeriods={() => update({ temporal: 'all', edge: null })} onClose={() => setShowDetail(false)} />}
     </main>
     <footer className="app-footer"><span><BookOpen size={12} />Wikidata et sources officielles · {importedDate}</span><a href="/methode">Méthode et couverture</a><button onClick={() => setModal('method')}>À propos de Civigraph<ArrowUpRight size={12} /></button></footer>
+
+    {modal === 'saved' && <Modal title="Mes explorations" onClose={() => setModal(null)}><SavedExplorations data={data} view={view} onRestore={restoreExploration} /></Modal>}
 
     {modal === 'share' && <Modal title="Partager cette exploration" onClose={() => setModal(null)}><div className="modal-emblem"><Share2 size={25} /></div><p>Retrouvez le point de départ, les réseaux développés, la sélection, les filtres, la période et la comparaison dans une même URL.</p><label className="share-label" htmlFor="share-url">Lien vers cette vue</label><div className="share-input"><input id="share-url" readOnly value={shareUrl} onFocus={event => event.target.select()} /><button className="primary-button" onClick={copyShare}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? 'Copié' : 'Copier'}</button></div>{copyError && <p className="source-limit" role="status">La copie automatique est indisponible. Sélectionnez le lien puis utilisez Ctrl+C ou Cmd+C.</p>}<p className="local-share-note">Cette instance fonctionne en local. Le lien s’ouvre sur cet ordinateur ; il deviendra accessible à d’autres personnes lorsque l’application sera hébergée.</p></Modal>}
     {modal === 'method' && <Modal title="Comprendre les liens" onClose={() => setModal(null)}><p className="modal-lede">La transparence fait partie du graphe.</p><p>Civigraph représente des relations publiques : formations, fonctions, affiliations politiques, employeurs et organisations. Les déclarations Wikidata sont complétées par les mandats de l’Assemblée nationale, des déclarations HATVP distribuées par Integrity Watch France et des compositions officielles d’institutions. Chaque trait donne accès à sa provenance.</p><div className="method-grid"><article><span>01</span><h3>Une relation, une provenance</h3><p>Les fiches donnent accès aux déclarations Wikidata et à leur version à l’import, ou au document officiel avec son article ou sa page. Les rôles et dates restent attachés à chaque source.</p></article><article><span>02</span><h3>Des périodes explicites</h3><p>« Même période » retient un chevauchement établi par les dates ou une même composition officielle. Les dates insuffisantes se consultent séparément ; chaque personne permet de repartir vers sa carrière complète. Une fin manquante ne signifie pas que la fonction continue.</p></article><article><span>03</span><h3>Des parcours, sans présomption</h3><p>Une période ou une institution commune ne démontre pas une rencontre. Une composition officielle, une promotion et un mandat individuel sont des preuves distinctes. Un repère ponctuel ne devient pas une présence continue.</p></article><article><span>04</span><h3>Un corpus à ses débuts</h3><p>Cette V0 couvre {data.meta.peopleCount} personnes. Elle est non exhaustive, non représentative et ne se met pas à jour en continu.</p></article></div><div className="method-note"><Info size={19} /><p>Les déclarations Wikidata ne sont pas vérifiées indépendamment ici. {wikidataRelations.filter(relation => relation.references.some(reference => reference.urls.length)).length} sur {wikidataRelations.length} comportent une URL de référence externe. Les autres restent signalées comme déclarations à recouper. {officialCount} déclarations supplémentaires proviennent de sources publiques identifiées. Les données HATVP décrivent ce qui a été déclaré à leur date de dépôt.</p></div><a className="subtle-link" href="https://www.wikidata.org/wiki/Wikidata:Data_access/fr" target="_blank" rel="noopener noreferrer">Accès aux données et licence Wikidata<ArrowUpRight size={14} /></a><p className="section-caption">Autres sources : <a href="https://data.assemblee-nationale.fr/acteurs/historique-des-deputes" target="_blank" rel="noopener noreferrer">Assemblée nationale</a> · <a href="https://www.integritywatch.fr/" target="_blank" rel="noopener noreferrer">Integrity Watch France</a> · <a href="https://www.hatvp.fr/open-data/" target="_blank" rel="noopener noreferrer">HATVP</a>.</p></Modal>}

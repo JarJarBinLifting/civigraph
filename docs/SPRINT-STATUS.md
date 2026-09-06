@@ -42,7 +42,7 @@ Lots 1, 2A, 2B, 3 et 4 implémentés et vérifiés. Commits locaux : lot 1 `9ef0
 
 ## Prochaine action précise
 
-Lot 5A : sauvegardes nommées locales, versionnées et restaurables selon le contrat d’URL ; traiter stockage indisponible, contenu corrompu et entités disparues avant l’export PNG.
+Lot 5B : exporter la carte actuellement cadrée en PNG avec son titre, ses filtres, sa période, la date du corpus, une légende, les limites de lecture et sa référence partageable. Vérifier le fichier téléchargé réellement, puis importer les images libres disponibles.
 
 ## Lot 2A — vérification
 
@@ -82,3 +82,11 @@ Lot 5A : sauvegardes nommées locales, versionnées et restaurables selon le con
 - Fichiers : `publication.ts`, `publication.test.ts`, routes `entite/[id]`, `methode`, `robots.ts`, `sitemap.ts`, `not-found.tsx`, `DocumentLayout.tsx`, liens `Explorer.tsx`/`DetailPanel.tsx`, `globals.css`, `.env.example`, `README.md`, `tests/documents.spec.ts`, `scripts/verify-publication.mjs`.
 - Aucune publication effectuée. Domaine de production non configuré ; variable désactivée par défaut. Les notices non éligibles restent consultables mais non indexables.
 - Contrôle d’intégration avant bonus : lint, typecheck, 64 tests unitaires / 13 fichiers réussis ; build `n2PmhO9rxZh5ygczafoxK` ; suite Chrome complète 55 réussis, 3 scénarios bureau ignorés sur mobile, 55,8 s. Sources et notices d’institution vérifiées sans JavaScript ; aucune erreur de page, requête tierce ou débordement mesuré.
+
+## Lot 5A — sauvegardes locales
+
+- Trois tests unitaires en échec avant implémentation, puis réussis : contrat d’URL complet, suppression ciblée, stockage indisponible/corrompu/d’une version inconnue, point de départ disparu et restauration partielle signalée. Le scénario navigateur initial échoue sur le bouton absent.
+- Sauvegardes nommées dans `civigraph.saved-views.v1`, 50 vues maximum sans écrasement automatique. Aucune écriture de remplacement si le contenu est illisible. La restauration remplace l’état complet pour ne pas conserver le mode d’une comparaison précédente.
+- Lint, typecheck et build réussis. Huit scénarios Chrome passent, dont sauvegarde/restauration/suppression et clavier sur ordinateur/mobile. Le sélecteur d’erreur du test de corruption ciblait aussi l’annonceur Next ; limité au dialogue sans changement produit. Recontrôle : les 4 scénarios de sauvegarde passent, 4,7 s.
+- Captures `.working/sprint/lot5a-saved-{desktop,mobile}.png` inspectées ; aucun débordement horizontal mesuré. Fichiers : `saved-views.ts`, `saved-views.test.ts`, `SavedExplorations.tsx`, `Explorer.tsx`, `globals.css`, `tests/saved-views.spec.ts`.
+- Limites explicites : sauvegardes propres au navigateur et à l’origine, supprimées si ses données sont effacées ; une URL de partage peut être conservée ailleurs. Lot 4 enregistré dans le commit local `11cb517`.
