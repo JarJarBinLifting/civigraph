@@ -1,5 +1,21 @@
 # Sprint Civigraph — point de reprise
 
+## Chantier actuel — atlas éditorial (6 septembre 2026)
+
+Départ propre sur `main`, commit `a524da6`. Le premier sprint ci-dessous est conservé. Les fonctions, photos locales dans les fiches, données et contrats d’URL restent disponibles. Aucun import, changement de dépendances ou envoi distant prévu.
+
+- **Passe A, stable** : composition compacte autour d’une scène plus généreuse, cadrage de toute son étendue, couronnes lisibles, monogrammes et pictogrammes, traits de même qualité pour les dates connues/inconnues, retrait de la boussole décorative.
+- **Passe B, en cours** : noms en pixels CSS, choix déterministe des étiquettes et anti-collision, stabilité aux seuils de zoom, sélection persistante et caméra préservée à l’ouverture d’une fiche.
+- **Passe C, à suivre** : même vocabulaire dans la comparaison et les chemins, mobile/clavier, réduction des animations, captures et socle complet.
+
+Avant modification : application existante active, build `npGfydTW87YmjNK7UholU`. Cinq captures réelles `atlas-before-*.png` produites dans `.working/sprint/`, petite vue, ENA dense et mobile inspectés. Mesures `atlas-before-browser.json` : ENA 123/130 et Assas 69/70, aucun appel tiers/erreur/débordement ; 120 pans ENA 0,4 ms et aucun événement de style. La baseline complète du même commit a passé les 72 tests unitaires et 65 scénarios Chrome du sprint précédent.
+
+Observation : noms réduits à quelques pixels, cadrage symétrique autour du centre malgré une zone inconnue asymétrique, nombreux panneaux avant le graphe. Prochaine action : reproduire le défaut de cadrage par un test navigateur, puis réaliser et vérifier la passe A. Pas de quota restant supposé.
+
+Passe A vérifiée : les quatre nouveaux scénarios ont échoué sur le build précédent (cadrage déséquilibré et opacité différente), puis passent. Dix scénarios existants chronologie/profil/dialogues passent également. Le critère de remplissage du nouveau test tient compte de l’axe limitant (largeur ou hauteur), sans relâcher l’intégralité ni l’équilibre du réseau. Lint réussi ; typage de forme Cytoscape corrigé, build et contrôle TypeScript réussis (`ICWjzzgVS9wNPc2If_BDf`). Captures `atlas-a-*` réellement inspectées, titres mobiles recadrés après observation ; aucune erreur console, requête tierce ou entité perdue. Aucun changement de placement temporel ni de corpus. Fichiers : `GraphCanvas.tsx`, `Explorer.tsx`, `ChronologyControls.tsx`, `graph-theme.ts`, `globals.css`, `tests/atlas.spec.ts`.
+
+Prochaine action : tests de noms lisibles sur ENA et de sélection sans recadrage, puis algorithme simple de placement d’étiquettes en coordonnées affichées. Les fonctions et captures du premier sprint restent conservées.
+
 ## Périmètre et état de départ
 
 6 septembre 2026. Dépôt local `JarJarBinLifting/civigraph`, branche `main`, HEAD initial `1c008cd82cb4c64010c54f9698c2ecd9d6cfdfb8`. Un seul worktree, aucun changement local initial. Node 24.18.0, npm 11.16.0, dépendances déjà installées. Aucun push ni déploiement autorisé.

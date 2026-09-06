@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
-import type { Core, Position, SingularElementArgument } from 'cytoscape';
-import { categoryInfo, initials, shortLabel, typeInfo } from '@/lib/presentation';
+import type { Core, SingularElementArgument } from 'cytoscape';
+import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
+import { atlasNodeStyles, nodeShape, nodeSymbol } from '@/lib/graph-theme';
 import type { Entity, Relation } from '@/lib/types';
 import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
 import type { GraphExportInfo } from '@/lib/graph-export';
@@ -25,37 +26,32 @@ interface Props {
   onFallback: () => void;
 }
 
-function badge(entity: Entity, root: boolean) {
-  if (entity.image) return entity.image.src;
-  const color = root ? '#ffffff' : typeInfo[entity.type].color;
-  const content = entity.type === 'person'
-    ? `<text x="32" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="24" stroke="none" fill="${color}">${initials(entity.label)}</text>`
-    : entity.type === 'school' ? `<path d="m12 26 20-10 20 10-20 10-20-10m8 6v12c8 6 16 6 24 0V32M52 27v16"/>`
-    : entity.type === 'office' ? `<path d="m13 25 19-10 19 10H13m4 5v16m10-16v16m10-16v16m10-16v16M12 50h40"/>`
-    : entity.type === 'party' ? `<path d="M21 51V14m0 2c12-8 17 9 28 1v23c-11 8-16-9-28-1"/>`
-    : `<rect x="18" y="17" width="28" height="33" rx="2"/><path d="M25 24h4m6 0h4m-14 8h4m6 0h4m-14 8h4m6 0h4m-5 10v-7"/>`;
-  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><g fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${content}</g></svg>`)}`;
-}
-
-function frame(instance: Core, positions: Map<string, Position>) {
+function frame(instance: Core, layout: GraphLayout) {
+  const { positions } = layout;
   let zoom = Math.min(instance.zoom(), 1.1);
+  let center = { x: 0, y: 0 };
   // Fit the destination positions, including labels whose legibility is kept in screen pixels.
   for (let i = 0; i < 6; i++) {
     scaleLabels(instance, zoom);
-    let halfWidth = 80;
-    let halfHeight = 70;
+    const radius = Math.max(60, ...layout.rings.map(ring => ring.radius));
+    let x1 = -radius, x2 = radius, y1 = -radius, y2 = radius;
+    if (layout.unknownBox) {
+      const box = layout.unknownBox;
+      x2 = Math.max(x2, box.x + box.width); y1 = Math.min(y1, box.y - 24 / zoom); y2 = Math.max(y2, box.y + box.height);
+    }
     for (const node of instance.nodes().not('.leaving')) {
       const point = positions.get(node.id());
       if (!point) continue;
       const bounds = node.boundingBox({ includeLabels: true, includeOverlays: false });
       const current = node.position();
-      halfWidth = Math.max(halfWidth, Math.abs(point.x + bounds.x1 - current.x), Math.abs(point.x + bounds.x2 - current.x));
-      halfHeight = Math.max(halfHeight, Math.abs(point.y + bounds.y1 - current.y), Math.abs(point.y + bounds.y2 - current.y));
+      x1 = Math.min(x1, point.x + bounds.x1 - current.x); x2 = Math.max(x2, point.x + bounds.x2 - current.x);
+      y1 = Math.min(y1, point.y + bounds.y1 - current.y); y2 = Math.max(y2, point.y + bounds.y2 - current.y);
     }
-    zoom = Math.max(.02, Math.min((instance.width() - 40) / (halfWidth * 2), (instance.height() - 64) / (halfHeight * 2), 1.1));
+    center = { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
+    zoom = Math.max(.02, Math.min((instance.width() - 40) / (x2 - x1), (instance.height() - 40) / (y2 - y1), 1.1));
   }
   scaleLabels(instance);
-  return { zoom, pan: { x: instance.width() / 2, y: instance.height() / 2 } };
+  return { zoom, pan: { x: instance.width() / 2 - center.x * zoom, y: instance.height() / 2 - center.y * zoom } };
 }
 
 function markSelection(instance: Core, { selected, selectedEdge, compare }: Props) {
@@ -103,6 +99,10 @@ function syncGuides(svg: SVGSVGElement | null, instance: Core) {
   svg?.firstElementChild?.setAttribute('transform', `translate(${pan.x} ${pan.y}) scale(${instance.zoom()})`);
 }
 
+function sizeGuides(svg: SVGSVGElement | null, instance: Core) {
+  svg?.querySelectorAll('text').forEach(label => { label.style.fontSize = `${11 / instance.zoom()}px`; });
+}
+
 function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Core) {
   if (!svg) return;
   const ns = 'http://www.w3.org/2000/svg';
@@ -115,7 +115,7 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     const label = document.createElementNS(ns, 'text');
     label.setAttribute('x', String(-ring.radius / Math.SQRT2 - 8));
     label.setAttribute('y', String(-ring.radius / Math.SQRT2));
-    label.setAttribute('text-anchor', 'end');
+    label.setAttribute('text-anchor', 'middle');
     label.textContent = TIME_BANDS[ring.band];
     group.append(label);
   }
@@ -126,13 +126,22 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     box.setAttribute('class', 'guide-unknown');
     group.append(box);
     const label = document.createElementNS(ns, 'text');
-    label.setAttribute('x', String(layout.unknownBox.x + 15));
-    label.setAttribute('y', String(layout.unknownBox.y + 26));
+    label.setAttribute('x', String(layout.unknownBox.x + layout.unknownBox.width));
+    label.setAttribute('y', String(layout.unknownBox.y - 16));
+    label.setAttribute('text-anchor', 'end');
     label.textContent = 'Dates inconnues · hors échelle';
+    group.append(label);
+  }
+  if (layout.historyIds.length) {
+    const label = document.createElementNS(ns, 'text');
+    label.setAttribute('x', String(Math.min(...layout.historyIds.map(id => layout.positions.get(id)!.x))));
+    label.setAttribute('y', '-90');
+    label.textContent = 'Parcours exploré';
     group.append(label);
   }
   svg.replaceChildren(group);
   syncGuides(svg, instance);
+  sizeGuides(svg, instance);
 }
 
 // Reconcile by identity so the previous center and its factual links survive a pivot.
@@ -155,14 +164,13 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
       const isFocus = entity.id === focus;
       const location = layout.unknownIds.includes(entity.id) ? 'unknown-date' : layout.historyIds.includes(entity.id) ? 'history-node' : Math.abs(point.x) > 180 ? (point.x < 0 ? 'label-left' : 'label-right') : point.y < 0 ? 'label-top' : '';
       const label = entity.label.length > 65 && entity.abbreviatedLabel ? entity.abbreviatedLabel : shortLabel(entity);
-      const data = { id: entity.id, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: badge(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
+      const data = { id: entity.id, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), shape: nodeShape(entity), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: nodeSymbol(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
       let node = instance.getElementById(entity.id);
       if (!node.length) {
         node = instance.add({ group: 'nodes', data, position: { ...(motion ? origin : point) } });
         entering.add(entity.id);
       } else node.data(data);
       node.removeStyle('width height').classes(isFocus ? 'root' : location);
-      node.toggleClass('image-person', Boolean(entity.image && entity.type === 'person')).toggleClass('image-institution', Boolean(entity.image && entity.type !== 'person'));
       if (!motion) node.position(point);
     }
     for (const relation of relations) {
@@ -180,7 +188,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
     }
   });
   if (!motion) {
-    instance.viewport(frame(instance, positions));
+    instance.viewport(frame(instance, layout));
     return () => {};
   }
   for (const [id, position] of positions) {
@@ -191,7 +199,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
     if (element.isEdge()) element.animate({ style: { opacity: element.hasClass('active') ? 1 : .42 } }, { duration, queue: false });
   }
   leaving.animate({ style: { opacity: 0 } }, { duration: 180, queue: false });
-  instance.animate(frame(instance, positions), { duration, easing: 'ease-in-out-cubic', queue: false });
+  instance.animate(frame(instance, layout), { duration, easing: 'ease-in-out-cubic', queue: false });
   const removal = window.setTimeout(() => leaving.remove(), 200);
   const finish = window.setTimeout(() => instance.elements().removeStyle('opacity'), duration + 50);
   return () => {
@@ -244,27 +252,24 @@ export function GraphCanvas(props: Props) {
         style: [
           { selector: 'node', style: { width: 'data(size)', height: 'data(size)', 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-width': '76%', 'background-height': '76%', 'border-width': 1.2, 'border-color': 'data(color)', label: 'data(label)', 'font-family': 'Arial, sans-serif', 'font-size': 'data(fontSize)', color: '#343d38', 'text-valign': 'bottom', 'text-margin-y': 10, 'text-wrap': 'wrap', 'text-max-width': '115px', 'text-background-color': '#fafbf8', 'text-background-opacity': 0.93, 'text-background-padding': '3px', 'text-background-shape': 'roundrectangle', 'overlay-opacity': 0 } },
           { selector: 'node.label-left', style: { 'text-halign': 'left', 'text-valign': 'center', 'text-margin-x': -11, 'text-margin-y': 0 } },
-          { selector: 'node.image-person', style: { 'background-width': 'auto', 'background-height': 'auto', 'background-fit': 'cover' } },
-          { selector: 'node.image-institution', style: { 'background-width': 'auto', 'background-height': 'auto', 'background-fit': 'contain' } },
           { selector: 'node.label-right', style: { 'text-halign': 'right', 'text-valign': 'center', 'text-margin-x': 11, 'text-margin-y': 0 } },
           { selector: 'node.label-top', style: { 'text-valign': 'top', 'text-margin-y': -11 } },
           { selector: 'node.root', style: { width: 76, height: 76, 'background-color': '#254d40', 'border-color': '#254d40', 'border-width': 4, 'font-size': 14, 'font-weight': 'bold', 'text-margin-y': 12 } },
           { selector: 'node.active', style: { 'border-width': 3, 'border-color': '#254d40', 'underlay-color': '#254d40', 'underlay-opacity': 0.07, 'underlay-padding': 8 } },
           { selector: 'node.root.active', style: { 'underlay-opacity': 0, 'text-max-width': '180px', 'font-size': 15 } },
           { selector: 'node.compared', style: { 'border-width': 3, 'border-color': '#a47947', 'underlay-color': '#a47947', 'underlay-opacity': 0.08, 'underlay-padding': 8 } },
-          { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.42, 'curve-style': 'bezier', 'control-point-step-size': 24, 'overlay-padding': 9, 'overlay-opacity': 0 } },
+          { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.52, 'curve-style': 'bezier', 'control-point-step-size': 16, 'overlay-padding': 5, 'overlay-opacity': 0 } },
           { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#34463d', 'text-background-color': '#fafbf8', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
-          { selector: 'node.unknown-date', style: { 'border-style': 'dashed' } },
           { selector: 'node.compact-labels', style: { 'text-opacity': 0 } },
           { selector: 'node.root, node.active, node.hover, node.history-node', style: { 'text-opacity': 1 } },
           { selector: 'node.collision-label', style: { 'text-opacity': 0 } },
-          { selector: 'edge.undated-edge', style: { opacity: .17, 'line-style': 'dashed' } },
           { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
           { selector: 'node.dimmed', style: { opacity: .38 } },
           { selector: 'edge.dimmed', style: { opacity: .08 } },
           { selector: 'edge.inspected-neighbor', style: { opacity: .8, width: 1.8 } },
           { selector: 'node.root.dimmed, node.history-node.dimmed', style: { opacity: .7 } },
           { selector: '.leaving', style: { events: 'no' } },
+          ...atlasNodeStyles,
         ],
       });
       cy.current = instance;
@@ -278,6 +283,7 @@ export function GraphCanvas(props: Props) {
       instance.on('pan', () => syncGuides(guides.current, instance));
       instance.on('zoom', () => {
         syncGuides(guides.current, instance);
+        sizeGuides(guides.current, instance);
         if (!zoomFrame) zoomFrame = requestAnimationFrame(() => { zoomFrame = 0; if (!disposed) scaleLabels(instance); });
       });
       cancelTransition = updateScene(instance, callbacks.current, false, guides.current);
@@ -285,8 +291,8 @@ export function GraphCanvas(props: Props) {
         cancelTransition();
         cancelTransition = updateScene(instance, callbacks.current, animate, guides.current);
         if (overview) {
-          const positions = layoutGraph(callbacks.current, callbacks.current.focus, callbacks.current.trail, callbacks.current.chronology).positions;
-          instance.viewport(frame(instance, positions));
+          const layout = layoutGraph(callbacks.current, callbacks.current.focus, callbacks.current.trail, callbacks.current.chronology);
+          instance.viewport(frame(instance, layout));
         }
       };
       let width = container.current.clientWidth;
@@ -315,7 +321,6 @@ export function GraphCanvas(props: Props) {
   return <div className="graph-stage" data-testid="graph-stage" data-ready={ready}>
     <svg className="graph-guides" ref={guides} aria-hidden="true" />
     <div className="graph-canvas" ref={container} role="img" aria-label={`Graphe de ${entities.length} entités et ${relations.length} relations. Utilisez le mode Liste pour explorer au clavier.`} />
-    <div className="graph-compass" aria-hidden="true"><span>N</span><i /><small>VUE RELATIONNELLE</small></div>
     <div className="graph-controls" aria-label="Contrôles du graphe">
       <button className="icon-button" aria-label="Zoom avant" onClick={() => cy.current?.zoom({ level: cy.current.zoom() * 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Plus size={18} /></button>
       <button className="icon-button" aria-label="Zoom arrière" onClick={() => cy.current?.zoom({ level: cy.current.zoom() / 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Minus size={18} /></button>
