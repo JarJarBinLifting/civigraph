@@ -5,7 +5,9 @@ import { useMemo } from 'react';
 import { EntitySearch } from './EntitySearch';
 import { RelationEvidence } from './DetailPanel';
 import { getCommonConnections } from '@/lib/graph';
-import { initials, shortLabel, typeInfo } from '@/lib/presentation';
+import { shortLabel, typeInfo } from '@/lib/presentation';
+import { EntityAvatar } from './EntityAvatar';
+import { ImageCredit } from './ImageCredit';
 import type { Category, Entity, GraphData } from '@/lib/types';
 import { ComparisonGraph } from './ComparisonGraph';
 import { comparisonPeriods } from '@/lib/comparison';
@@ -26,9 +28,9 @@ export function Comparison({ data, left, right, categories, selected, presentati
     <div className="comparison-heading"><div><span className="eyebrow">Les parcours se croisent</span><h2>Qu’ont-ils en commun ?</h2></div><button className="icon-button" aria-label="Fermer la comparaison" onClick={onClose}><X size={19} /></button></div>
     <p className="comparison-lede">Deux parcours, des institutions communes. Retrouvez les liens et les périodes qui les documentent.</p>
     <div className="compare-pickers">
-      <div><div className="compare-person"><span className="mini-avatar">{initials(left.label)}</span><strong>{left.label}</strong></div><EntitySearch data={data} peopleOnly exclude={right?.id} onSelect={onLeft} label="Première personne à comparer" placeholder="Changer la première personne…" /></div>
+      <div><div className="compare-person"><EntityAvatar entity={left} /><strong>{left.label}</strong></div><EntitySearch data={data} peopleOnly exclude={right?.id} onSelect={onLeft} label="Première personne à comparer" placeholder="Changer la première personne…" />{left.image && <ImageCredit image={left.image} />}</div>
       <GitCompareArrows size={24} className="compare-symbol" />
-      <div>{right ? <div className="compare-person"><span className="mini-avatar ochre">{initials(right.label)}</span><strong>{right.label}</strong></div> : <p className="compare-person muted">Choisir un second parcours</p>}<EntitySearch data={data} peopleOnly exclude={left.id} onSelect={onRight} label="Deuxième personne à comparer" placeholder="Rechercher une personne…" /></div>
+      <div>{right ? <div className="compare-person"><EntityAvatar entity={right} className="mini-avatar ochre" /><strong>{right.label}</strong></div> : <p className="compare-person muted">Choisir un second parcours</p>}<EntitySearch data={data} peopleOnly exclude={left.id} onSelect={onRight} label="Deuxième personne à comparer" placeholder="Rechercher une personne…" />{right?.image && <ImageCredit image={right.image} />}</div>
     </div>
     {!right && <div className="comparison-suggestions"><span className="eyebrow">Pour commencer</span>{['Q3579995', 'Q20020731', 'Q157'].filter(id => id !== left.id).map(id => {
       const person = data.entities.find(entity => entity.id === id)!;
@@ -41,7 +43,8 @@ export function Comparison({ data, left, right, categories, selected, presentati
       <div className="comparison-note">Un établissement ou une fonction en commun ne prouve ni une rencontre, ni une collaboration. Les périodes peuvent être différentes.</div>
       {common.length > 0 && <><div className="view-toggle comparison-display" role="group" aria-label="Affichage de la comparaison"><button aria-pressed={presentation === 'map'} onClick={() => onPresentation('map')}>Carte comparative</button><button aria-pressed={presentation === 'cards'} onClick={() => onPresentation('cards')}>Cartes et sources</button></div>{presentation === 'map' && <ComparisonGraph left={left} right={right} common={common} selected={selected} onSelect={inspect} />}</>}
       {common.map(connection => <article className={`common-card ${selected === connection.entity.id ? 'is-selected' : ''}`} id={`common-${connection.entity.id}`} key={connection.entity.id}>
-        <div className="common-card-heading"><span className="mini-avatar" style={{ color: typeInfo[connection.entity.type].color, background: typeInfo[connection.entity.type].soft }}>{initials(shortLabel(connection.entity))}</span><div><span className="eyebrow">{typeInfo[connection.entity.type].label}</span><h3>{shortLabel(connection.entity)}</h3></div><button className="icon-button" aria-label={`Explorer ${shortLabel(connection.entity)}`} onClick={() => onExplore(connection.entity.id)}><ArrowRight size={18} /></button></div>
+        <div className="common-card-heading"><EntityAvatar entity={connection.entity} /><div><span className="eyebrow">{typeInfo[connection.entity.type].label}</span><h3>{shortLabel(connection.entity)}</h3></div><button className="icon-button" aria-label={`Explorer ${shortLabel(connection.entity)}`} onClick={() => onExplore(connection.entity.id)}><ArrowRight size={18} /></button></div>
+        {connection.entity.image && <ImageCredit image={connection.entity.image} />}
         {!supportsPeriods(connection.entity) && <p className="section-caption">Intitulé ou entité commune : ne suffit pas à identifier une même institution.</p>}
         <ComparisonPeriods connection={connection} />
         <div className="common-evidence"><div>{connection.left.map(relation => <RelationEvidence key={relation.id} relation={relation} data={data} compact />)}</div><div>{connection.right.map(relation => <RelationEvidence key={relation.id} relation={relation} data={data} compact />)}</div></div>

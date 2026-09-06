@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { ArrowUpRight, BookOpen, CalendarDays, ExternalLink, GitBranch, Link2, Plus, X } from 'lucide-react';
-import { categoryInfo, hasExternalReference, initials, periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
+import { categoryInfo, hasExternalReference, periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
 import type { Category, Entity, GraphData, Relation, ViewState } from '@/lib/types';
 import { matchesPeriod } from '@/lib/graph';
 import { PersonProfile } from './PersonProfile';
 import { getGraphIndex } from '@/lib/graph-index';
 import { entityPath } from '@/lib/publication';
+import { EntityAvatar } from './EntityAvatar';
+import { ImageCredit } from './ImageCredit';
 
 export function RelationEvidence({ relation, data, compact = false }: { relation: Relation; data: GraphData; compact?: boolean }) {
   const { entities } = getGraphIndex(data);
@@ -65,10 +67,11 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
   return <aside className="detail-panel" aria-label={`Fiche de ${entity.label}`}>
     <div className="panel-topline"><span className="eyebrow">Fiche {entity.type === 'person' ? 'personnalité' : 'entité'}</span><button className="icon-button" aria-label="Fermer la fiche" onClick={onClose}><X size={17} /></button></div>
     <div className="entity-profile">
-      <div className="profile-avatar" style={{ background: typeInfo[entity.type].soft, color: typeInfo[entity.type].color }}>{initials(entity.label)}<span className="profile-node" /></div>
+      <EntityAvatar entity={entity} className="profile-avatar" decorative={false} />
       <span className="type-label">{typeInfo[entity.type].label}</span>
       <h2>{shortLabel(entity)}</h2>
       <p>{entity.description || entity.label}</p>
+      {entity.image && <ImageCredit image={entity.image} />}
       <a className="subtle-link" href={entityPath(entity.id)}>Notice documentaire<ArrowUpRight size={13} /></a>
       {(entity.wikidataUrl || entity.sourceUrl) && <a className="subtle-link" href={entity.wikidataUrl ?? entity.sourceUrl} target="_blank" rel="noopener noreferrer">{entity.wikidataUrl ? 'Fiche Wikidata' : entity.sourceLabel ?? 'Source de l’entité'}<ArrowUpRight size={13} /></a>}
       {entity.labelSource && <a className="subtle-link" href={entity.labelSource.url} target="_blank" rel="noopener noreferrer">{entity.labelSource.title}<ArrowUpRight size={13} /></a>}

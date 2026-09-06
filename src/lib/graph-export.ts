@@ -29,6 +29,7 @@ export function graphExportInfo(data: GraphData, view: ViewState, graph: Pick<Gr
       'Un lien documenté n’implique pas une proximité personnelle. Plusieurs déclarations peuvent documenter un même fait. Corpus non exhaustif.',
       'Cadrage courant : certaines entités peuvent être hors champ. Retrouvez les noms complets et chaque source dans la vue liée ci-dessous.',
     ],
-    query: serializeView(view), filename: `civigraph-${view.focus.replace(/[^a-zA-Z0-9_-]/g, '-')}.png`, credits: [],
+    query: serializeView(view), filename: `civigraph-${view.focus.replace(/[^a-zA-Z0-9_-]/g, '-')}.png`,
+    credits: graph.entities.flatMap(entity => entity.image ? [`${entity.label} — ${entity.image.attribution || entity.image.author}. ${entity.image.license} : ${entity.image.licenseUrl} · ${entity.image.sourcePage} · Vignette redimensionnée ou recadrée ; licence d’origine conservée.`] : []),
   };
 }

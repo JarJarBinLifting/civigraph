@@ -150,3 +150,45 @@ Le Profil s'ouvre par défaut pour une personne. Il présente une synthèse et u
 Les captures ont été inspectées à 1982 × 1103, 1440 × 1000 et 390 × 844. Le cadrage utilise les positions de destination et les libellés pour conserver tous les nœuds à l'ouverture. Un échec de clic sur mobile, dû à l'ancien zoom minimal qui plaçait l'ENA hors champ, a été corrigé et le test est repassé. Les noms trop rapprochés au faible zoom s'affichent progressivement au zoom, au survol ou à la sélection ; le centre conserve une taille lisible. Le mode Liste permet une consultation complète au clavier. Captures locales dans `test-results/chronology-assas-*.png`, `profile-albane-*.png` et `enrichment-dense-*.png`.
 
 Le corpus et ses données sources n'ont pas été modifiés. Le Profil n'est pas une biographie vérifiée auprès de nouvelles sources et ne prétend pas être exhaustif. Les couronnes représentent des plages d'écart, pas une échelle métrique continue ni une preuve de rencontre. Les dates manquantes restent manquantes. Journal d'erreurs du serveur vide après la suite complète ; aucun push ni déploiement distant.
+
+## Sprint priorisé, comparaison, parcours et images — 6 septembre 2026
+
+Les lots 1 à 5 et l’ajout demandé de photos sont livrés localement. La carte bénéficie d’un index réutilisable, d’une caméra sans recalcul des styles lors du déplacement, de libellés prioritaires, de l’accentuation du voisinage inspecté et d’un mode agrandi conservant l’instance Cytoscape. La comparaison possède sa carte et ses preuves des deux côtés, ainsi que des chemins institutionnels bornés. Le Profil propose un Parcours sourcé. Des notices serveur et une page de méthode préparent la publication. Des explorations nommées se sauvegardent localement et la carte s’exporte réellement en PNG.
+
+Le dépôt était propre sur `main`, commit `1c008cd82cb4c64010c54f9698c2ecd9d6cfdfb8`. La baseline a réussi : lint, typecheck, 53 tests unitaires, build et 39 scénarios Chrome, avec 3 exclusions mobiles déjà présentes. Les nouveaux comportements pertinents ont d’abord été observés en échec dans leurs tests, puis corrigés. Le détail des lots, fichiers, commandes, échecs de préparation et commits se trouve dans [SPRINT-STATUS.md](SPRINT-STATUS.md). Les instantanés de relations existants et leurs preuves restent inchangés ; aucun reset, installation de dépendances, push ou déploiement.
+
+| Contrôle final | Résultat réel |
+| --- | --- |
+| `npm run lint` | Réussi |
+| `npm run typecheck` | Réussi |
+| `npm test` | 72 tests réussis dans 17 fichiers, 2,16 s |
+| `npm run build` | Réussi ; build `npGfydTW87YmjNK7UholU` |
+| `npm run test:e2e` | 65 réussis, 3 scénarios réservés au bureau ignorés sur mobile, 1,0 min ; nouveau build servi avant le lancement des tests |
+| Navigation et temps | Réseaux complets, anciennes URL, retour/avance, pivots rapides, retour pendant animation, dates inconnues et réduction des animations conservés |
+| Comparaison | Carte, cartes alternatives, preuves gauche/droite, statuts des paires de déclarations, filtres, institution pivot et restauration d’URL sur bureau/mobile |
+| Chemins | Fixtures de bornage, cycles, directions, déduplication et filtres ; scénario réel Macron → Marine Le Pen, quatre segments maximum, preuves et partage |
+| Parcours | Dates partielles, activités concomitantes, passages répétés, preuves parallèles, événements sans dates et indépendance vis-à-vis des filtres |
+| Notices et méthode | HTML lisible sans JavaScript, personnes et institutions canoniques, liens sources réels, inconnue en HTTP 404, noindex par défaut |
+| `node scripts/verify-publication.mjs` | Sur serveur temporaire local avec activation explicite : deux pages `index, follow`, canonical/OG vers `https://example.org`, graphe `noindex`, inconnue 404 ; sitemap 1 780 URL documentaires uniques, aucune URL locale ou combinatoire ; zéro requête tierce ; serveur temporaire arrêté |
+| Sauvegardes | Création, restauration, suppression ciblée, état d’URL complet, stockage corrompu/indisponible et entité disparue ; contrôle clavier bureau/mobile |
+| PNG | Deux téléchargements réels vérifiés et inspectés ; carte, guides, noms, catégories, périodes, corpus, limites, URL et crédits d’images présents |
+| Images | 810 fichiers locaux, 31 494 788 octets : 332 portraits et 478 illustrations ; 810 SHA-256 valides, 810 décodages Chrome réussis, aucune différence de dimensions ; repli sur initiales testé |
+| Cinq vues finales | Aucun débordement horizontal, erreur console/page ou appel réseau tiers ; ENA 123 nœuds/130 déclarations et Assas 69/70 |
+
+### Mesures comparables et limites
+
+Dans Chrome, au format 1982 × 1103, 120 déplacements synchrones de caméra sur l’ENA prenaient 1 699 ms et déclenchaient 44 760 événements de style avant correction. La même instrumentation finale prend 0,3 ms et ne déclenche plus d’événement de style. Sur Assas : 1 047 ms et 26 040 événements avant, 0,4 ms et zéro événement après. Ces nombres mesurent le gestionnaire synchrone, pas le temps de peinture complet ni la fréquence d’images.
+
+Médiane de cinq séries de 200 appels dans Node 24, avant/après l’index : sélection du réseau 0,351/0,058 ms, points communs 0,387/0,0084 ms, recherche « em » 39,613/0,612 ms, chronologie 0,311/0,122 ms. Les mesures détaillées sont conservées sous `.working/sprint/`.
+
+La page initiale transférait 532 133 octets gzip pour 6 240 472 octets décodés. Avec l’intégration finale illustrée, elle transfère 614 003 octets pour 6 668 998 décodés, d’après Navigation Timing à 1440 × 1000. Le graphe est prêt en 494 ms contre 940 ms dans les navigations locales échantillonnées ; ce sont des observations uniques, pas une comparaison statistique. Le corpus complet reste envoyé au client et les métadonnées d’images augmentent ce payload. Aucun gain réseau ni résultat sur un appareil mobile réel n’est revendiqué.
+
+### Captures et fichiers inspectés
+
+Les cinq captures `.working/sprint/final-initial-desktop.png`, `final-initial-mobile.png`, `final-ena-dense.png`, `final-assas-dense.png` et `final-assas-mobile.png` ont été produites et inspectées après la recette complète. Viewports : 1440 × 1000, 390 × 844 et 1982 × 1103. La capture mobile inclut le défilement vertical de la fiche et des sources. Les mesures correspondantes sont dans `final-browser.json`.
+
+Les captures des comparaisons, chemins, Parcours, notices, sauvegardes et crédits des images sont également conservées dans `.working/sprint/lot2a-*`, `lot2b-*`, `lot3-*`, `lot4-*`, `lot5a-*` et `images-portrait-*`. Les PNG exportés finaux ont été ouverts et inspectés : `lot5b-export-desktop.png`, 1 361 × 1 852 et 349 024 octets ; `lot5b-export-mobile.png`, 1 296 × 2 236 et 370 064 octets. Les captures et mesures locales sont ignorées par Git ; les tests qui produisent les preuves des comportements restent versionnés.
+
+Les images proviennent d’associations publiques Wikidata/Commons, vérifiées par identifiant ; licences, auteur, attribution, source et empreinte du fichier sont conservés. Les fonctions génériques ne reçoivent pas d’illustration institutionnelle supposée. Sur 875 candidates, 63 ont été exclues par le contrôle de licence/attribution/statut et deux GIF n’ont pas été retenus. La reprise `--cached` n’a aucun accès réseau ; les deux fichiers non téléchargés y sont signalés absents du cache. Les images ont leur propre licence, distincte de CC0 pour les données Wikidata. La navigation sert exclusivement des fichiers locaux ; l’import reste facultatif.
+
+Les chemins sont limités à trois résultats, quatre segments et 20 000 traversées de voisinage ; ils n’établissent pas que tout un chemin existait à une même date. Les noms denses nécessitent le zoom ou la sélection et restent intégralement disponibles dans Liste. Les PNG reproduisent le cadrage courant de l’explorateur, avec une limite explicite de 16 000 pixels de hauteur. Les sauvegardes sont propres au navigateur et à son origine. La couverture du corpus et des photos reste partielle ; les sources ne sont pas toutes vérifiées indépendamment. Les tests utilisent Chrome local, pas Firefox/Safari ni un téléphone physique. Tous les contrôles finaux demandés ont pu être exécutés. L’instance locale reste non indexable ; aucun domaine de production n’est configuré et rien n’a été publié.

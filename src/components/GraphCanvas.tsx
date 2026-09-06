@@ -26,6 +26,7 @@ interface Props {
 }
 
 function badge(entity: Entity, root: boolean) {
+  if (entity.image) return entity.image.src;
   const color = root ? '#ffffff' : typeInfo[entity.type].color;
   const content = entity.type === 'person'
     ? `<text x="32" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="24" stroke="none" fill="${color}">${initials(entity.label)}</text>`
@@ -161,6 +162,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
         entering.add(entity.id);
       } else node.data(data);
       node.removeStyle('width height').classes(isFocus ? 'root' : location);
+      node.toggleClass('image-person', Boolean(entity.image && entity.type === 'person')).toggleClass('image-institution', Boolean(entity.image && entity.type !== 'person'));
       if (!motion) node.position(point);
     }
     for (const relation of relations) {
@@ -242,6 +244,8 @@ export function GraphCanvas(props: Props) {
         style: [
           { selector: 'node', style: { width: 'data(size)', height: 'data(size)', 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-width': '76%', 'background-height': '76%', 'border-width': 1.2, 'border-color': 'data(color)', label: 'data(label)', 'font-family': 'Arial, sans-serif', 'font-size': 'data(fontSize)', color: '#343d38', 'text-valign': 'bottom', 'text-margin-y': 10, 'text-wrap': 'wrap', 'text-max-width': '115px', 'text-background-color': '#fafbf8', 'text-background-opacity': 0.93, 'text-background-padding': '3px', 'text-background-shape': 'roundrectangle', 'overlay-opacity': 0 } },
           { selector: 'node.label-left', style: { 'text-halign': 'left', 'text-valign': 'center', 'text-margin-x': -11, 'text-margin-y': 0 } },
+          { selector: 'node.image-person', style: { 'background-width': 'auto', 'background-height': 'auto', 'background-fit': 'cover' } },
+          { selector: 'node.image-institution', style: { 'background-width': 'auto', 'background-height': 'auto', 'background-fit': 'contain' } },
           { selector: 'node.label-right', style: { 'text-halign': 'right', 'text-valign': 'center', 'text-margin-x': 11, 'text-margin-y': 0 } },
           { selector: 'node.label-top', style: { 'text-valign': 'top', 'text-margin-y': -11 } },
           { selector: 'node.root', style: { width: 76, height: 76, 'background-color': '#254d40', 'border-color': '#254d40', 'border-width': 4, 'font-size': 14, 'font-weight': 'bold', 'text-margin-y': 12 } },

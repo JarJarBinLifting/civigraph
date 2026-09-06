@@ -15,6 +15,8 @@ test('the exported receipt distinguishes filtered counts, temporal reference and
   expect(info.context.join('\n')).toContain(String(graph.entities.length));
   expect(info.legend).toHaveLength(1);
   expect(info.notes.join('\n')).toMatch(/pas une mesure d’influence/);
+  expect(info.credits.join('\n')).toContain('Kobi Gideon / Government Press Office of Israel');
+  expect(info.credits.join('\n')).toContain('https://creativecommons.org/licenses/by-sa/4.0/');
   expect(info.query).toContain('year=2001');
   expect(parseView(info.query, data)).toEqual(view);
   const empty = { ...view, categories: [] };

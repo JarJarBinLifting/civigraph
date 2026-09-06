@@ -3,7 +3,8 @@
 import { useId, useRef, useState } from 'react';
 import { Search, ArrowUpRight, X } from 'lucide-react';
 import { searchEntities } from '@/lib/graph';
-import { initials, shortLabel, typeInfo } from '@/lib/presentation';
+import { shortLabel, typeInfo } from '@/lib/presentation';
+import { EntityAvatar } from './EntityAvatar';
 import type { Entity, GraphData } from '@/lib/types';
 
 interface Props {
@@ -39,7 +40,7 @@ export function EntitySearch({ data, onSelect, peopleOnly = false, label = 'Rech
       <ul id={`${id}-results`} role="listbox" aria-label="Résultats de recherche">
         {results.map((entity, index) => <li key={entity.id} id={`${id}-${index}`} role="option" aria-selected={index === active}>
           <button tabIndex={-1} onMouseDown={event => event.preventDefault()} onClick={() => choose(entity)} onMouseEnter={() => setActive(index)}>
-            <span className="mini-avatar" style={{ background: typeInfo[entity.type].soft, color: typeInfo[entity.type].color }}>{initials(entity.label)}</span>
+            <EntityAvatar entity={entity} />
             <span><strong>{shortLabel(entity)}</strong><small>{typeInfo[entity.type].label}</small></span><ArrowUpRight size={16} />
           </button>
         </li>)}

@@ -1,4 +1,5 @@
 import { cache } from 'react';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { loadDataset } from '@/lib/dataset';
 import { getGraphIndex } from '@/lib/graph-index';
@@ -6,6 +7,7 @@ import { getCareerTimeline, getPersonProfile } from '@/lib/profile';
 import { categoryInfo, formatDate, periodLabel, typeInfo } from '@/lib/presentation';
 import { documentMetadata, eligibleEntity, entityPath } from '@/lib/publication';
 import { DocumentLayout } from '@/components/DocumentLayout';
+import { ImageCredit } from '@/components/ImageCredit';
 
 export const dynamic = 'force-dynamic';
 const dataset = cache(loadDataset);
@@ -28,6 +30,7 @@ export default async function EntityDocument({ params }: Props) {
   const career = entity.type === 'person' ? getCareerTimeline(data, entity) : null;
   const careerSections = career ? [{ heading: 'Passages datés', entries: career.dated }, { heading: 'Sans dates exploitables', entries: career.undated }] : [];
   return <DocumentLayout>
+    {entity.image && <figure className="document-image"><Image unoptimized src={entity.image.src} width={entity.image.width} height={entity.image.height} alt={`${entity.type === 'person' ? 'Portrait' : 'Image'} de ${entity.label}`} /><figcaption><ImageCredit image={entity.image} /></figcaption></figure>}
     <div className="document-title"><p className="eyebrow">Notice documentaire · {typeInfo[entity.type].label}</p><h1>{entity.label}</h1><p>{entity.description}</p><a className="primary-button" href={`/?root=${encodeURIComponent(id)}&time=all`}>Explorer ce réseau</a></div>
     <div className="document-statistics"><span><strong>{neighbors.size}</strong> entités liées</span><span><strong>{relations.length}</strong> déclarations</span><span>Instantané du {new Date(data.meta.supplementedAt ?? data.meta.fetchedAt).toLocaleDateString('fr-FR', { timeZone: 'UTC' })}</span></div>
     <p className="document-limit">Cette notice reprend les informations du corpus. Les déclarations Wikidata ne sont pas vérifiées indépendamment. Plusieurs déclarations peuvent documenter le même fait ; leur nombre n’est pas un nombre de relations personnelles.</p>

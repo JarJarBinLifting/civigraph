@@ -20,8 +20,8 @@ export function ComparisonGraph({ left, right, common, selected, onSelect }: { l
     import('cytoscape').then(({ default: cytoscape }) => {
       if (disposed || !container.current) return;
       const elements: ElementDefinition[] = [
-        { data: { id: left.id, label: left.label, color: '#254d40' }, position: { x: -310, y: 0 }, classes: 'person' },
-        { data: { id: right.id, label: right.label, color: '#9b713c' }, position: { x: 310, y: 0 }, classes: 'person' },
+        { data: { id: left.id, label: left.label, color: '#254d40', picture: left.image?.src ?? 'none' }, position: { x: -310, y: 0 }, classes: 'person' },
+        { data: { id: right.id, label: right.label, color: '#9b713c', picture: right.image?.src ?? 'none' }, position: { x: 310, y: 0 }, classes: 'person' },
       ];
       common.forEach((connection, i) => {
         elements.push({ data: { id: connection.entity.id, label: shortLabel(connection.entity), color: '#64795a' }, position: { x: 0, y: (i - (common.length - 1) / 2) * 120 }, classes: `common-entity ${supportsPeriods(connection.entity) ? '' : 'generic-entity'}` });
@@ -32,7 +32,7 @@ export function ComparisonGraph({ left, right, common, selected, onSelect }: { l
       const instance = cytoscape({ container: container.current, elements, layout: { name: 'preset', fit: false }, minZoom: .2, maxZoom: 2.5, wheelSensitivity: .2,
         style: [
           { selector: 'node', style: { label: 'data(label)', width: 160, height: 56, shape: 'roundrectangle', 'background-color': '#f4f6ef', 'border-color': 'data(color)', 'border-width': 1.5, color: '#26372f', 'font-size': 14, 'font-family': 'Arial, sans-serif', 'text-wrap': 'wrap', 'text-max-width': '150px', 'text-valign': 'center', 'overlay-opacity': 0 } },
-          { selector: 'node.person', style: { width: 68, height: 68, shape: 'ellipse', 'background-color': 'data(color)', 'text-valign': 'bottom', 'text-margin-y': 13, 'font-weight': 'bold' } },
+          { selector: 'node.person', style: { width: 68, height: 68, shape: 'ellipse', 'background-color': 'data(color)', 'background-image': 'data(picture)', 'background-fit': 'cover', 'text-valign': 'bottom', 'text-margin-y': 13, 'font-weight': 'bold' } },
           { selector: 'node.generic-entity', style: { 'border-style': 'dashed' } },
           { selector: 'node.active', style: { 'border-width': 3, 'underlay-color': '#254d40', 'underlay-opacity': .08, 'underlay-padding': 8 } },
           { selector: 'edge', style: { label: 'data(label)', 'font-size': 10, 'text-background-color': '#fff', 'text-background-opacity': .95, 'text-background-padding': '4px', 'line-color': 'data(color)', 'target-arrow-color': 'data(color)', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier', width: 2, 'overlay-opacity': 0 } },

@@ -17,7 +17,9 @@ Les sources, identifiants, précisions temporelles, réseau complet et ancienne 
 
 ## Dernier lot stable
 
-Lots 1, 2A, 2B, 3 et 4 implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`, lot 2B `b991949`, lot 3 `dfa242e`. Aucune donnée source modifiée.
+Lots 1, 2A, 2B, 3, 4, 5A, 5B et images locales implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`, lot 2B `b991949`, lot 3 `dfa242e`, lot 4 `11cb517`, lot 5A `ffba96f`, lot 5B `61a3eb0`. Les images et la recette finale sont enregistrées avec ce point de reprise. Aucune relation ni donnée source existante modifiée ; seuls les deux instantanés d’images sont ajoutés.
+
+Socle final : lint, typecheck, build et 72 tests unitaires réussis ; Chrome : 65 réussis, les 3 scénarios réservés au bureau restent ignorés sur mobile. Build `npGfydTW87YmjNK7UholU`, servi localement sur `http://127.0.0.1:4300`. Le journal détaillé est dans la dernière section de `docs/verification.md`.
 
 ## Vérification et mesures
 
@@ -37,12 +39,12 @@ Lots 1, 2A, 2B, 3 et 4 implémentés et vérifiés. Commits locaux : lot 1 `9ef0
 ## Fichiers et limites
 
 - Fichiers du lot 1 : `src/lib/graph-index.ts`, `graph.ts`, `graph-layout.ts`, `profile.ts`, `focus.ts`, `graph.test.ts` ; `Explorer.tsx`, `GraphCanvas.tsx`, `DetailPanel.tsx`, `Modal.tsx`, `globals.css` ; `tests/sprint-exploration.spec.ts`.
-- Captures avant produites dans `.working/sprint/before-*.png` ; ENA inspectée. Captures après et mesures comparatives à réaliser après reconstruction.
-- Les photos feront l'objet d'un import facultatif ; la navigation restera autonome et les attributions ne seront pas assimilées à la licence CC0 du corpus Wikidata.
+- Captures avant produites dans `.working/sprint/before-*.png` ; ENA inspectée. Captures finales `.working/sprint/final-*.png` produites et inspectées, avec mesures dans `final-browser.json`.
+- Photos importées facultativement ; navigation autonome. Les attributions et licences d’images sont conservées séparément de la licence CC0 du corpus Wikidata.
 
 ## Prochaine action précise
 
-Importer les portraits et images libres disponibles avec auteur, licence et source ; conserver les vignettes locales et l’absence de requêtes tierces pendant la navigation. Première requête Commons refusée par le contrôle automatique car le titre provenait du cache local : vérifier sa provenance publique avant de réessayer.
+Ouvrir `http://127.0.0.1:4300` pour la revue du produit livré. Aucun lot du cahier des charges ne reste à entreprendre. Pour une prochaine intervention de performance, mesurer séparément désérialisation/hydratation et transfert du corpus complet avant de choisir une réduction du payload. Si le serveur est arrêté, lancer `npm run start` pour servir le build vérifié ; reconstruire après toute modification du code. L’indexation, le push et le déploiement restent désactivés et hors de cette livraison.
 
 ## Lot 2A — vérification
 
@@ -98,3 +100,26 @@ Importer les portraits et images libres disponibles avec auteur, licence et sour
 - Lint, typecheck, build et 4 tests unitaires ciblés réussis. Une incompatibilité de typage Cytoscape pour le contrôle d’animation a été corrigée avec son sélecteur `:animated`. L’export indique d’attendre si une transition est encore en cours.
 - Fichiers : `graph-export.ts`, `graph-export.test.ts`, `export-png.ts`, `GraphCanvas.tsx`, `Explorer.tsx`, `globals.css`, `tests/export.spec.ts`. Le lot 5A est conservé dans le commit local `ffba96f`.
 - Après ajustement : build réussi, 8 scénarios PNG/exploration/clavier réussis sur ordinateur/mobile, 11,1 s. Les PNG finaux incluent aussi les noms complets du réseau. Aucun changement du corpus ni des positions de nœuds.
+
+## Images locales — intégration
+
+- 875 candidates issues des associations P18/P154 publiques ; identité reconfirmée sur Wikidata avant la lecture des titres dans Commons. La première requête avait été refusée par la revue automatique (titre issu du cache local) ; après vérification de sa publication sur Wikidata, la même lecture a été autorisée.
+- Import facultatif et reprenable `node scripts/import-images.mjs` ; mode `--cached` sans réseau. 810 images importées : 332 portraits et 478 illustrations d’entités, 31 494 788 octets. 63 candidates non retenues pour licence/attribution/statut non validé, 2 pour format raster non retenu. Les fonctions génériques n’héritent pas de la photo d’une personne ou d’un organisme supposé.
+- Une alternative explicitement sourcée et sous CC BY-SA 4.0 est retenue pour Macron, le fichier P18 utilisant une marque Flickr PDM. Portrait, auteur, attribution demandée, licence, lien Commons et date photographique disponible restent distincts des faits biographiques.
+- Les licences Commons retournent souvent une URL sans slash final : cas reproduit par un test, puis normalisé. Trois tests de licence passent. Contrôle SHA-256, chemins locaux et rattachement des 810 fichiers au corpus réussis ; aucune relation ou source du graphe remplacée.
+- Avatars dans les fiches, recherche, corpus et comparaison ; images sur les nœuds d’exploration et les personnes comparées ; notices sans JavaScript illustrées. Initiales en cas de vignette absente. Les PNG incluent les crédits et les liens de licence de leurs images.
+- Lint, typecheck, build réussis ; 5 tests unitaires ciblés réussis. Dix parcours Chrome images/repli/notices/comparaison/PNG réussis sur ordinateur/mobile, 11 s. Captures des crédits inspectées ; le long crédit se consulte dans sa zone défilante.
+- Un démarrage Playwright a chevauché la fin du build ; les tests ont bien exercé les nouvelles images, puis son serveur temporaire a été fermé. Le serveur persistant du sprint a été relancé après vérification du port libre. Pour le socle final, attendre explicitement la fin du build avant Chrome.
+- Contrôle exhaustif Chrome : les 810 fichiers se décodent, mais 809 dimensions annoncées par l’API différaient des vignettes servies. L’import lit désormais les dimensions réelles avec Sharp déjà présent dans Next.js, sans transformer les fichiers. Reprise `--cached` effectuée ; second contrôle : 810 décodées, zéro échec, zéro différence de dimensions.
+- Dernier socle unitaire : lint et typecheck réussis, 72 tests dans 17 fichiers réussis. Captures de l’ensemble illustré inspectées en bureau, mobile et ENA dense. Réseaux toujours complets : ENA 123/130, Assas 69/70 ; aucun débordement, erreur de page ou appel tiers dans les 5 parcours. L’aide gestuelle mobile est déplacée au-dessus des commandes après observation d’un chevauchement avec le bouton PNG.
+- Lot 5B conservé dans `61a3eb0`. Les fichiers d’images et leurs deux manifestes, `scripts/import-images.mjs`, `scripts/lib/image-license.mjs`, `scripts/image-overrides.json`, composants d’avatar/crédit et leurs intégrations sont inclus dans le point de reprise final.
+
+## Recette finale — 6 septembre 2026
+
+- `npm run lint`, `npm run typecheck`, `npm test` : réussis, 72 tests dans 17 fichiers (2,16 s). `npm run build` : réussi, build `npGfydTW87YmjNK7UholU` terminé avant le lancement de Chrome. `npm run test:e2e` : 65 réussis, 3 ignorés, 1,0 min. Aucun test préexistant supprimé ni garantie temporelle affaiblie.
+- `node scripts/verify-publication.mjs` repassé sur ce build : deux pages documentaires `index, follow` avec canonical et Open Graph corrects sur le domaine réservé de fixture `https://example.org`, graphe `noindex`, inconnue 404, sitemap de 1 780 URL uniques sans URL locale ni paramètres. Zéro requête tierce. Serveur temporaire arrêté ; aucune publication.
+- `node .working/sprint/capture.mjs final` : les cinq captures finales sont produites et inspectées (initial bureau/mobile, ENA dense, Assas dense/mobile). Aucune erreur console ou de page, aucun appel tiers ni débordement horizontal. ENA conserve 123 nœuds/130 déclarations ; Assas 69/70.
+- Mesure finale ENA, Chrome 1982 × 1103 : 120 déplacements synchrones en 0,3 ms, zéro événement de style ; Assas 0,4 ms, zéro événement. Il s’agit du coût synchrone du gestionnaire, pas d’un FPS. Page initiale 1440 × 1000 : 614 003 octets transférés (gzip), 6 668 998 décodés ; graphe prêt en 494 ms sur une navigation locale isolée. Le transfert complet reste une limite, augmentée par les métadonnées des images ; aucun gain réseau revendiqué.
+- PNG réellement téléchargés puis inspectés avec images et crédits : `lot5b-export-desktop.png` (1 361 × 1 852, 349 024 octets) et `lot5b-export-mobile.png` (1 296 × 2 236, 370 064 octets). Captures des cartes comparatives, notices et crédits également inspectées.
+- Intégrité des 810 fichiers : identifiants et SHA-256 contrôlés ; décodage Chrome réussi pour tous, aucune différence de dimensions (`image-integrity.json`). Couverture photographique partielle : 332 portraits et 478 illustrations. 65 candidates non importées ; lors de la reprise sans réseau, les deux GIF non retenus sont signalés absents du cache de fichiers.
+- Limites : contrôles dans Chrome local, sans Firefox/Safari ni téléphone physique ; zoom nécessaire pour lire tous les noms des réseaux denses, avec Liste en alternative ; PNG du cadrage d’exploration actuel, limité à 16 000 pixels de hauteur ; chemins bornés en toutes périodes ; sources du corpus non vérifiées indépendamment dans leur ensemble. Aucun contrôle final demandé omis, aucun lot laissé en cours. Aucun push ni déploiement.

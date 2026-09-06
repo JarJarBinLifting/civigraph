@@ -46,7 +46,15 @@ Le cadrage initial inclut tous les nœuds. Pour les réseaux denses, les noms se
 
 Les personnes s’ouvrent sur **Profil** : une présentation et des repères de fonctions, formations et activités, issus du corpus complet et reliés à leurs preuves. Ce profil reste indépendant des filtres du graphe ; **Connexions** et **Sources** permettent de poursuivre l’exploration. Les institutions conservent Connexions comme onglet initial.
 
+**Parcours** ordonne les passages datés et réserve une section aux événements sans dates exploitables. Les activités simultanées et les passages distincts dans une même institution restent séparés ; seules les preuves d’un fait strictement identique sont regroupées.
+
+**Comparer** propose une carte où chaque personne est reliée aux entités communes, avec les cartes sourcées en alternative. Les bilans temporels comptent les paires de déclarations et leurs différents statuts, sans attribuer une simultanéité à tout le groupe. **Chemins** cherche au maximum trois parcours institutionnels de quatre segments, déterministes, sans cycle et avec toutes les preuves. La recherche est bornée à 20 000 traversées de voisinages et trois arrivées par sommet ; une limite atteinte est signalée. Les fonctions sans contexte institutionnel sont exclues. Ce mode reste en **Toutes périodes**, sans inférer une rencontre ni une coexistence globale. `comparisonMode=paths` et `comparisonView=cards` sont distincts du paramètre historique `mode=graph|list`.
+
 Le mode **Liste** permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
+
+**Agrandir la carte** garde les filtres, la sélection et le parcours. Le bouton de réduction ou Échap ferme cette vue ; le focus revient au déclencheur. **Mes explorations** enregistre jusqu’à 50 vues nommées sur cet appareil, dans ce navigateur. Une vue peut être restaurée ou supprimée ; les erreurs de stockage et les entités disparues sont signalées, sans remplacer des sauvegardes illisibles. Effacer les données du navigateur efface aussi ces vues.
+
+Le bouton de téléchargement de la carte crée un **PNG du cadrage courant** : titre, noms complets du réseau, catégories, filtre et repère temporels, date du corpus, légende, limites, URL et crédits d’images. Des entités peuvent être hors champ selon le cadrage. Une transition ou des images encore en chargement doivent terminer avant l’export. Aucun fichier n’est envoyé vers un service externe.
 
 Développer une entité la place au centre et affiche ses relations directes. Les étapes parcourues et leurs liens documentés restent visibles, selon les filtres actifs. Par exemple, depuis Bernard Cazeneuve, développer « Conseiller régional » garde Bernard relié à cette fonction et ouvre ses autres voisins. Le point de départ reste accessible dans la barre latérale ; revenir à une étape replie les étapes suivantes. Le paramètre `focus` de l'URL mémorise le centre indépendamment de la fiche sélectionnée ; les anciennes URL prennent la dernière entité développée comme centre. La préférence système de réduction des animations est respectée.
 
@@ -112,6 +120,14 @@ tests/                   Parcours navigateur ordinateur et mobile
 docs/                    Périmètre, provenance et preuves de vérification
 ```
 
+### Portraits et images d’entités
+
+Les 810 vignettes de cette livraison (332 portraits, 478 illustrations d’entités) sont dans `public/images/entities/`. Les attributions, licences, sources Commons, empreintes et associations par identifiant figurent dans `src/data/entity-images.json`. `entity-images-manifest.json` décrit la couverture et les 65 candidates non retenues. L’absence de vignette garde les initiales ; une fonction générique ne reçoit pas la photo d’un titulaire supposé.
+
+L’import facultatif `node scripts/import-images.mjs` reconfirme les associations publiques sur Wikidata, lit les licences Commons et récupère uniquement des images fixes de taille bornée. Il conserve sa progression sous `.cache/entity-images/`. `--cached` reprend sans réseau, `--refresh` relit les métadonnées publiques et `--limit=N` permet un lot réduit. Les trois caches d’import Wikidata doivent exister. Les fichiers ne sont pas modifiés par cet import : Sharp, déjà fourni avec Next.js, lit seulement leurs dimensions réelles. Aucun nettoyage automatique des anciennes images n’est effectué.
+
+Les licences retenues sont CC BY, CC BY-SA, CC0 et des statuts de domaine public explicitement indiqués par Commons. Les notices avec attribution inexploitable, litige signalé, marque Flickr PDM ou format non retenu sont laissées de côté. Les alternatives relues par nom et identité sont consignées dans `scripts/image-overrides.json`. Chaque vignette propose **Crédit de l’image** ; les sources et licences restent accessibles au clavier et dans les notices serveur. Les recadrages d’affichage conservent la licence de l’image. Voir les [règles de réutilisation de Commons](https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia). La navigation ne contacte aucun hébergeur d’images tiers.
+
 Next.js, React et TypeScript structurent l'application. Cytoscape est chargé à la demande pour le canvas. Le domaine du graphe est indépendant du navigateur et testé sur des cas explicites. Le snapshot versionné permet une V0 autonome ; Neo4j, PostgreSQL et un service d'ingestion séparé n'ont pas été ajoutés artificiellement à ce prototype.
 
 ## Vérifier
@@ -140,6 +156,6 @@ Après activation, seules la méthode et les notices éligibles émettent une UR
 
 `node scripts/verify-publication.mjs`, après un build, vérifie le HTML et le sitemap sur une instance locale temporaire au port 4301. Le domaine réservé `example.org` sert uniquement de fixture de test ; aucune publication ni requête vers ce domaine n’est effectuée. Le script ferme uniquement son propre serveur.
 
-Cette livraison enrichit la V0 avec 492 personnes, des mandats parlementaires et un premier lot HATVP. La couverture demeure limitée aux personnes et organismes sélectionnés ; elle ne constitue pas un annuaire exhaustif. Timeline interactive, couverture générale des cabinets, comptes, exports et API professionnelle restent hors de cette livraison. Aucun score de proximité ni causalité n’est déduit.
+Cette livraison enrichit la V0 avec l’exploration complète, les comparaisons et chemins sourcés, les parcours chronologiques, les notices documentaires, les sauvegardes locales et l’export PNG. La couverture demeure limitée aux personnes et organismes sélectionnés ; elle ne constitue pas un annuaire exhaustif. La couverture générale des cabinets, les comptes et une API professionnelle restent hors de cette livraison. Aucun score de proximité ni causalité n’est déduit.
 
-Les données structurées de Wikidata sont sous [CC0](https://www.wikidata.org/wiki/Wikidata:Licensing). Les documents officiels conservent leurs conditions de réutilisation ; ils sont référencés sans être redistribués. Les polices DM Sans et Manrope sont distribuées localement via Fontsource sous SIL OFL ; leurs licences sont incluses dans les dépendances. Aucune photographie distante n'est utilisée.
+Les données structurées de Wikidata sont sous [CC0](https://www.wikidata.org/wiki/Wikidata:Licensing). Les documents officiels conservent leurs conditions de réutilisation ; ils sont référencés sans être redistribués. Les polices DM Sans et Manrope sont distribuées localement via Fontsource sous SIL OFL ; leurs licences sont incluses dans les dépendances. Les images gardent leurs licences et crédits propres, distincts de la licence des données Wikidata.

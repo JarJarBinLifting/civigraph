@@ -6,6 +6,7 @@ import assembly from '../data/assembly.json';
 import integrityWatch from '../data/integrity-watch.json';
 import institutions from '../data/institution-participations.json';
 import corrections from '../data/entity-corrections.json';
+import imageSnapshot from '../data/entity-images.json';
 import type { GraphData, Relation } from './types';
 
 export function mergeDatasets(base: GraphData, extra: GraphData, official: Relation[]): GraphData {
@@ -52,5 +53,9 @@ export function loadDataset(): GraphData {
     const entity = data.entities.find(entity => entity.id === correction.id);
     if (entity) { entity.label = correction.label; entity.labelSource = correction.labelSource; }
   }
-  return data;
+  const images = new Map(imageSnapshot.images.map(image => [image.entityId, {
+    src: image.src, width: image.width, height: image.height, author: image.author, attribution: image.attribution, credit: image.credit,
+    license: image.license, licenseUrl: image.licenseUrl, sourcePage: image.sourcePage, sourceTitle: image.sourceTitle, restrictions: image.restrictions, takenAt: image.takenAt,
+  }]));
+  return { ...data, entities: data.entities.map(entity => images.has(entity.id) ? { ...entity, image: images.get(entity.id) } : entity) };
 }

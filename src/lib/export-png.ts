@@ -41,6 +41,7 @@ function lines(context: CanvasRenderingContext2D, text: string, width: number) {
 
 export async function exportGraphPng(instance: Core, svg: SVGSVGElement, info: GraphExportInfo) {
   if (instance.animated() || instance.nodes(':animated').length) throw new Error('Attendez la fin du déplacement de la carte, puis relancez l’export.');
+  if (instance.nodes(':backgrounding').length) throw new Error('Certaines images chargent encore. Relancez l’export dans un instant.');
   const width = instance.width(), height = instance.height();
   if (!width || !height) throw new Error('Ouvrez la carte avant de l’exporter.');
   const chartWidth = Math.round(Math.min(1800, Math.max(1200, width * 1.5)));

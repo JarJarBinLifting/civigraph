@@ -1,0 +1,336 @@
+{
+  "version": 1,
+  "checkedAt": "2026-09-06T21:36:48.024Z",
+  "candidates": 875,
+  "imported": 810,
+  "people": 332,
+  "other": 478,
+  "bytes": 31494788,
+  "skipped": [
+    {
+      "entityId": "Q1076619",
+      "file": "Two French Marines armed with an HK416 and FN Minimi light machine gun (Mission Jeanne d'Arc, 2022).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q1144549",
+      "file": "DSC 6657-UniversiteMarieCurie.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q124620577",
+      "file": "1718282582550 20240611 IMART Celine FR 003.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q12963",
+      "file": "Bayrou Matignon (cropped).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q1321340",
+      "file": "George Pau-Langevin - Février 2013 (2).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q1341516",
+      "file": "Westminster school arch view.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q1366170",
+      "file": "Hervé de Charette 1999.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q152838",
+      "file": "Göttingen asv2022-06 img42 Uni Aula Wilhelmsplatz.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q156511",
+      "file": "Pierre Mauroy 1990.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q15696910",
+      "file": "2018-07-04 Virginie Roziere, MEP-0447.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q16011466",
+      "file": "Odile Leperre-Verrier.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q16024859",
+      "file": "Lancement RS - Benoist Bihan et Régis de Castelnau.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q16266697",
+      "file": "Gisèle CHARZAT.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q1760791",
+      "file": "Middlesex University Hendon Campus.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q187099",
+      "file": "Lionel Jospin, Klaus Hänsch 1996 (cropped).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q18744966",
+      "file": "Sebastien Proto-NB-IMG 7880.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q190080",
+      "file": "CMU campus Cathedral Learning background.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q190464",
+      "file": "8-Canada-Square (cropped).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q193582",
+      "file": "Paris Assemblee Nationale DSC00074.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q2042",
+      "file": "General Charles de Gaulle in 1945.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q21055129",
+      "file": "Meckenheimer Straße 45.JPG",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q215778",
+      "file": "Sadi Carnot (14782530655).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q2157937",
+      "file": "The Oxford Union Main Building.tiff",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q21786841",
+      "file": "Frontex HQ Warsaw Spire office complex Warsaw.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q221653",
+      "file": "Academiegebouw-utrecht-the-netherlands.png",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q22683089",
+      "file": "Didier Plowy - Audrey Azoulay (cropped).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q253439",
+      "file": "Trippenhuis.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q2706726",
+      "file": "Harris Manchester College Oxford 20040124.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q273447",
+      "file": "ECP2.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q273605",
+      "file": "Logo ENS LSH.gif",
+      "reason": "Ressource absente du cache ; aucun appel réseau en mode --cached."
+    },
+    {
+      "entityId": "Q2822396",
+      "file": "Palazzo dell'Academia delle scienze Torino.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q2897641",
+      "file": "Bernard Carayon.png",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q2898005",
+      "file": "1721737249295 20240723 EP-171121A PB9 120.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q29184684",
+      "file": "StCloud - école St Pie X.JPG",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q292458",
+      "file": "Marion Maréchal MEP (2024).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q29293",
+      "file": "Escp-Paris.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q2965111",
+      "file": "Christian Cambon-IMG 4075.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q30343005",
+      "file": "Djebbari 2021 (cropped).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3079081",
+      "file": "ZuccarelliLang.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q312",
+      "file": "Apple park cupertino 2019.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3159696",
+      "file": "Jacques Oudin-IMG 3689.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3171170",
+      "file": "Castex Matignon.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3219132",
+      "file": "Laurent Cohen-Tanugi.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3220800",
+      "file": "Héraldique meuble Chouette.svg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3268618",
+      "file": "Lycée Champollion - Grenoble.JPG",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3268795",
+      "file": "Lycée lakanal.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3269046",
+      "file": "Lfa1.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3278487",
+      "file": "ParisMairie15ème.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q333480",
+      "file": "Oliver Letwin Official.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q3355772",
+      "file": "Celtic-style crossed circle.svg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q414188",
+      "file": "Göttingen asv2022-06 img03 Akademie der Wissenschaften.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q4345832",
+      "file": "Sankt Petersburg - Akademie der Wissenschaften (Aufriss 1741).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q461340",
+      "file": "Obs-Paris-coupole-Arago.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q47904",
+      "file": "Mario Monti portrait november 2011.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q489097",
+      "file": "Biurowiec Rondo 1 w Warszawie 2022a.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q49122",
+      "file": "Hls langdell hall.jpeg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q547867",
+      "file": "Universität von Athen.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q612648",
+      "file": "Universite clermont-fd 2 LLSH.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q678565",
+      "file": "GlasarchitekturWeltausstellung1937.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q779722",
+      "file": "Crédit lyonnais (1).JPG",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q789848",
+      "file": "Ministère de l'Europe et des Affaires Étrangères.svg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q806926",
+      "file": "Banque Heritage.gif",
+      "reason": "Ressource absente du cache ; aucun appel réseau en mode --cached."
+    },
+    {
+      "entityId": "Q83172",
+      "file": "Moscow 05-2017 img23 Andreevsky Monastery.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q838330",
+      "file": "BascomHill.JPG",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q865528",
+      "file": "Warwick University House.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    }
+  ]
+}

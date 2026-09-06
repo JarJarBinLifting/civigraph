@@ -3,6 +3,10 @@ import { readFile } from 'node:fs/promises';
 test('exports a real PNG of the framed map with its context while preserving the view', async ({ page }, info) => {
   await page.goto('/?root=Q3052772&categories=education&year=2001');
   await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
+  await page.waitForFunction(() => {
+    const element = document.querySelector('.graph-canvas') as HTMLElement & { _cyreg?: { cy: import('cytoscape').Core } };
+    return element?._cyreg?.cy.nodes(':backgrounding').length === 0;
+  });
   const url = page.url();
   const downloading = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Exporter la carte en PNG', exact: true }).click({ timeout: 4000 });

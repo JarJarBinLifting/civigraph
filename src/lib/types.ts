@@ -1,6 +1,12 @@
 export const CATEGORIES = ['education', 'office', 'party', 'employment', 'membership'] as const;
 export type Category = (typeof CATEGORIES)[number];
 export type EntityType = 'person' | 'school' | 'office' | 'party' | 'organization';
+export interface EntityImage {
+  src: string; width: number; height: number;
+  author: string; attribution: string; credit: string;
+  license: string; licenseUrl: string; sourcePage: string; sourceTitle: string;
+  restrictions: string; takenAt: string;
+}
 
 export interface Entity {
   id: string;
@@ -17,6 +23,7 @@ export interface Entity {
   modified: string;
   sourceEntityId?: string;
   contexts?: StatementContext[];
+  image?: EntityImage;
 }
 
 export interface StatementContext { property: string; id: string; label: string; revision: number }
