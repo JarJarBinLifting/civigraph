@@ -298,6 +298,20 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .comparison-result-heading strong { font-size: 14px; font-weight: 500; }
 .comparison-result-heading > span { font-size: 10px; color: #6e7665; }
 .comparison-counts { color: #52684f; font-size: 11px; margin: 10px 0; }
+.comparison-mode { display: flex; gap: 24px; border-bottom: 1px solid var(--line); margin: 22px 0; }
+.comparison-mode button { font-size: 14px; padding: 10px 0; border-bottom: 2px solid transparent; }
+.comparison-mode button[aria-pressed=true] { border-color: var(--forest); color: var(--forest); font-weight: 650; }
+.institution-paths > h3 { font-family: var(--serif); font-size: 24px; font-weight: 400; }
+.institution-path { margin-top: 20px; border: 1px solid #dce5d5; padding: 20px; border-radius: 7px; background: #fff; }
+.path-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 11px; color: #5c7054; }
+.path-chain { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; list-style: none; margin: 18px 0; padding: 0; }
+.path-chain li { display: inline-flex; align-items: center; gap: 10px; }
+.path-chain li + li::before { content: '—'; color: #94a78a; }
+.path-chain button { padding: 8px 10px; background: #edf3e8; color: var(--forest); border-radius: 4px; font-size: 12px; text-align: left; }
+.path-segments details { border-top: 1px solid var(--line); padding: 12px 0; }
+.path-segments summary { cursor: pointer; color: #364f3d; font-size: 12px; line-height: 1.7; }
+.path-segments summary small { display: block; color: #61725a; margin-top: 5px; }
+@media (max-width: 640px) { .institution-path { padding: 14px; } .path-heading { align-items: flex-start; flex-direction: column; gap: 4px; } }
 .comparison-display { width: fit-content; margin: 12px 0; }
 .comparison-display button { min-height: 35px; }
 .comparison-map { border: 1px solid #dde5d7; border-radius: 8px; background: #fafbf7; overflow: hidden; margin-bottom: 24px; }

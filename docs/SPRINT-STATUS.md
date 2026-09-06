@@ -17,7 +17,7 @@ Les sources, identifiants, précisions temporelles, réseau complet et ancienne 
 
 ## Dernier lot stable
 
-Lots 1 et 2A implémentés et vérifiés. Lot 1 : commit local `9ef08eb`. Lot 2A : carte comparative, géométrie mobile, sélection partageable, preuves des deux côtés, comptes séparant institutions et déclarations, bilans temporels par paire. Aucune donnée source modifiée.
+Lots 1, 2A et 2B implémentés et vérifiés. Commits locaux : lot 1 `9ef08eb`, lot 2A `c5a6a8b`. Le lot 2B ajoute des chemins institutionnels courts, bornés, sourcés et partageables. Aucune donnée source modifiée.
 
 ## Vérification et mesures
 
@@ -42,7 +42,7 @@ Lots 1 et 2A implémentés et vérifiés. Lot 1 : commit local `9ef08eb`. Lot 2A
 
 ## Prochaine action précise
 
-Lot 2B : recherche pure, déterministe et bornée de trois chemins institutionnels au plus, quatre segments au plus ; preuves intégrales, catégories actives et mode partageable distinct.
+Lot 3 : ajouter « Parcours » dans le profil, avec passages datés, bornes incomplètes et événements sans date, en préservant les sources et l'indépendance des filtres du graphe.
 
 ## Lot 2A — vérification
 
@@ -53,3 +53,13 @@ Lot 2B : recherche pure, déterministe et bornée de trois chemins institutionne
 - Captures `.working/sprint/lot2a-*.png`, détails de la carte inspectés sur ordinateur et mobile. Sources à gauche et à droite, navigation vers ENA, filtres et absence de débordement vérifiés.
 - Fichiers : `ComparisonGraph.tsx`, `Comparison.tsx`, `Explorer.tsx`, `comparison.ts`, `comparison.test.ts`, `graph.ts`, `types.ts`, `globals.css`, `tests/comparison-map.spec.ts`.
 - Limite assumée : les bilans comptent les comparaisons de déclarations, pas des rencontres ni des personnes supplémentaires. Un intitulé générique est identifié séparément d'une institution.
+
+## Lot 2B — vérification
+
+- Moteur BFS sur l'index : 3 résultats maximum, 4 segments maximum, 20 000 traversées de voisinages maximum et 3 arrivées par sommet ; voisinages mis en cache pendant la recherche. Ordre canonique stable, pas de cycle ni de multiplication des chemins par leurs déclarations parallèles.
+- Les chemins alternent personnes et institutions documentées ; fonctions sans contexte et relations personne/personne exclues. Sources conservées dans leur direction d'origine ; limite de travail atteinte signalée.
+- 5 tests nouveaux observés en échec avant implémentation, puis réussis. 23 tests ciblés chemins/comparaison/graphe réussis ; lint, typecheck et build réussis.
+- Chrome : 4 scénarios chemins réussis sur ordinateur/mobile ; cas réel indirect Macron → Marine Le Pen à 4 segments, sources et exploration d'une institution vérifiés. Carte comparative également revérifiée sur les deux formats.
+- Le premier scénario de filtre vide construisait deux paramètres `categories` ; fixture corrigée pour remplacer le paramètre, sans modifier le comportement de l'application.
+- Captures `.working/sprint/lot2b-path-*.png` inspectées. Fichiers : `paths.ts`, `paths.test.ts`, `InstitutionPaths.tsx`, `Comparison.tsx`, `Explorer.tsx`, `graph.ts`, `types.ts`, `globals.css`, `tests/paths.spec.ts`.
+- Partage : `comparisonMode=paths`, indépendant de `mode=graph|list` ; anciennes URL préservées. Toutes périodes explicite, aucune simultanéité globale inférée.

@@ -75,6 +75,7 @@ export interface ViewState {
   selected: string;
   compare: string | null;
   comparisonView?: 'map' | 'cards';
+  comparisonMode?: 'common' | 'paths';
   mode: 'graph' | 'list';
   edge: string | null;
   temporal: 'all' | 'same';

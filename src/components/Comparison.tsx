@@ -10,10 +10,12 @@ import type { Category, Entity, GraphData } from '@/lib/types';
 import { ComparisonGraph } from './ComparisonGraph';
 import { comparisonPeriods } from '@/lib/comparison';
 import { supportsPeriods } from '@/lib/temporal';
+import { InstitutionPaths } from './InstitutionPaths';
 
-export function Comparison({ data, left, right, categories, selected, presentation = 'map', onSelect, onPresentation, onLeft, onRight, onExplore, onClose }: {
+export function Comparison({ data, left, right, categories, selected, presentation = 'map', mode = 'common', onMode, onSelect, onPresentation, onLeft, onRight, onExplore, onClose }: {
   data: GraphData; left: Entity; right: Entity | undefined; categories: Category[];
   selected: string; presentation?: 'map' | 'cards'; onSelect: (id: string) => void; onPresentation: (view: 'map' | 'cards') => void;
+  mode?: 'common' | 'paths'; onMode: (mode: 'common' | 'paths') => void;
   onLeft: (entity: Entity) => void; onRight: (entity: Entity) => void; onExplore: (id: string) => void; onClose: () => void;
 }) {
   const common = useMemo(() => right ? getCommonConnections(data, left.id, right.id, categories) : [], [data, left.id, right, categories]);
@@ -32,7 +34,9 @@ export function Comparison({ data, left, right, categories, selected, presentati
       const person = data.entities.find(entity => entity.id === id)!;
       return <button key={id} onClick={() => onRight(person)}>{person.label}<ArrowUpRight size={15} /></button>;
     })}</div>}
-    {right && <><div className="comparison-result-heading"><strong>{common.length} {common.length === 1 ? 'point commun documenté' : 'points communs documentés'}</strong><span>Selon les filtres actifs</span></div>
+    {right && <div className="comparison-mode" role="group" aria-label="Question de comparaison"><button aria-pressed={mode === 'common'} onClick={() => onMode('common')}>Points communs</button><button aria-pressed={mode === 'paths'} onClick={() => onMode('paths')}>Chemins</button></div>}
+    {right && mode === 'paths' && <InstitutionPaths data={data} left={left} right={right} categories={categories} onExplore={onExplore} />}
+    {right && mode === 'common' && <><div className="comparison-result-heading"><strong>{common.length} {common.length === 1 ? 'point commun documenté' : 'points communs documentés'}</strong><span>Selon les filtres actifs</span></div>
       <p className="comparison-counts">{institutions} institutions · {common.length - institutions} autres entités ou fonctions · {statementCount} déclarations</p>
       <div className="comparison-note">Un établissement ou une fonction en commun ne prouve ni une rencontre, ni une collaboration. Les périodes peuvent être différentes.</div>
       {common.length > 0 && <><div className="view-toggle comparison-display" role="group" aria-label="Affichage de la comparaison"><button aria-pressed={presentation === 'map'} onClick={() => onPresentation('map')}>Carte comparative</button><button aria-pressed={presentation === 'cards'} onClick={() => onPresentation('cards')}>Cartes et sources</button></div>{presentation === 'map' && <ComparisonGraph left={left} right={right} common={common} selected={selected} onSelect={inspect} />}</>}
