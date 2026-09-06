@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-09-06",
+  "institution": "Q2986712",
+  "selection": "Personnalités ayant un parcours politique parmi les participants documentés. Sélection non exhaustive, comprenant des membres européens de cette commission française.",
+  "compositions": [
+    {
+      "id": "attali-2007",
+      "label": "2007 · Composition initiale",
+      "date": { "value": "2007-08-27", "precision": 11 },
+      "source": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000428428",
+      "title": "Décret du 27 août 2007 instituant la commission",
+      "locator": "Article 2 — président, membres et rapporteurs",
+      "note": "Composition issue des nominations du 27 août 2007. Ce repère documente les rôles dans cette composition, sans attribuer une date de fin individuelle.",
+      "participants": [
+        { "person": "Q3052772", "role": "Rapporteur général adjoint" },
+        { "person": "Q364315", "role": "Président de la commission" },
+        { "person": "Q929763", "role": "Membre · ancien ministre italien" },
+        { "person": "Q47904", "role": "Membre · ancien commissaire européen" },
+        { "person": "Q438185", "role": "Membre · ancienne ministre espagnole" },
+        { "person": "Q74191", "role": "Membre · députée européenne" }
+      ]
+    },
+    {
+      "id": "attali-2010",
+      "label": "2010 · Seconde mission",
+      "date": { "value": "2010-00-00", "precision": 9 },
+      "source": "https://www.vie-publique.fr/files/rapport/pdf/104000541.pdf",
+      "title": "Une ambition pour dix ans — rapport de la commission, 2010",
+      "locator": "Présidence : p. 3 ; composition : pp. 211–213",
+      "note": "Participation documentée dans la même édition du rapport. L'année est conservée à sa précision d'origine ; aucune durée individuelle ni rencontre n'est déduite de cette liste.",
+      "participants": [
+        { "person": "Q3052772", "role": "Membre", "page": 213 },
+        { "person": "Q364315", "role": "Président de la commission", "page": 3 },
+        { "person": "Q929763", "role": "Membre · ancien ministre italien", "page": 211 },
+        { "person": "Q74191", "role": "Membre · députée européenne", "page": 212 }
+      ]
+    }
+  ]
+}

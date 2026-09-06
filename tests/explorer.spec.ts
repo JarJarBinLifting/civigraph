@@ -21,7 +21,7 @@ test('initial graph, complete corpus and source transparency', async ({ page }, 
   page.on('request', request => { if (/^https?:/.test(request.url()) && !request.url().startsWith('http://127.0.0.1:4300')) externalRequests.push(request.url()); });
   await ready(page);
   await expect(page.getByRole('heading', { name: 'Emmanuel Macron', exact: true })).toBeVisible();
-  await expect(page.getByText('16 liens', { exact: true })).toBeVisible();
+  await expect(page.getByText('18 liens', { exact: true })).toBeVisible();
   await page.screenshot({ path: `test-results/${info.project.name}-explorer.png`, fullPage: true });
   await page.getByRole('button', { name: 'Voir la source du lien avec ENA', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Déclaration Wikidata', exact: true })).toHaveAttribute('href', /wikidata\.org\/wiki\/Q3052772#/);
@@ -53,7 +53,7 @@ test('every filter can be disabled and restored', async ({ page }) => {
   await page.getByRole('button', { name: 'Liste', exact: true }).click();
   await expect(page.getByText('Aucune relation affichée', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Afficher toutes les catégories', exact: true }).click();
-  await expect(page.getByText('16 liens', { exact: true })).toBeVisible();
+  await expect(page.getByText('18 liens', { exact: true })).toBeVisible();
   await expect(page.getByRole('article').filter({ hasText: 'Emmanuel Macron' }).first()).toBeVisible();
 });
 

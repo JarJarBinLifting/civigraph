@@ -182,9 +182,10 @@ export function GraphCanvas(props: Props) {
         if (!container.current || (width === container.current.clientWidth && height === container.current.clientHeight)) return;
         width = container.current.clientWidth;
         height = container.current.clientHeight;
+        const moving = instance.animated() || instance.nodes().filter(':animated').length > 0;
         cancelTransition();
         instance.resize();
-        cancelTransition = updateScene(instance, callbacks.current, false);
+        cancelTransition = updateScene(instance, callbacks.current, moving);
       });
       observer.observe(container.current);
       setReady(true);

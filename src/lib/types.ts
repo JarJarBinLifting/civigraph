@@ -37,10 +37,13 @@ export interface Relation {
   end?: SourceDate;
   pointInTime?: SourceDate;
   statementUrl: string;
-  revisionUrl: string;
+  revisionUrl?: string;
   references: Reference[];
   contexts?: StatementContext[];
   sourceTarget?: string;
+  role?: string;
+  cohort?: { id: string; label: string };
+  evidence?: { kind: 'official'; title: string; locator: string; note: string; checkedAt: string };
 }
 
 export interface GraphData {
@@ -54,6 +57,7 @@ export interface GraphData {
     relationCount: number;
     properties: string[];
     description: string;
+    supplementedAt?: string;
   };
   entities: Entity[];
   relations: Relation[];
@@ -68,6 +72,8 @@ export interface ViewState {
   compare: string | null;
   mode: 'graph' | 'list';
   edge: string | null;
+  temporal: 'all' | 'same';
+  period: string | null;
 }
 
 export interface CommonConnection {

@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "data:import": "node scripts/import-wikidata.mjs"
+    "data:import": "node scripts/import-wikidata.mjs",
+    "data:import:attali": "node scripts/import-wikidata.mjs --attali"
   },
   "engines": {
     "node": ">=20.9.0"

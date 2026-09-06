@@ -3,8 +3,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const titles = JSON.parse(await readFile(path.join(root, 'scripts/people.json'), 'utf8'));
-const cache = path.join(root, '.cache/wikidata');
+const supplement = process.argv.includes('--attali');
+const titles = JSON.parse(await readFile(path.join(root, supplement ? 'scripts/people-attali.json' : 'scripts/people.json'), 'utf8'));
+const cache = path.join(root, supplement ? '.cache/wikidata-attali' : '.cache/wikidata');
 await mkdir(cache, { recursive: true });
 const propertyMap = {
   P69: { category: 'education', label: 'A étudié à', type: 'school' },
@@ -46,7 +47,7 @@ for (let offset = 0; offset < titles.length; offset += 10) {
   console.log(`Personnes résolues : ${people.length}/${titles.length}`);
 }
 const personIds = new Set(people.map(person => person.id));
-if (personIds.size < 30 || personIds.size > 50) throw new Error('Le corpus doit compter entre 30 et 50 personnes distinctes.');
+if (personIds.size !== titles.length || (!supplement && (personIds.size < 30 || personIds.size > 50))) throw new Error('Effectif du corpus incohérent avec la sélection.');
 const label = entity => entity.labels?.fr?.value || entity.labels?.mul?.value || entity.labels?.en?.value || entity.id;
 const targetTypes = new Map();
 const rawRelations = [];
@@ -138,14 +139,15 @@ const data = {
     version: 1, fetchedAt, source: 'Wikidata', license: 'CC0-1.0',
     peopleCount: personIds.size, entityCount: entities.length, relationCount: relations.length,
     properties: Object.keys(propertyMap),
-    description: 'Corpus exploratoire de 40 personnalités de la vie politique française. Non exhaustif et non représentatif.',
+    description: `Corpus exploratoire de ${personIds.size} personnalités${supplement ? ' liées à la commission Attali' : ' de la vie politique française'}. Non exhaustif et non représentatif.`,
   },
   entities, relations,
 };
 await writeFile(path.join(cache, 'raw-entities.json'), JSON.stringify(allRaw));
 const destination = path.join(root, 'src/data');
 await mkdir(destination, { recursive: true });
-const temporary = path.join(destination, 'graph.json.tmp');
+const filename = supplement ? 'attali-wikidata.json' : 'graph.json';
+const temporary = path.join(destination, `${filename}.tmp`);
 await writeFile(temporary, JSON.stringify(data, null, 2) + '\n');
-await rename(temporary, path.join(destination, 'graph.json'));
+await rename(temporary, path.join(destination, filename));
 console.log(JSON.stringify(data.meta, null, 2));

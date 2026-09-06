@@ -4,6 +4,8 @@
 
 V0 locale, construite à partir du mini PRD « Cartographie interactive du pouvoir politique français ». Le périmètre choisi est un prototype de 30 à 50 personnes avec les neuf fonctions d'exploration. L'instantané initial contient **40 personnes, 297 entités et 717 déclarations Wikidata**, importées le 6 septembre 2026.
 
+Le complément sur la commission Attali porte le corpus à **45 personnes, 346 entités et 797 liens** : 787 déclarations Wikidata et 10 participations issues de sources officielles. Les compositions de 2007 et 2010 servent de premier exemple d'exploration des institutions par période.
+
 ## Démarrer
 
 Node.js 20.9 ou supérieur ; Node.js 24 conseillé. Les versions des dépendances sont verrouillées dans `package-lock.json`.
@@ -33,23 +35,28 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 | Étendre le réseau | Sélection par clic ; double-clic ou « Développer ce réseau » pour centrer cette entité avec une transition animée et ouvrir ses voisins ; retour par le parcours |
 | Filtrer les relations | Formations, fonctions, partis et statuts, parcours professionnel, organisations |
 | Voir une fiche | Personnes, écoles, fonctions, partis et organisations ; connexions navigables |
-| Afficher les sources | Déclaration originale, révision à l'import, périodes et références disponibles |
+| Afficher les sources | Déclaration Wikidata et révision à l'import, ou document officiel avec page/article ; rôles et périodes disponibles |
 | Comparer deux personnes | Deux sélecteurs de personnes distinctes et filtres partagés |
 | Voir les relations communes | Entités communes et preuves de chaque côté, avec périodes distinctes |
-| Partager une vue | URL comprenant point de départ, centre actif, parcours, sélection, filtres, comparaison et mode liste |
+| Partager une vue | URL comprenant point de départ, centre actif, parcours, sélection, filtres, période, comparaison et mode liste |
 
 Le mode **Liste** permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
 
 Développer une entité la place au centre et affiche ses relations directes. Les étapes parcourues et leurs liens documentés restent visibles, selon les filtres actifs. Par exemple, depuis Bernard Cazeneuve, développer « Conseiller régional » garde Bernard relié à cette fonction et ouvre ses autres voisins. Le point de départ reste accessible dans la barre latérale ; revenir à une étape replie les étapes suivantes. Le paramètre `focus` de l'URL mémorise le centre indépendamment de la fiche sélectionnée ; les anciennes URL prennent la dernière entité développée comme centre. La préférence système de réduction des animations est respectée.
 
+Depuis une personne, développer une institution, une entreprise ou une école propose ses passages documentés. **Même période** affiche les liens dont le chevauchement est établi, ou les participants d'une même composition officielle. **Toutes les périodes** rend aussi accessibles les dates absentes ou insuffisantes. Les fonctions génériques sans contexte institutionnel restent de simples intitulés et ne déclenchent pas ce mode.
+
+Exemple : Emmanuel Macron → Commission Attali ouvre la composition initiale de 2007. Choisir **2010 · Seconde mission** change les participants affichés et le rôle de Macron. Chaque participant permet de poursuivre l'exploration ; le repère temporel reste actif jusqu'au changement de période ou au retour au point de départ. Le graphe, la liste et les fiches partagent ce filtre. Les paramètres `time=all|same` et `period=<identifiant du lien de référence>` le conservent dans le partage et l'historique. La comparaison entre personnes reste en toutes périodes.
+
 Un lien vers `127.0.0.1` fonctionne sur l'ordinateur qui héberge l'application. Le partage à distance nécessite un hébergement séparé. **Cette livraison ne déploie rien et ne pousse rien sur GitHub.**
 
 ## Ce que les liens signifient
 
-Les données sont des **déclarations Wikidata**, pas des faits vérifiés indépendamment par Civigraph. Cliquer sur un trait ou sur l'icône de source permet de consulter sa provenance.
+Les **déclarations Wikidata** ne sont pas vérifiées indépendamment par Civigraph. Les participations ajoutées à la commission Attali proviennent d'un décret et du rapport officiel de 2010. Cliquer sur un trait ou sur l'icône de source permet de consulter sa provenance.
 
-- 111 des 717 déclarations comportent au moins une URL de référence externe dans cet instantané. Les autres sont explicitement signalées comme déclarations à recouper ; certaines citent une publication sans URL directe.
+- 117 des 787 déclarations Wikidata comportent au moins une URL de référence externe dans le corpus complété. Les autres sont explicitement signalées comme déclarations à recouper ; certaines citent une publication sans URL directe. Les 10 participations officielles ont chacune un lien direct vers le document et sa page ou son article.
 - Une date de fin manquante ne signifie jamais « en poste ». Une date à la précision de l'année n'est pas transformée en date au jour près.
+- Deux plages qui partagent seulement une année frontière ne suffisent pas à établir un chevauchement. Une composition officielle atteste un groupe à un repère donné, sans inventer de durée individuelle entre deux compositions.
 - La comparaison révèle une entité ou une fonction commune, sans inférer une rencontre, une collaboration ou une proximité personnelle.
 - Les fonctions génériques sont contextualisées par l'organisme ou le territoire lorsque la déclaration le précise. « Président · Renaissance » ne devient pas la même entité que la présidence d'un autre organisme.
 - Le corpus est éditorial, exploratoire, non exhaustif et non représentatif. L'absence d'un résultat ne démontre pas l'absence de lien.
@@ -60,13 +67,16 @@ Voir [la provenance et les règles de transformation](docs/sources.md).
 
 ```sh
 npm run data:import
+npm run data:import:attali
 npm test
 npm run build
 ```
 
 `scripts/people.json` définit les 40 articles français utilisés pour identifier les personnes. L'import résout leurs QID, collecte cinq propriétés, récupère les libellés des entités liées et conserve les preuves et précisions temporelles. Il écrit le snapshot seulement après une collecte complète et ses vérifications. En cas d'échec, le snapshot antérieur reste utilisable.
 
-Les réponses brutes sont conservées localement dans `.cache/wikidata/` et ignorées par Git. `src/data/graph.json` est le snapshot versionné. L'interface utilise exclusivement cet instantané : aucun appel à Wikidata ni aucune ressource tierce pendant l'exploration. Les liens de source s'ouvrent seulement à la demande de l'utilisateur.
+Le complément suit le même import avec les cinq noms de `scripts/people-attali.json`, écrit dans `src/data/attali-wikidata.json` et ne remplace pas l'instantané initial. Les participations officielles sont maintenues séparément dans `src/data/attali-participations.json`, avec la date de vérification, le rôle et la provenance. Leur mise à jour nécessite de vérifier les documents cités.
+
+Les réponses brutes sont conservées localement dans `.cache/wikidata/` et `.cache/wikidata-attali/`, ignorés par Git. `src/lib/dataset.ts` fusionne les trois fichiers de données en préservant les déclarations initiales. L'interface utilise exclusivement ces instantanés : aucun appel à Wikidata ni aucune ressource tierce pendant l'exploration. Les liens de source s'ouvrent seulement à la demande de l'utilisateur.
 
 ## Structure
 
@@ -74,9 +84,12 @@ Les réponses brutes sont conservées localement dans `.cache/wikidata/` et igno
 src/app/                 Page Next.js, styles et métadonnées
 src/components/          Exploration, graphe, recherche, fiches, comparaison
 src/lib/graph.ts         Recherche, sous-graphe, comparaison, contrat d'URL
+src/lib/temporal.ts      Chevauchements selon la précision des dates
+src/lib/dataset.ts       Fusion du corpus et des participations officielles
 src/lib/presentation.ts  Libellés, catégories et affichage des dates
 src/lib/types.ts         Contrat du corpus et de la vue
 src/data/graph.json      Instantané Wikidata sourcé
+src/data/attali-*.json    Complément Wikidata et compositions officielles
 scripts/                 Sélection et import reproductible
 tests/                   Parcours navigateur ordinateur et mobile
 docs/                    Périmètre, provenance et preuves de vérification
@@ -102,4 +115,4 @@ La vérification porte sur les neuf fonctions, les cas vides, les paramètres in
 
 La V1 à 500–2 000 personnes et les données parlementaires ne font pas partie du périmètre choisi. Timeline interactive, HATVP, cabinets, scores de proximité, comptes, exports et API professionnelle restent des étapes ultérieures. La V0 n'affiche ni score ni causalité déduite.
 
-Les données structurées de Wikidata sont sous [CC0](https://www.wikidata.org/wiki/Wikidata:Licensing). Les polices DM Sans et Manrope sont distribuées localement via Fontsource sous SIL OFL ; leurs licences sont incluses dans les dépendances. Aucune photographie distante n'est utilisée.
+Les données structurées de Wikidata sont sous [CC0](https://www.wikidata.org/wiki/Wikidata:Licensing). Les documents officiels conservent leurs conditions de réutilisation ; ils sont référencés sans être redistribués. Les polices DM Sans et Manrope sont distribuées localement via Fontsource sous SIL OFL ; leurs licences sont incluses dans les dépendances. Aucune photographie distante n'est utilisée.

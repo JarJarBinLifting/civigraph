@@ -1,12 +1,42 @@
-import { CATEGORIES, type Category, type CommonConnection, type GraphData, type ViewState } from './types';
+import { CATEGORIES, type Category, type CommonConnection, type GraphData, type Relation, type ViewState } from './types';
 import { shortLabel } from './presentation';
+import { comparePeriods, periodBounds, supportsPeriods } from './temporal';
 
 const normalize = (value: string) => value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('fr').trim();
 
-export function focusView(state: ViewState, id: string): ViewState {
+export function focusView(state: ViewState, id: string, data?: GraphData): ViewState {
   const trail = [...new Set([state.root, ...state.expanded])];
   const previousStep = trail.indexOf(id);
-  return { ...state, focus: id, selected: id, expanded: previousStep >= 0 ? trail.slice(0, previousStep + 1) : [...trail, id], edge: null, compare: null };
+  const next: ViewState = { ...state, focus: id, selected: id, expanded: previousStep >= 0 ? trail.slice(0, previousStep + 1) : [...trail, id], edge: null, compare: null };
+  if (id === state.root) return { ...next, period: null, temporal: 'all' };
+  if (data && supportsPeriods(data.entities.find(entity => entity.id === id)!)) {
+    const context = getPeriodContext(data, next);
+    const period = context.options.find(option => option.id === state.period) ?? context.options.find(option => context.anchor && comparePeriods(option, context.anchor) === 'documented') ?? context.options[0];
+    if (period) return { ...next, period: period.id, temporal: 'same' };
+  }
+  return next;
+}
+
+export function getPeriodContext(data: GraphData, state: Pick<ViewState, 'root' | 'focus' | 'expanded' | 'period' | 'categories'>) {
+  const anchor = data.relations.find(relation => relation.id === state.period && periodBounds(relation));
+  const focused = data.entities.find(entity => entity.id === state.focus)!;
+  const institution = supportsPeriods(focused) ? focused : data.entities.find(entity => entity.id === anchor?.target);
+  if (!institution) return { institution: undefined, reference: undefined, anchor, options: [] as Relation[] };
+  const index = state.expanded.indexOf(institution.id);
+  const preceding = index < 0 ? state.expanded : state.expanded.slice(0, index);
+  const reference = [...preceding].reverse().map(id => data.entities.find(entity => entity.id === id)!).find(entity => entity.type === 'person' && data.relations.some(relation => relation.source === entity.id && relation.target === institution.id));
+  const candidates = data.relations.filter(relation => relation.target === institution.id && (!reference || relation.source === reference.id) && periodBounds(relation));
+  const unique = new Map<string, Relation>();
+  for (const relation of candidates) {
+    const key = relation.cohort?.id ?? JSON.stringify([relation.start, relation.end, relation.pointInTime]);
+    if (!unique.has(key)) unique.set(key, relation);
+  }
+  const options = [...unique.values()].sort((a, b) => periodBounds(a)!.first - periodBounds(b)!.first || a.id.localeCompare(b.id));
+  return { institution, reference, anchor, options };
+}
+
+export function matchesPeriod(relation: Relation, anchor: Relation | undefined, mode: ViewState['temporal'] = 'all') {
+  return mode === 'all' || Boolean(anchor && (relation.id === anchor.id || comparePeriods(relation, anchor) === 'documented'));
 }
 
 export function searchEntities(data: GraphData, query: string, peopleOnly = false): GraphData['entities'] {
@@ -17,10 +47,11 @@ export function searchEntities(data: GraphData, query: string, peopleOnly = fals
     .sort((a, b) => Number(names(b).some(name => name === term)) - Number(names(a).some(name => name === term)) || Number(names(b).some(name => name.startsWith(term))) - Number(names(a).some(name => name.startsWith(term))) || Number(b.inCorpus) - Number(a.inCorpus) || a.label.localeCompare(b.label, 'fr'));
 }
 
-export function getVisibleGraph(data: GraphData, state: Pick<ViewState, 'root' | 'focus' | 'expanded' | 'categories' | 'compare'>): Pick<GraphData, 'entities' | 'relations'> {
+export function getVisibleGraph(data: GraphData, state: Pick<ViewState, 'root' | 'focus' | 'expanded' | 'categories' | 'compare'> & Partial<Pick<ViewState, 'period' | 'temporal'>>): Pick<GraphData, 'entities' | 'relations'> {
   const trail = new Set([state.root, ...state.expanded, state.focus]);
   const centers = new Set(state.compare ? [state.root, state.compare] : [state.focus]);
-  const relations = data.relations.filter(relation => state.categories.includes(relation.category) && (centers.has(relation.source) || centers.has(relation.target) || (trail.has(relation.source) && trail.has(relation.target))));
+  const anchor = data.relations.find(relation => relation.id === state.period);
+  const relations = data.relations.filter(relation => state.categories.includes(relation.category) && matchesPeriod(relation, anchor, state.compare ? 'all' : state.temporal) && (centers.has(relation.source) || centers.has(relation.target) || (trail.has(relation.source) && trail.has(relation.target))));
   const visible = new Set([...trail, ...centers]);
   for (const relation of relations) { visible.add(relation.source); visible.add(relation.target); }
   return { entities: data.entities.filter(entity => visible.has(entity.id)), relations };
@@ -51,14 +82,23 @@ export function parseView(search: string, data: GraphData): ViewState {
   const compare = params.get('compare');
   const rootIsPerson = data.entities.some(entity => entity.id === root && entity.type === 'person');
   const validComparison = rootIsPerson && compare !== root && data.entities.some(entity => entity.id === compare && entity.type === 'person' && entity.inCorpus);
-  return {
+  const state: ViewState = {
     root, focus, expanded,
     categories: categories.length || requestedCategories === '' ? categories : [...CATEGORIES],
     selected: ids.has(params.get('selected') ?? '') ? params.get('selected')! : root,
     compare: validComparison ? compare : null,
     mode: params.get('mode') === 'list' ? 'list' : 'graph',
     edge: data.relations.some(relation => relation.id === params.get('edge')) ? params.get('edge') : null,
+    temporal: 'all', period: null,
   };
+  const requestedPeriod = params.get('period');
+  const period = data.relations.find(relation => relation.id === requestedPeriod && periodBounds(relation));
+  if (period) return { ...state, period: period.id, temporal: params.get('time') === 'same' && !validComparison ? 'same' : 'all' };
+  if (!requestedPeriod && !validComparison) {
+    const context = getPeriodContext(data, state);
+    if (context.options[0] && focus !== root) return { ...state, period: context.options[0].id, temporal: params.get('time') === 'all' ? 'all' : 'same' };
+  }
+  return state;
 }
 
 export function serializeView(state: ViewState): string {
@@ -66,5 +106,7 @@ export function serializeView(state: ViewState): string {
   if (state.compare) params.set('compare', state.compare);
   if (state.mode === 'list') params.set('mode', 'list');
   if (state.edge) params.set('edge', state.edge);
+  params.set('time', state.temporal);
+  if (state.period) params.set('period', state.period);
   return `?${params}`;
 }

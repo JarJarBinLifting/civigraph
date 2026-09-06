@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
-import { focusView, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
+import { focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
 import { categoryInfo, initials, periodLabel, shortLabel } from '@/lib/presentation';
 import { EntitySearch } from './EntitySearch';
 import { GraphCanvas } from './GraphCanvas';
 import { DetailPanel } from './DetailPanel';
 import { Comparison } from './Comparison';
 import { Modal } from './Modal';
+import { PeriodControls } from './PeriodControls';
 
 export function Explorer({ data, initialView }: { data: GraphData; initialView: ViewState }) {
   const [view, setView] = useState(initialView);
@@ -22,14 +23,17 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   const [copyError, setCopyError] = useState(false);
   const [notice, setNotice] = useState('');
   const [corpusQuery, setCorpusQuery] = useState('');
-  const { root, focus, expanded, categories, compare } = view;
-  const visible = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare }), [data, root, focus, expanded, categories, compare]);
+  const { root, focus, expanded, categories, compare, temporal, period } = view;
+  const visible = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare, temporal, period }), [data, root, focus, expanded, categories, compare, temporal, period]);
+  const periodContext = getPeriodContext(data, view);
   const entitiesById = useMemo(() => new Map(data.entities.map(entity => [entity.id, entity])), [data]);
   const rootEntity = entitiesById.get(root)!;
   const focusEntity = entitiesById.get(focus)!;
   const selectedEntity = entitiesById.get(view.selected) ?? rootEntity;
   const selectedEdge = data.relations.find(relation => relation.id === view.edge);
   const importedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' }).format(new Date(data.meta.fetchedAt));
+  const wikidataRelations = data.relations.filter(relation => !relation.evidence);
+  const officialCount = data.relations.length - wikidataRelations.length;
 
   useEffect(() => {
     const restore = () => { const next = parseView(window.location.search, data); setView(next); setComparisonOpen(Boolean(next.compare)); };
@@ -45,12 +49,12 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   }, [view]);
 
   function startFrom(entity: Entity) {
-    update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null });
+    update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null, period: null, temporal: 'all' });
     setComparisonOpen(false); setShowDetail(true); setShowFilters(false); setModal(null);
   }
   function select(id: string) { update({ selected: id, edge: null }); setShowDetail(true); }
   function expand(id: string) {
-    update(focusView(view, id));
+    update(focusView(view, id, data));
     setShowDetail(true);
   }
   function inspectEdge(id: string | null) {
@@ -64,8 +68,8 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   }
   function openComparison() {
     const person = focusEntity.type === 'person' ? focusEntity : rootEntity.type === 'person' ? rootEntity : entitiesById.get('Q3052772')!;
-    if (root !== person.id || focus !== person.id) {
-      update({ root: person.id, focus: person.id, selected: person.id, expanded: [person.id], compare: null, edge: null });
+    if (root !== person.id || focus !== person.id || temporal !== 'all' || period) {
+      update({ root: person.id, focus: person.id, selected: person.id, expanded: [person.id], compare: null, edge: null, temporal: 'all', period: null });
     }
     setComparisonOpen(true); setShowFilters(false);
   }
@@ -74,7 +78,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     try { await navigator.clipboard.writeText(shareUrl); setCopied(true); setCopyError(false); }
     catch { setCopyError(true); }
   }
-  const ownRelations = getVisibleGraph(data, { root, focus, expanded, categories: [...CATEGORIES], compare }).relations;
+  const ownRelations = getVisibleGraph(data, { root, focus, expanded, categories: [...CATEGORIES], compare, temporal, period }).relations;
   const filteredPeople = data.entities.filter(entity => entity.inCorpus && entity.label.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().includes(corpusQuery.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()));
   const defaultComparisonLeft = rootEntity.type === 'person' ? rootEntity : data.entities.find(entity => entity.id === 'Q3052772')!;
 
@@ -94,42 +98,43 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
         <div className="filter-section"><div className="section-heading"><h2>Relations</h2><button onClick={() => update({ categories: categories.length === 5 ? [] : [...CATEGORIES], edge: null })}>{categories.length === 5 ? 'Tout masquer' : 'Tout afficher'}</button></div><p className="section-caption">Choisissez les liens à afficher.</p>
           <div className="category-filters">{CATEGORIES.map(category => <label key={category} style={{ '--category-color': categoryInfo[category].color } as React.CSSProperties}><input type="checkbox" checked={categories.includes(category)} onChange={() => toggleCategory(category)} /><span className="custom-checkbox"><Check size={11} /></span><span>{categoryInfo[category].label}</span><small>{ownRelations.filter(relation => relation.category === category).length}</small></label>)}</div>
         </div>
-        <div className="scope-section"><div className="section-heading"><h2>Périmètre</h2><Info size={13} /></div><p><CalendarIcon />Toutes les périodes documentées</p><span>Les dates sont précisées dans les fiches.</span></div>
+        <div className="scope-section"><div className="section-heading"><h2>Périmètre</h2><Info size={13} /></div><p><CalendarIcon />{temporal === 'same' && periodContext.anchor ? periodContext.anchor.cohort?.label ?? periodLabel(periodContext.anchor) : 'Toutes les périodes documentées'}</p><span>{temporal === 'same' ? 'Les dates insuffisantes restent accessibles en toutes périodes.' : 'Les dates sont précisées dans les fiches.'}</span></div>
         {expanded.length > 1 && <div className="expanded-section"><span className="eyebrow">Parcours d’exploration</span>{expanded.filter(id => id !== root).map(id => <div key={id}><button aria-current={id === focus ? 'step' : undefined} onClick={() => expand(id)}>{shortLabel(entitiesById.get(id)!)}</button><button className="icon-button" aria-label={`Revenir avant ${shortLabel(entitiesById.get(id)!)}`} onClick={() => expand(expanded[expanded.indexOf(id) - 1] ?? root)}><X size={12} /></button></div>)}</div>}
-        <button className="reset-button" onClick={() => { update({ focus: root, expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
+        <button className="reset-button" onClick={() => { update({ focus: root, expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null, period: null, temporal: 'all' }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
         <div className="suggested-paths"><span className="eyebrow">Une piste à explorer</span><button onClick={() => startFrom(entitiesById.get('Q273579')!)}><span className="path-icon"><GraduationCap size={18} /></span><span><strong>Les parcours de l’ENA</strong><small>Une école, plusieurs trajectoires</small></span><ArrowUpRight size={15} /></button><button onClick={() => startFrom(entitiesById.get('Q1587677')!)}><span className="path-icon blue"><Landmark size={17} /></span><span><strong>Passages à Matignon</strong><small>Explorer une fonction publique</small></span><ArrowUpRight size={15} /></button></div>
         <div className="sidebar-bottom"><div className="prototype-tag"><span className="status-dot" />Prototype exploratoire</div><p>{data.meta.peopleCount} personnalités · corpus limité</p><button onClick={() => setModal('corpus')}>Découvrir le corpus<ArrowUpRight size={12} /></button></div>
       </aside>
 
-      <section className="exploration-center" aria-label="Vue d’exploration">
+      <section className={`exploration-center${periodContext.institution && !comparisonOpen ? ' has-period-controls' : ''}`} aria-label="Vue d’exploration">
         {comparisonOpen ? <Comparison data={data} left={defaultComparisonLeft} right={compare ? entitiesById.get(compare) : undefined} categories={categories}
-          onLeft={entity => update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null })}
+          onLeft={entity => update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, period: null, temporal: 'all' })}
           onRight={entity => update({ compare: entity.id, edge: null })}
           onExplore={id => { expand(id); setComparisonOpen(false); }}
           onClose={() => { setComparisonOpen(false); update({ compare: null }); }} /> : <>
           <div className="graph-topbar"><div className="breadcrumb"><span>Au centre</span><ChevronRight size={12} /><strong>{shortLabel(focusEntity)}</strong></div><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={14} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={15} /><span>Liste</span></button></div></div>
           <div className="graph-meta"><span><i className="status-dot" />{visible.entities.length} entités</span><span>{visible.relations.length} liens</span><span className="graph-scope">dans cette vue</span>{!showDetail && <button className="subtle-link" onClick={() => setShowDetail(true)}>Ouvrir la fiche<ArrowUpRight size={12} /></button>}</div>
+          <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} />
           {notice && <p className="inline-notice" role="status">{notice}</p>}
           {view.mode === 'graph' ? <GraphCanvas entities={visible.entities} relations={visible.relations} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {visible.relations.map(relation => <article className="graph-list-row" key={relation.id}>
               <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
-              <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p><small>{periodLabel(relation)}</small></div>
+              <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p>{relation.role && <small className="connection-role">{relation.role}</small>}<small>{relation.cohort?.label ?? periodLabel(relation)}</small></div>
               <button className="icon-button" aria-label={`Source : ${shortLabel(entitiesById.get(relation.source)!)} et ${shortLabel(entitiesById.get(relation.target)!)}`} onClick={() => inspectEdge(relation.id)}><Link2 size={16} /></button>
               <button className="icon-button" aria-label={`Développer ${shortLabel(entitiesById.get(relation.target)!)}`} onClick={() => expand(relation.target)}><GitBranch size={16} /></button>
             </article>)}
-            {!visible.relations.length && <div className="empty-state"><SlidersHorizontal size={28} /><strong>Aucune relation affichée</strong><p>Activez une catégorie dans les filtres pour explorer les liens.</p><button className="secondary-button" onClick={() => update({ categories: [...CATEGORIES] })}>Afficher toutes les catégories</button></div>}
+            {!visible.relations.length && <div className="empty-state"><SlidersHorizontal size={28} /><strong>Aucune relation affichée</strong><p>{temporal === 'same' ? 'Aucun lien ne satisfait à la fois cette période et les catégories actives.' : 'Activez une catégorie dans les filtres pour explorer les liens.'}</p>{temporal === 'same' && <button className="secondary-button" onClick={() => update({ temporal: 'all', edge: null })}>Voir toutes les périodes</button>}<button className="secondary-button" onClick={() => update({ categories: [...CATEGORIES] })}>Afficher toutes les catégories</button></div>}
           </div>}
           <div className="graph-bottom"><span><Info size={13} />Un lien documenté n’implique pas une proximité personnelle.</span><button onClick={() => setModal('method')}>Lire la méthode<ArrowUpRight size={12} /></button></div>
         </>}
       </section>
-      {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={categories} selectedEdge={selectedEdge} focused={focus === selectedEntity.id} onSelect={select} onEdge={inspectEdge} onExpand={expand} onClose={() => setShowDetail(false)} />}
+      {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={categories} temporal={temporal} periodAnchor={periodContext.anchor} selectedEdge={selectedEdge} focused={focus === selectedEntity.id} onSelect={select} onEdge={inspectEdge} onExpand={expand} onAllPeriods={() => update({ temporal: 'all', edge: null })} onClose={() => setShowDetail(false)} />}
     </main>
-    <footer className="app-footer"><span><BookOpen size={12} />Source : Wikidata · instantané du {importedDate}</span><span>Données CC0 <span className="footer-divider">/</span> Un outil pour comprendre, librement.</span><button onClick={() => setModal('method')}>À propos de Civigraph<ArrowUpRight size={12} /></button></footer>
+    <footer className="app-footer"><span><BookOpen size={12} />Wikidata et sources officielles · {importedDate}</span><span>Données sourcées <span className="footer-divider">/</span> Un outil pour comprendre, librement.</span><button onClick={() => setModal('method')}>À propos de Civigraph<ArrowUpRight size={12} /></button></footer>
 
-    {modal === 'share' && <Modal title="Partager cette exploration" onClose={() => setModal(null)}><div className="modal-emblem"><Share2 size={25} /></div><p>Retrouvez le point de départ, les réseaux développés, la sélection, les filtres et la comparaison dans une même URL.</p><label className="share-label" htmlFor="share-url">Lien vers cette vue</label><div className="share-input"><input id="share-url" readOnly value={shareUrl} onFocus={event => event.target.select()} /><button className="primary-button" onClick={copyShare}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? 'Copié' : 'Copier'}</button></div>{copyError && <p className="source-limit" role="status">La copie automatique est indisponible. Sélectionnez le lien puis utilisez Ctrl+C ou Cmd+C.</p>}<p className="local-share-note">Cette instance fonctionne en local. Le lien s’ouvre sur cet ordinateur ; il deviendra accessible à d’autres personnes lorsque l’application sera hébergée.</p></Modal>}
-    {modal === 'method' && <Modal title="Comprendre les liens" onClose={() => setModal(null)}><p className="modal-lede">La transparence fait partie du graphe.</p><p>Civigraph représente des relations publiques consignées dans Wikidata : formations, fonctions, affiliations politiques, employeurs et organisations. Chaque trait permet de remonter à une déclaration.</p><div className="method-grid"><article><span>01</span><h3>Une relation, une provenance</h3><p>Les déclarations originales, leur version à l’import et les références disponibles sont consultables dans les fiches.</p></article><article><span>02</span><h3>Des périodes explicites</h3><p>Les dates conservent leur précision d’origine. Une fin non renseignée ne signifie pas que la fonction est toujours exercée.</p></article><article><span>03</span><h3>Des parcours, sans présomption</h3><p>Une école commune ne démontre pas une rencontre. Les intitulés de fonctions sont distingués de leur périmètre lorsque Wikidata le précise.</p></article><article><span>04</span><h3>Un corpus à ses débuts</h3><p>Cette V0 couvre {data.meta.peopleCount} personnes. Elle est non exhaustive, non représentative et ne se met pas à jour en continu.</p></article></div><div className="method-note"><Info size={19} /><p>Les déclarations Wikidata ne sont pas vérifiées indépendamment ici. {data.relations.filter(relation => relation.references.some(reference => reference.urls.length)).length} sur {data.meta.relationCount} comportent une URL de référence externe. Les autres restent signalées comme déclarations à recouper.</p></div><a className="subtle-link" href="https://www.wikidata.org/wiki/Wikidata:Data_access/fr" target="_blank" rel="noopener noreferrer">Accès aux données et licence Wikidata<ArrowUpRight size={14} /></a></Modal>}
-    {modal === 'corpus' && <Modal title="Le corpus de la V0" onClose={() => setModal(null)}><p>Un premier terrain d’exploration de la vie politique française, des présidences aux parcours parlementaires. La sélection est éditoriale et ne constitue pas un échantillon représentatif.</p><div className="corpus-stats"><div><strong>{data.meta.peopleCount}</strong><span>personnalités</span></div><div><strong>{data.meta.entityCount}</strong><span>entités</span></div><div><strong>{data.meta.relationCount}</strong><span>déclarations</span></div></div><p className="section-caption">Import Wikidata du {importedDate} · données structurées sous CC0</p><input className="corpus-search" aria-label="Filtrer les personnes du corpus" value={corpusQuery} onChange={event => setCorpusQuery(event.target.value)} placeholder="Retrouver un nom dans le corpus…" /><div className="corpus-list">{filteredPeople.map(entity => <button key={entity.id} onClick={() => startFrom(entity)}><span className="mini-avatar">{initials(entity.label)}</span><span>{entity.label}</span><ArrowUpRight size={15} /></button>)}</div>{!filteredPeople.length && <p className="empty-search">Aucune personne trouvée dans ce corpus.</p>}</Modal>}
-    <span className="sr-only" aria-live="polite">{visible.entities.length} entités et {visible.relations.length} relations affichées.</span>
+    {modal === 'share' && <Modal title="Partager cette exploration" onClose={() => setModal(null)}><div className="modal-emblem"><Share2 size={25} /></div><p>Retrouvez le point de départ, les réseaux développés, la sélection, les filtres, la période et la comparaison dans une même URL.</p><label className="share-label" htmlFor="share-url">Lien vers cette vue</label><div className="share-input"><input id="share-url" readOnly value={shareUrl} onFocus={event => event.target.select()} /><button className="primary-button" onClick={copyShare}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? 'Copié' : 'Copier'}</button></div>{copyError && <p className="source-limit" role="status">La copie automatique est indisponible. Sélectionnez le lien puis utilisez Ctrl+C ou Cmd+C.</p>}<p className="local-share-note">Cette instance fonctionne en local. Le lien s’ouvre sur cet ordinateur ; il deviendra accessible à d’autres personnes lorsque l’application sera hébergée.</p></Modal>}
+    {modal === 'method' && <Modal title="Comprendre les liens" onClose={() => setModal(null)}><p className="modal-lede">La transparence fait partie du graphe.</p><p>Civigraph représente des relations publiques : formations, fonctions, affiliations politiques, employeurs et organisations. Les déclarations Wikidata sont complétées par des compositions de la commission Attali issues de documents officiels. Chaque trait donne accès à sa provenance.</p><div className="method-grid"><article><span>01</span><h3>Une relation, une provenance</h3><p>Les fiches donnent accès aux déclarations Wikidata et à leur version à l’import, ou au document officiel avec son article ou sa page. Les rôles et dates restent attachés à chaque source.</p></article><article><span>02</span><h3>Des périodes explicites</h3><p>« Même période » retient un chevauchement établi par les dates ou une même composition officielle. Les dates insuffisantes restent accessibles en toutes périodes. Une fin manquante ne signifie pas que la fonction continue.</p></article><article><span>03</span><h3>Des parcours, sans présomption</h3><p>Une période ou une institution commune ne démontre pas une rencontre. Les compositions de 2007 et 2010 sont deux repères distincts ; elles ne prouvent pas une présence continue entre ces années.</p></article><article><span>04</span><h3>Un corpus à ses débuts</h3><p>Cette V0 couvre {data.meta.peopleCount} personnes. Elle est non exhaustive, non représentative et ne se met pas à jour en continu.</p></article></div><div className="method-note"><Info size={19} /><p>Les déclarations Wikidata ne sont pas vérifiées indépendamment ici. {wikidataRelations.filter(relation => relation.references.some(reference => reference.urls.length)).length} sur {wikidataRelations.length} comportent une URL de référence externe. Les autres restent signalées comme déclarations à recouper. {officialCount} participations supplémentaires renvoient directement à un décret ou à un rapport officiel.</p></div><a className="subtle-link" href="https://www.wikidata.org/wiki/Wikidata:Data_access/fr" target="_blank" rel="noopener noreferrer">Accès aux données et licence Wikidata<ArrowUpRight size={14} /></a></Modal>}
+    {modal === 'corpus' && <Modal title="Le corpus de la V0" onClose={() => setModal(null)}><p>Un premier terrain d’exploration de la vie politique française, complété par cinq personnalités françaises et européennes pour explorer la commission Attali. La sélection des personnes et des participations est éditoriale, non exhaustive et non représentative.</p><div className="corpus-stats"><div><strong>{data.meta.peopleCount}</strong><span>personnalités</span></div><div><strong>{data.meta.entityCount}</strong><span>entités</span></div><div><strong>{data.meta.relationCount}</strong><span>déclarations</span></div></div><p className="section-caption">Import Wikidata du {importedDate} · données Wikidata sous CC0. Les documents officiels conservent leurs conditions de réutilisation.</p><input className="corpus-search" aria-label="Filtrer les personnes du corpus" value={corpusQuery} onChange={event => setCorpusQuery(event.target.value)} placeholder="Retrouver un nom dans le corpus…" /><div className="corpus-list">{filteredPeople.map(entity => <button key={entity.id} onClick={() => startFrom(entity)}><span className="mini-avatar">{initials(entity.label)}</span><span>{entity.label}</span><ArrowUpRight size={15} /></button>)}</div>{!filteredPeople.length && <p className="empty-search">Aucune personne trouvée dans ce corpus.</p>}</Modal>}
+    <span className="sr-only" aria-live="polite">Vue centrée sur {shortLabel(focusEntity)}. {visible.entities.length} entités et {visible.relations.length} relations affichées. {temporal === 'same' ? 'Filtre par période actif.' : 'Toutes les périodes.'}</span>
   </div>;
 }
 

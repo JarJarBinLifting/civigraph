@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { ArrowUpRight, BookOpen, CalendarDays, ExternalLink, GitBranch, Link2, Plus, X } from 'lucide-react';
 import { categoryInfo, hasExternalReference, initials, periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
-import type { Category, Entity, GraphData, Relation } from '@/lib/types';
+import type { Category, Entity, GraphData, Relation, ViewState } from '@/lib/types';
+import { matchesPeriod } from '@/lib/graph';
 
 export function RelationEvidence({ relation, data, compact = false }: { relation: Relation; data: GraphData; compact?: boolean }) {
   const source = data.entities.find(entity => entity.id === relation.source)!;
@@ -14,11 +15,13 @@ export function RelationEvidence({ relation, data, compact = false }: { relation
     <span className="relation-kind" style={{ color: categoryInfo[relation.category].color }}><span className="dot" />{categoryInfo[relation.category].singular}</span>
     <p className="evidence-statement"><strong>{source.label}</strong><span>{relation.label.toLowerCase()}</span><strong>{shortLabel(target)}</strong></p>
     <p className="period"><CalendarDays size={13} />{periodLabel(relation)}</p>
+    {relation.role && <p className="evidence-role">{relation.role}</p>}
+    {relation.evidence && <div className="official-evidence"><span className="eyebrow">Source officielle</span><p>{relation.evidence.title}</p><small>{relation.evidence.locator}</small><p className="evidence-note">{relation.evidence.note}</p></div>}
     {relation.contexts?.length ? <p className="context-note">Périmètre précisé dans la déclaration : {relation.contexts.map(context => context.label).join(' · ')}.</p> : null}
     <div className="evidence-links">
-      <a href={relation.statementUrl} target="_blank" rel="noopener noreferrer"><BookOpen size={14} />Déclaration Wikidata<ArrowUpRight size={14} /></a>
-      <a href={relation.revisionUrl} target="_blank" rel="noopener noreferrer">Version lors de l’import<ArrowUpRight size={13} /></a>
-      {urls.map((url, index) => <a key={url} href={url} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} />Référence {index + 1} · {new URL(url).hostname.replace(/^www\./, '')}<ArrowUpRight size={13} /></a>)}
+      <a href={relation.statementUrl} target="_blank" rel="noopener noreferrer"><BookOpen size={14} />{relation.evidence ? 'Consulter le document officiel' : 'Déclaration Wikidata'}<ArrowUpRight size={14} /></a>
+      {relation.revisionUrl && <a href={relation.revisionUrl} target="_blank" rel="noopener noreferrer">Version lors de l’import<ArrowUpRight size={13} /></a>}
+      {urls.filter(url => !relation.evidence || url !== relation.statementUrl.split('#')[0]).map((url, index) => <a key={url} href={url} target="_blank" rel="noopener noreferrer"><ExternalLink size={13} />Référence {index + 1} · {new URL(url).hostname.replace(/^www\./, '')}<ArrowUpRight size={13} /></a>)}
       {statedIn.map(id => <a key={id} href={`https://www.wikidata.org/wiki/${id}`} target="_blank" rel="noopener noreferrer">Publication citée · {id}<ArrowUpRight size={13} /></a>)}
     </div>
     {!urls.length && <p className="source-limit">{statedIn.length ? 'Publication citée dans Wikidata, sans URL externe directe.' : 'Aucune référence externe directe fournie par Wikidata.'} Déclaration à recouper.</p>}
@@ -31,15 +34,19 @@ interface Props {
   categories: Category[];
   selectedEdge: Relation | undefined;
   focused: boolean;
+  temporal: ViewState['temporal'];
+  periodAnchor: Relation | undefined;
   onSelect: (id: string) => void;
   onEdge: (id: string | null) => void;
   onExpand: (id: string) => void;
   onClose: () => void;
+  onAllPeriods: () => void;
 }
 
-export function DetailPanel({ data, entity, categories, selectedEdge, focused, onSelect, onEdge, onExpand, onClose }: Props) {
+export function DetailPanel({ data, entity, categories, temporal, periodAnchor, selectedEdge, focused, onSelect, onEdge, onExpand, onClose, onAllPeriods }: Props) {
   const [tab, setTab] = useState<'connections' | 'sources'>('connections');
-  const allRelations = data.relations.filter(relation => (relation.source === entity.id || relation.target === entity.id) && categories.includes(relation.category));
+  const availableRelations = data.relations.filter(relation => (relation.source === entity.id || relation.target === entity.id) && categories.includes(relation.category));
+  const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort((a, b) => Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)));
   const groups = new Map<string, Relation[]>();
   for (const relation of allRelations) {
     const neighbor = relation.source === entity.id ? relation.target : relation.source;
@@ -65,7 +72,7 @@ export function DetailPanel({ data, entity, categories, selectedEdge, focused, o
     </div>
     <div className="panel-content" role="tabpanel" aria-label={activeTab === 'connections' ? 'Connexions de l’entité' : 'Sources des relations'}>
       {activeTab === 'connections' ? <>
-        <p className="section-caption">{categories.length === 5 ? 'Tous les liens du corpus' : 'Liens selon les filtres actifs'}</p>
+        <p className="section-caption">{temporal === 'same' ? 'Participations selon la période retenue' : categories.length === 5 ? 'Tous les liens du corpus' : 'Liens selon les filtres actifs'}{entity.id === 'Q2986712' && ' · sélection non exhaustive'}</p>
         {[...groups.entries()].map(([key, group]) => {
           const relation = group[0];
           const neighborId = relation.source === entity.id ? relation.target : relation.source;
@@ -74,7 +81,8 @@ export function DetailPanel({ data, entity, categories, selectedEdge, focused, o
             <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
             <div><span className="connection-category">{categoryInfo[relation.category].singular}</span>
               <button className="connection-name" onClick={() => onSelect(neighbor.id)}>{shortLabel(neighbor)}<ArrowUpRight size={12} /></button>
-              <small>{group.length > 1 ? `${group.length} déclarations · plusieurs périodes` : periodLabel(relation)}</small>
+              {group.filter(item => item.role).map(item => <small className="connection-role" key={item.id}>{item.role}{group.length > 1 && ` · ${item.cohort?.label ?? periodLabel(item)}`}</small>)}
+              <small>{group.length > 1 ? `${group.length} déclarations · plusieurs périodes` : relation.cohort?.label ?? periodLabel(relation)}</small>
             </div>
             <button className="icon-button proof-button" aria-label={`Voir la source du lien avec ${shortLabel(neighbor)}`} onClick={() => onEdge(relation.id)}><Link2 size={15} /></button>
           </div>;
@@ -83,8 +91,9 @@ export function DetailPanel({ data, entity, categories, selectedEdge, focused, o
         <div className="source-intro"><BookOpen size={16} /><p>Chaque lien renvoie à sa déclaration. Les références externes sont affichées lorsqu’elles sont disponibles.</p></div>
         {selectedEdge ? <><button className="subtle-link" onClick={() => { onEdge(null); setTab('sources'); }}>Voir toutes les déclarations ({allRelations.length})</button><RelationEvidence relation={selectedEdge} data={data} /></> : allRelations.map(relation => <RelationEvidence key={relation.id} relation={relation} data={data} compact />)}
       </>}
-      {!allRelations.length && !selectedEdge && <div className="empty-state"><GitBranch size={25} /><strong>Aucun lien avec ces filtres</strong><p>Réactivez une catégorie pour retrouver les relations de cette entité.</p></div>}
+      {!allRelations.length && !selectedEdge && <div className="empty-state"><GitBranch size={25} /><strong>Aucun lien avec ces filtres</strong><p>{temporal === 'same' ? 'Les dates disponibles ne permettent pas de retenir un lien sur cette période avec ces catégories.' : 'Réactivez une catégorie pour retrouver les relations de cette entité.'}</p></div>}
+      {temporal === 'same' && availableRelations.length > allRelations.length && <button className="all-periods-link" onClick={onAllPeriods}>Voir les {availableRelations.length} liens en toutes périodes<ArrowUpRight size={13} /></button>}
     </div>
-    <div className="panel-footer"><span className="status-dot" />Wikidata · {allRelations.filter(hasExternalReference).length} déclarations avec URL externe</div>
+    <div className="panel-footer"><span className="status-dot" />{allRelations.some(relation => relation.evidence) ? 'Documents officiels et Wikidata' : 'Wikidata'} · {allRelations.filter(hasExternalReference).length} liens avec URL source</div>
   </aside>;
 }

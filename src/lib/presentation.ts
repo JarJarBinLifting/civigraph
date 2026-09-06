@@ -41,7 +41,7 @@ export function periodLabel(relation: Relation): string {
   if (relation.start && relation.end) return `${formatDate(relation.start)} – ${formatDate(relation.end)}`;
   if (relation.start) return `Début : ${formatDate(relation.start)} · fin non renseignée`;
   if (relation.end) return `Fin : ${formatDate(relation.end)} · début non renseigné`;
-  if (relation.pointInTime) return `En ${formatDate(relation.pointInTime)}`;
+  if (relation.pointInTime) return `${relation.evidence ? (relation.pointInTime.precision >= 11 ? 'Attesté le' : 'Attesté en') : 'En'} ${formatDate(relation.pointInTime)}`;
   return 'Période non renseignée';
 }
 export function hasExternalReference(relation: Relation): boolean {

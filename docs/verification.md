@@ -69,3 +69,30 @@ Développer une entité déplace désormais cette entité au centre avec une tra
 Inspection des captures avant, pendant et après le mouvement à **1982 × 1103**, soit le format du commentaire utilisateur. La vue finale contient Conseiller régional au centre, Bernard Cazeneuve, Jean-Pierre Raffarin et Ségolène Royal autour, avec leurs trois liens. Aucun `pageerror` dans le parcours animé testé. Inspection complémentaire à **390 × 844** : les quatre nœuds et leurs libellés tiennent dans le cadre grâce à une disposition plus compacte des petits réseaux. Les grands réseaux mobiles restent déplaçables comme précédemment.
 
 Captures locales dans `.working/pivot-motion-*.png` et `test-results/pivot-*.png`, ignorées par Git. Aperçu local reconstruit et relancé sur le port 4300 ; aucune publication distante effectuée.
+
+## Exploration par période — complément du 6 septembre 2026
+
+Depuis Macron, développer la commission Attali ouvre une sélection de six participations de la composition initiale de 2007. Le repère de 2010 affiche quatre participations documentées dans le rapport de cette année. Macron reste connecté et son rôle change selon la source. Les cinq personnalités ajoutées ont également des parcours Wikidata navigables. Le corpus complété comporte **45 personnes, 346 entités et 797 liens**, dont 10 participations officielles.
+
+| Contrôle sur le build final | Résultat observé |
+| --- | --- |
+| `npm test` | 37 tests réussis dans 6 fichiers |
+| `npm run lint` et `npm run typecheck` | Réussis sans erreur |
+| `npm run build` | Build de production Next.js réussi |
+| `npx playwright test` | 27 parcours réussis en 26,2 secondes : 15 sur ordinateur et 12 sur mobile ; 3 cas d'animation/navigation propres au bureau explicitement ignorés sur mobile |
+| Macron → Attali, 2007 / 2010 | 7 nœuds et 6 liens, puis 5 nœuds et 4 liens ; rôles et sources concordants dans la fiche et la liste |
+| Toutes les périodes | 11 déclarations accessibles, y compris la déclaration Wikidata initiale sans période |
+| Provenance officielle | Décret de 2007 ou rapport de 2010 ; lien vers la page du PDF, numéro imprimé et rôle ; aucune fausse révision Wikidata |
+| Poursuite vers Evelyne Gebhardt | Personnalité au centre, période conservée et autres parcours accessibles en toutes périodes |
+| Écoles, entreprises et dates absentes | ENA : passage 2002–2004 ; Rothschild & Cie : 2008–2012 ; French-American Foundation : absence de période exploitable expliquée |
+| Partage, rechargement, retour et avance | Période et choix même/toutes périodes restaurés |
+| Animation au moment où apparaît le contrôle temporel | Même instance Cytoscape, même nœud Attali, positions intermédiaires mesurées et lien officiel avec Macron conservé |
+| Intégrité du corpus | Identifiants uniques, extrémités présentes, liens Wikidata et révisions valides ; les 717 déclarations initiales restent inchangées |
+
+Les tests temporels couvrent les intervalles exacts, les précisions annuelles et mensuelles, les années frontières, les dates ponctuelles, les bornes absentes, les dates invalides et les compositions officiellement sourcées. Une année commune incertaine n'est pas transformée en rencontre, ni une fin absente en fonction toujours exercée.
+
+Inspection visuelle à **1982 × 1103** et **390 × 844** : contrôles temporels, participants, rôles et présentation des preuves. Une première capture mobile montrait le libellé du participant du bas sous les commandes. Un espace dédié aux commandes et une hauteur adaptée au panneau temporel corrigent le chevauchement ; un contrôle géométrique du navigateur vérifie désormais que les libellés précèdent la zone d'aide. Captures finales `test-results/periods-*.png`, ignorées par Git.
+
+Aucun `pageerror` sur les parcours initial et Attali vérifiés ; aucune requête vers un domaine tiers pendant l'exploration initiale. Journal d'erreurs du serveur vide après les tests. Aperçu de production reconstruit et relancé sur le port 4300. Aucun push ni déploiement distant.
+
+Limites : la sélection Attali n'est pas l'ensemble des membres ; les deux compositions ne documentent pas une présence individuelle continue de 2007 à 2010. Les autres institutions utilisent leurs dates disponibles, avec une couverture variable. Les contrôles automatisés ne vérifient pas indépendamment toutes les déclarations Wikidata, ni la disponibilité future des sources. Les navigateurs et appareils physiques non testés restent ceux signalés plus haut.

@@ -28,7 +28,7 @@ describe('committed Wikidata corpus', () => {
       expect(ids.has(relation.source) && ids.has(relation.target)).toBe(true);
       expect(relation.id.toUpperCase().startsWith(`${relation.source}$`)).toBe(true);
       expect(relation.statementUrl).toContain(`${relation.source}#${relation.id.replace('$', '-')}`);
-      expect(new URL(relation.revisionUrl).searchParams.get('oldid')).toMatch(/^\d+$/);
+      expect(new URL(relation.revisionUrl!).searchParams.get('oldid')).toMatch(/^\d+$/);
       expect(CATEGORIES).toContain(relation.category);
       for (const reference of relation.references) for (const url of reference.urls) expect(['http:', 'https:']).toContain(new URL(url).protocol);
     }
