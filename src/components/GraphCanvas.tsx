@@ -5,12 +5,15 @@ import { Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
 import type { Core, Position } from 'cytoscape';
 import { categoryInfo, initials, shortLabel, typeInfo } from '@/lib/presentation';
 import type { Entity, Relation } from '@/lib/types';
+import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
 
 interface Props {
   entities: Entity[];
   relations: Relation[];
   focus: string;
   anchor?: string;
+  trail: string[];
+  chronology: Chronology;
   selected: string;
   selectedEdge: string | null;
   compare: string | null;
@@ -31,32 +34,25 @@ function badge(entity: Entity, root: boolean) {
   return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><g fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${content}</g></svg>`)}`;
 }
 
-function arrange({ entities, relations, focus, anchor }: Props, mobile: boolean) {
-  const adjacent = new Set(relations.flatMap(relation => relation.source === focus ? [relation.target] : relation.target === focus ? [relation.source] : []));
-  const neighbors = entities.filter(entity => entity.id !== focus && adjacent.has(entity.id)).sort((a, b) => Number(b.id === anchor) - Number(a.id === anchor) || a.type.localeCompare(b.type) || a.label.localeCompare(b.label, 'fr'));
-  const trail = entities.filter(entity => entity.id !== focus && !adjacent.has(entity.id));
-  const radius = neighbors.length > 28 ? 285 : neighbors.length > 20 ? 235 : 195;
-  const compact = mobile && neighbors.length <= 6;
-  const positions = new Map<string, Position>([[focus, { x: 0, y: 0 }]]);
-  neighbors.forEach((entity, index) => {
-    const angle = index / neighbors.length * Math.PI * 2 + (!compact && neighbors[0]?.id === anchor ? Math.PI : -Math.PI / 2);
-    const ring = neighbors.length > 32 && index % 2 === 1 ? radius + 150 : radius;
-    positions.set(entity.id, { x: Math.cos(angle) * ring * (compact ? .85 : 1.35), y: Math.sin(angle) * ring });
-  });
-  trail.forEach((entity, index) => {
-    const angle = Math.PI + (index - (trail.length - 1) / 2) * Math.min(.35, Math.PI / Math.max(trail.length, 1));
-    positions.set(entity.id, { x: Math.cos(angle) * (radius + 180) * 1.35, y: Math.sin(angle) * (radius + 180) });
-  });
-  return positions;
-}
-
-function frame(instance: Core, positions: Map<string, Position>, overview = false) {
-  const points = [...positions.values()];
-  const bounds = overview ? instance.nodes().not('.leaving').boundingBox({ includeLabels: true }) : null;
-  const halfWidth = bounds ? Math.max(Math.abs(bounds.x1), Math.abs(bounds.x2)) + 18 : Math.max(80, ...points.map(point => Math.abs(point.x))) + 135;
-  const halfHeight = bounds ? Math.max(Math.abs(bounds.y1), Math.abs(bounds.y2)) + 24 : Math.max(80, ...points.map(point => Math.abs(point.y))) + 95;
-  const zoom = Math.min(instance.width() / (halfWidth * 2), instance.height() / (halfHeight * 2), 1.1);
-  return { zoom: Math.max(instance.width() < 500 && !overview ? .65 : .18, zoom), pan: { x: instance.width() / 2, y: instance.height() / 2 } };
+function frame(instance: Core, positions: Map<string, Position>) {
+  let zoom = Math.min(instance.zoom(), 1.1);
+  // Fit the destination positions, including labels whose legibility is kept in screen pixels.
+  for (let i = 0; i < 6; i++) {
+    scaleLabels(instance, zoom);
+    let halfWidth = 80;
+    let halfHeight = 70;
+    for (const node of instance.nodes().not('.leaving')) {
+      const point = positions.get(node.id());
+      if (!point) continue;
+      const bounds = node.boundingBox({ includeLabels: true, includeOverlays: false });
+      const current = node.position();
+      halfWidth = Math.max(halfWidth, Math.abs(point.x + bounds.x1 - current.x), Math.abs(point.x + bounds.x2 - current.x));
+      halfHeight = Math.max(halfHeight, Math.abs(point.y + bounds.y1 - current.y), Math.abs(point.y + bounds.y2 - current.y));
+    }
+    zoom = Math.max(.02, Math.min((instance.width() - 40) / (halfWidth * 2), (instance.height() - 64) / (halfHeight * 2), 1.1));
+  }
+  scaleLabels(instance);
+  return { zoom, pan: { x: instance.width() / 2, y: instance.height() / 2 } };
 }
 
 function markSelection(instance: Core, { selected, selectedEdge, compare }: Props) {
@@ -64,13 +60,67 @@ function markSelection(instance: Core, { selected, selectedEdge, compare }: Prop
   instance.getElementById(selected).addClass('active');
   if (selectedEdge) instance.getElementById(selectedEdge).addClass('active');
   if (compare) instance.getElementById(compare).addClass('compared');
+  scaleLabels(instance);
+}
+
+function scaleLabels(instance: Core, zoom = instance.zoom()) {
+  instance.batch(() => {
+    const overview = zoom < .55;
+    instance.nodes().toggleClass('compact-labels', overview).removeStyle('font-size');
+    const dated = instance.nodes().filter(node => typeof node.data('timeBand') === 'number');
+    const sparseDates = instance.width() >= 500 && dated.length <= 3 ? dated : instance.collection();
+    sparseDates.removeClass('compact-labels');
+    instance.nodes().removeStyle('text-max-width');
+    const readable = !overview && instance.width() >= 500 && instance.nodes().length <= 28;
+    const revealed = readable ? instance.nodes() : instance.nodes('.root, .active, .hover').union(sparseDates);
+    revealed.style('font-size', Math.max(14, 12 / zoom)).style('text-max-width', Math.max(115, 110 / zoom));
+    instance.nodes('.root').style('width', Math.max(76, 36 / zoom)).style('height', Math.max(76, 36 / zoom));
+  });
+}
+
+function syncGuides(svg: SVGSVGElement | null, instance: Core) {
+  const pan = instance.pan();
+  svg?.firstElementChild?.setAttribute('transform', `translate(${pan.x} ${pan.y}) scale(${instance.zoom()})`);
+}
+
+function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Core) {
+  if (!svg) return;
+  const ns = 'http://www.w3.org/2000/svg';
+  const group = document.createElementNS(ns, 'g');
+  for (const ring of layout.rings) {
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('r', String(ring.radius));
+    circle.setAttribute('class', `guide-ring band-${ring.band}`);
+    group.append(circle);
+    const label = document.createElementNS(ns, 'text');
+    label.setAttribute('x', '8');
+    label.setAttribute('y', String(-ring.radius + 22));
+    label.textContent = TIME_BANDS[ring.band];
+    group.append(label);
+  }
+  if (layout.unknownBox) {
+    const box = document.createElementNS(ns, 'rect');
+    for (const [key, value] of Object.entries(layout.unknownBox)) box.setAttribute(key, String(value));
+    box.setAttribute('rx', '14');
+    box.setAttribute('class', 'guide-unknown');
+    group.append(box);
+    const label = document.createElementNS(ns, 'text');
+    label.setAttribute('x', String(layout.unknownBox.x + 15));
+    label.setAttribute('y', String(layout.unknownBox.y + 26));
+    label.textContent = 'Dates inconnues · hors échelle';
+    group.append(label);
+  }
+  svg.replaceChildren(group);
+  syncGuides(svg, instance);
 }
 
 // Reconcile by identity so the previous center and its factual links survive a pivot.
-function updateScene(instance: Core, props: Props, animate: boolean) {
+function updateScene(instance: Core, props: Props, animate: boolean, guides: SVGSVGElement | null) {
   const { entities, relations, focus } = props;
   const mobile = instance.width() < 500;
-  const positions = arrange(props, mobile);
+  const layout = layoutGraph(props, focus, props.trail, props.chronology);
+  const positions = layout.positions;
+  drawGuides(guides, layout, instance);
   const origin = { ...(instance.getElementById(focus).position() ?? { x: 0, y: 0 }) };
   const ids = new Set([...entities, ...relations].map(item => item.id));
   const leaving = instance.elements().filter(element => !ids.has(element.id()));
@@ -82,22 +132,23 @@ function updateScene(instance: Core, props: Props, animate: boolean) {
     for (const entity of entities) {
       const point = positions.get(entity.id)!;
       const isFocus = entity.id === focus;
-      const location = Math.abs(point.x) > 180 ? (point.x < 0 ? 'label-left' : 'label-right') : point.y < 0 ? 'label-top' : '';
+      const location = layout.unknownIds.includes(entity.id) ? 'unknown-date' : layout.historyIds.includes(entity.id) ? 'history-node' : Math.abs(point.x) > 180 ? (point.x < 0 ? 'label-left' : 'label-right') : point.y < 0 ? 'label-top' : '';
       const label = entity.label.length > 65 && entity.abbreviatedLabel ? entity.abbreviatedLabel : shortLabel(entity);
-      const data = { id: entity.id, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: badge(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12 };
+      const data = { id: entity.id, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: badge(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
       let node = instance.getElementById(entity.id);
       if (!node.length) {
         node = instance.add({ group: 'nodes', data, position: { ...(motion ? origin : point) } });
         entering.add(entity.id);
       } else node.data(data);
-      node.classes(isFocus ? 'root' : location);
+      node.removeStyle('width height').classes(isFocus ? 'root' : location);
       if (!motion) node.position(point);
     }
     for (const relation of relations) {
       if (!instance.getElementById(relation.id).length) {
-        instance.add({ group: 'edges', data: { id: relation.id, source: relation.source, target: relation.target, color: categoryInfo[relation.category].color, label: categoryInfo[relation.category].singular } });
+        instance.add({ group: 'edges', classes: layout.unknownIds.includes(relation.source) || layout.unknownIds.includes(relation.target) ? 'undated-edge' : '', data: { id: relation.id, source: relation.source, target: relation.target, color: categoryInfo[relation.category].color, label: categoryInfo[relation.category].singular } });
         entering.add(relation.id);
       }
+      instance.getElementById(relation.id).toggleClass('undated-edge', layout.unknownIds.includes(relation.source) || layout.unknownIds.includes(relation.target));
     }
     markSelection(instance, props);
     if (!motion) leaving.remove();
@@ -131,12 +182,13 @@ function updateScene(instance: Core, props: Props, animate: boolean) {
 
 export function GraphCanvas(props: Props) {
   const container = useRef<HTMLDivElement>(null);
+  const guides = useRef<SVGSVGElement>(null);
   const cy = useRef<Core | null>(null);
   const callbacks = useRef(props);
   const refresh = useRef<(animate?: boolean, overview?: boolean) => void>(() => {});
   const [ready, setReady] = useState(false);
   useEffect(() => { callbacks.current = props; });
-  const { entities, relations, focus, anchor, selected, selectedEdge, compare } = props;
+  const { entities, relations, focus, anchor, selected, selectedEdge, compare, chronology, trail } = props;
 
   useEffect(() => {
     if (!container.current) return;
@@ -149,7 +201,7 @@ export function GraphCanvas(props: Props) {
         container: container.current,
         elements: [],
         layout: { name: 'preset', fit: false },
-        minZoom: 0.18, maxZoom: 2.8, wheelSensitivity: 0.22,
+        minZoom: 0.02, maxZoom: 2.8, wheelSensitivity: 0.22,
         style: [
           { selector: 'node', style: { width: 'data(size)', height: 'data(size)', 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-width': '76%', 'background-height': '76%', 'border-width': 1.2, 'border-color': 'data(color)', label: 'data(label)', 'font-family': 'Arial, sans-serif', 'font-size': 'data(fontSize)', color: '#343d38', 'text-valign': 'bottom', 'text-margin-y': 10, 'text-wrap': 'wrap', 'text-max-width': '115px', 'text-background-color': '#fafbf8', 'text-background-opacity': 0.93, 'text-background-padding': '3px', 'text-background-shape': 'roundrectangle', 'overlay-opacity': 0 } },
           { selector: 'node.label-left', style: { 'text-halign': 'left', 'text-valign': 'center', 'text-margin-x': -11, 'text-margin-y': 0 } },
@@ -161,6 +213,11 @@ export function GraphCanvas(props: Props) {
           { selector: 'node.compared', style: { 'border-width': 3, 'border-color': '#a47947', 'underlay-color': '#a47947', 'underlay-opacity': 0.08, 'underlay-padding': 8 } },
           { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.42, 'curve-style': 'bezier', 'control-point-step-size': 24, 'overlay-padding': 9, 'overlay-opacity': 0 } },
           { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#34463d', 'text-background-color': '#fafbf8', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
+          { selector: 'node.unknown-date', style: { 'border-style': 'dashed' } },
+          { selector: 'node.compact-labels', style: { 'text-opacity': 0 } },
+          { selector: 'node.root, node.active, node.hover', style: { 'text-opacity': 1 } },
+          { selector: 'edge.undated-edge', style: { opacity: .17, 'line-style': 'dashed' } },
+          { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
           { selector: '.leaving', style: { events: 'no' } },
         ],
       });
@@ -170,13 +227,17 @@ export function GraphCanvas(props: Props) {
       instance.on('tap', 'edge', event => callbacks.current.onEdge(event.target.id()));
       instance.on('mouseover', 'edge', event => { event.target.addClass('hover'); if (container.current) container.current.style.cursor = 'pointer'; });
       instance.on('mouseout', 'edge', event => { event.target.removeClass('hover'); if (container.current) container.current.style.cursor = 'grab'; });
-      instance.on('mouseover', 'node', () => { if (container.current) container.current.style.cursor = 'pointer'; });
-      instance.on('mouseout', 'node', () => { if (container.current) container.current.style.cursor = 'grab'; });
-      cancelTransition = updateScene(instance, callbacks.current, false);
+      instance.on('mouseover', 'node', event => { event.target.addClass('hover'); scaleLabels(instance); if (container.current) container.current.style.cursor = 'pointer'; });
+      instance.on('mouseout', 'node', event => { event.target.removeClass('hover'); scaleLabels(instance); if (container.current) container.current.style.cursor = 'grab'; });
+      instance.on('pan zoom', () => { syncGuides(guides.current, instance); scaleLabels(instance); });
+      cancelTransition = updateScene(instance, callbacks.current, false, guides.current);
       refresh.current = (animate = true, overview = false) => {
         cancelTransition();
-        cancelTransition = updateScene(instance, callbacks.current, animate);
-        if (overview) instance.viewport(frame(instance, arrange(callbacks.current, instance.width() < 500), true));
+        cancelTransition = updateScene(instance, callbacks.current, animate, guides.current);
+        if (overview) {
+          const positions = layoutGraph(callbacks.current, callbacks.current.focus, callbacks.current.trail, callbacks.current.chronology).positions;
+          instance.viewport(frame(instance, positions));
+        }
       };
       let width = container.current.clientWidth;
       let height = container.current.clientHeight;
@@ -187,7 +248,7 @@ export function GraphCanvas(props: Props) {
         const moving = instance.animated() || instance.nodes().filter(':animated').length > 0;
         cancelTransition();
         instance.resize();
-        cancelTransition = updateScene(instance, callbacks.current, moving);
+        cancelTransition = updateScene(instance, callbacks.current, moving, guides.current);
       });
       observer.observe(container.current);
       setReady(true);
@@ -195,13 +256,14 @@ export function GraphCanvas(props: Props) {
     return () => { disposed = true; observer?.disconnect(); cancelTransition(); refresh.current = () => {}; cy.current?.destroy(); cy.current = null; };
   }, []);
 
-  useEffect(() => { refresh.current(); }, [entities, relations, focus, anchor]);
+  useEffect(() => { refresh.current(); }, [entities, relations, focus, anchor, chronology, trail]);
 
   useEffect(() => {
     if (cy.current) markSelection(cy.current, callbacks.current);
   }, [selected, selectedEdge, compare]);
 
   return <div className="graph-stage" data-testid="graph-stage" data-ready={ready}>
+    <svg className="graph-guides" ref={guides} aria-hidden="true" />
     <div className="graph-canvas" ref={container} role="img" aria-label={`Graphe de ${entities.length} entités et ${relations.length} relations. Utilisez le mode Liste pour explorer au clavier.`} />
     <div className="graph-compass" aria-hidden="true"><span>N</span><i /><small>VUE RELATIONNELLE</small></div>
     <div className="graph-controls" aria-label="Contrôles du graphe">
@@ -209,6 +271,6 @@ export function GraphCanvas(props: Props) {
       <button className="icon-button" aria-label="Zoom arrière" onClick={() => cy.current?.zoom({ level: cy.current.zoom() / 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Minus size={18} /></button>
       <span /><button className="icon-button" aria-label="Recentrer le graphe" onClick={() => refresh.current(false, true)}><Maximize size={17} /></button>
     </div>
-    <p className="graph-tip"><MousePointer2 size={13} /><span className="desktop-tip">Un clic pour comprendre. Deux pour explorer.</span><span className="mobile-tip">Glissez ou zoomez pour explorer.</span></p>
+    <p className="graph-tip"><MousePointer2 size={13} /><span className="desktop-tip">{entities.length > 28 ? 'Zoomez pour lire les noms. Un clic ouvre la fiche.' : 'Un clic pour comprendre. Deux pour explorer.'}</span><span className="mobile-tip">Glissez ou zoomez pour explorer.</span></p>
   </div>;
 }

@@ -155,11 +155,6 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .graph-meta > span:nth-child(2)::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: #c4cdba; margin-right: 3px; }
 .graph-meta .graph-scope { color: #707668; }
 .graph-meta .subtle-link { margin-left: auto; font-size: 10px; }
-.graph-pages { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 9px 20px 3px; font-size: 10px; color: #65725d; }
-.graph-pages > div { display: flex; align-items: center; gap: 8px; }
-.graph-pages > div button { width: 30px; height: 28px; border: 1px solid #dce4d5; background: #fff; border-radius: 4px; font-size: 14px; }
-.graph-pages button:disabled { opacity: .35; cursor: default; }
-.graph-pages .subtle-link { margin-left: auto; font-size: 10px; }
 .graph-stage { flex: 1; min-height: 0; position: relative; background-image: radial-gradient(#dce4d480 .7px, transparent .7px); background-size: 18px 18px; overflow: hidden; }
 .graph-stage::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 45px 16px #fafbf8; pointer-events: none; }
 .graph-canvas { width: 100%; height: 100%; min-height: 0; cursor: grab; }
@@ -528,3 +523,48 @@ svg { flex-shrink: 0; vertical-align: middle; }
   .corpus-list button { padding: 9px 6px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+/* Temporal overview and sourced person profile. */
+.chronology-controls { margin: 10px 20px 3px; padding: 10px 0; border-bottom: 1px solid #e3e8dd; color: #62715d; font-size: 10px; }
+.chronology-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; }
+.chronology-heading strong { font-weight: 550; color: #3e5e49; }
+.chronology-heading label { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; }
+.chronology-heading input { width: 59px; padding: 5px 6px; border: 1px solid #d6dfcf; background: #fff; border-radius: 4px; color: #345141; font: inherit; text-align: center; }
+.chronology-reference { margin-left: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.chronology-heading button { font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+.chronology-legend { display: flex; flex-wrap: wrap; gap: 7px 17px; margin-top: 8px; }
+.chronology-legend > span { display: inline-flex; align-items: center; gap: 5px; }
+.time-band { width: 9px; height: 9px; border: 1px solid #658774; border-radius: 50%; }
+.band-0 { background: #e4eee2; }
+.band-1 { background: #edf0df; }
+.band-2 { background: #f1eadf; }
+.band-3 { background: #eee3e0; }
+.band-unknown { border-style: dashed; border-color: #83938b; background: #f4f6f3; border-radius: 2px; }
+.chronology-controls p { font-size: 10px; line-height: 1.5; margin: 8px 0 0; color: #75806e; }
+.graph-guides { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+.graph-guides .guide-ring { fill: none; stroke: #d8e1d1; stroke-width: 1.2; stroke-dasharray: 5 7; }
+.graph-guides .guide-unknown { fill: #e8eee430; stroke: #bbcbb7; stroke-width: 1.2; stroke-dasharray: 5 7; }
+.graph-guides text { fill: #84937c; font: 14px Arial,sans-serif; }
+.graph-canvas { position: relative; }
+.person-biography { padding: 17px 0 8px; }
+.profile-overview { color: #354c3d; font-size: 12px; line-height: 1.8; }
+.profile-overview p { margin: 10px 0; }
+.profile-scope { font-size: 10px; color: #7c8576; line-height: 1.65; margin: 15px 0 20px; }
+.profile-section { margin: 19px 0; }
+.profile-section h3 { font-size: 11px; font-weight: 600; color: #496343; margin: 0 0 6px; }
+.profile-fact { display: flex; align-items: flex-start; gap: 8px; padding: 11px 0; border-bottom: 1px solid #edf1e8; }
+.profile-fact > div { flex: 1; min-width: 0; }
+.profile-fact strong { font-weight: 500; color: #374d3b; font-size: 11px; line-height: 1.5; display: block; }
+.profile-fact span, .profile-fact small { display: block; color: #71806a; font-size: 10px; line-height: 1.6; margin-top: 5px; }
+.profile-fact .icon-button { width: 24px; height: 26px; flex-shrink: 0; color: #69825b; }
+.profile-more { display: block; font-size: 10px; color: #788570; margin-top: 8px; }
+.profile-all { font-size: 11px; margin-top: 10px; }
+.panel-tabs { gap: 18px; }
+@media (max-width: 700px) {
+  .chronology-controls { margin: 7px 12px 2px; }
+  .chronology-heading strong { font-size: 10px; }
+  .chronology-reference { margin-left: 0; }
+  .exploration-center { min-height: 660px; height: 660px; }
+  .graph-guides { height: calc(100% - 42px); }
+  .graph-canvas { height: calc(100% - 42px); }
+}

@@ -24,6 +24,7 @@ test('initial graph, complete corpus and source transparency', async ({ page }, 
   await expect(page.getByRole('heading', { name: 'Emmanuel Macron', exact: true })).toBeVisible();
   await expect(page.getByText('19 liens', { exact: true })).toBeVisible();
   await page.screenshot({ path: `test-results/${info.project.name}-explorer.png`, fullPage: true });
+  await page.getByRole('tab', { name: /Connexions/ }).click();
   await page.getByRole('button', { name: 'Voir la source du lien avec ENA', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Consulter le document officiel', exact: true })).toHaveAttribute('href', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000437029');
   const originalEducation = original.relations.find(relation => relation.source === 'Q3052772' && relation.target === 'Q273579')!;

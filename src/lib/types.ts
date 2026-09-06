@@ -78,7 +78,7 @@ export interface ViewState {
   edge: string | null;
   temporal: 'all' | 'same';
   period: string | null;
-  page: number;
+  year: number | null;
 }
 
 export interface CommonConnection {

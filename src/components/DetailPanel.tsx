@@ -5,6 +5,7 @@ import { ArrowUpRight, BookOpen, CalendarDays, ExternalLink, GitBranch, Link2, P
 import { categoryInfo, hasExternalReference, initials, periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
 import type { Category, Entity, GraphData, Relation, ViewState } from '@/lib/types';
 import { matchesPeriod } from '@/lib/graph';
+import { PersonProfile } from './PersonProfile';
 
 export function RelationEvidence({ relation, data, compact = false }: { relation: Relation; data: GraphData; compact?: boolean }) {
   const source = data.entities.find(entity => entity.id === relation.source)!;
@@ -45,7 +46,7 @@ interface Props {
 }
 
 export function DetailPanel({ data, entity, categories, temporal, periodAnchor, selectedEdge, focused, onSelect, onEdge, onExpand, onClose, onAllPeriods, onCareer }: Props) {
-  const [tab, setTab] = useState<'connections' | 'sources'>('connections');
+  const [tab, setTab] = useState<'profile' | 'connections' | 'sources'>(entity.type === 'person' ? 'profile' : 'connections');
   const availableRelations = data.relations.filter(relation => (relation.source === entity.id || relation.target === entity.id) && categories.includes(relation.category));
   const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort((a, b) => Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)));
   const groups = new Map<string, Relation[]>();
@@ -70,11 +71,12 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
     <button className="primary-button expand-button" onClick={() => onExpand(entity.id)} disabled={focused}><GitBranch size={16} />{focused ? 'Au centre du graphe' : 'Développer ce réseau'}{!focused && <Plus size={15} />}</button>
     {entity.type === 'person' && temporal === 'same' && <button className="career-button" onClick={() => onCareer(entity.id)}>Explorer toute sa carrière<ArrowUpRight size={14} /></button>}
     <div className="panel-tabs" role="tablist" aria-label="Contenu de la fiche">
+      {entity.type === 'person' && <button role="tab" aria-selected={activeTab === 'profile'} onClick={() => { setTab('profile'); onEdge(null); }}>Profil</button>}
       <button role="tab" aria-selected={activeTab === 'connections'} onClick={() => { setTab('connections'); onEdge(null); }}>Connexions <span>{connectionCount}</span></button>
       <button role="tab" aria-selected={activeTab === 'sources'} onClick={() => { setTab('sources'); onEdge(null); }}>Sources <ArrowUpRight size={13} /></button>
     </div>
-    <div className="panel-content" role="tabpanel" aria-label={activeTab === 'connections' ? 'Connexions de l’entité' : 'Sources des relations'}>
-      {activeTab === 'connections' ? <>
+    <div className="panel-content" role="tabpanel" aria-label={activeTab === 'profile' ? 'Profil de la personne' : activeTab === 'connections' ? 'Connexions de l’entité' : 'Sources des relations'}>
+      {activeTab === 'profile' ? <PersonProfile data={data} person={entity} onEvidence={onEdge} onConnections={() => { setTab('connections'); onEdge(null); }} /> : activeTab === 'connections' ? <>
         <p className="section-caption">{temporal === 'same' ? 'Participations selon la période retenue' : categories.length === 5 ? 'Tous les liens du corpus' : 'Liens selon les filtres actifs'}{entity.id === 'Q2986712' && ' · sélection non exhaustive'}</p>
         {[...groups.entries()].map(([key, group]) => {
           const relation = group[0];
@@ -94,8 +96,8 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
         <div className="source-intro"><BookOpen size={16} /><p>Chaque lien renvoie à sa déclaration. Les références externes sont affichées lorsqu’elles sont disponibles.</p></div>
         {selectedEdge ? <><button className="subtle-link" onClick={() => { onEdge(null); setTab('sources'); }}>Voir toutes les déclarations ({allRelations.length})</button><RelationEvidence relation={selectedEdge} data={data} /></> : allRelations.map(relation => <RelationEvidence key={relation.id} relation={relation} data={data} compact />)}
       </>}
-      {!allRelations.length && !selectedEdge && <div className="empty-state"><GitBranch size={25} /><strong>Aucun lien avec ces filtres</strong><p>{temporal === 'same' ? 'Les dates disponibles ne permettent pas de retenir un lien sur cette période avec ces catégories.' : 'Réactivez une catégorie pour retrouver les relations de cette entité.'}</p></div>}
-      {temporal === 'same' && availableRelations.length > allRelations.length && <button className="all-periods-link" onClick={onAllPeriods}>Voir les {availableRelations.length} liens en toutes périodes<ArrowUpRight size={13} /></button>}
+      {activeTab !== 'profile' && !allRelations.length && !selectedEdge && <div className="empty-state"><GitBranch size={25} /><strong>Aucun lien avec ces filtres</strong><p>{temporal === 'same' ? 'Les dates disponibles ne permettent pas de retenir un lien sur cette période avec ces catégories.' : 'Réactivez une catégorie pour retrouver les relations de cette entité.'}</p></div>}
+      {activeTab !== 'profile' && temporal === 'same' && availableRelations.length > allRelations.length && <button className="all-periods-link" onClick={onAllPeriods}>Voir les {availableRelations.length} liens en toutes périodes<ArrowUpRight size={13} /></button>}
     </div>
     <div className="panel-footer"><span className="status-dot" />{allRelations.some(relation => relation.evidence) ? 'Documents officiels et Wikidata' : 'Wikidata'} · {allRelations.filter(hasExternalReference).length} liens avec URL source</div>
   </aside>;

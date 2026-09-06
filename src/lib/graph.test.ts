@@ -12,7 +12,7 @@ const relations = [
   ['r3', 'Q1', 'Q4', 'party'], ['r4', 'Q2', 'Q5', 'education'],
 ].map(([id, source, target, category]) => ({ id, source, target, category, property: 'P69', label: 'A étudié à', statementUrl: 'https://www.wikidata.org/', revisionUrl: 'https://www.wikidata.org/', references: [] })) as Relation[];
 const data = { entities, relations, meta: { version: 1, fetchedAt: '2026-09-06', source: 'fixture', license: 'CC0-1.0', peopleCount: 2, entityCount: 5, relationCount: 4, properties: ['P69'], description: '' } } satisfies GraphData;
-const state: ViewState = { root: 'Q1', focus: 'Q1', expanded: ['Q1'], categories: [...CATEGORIES], selected: 'Q1', compare: null, edge: null, mode: 'graph', temporal: 'all', period: null, page: 0 };
+const state: ViewState = { root: 'Q1', focus: 'Q1', expanded: ['Q1'], categories: [...CATEGORIES], selected: 'Q1', compare: null, edge: null, mode: 'graph', temporal: 'all', period: null, year: null };
 
 describe('entity search', () => {
   it('finds names without accents or matching case', () => expect(searchEntities(data, ' EMILIE ').map(e => e.id)).toEqual(['Q1']));

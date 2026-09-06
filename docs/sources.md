@@ -49,7 +49,7 @@ Un début seul, une fin seule, une date invalide ou une précision inférieure �
 
 Le filtre s'applique au graphe, à la liste, aux fiches et aux compteurs. Les étapes du parcours sont conservées ; leurs liens restent soumis aux filtres. Il se conserve en poursuivant vers une personne et dans l'URL, puis se réinitialise au point de départ. La comparaison entre deux personnes utilise toutes les périodes et présente les preuves de chaque côté.
 
-La section dépliable « Autres personnes liées — dates insuffisantes » expose les personnes aux dates inconnues ou au chevauchement incertain. Elle exclut les personnes déjà attestées dans la vue et celles dont toutes les dates sont extérieures. Chaque déclaration garde sa preuve ; une sélection ne transforme pas le lien en co-présence. « Explorer toute sa carrière » conserve le parcours et remet `time=all`, sans repère de période. Les grands réseaux sont paginés visuellement, avec toutes leurs déclarations disponibles en liste ; les compteurs du réseau portent sur l’ensemble filtré.
+La section dépliable « Autres personnes liées — dates insuffisantes » expose les personnes aux dates inconnues ou au chevauchement incertain. Elle exclut les personnes déjà attestées dans la vue et celles dont toutes les dates sont extérieures. Chaque déclaration garde sa preuve ; une sélection ne transforme pas le lien en co-présence. « Explorer toute sa carrière » conserve le parcours et remet `time=all`, sans repère de période. Le graphe et la liste rendent l’ensemble filtré sans pagination ; les compteurs portent sur ce réseau complet.
 
 ## Commission Attali : complément vérifié le 6 septembre 2026
 
@@ -110,3 +110,13 @@ Le nom de Philippe Sanmarco diverge du libellé français du snapshot Wikidata. 
 Le corpus initial comprend 40 personnalités de plusieurs générations et courants politiques ; cette sélection éditoriale n'est ni un classement, ni une mesure de représentativité. Les données sont accessibles sans compte. Les visites et explorations ne sont pas enregistrées par l'application ; la vue est portée par l'URL.
 
 L'import est reproductible, mais les données Wikidata sont évolutives : un nouvel import peut changer les effectifs, dates ou références. `meta.fetchedAt` indique le moment de la collecte, tandis que les révisions identifient les versions effectivement utilisées.
+
+## Distance temporelle et profil des personnes
+
+La disposition conserve tous les voisins retenus par les catégories et le filtre temporel. La distance temporelle est le plus petit écart entre les bornes possibles du passage et celles du repère, exprimé en années moyennes (365,2425 jours). Des périodes qui se chevauchent ont un écart nul ; ce classement ne remplace pas les critères plus stricts du filtre « Même période ». Lorsqu’un voisin possède plusieurs passages, le plus proche du repère détermine son classement ; les autres déclarations restent accessibles.
+
+Quatre plages organisent les couronnes : écart inférieur ou égal à 5 ans, puis à 20 ans, puis à 50 ans, enfin supérieur à 50 ans. Des couronnes supplémentaires peuvent répartir un groupe dense dans la même plage ; leur distance n’a pas une précision annuelle. Un seul début, une seule fin ou une date invalide restent hors échelle. Les nœuds inconnus sont placés dans une zone distincte à droite. Les étapes du parcours, gardées à gauche, ne prennent pas de signification temporelle.
+
+Le repère emploie la période sélectionnée lorsqu’elle est exploitable. À défaut, il utilise explicitement l’année de l’instantané, sans l’assimiler au passage de la personne d’entrée. Une année saisie par l’utilisateur a priorité pour la disposition et se conserve dans l’URL avec `year` ; elle ne modifie aucune date du corpus ni le filtre « Même période ».
+
+Le Profil est une présentation déterministe des relations déjà présentes, pas une nouvelle source biographique. Ses repères utilisent le corpus complet, sans filtre de période ni de catégorie. Une sélection de fonctions, activités, formations, affiliations et organisations est présentée ; chaque repère renvoie à une déclaration existante. Plusieurs mandats ne sont pas réunis en une durée continue. Les dates absentes ou ouvertes restent explicites ; aucune situation actuelle n’est déduite d’une fin manquante. Connexions et Sources donnent accès aux autres déclarations. Aucun nouveau téléchargement de biographie n’est effectué à l’ouverture de la fiche.

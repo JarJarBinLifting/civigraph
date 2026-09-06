@@ -125,3 +125,28 @@ Les reprises d'import depuis les fichiers bruts en cache ont été exécutées p
 Aucun `pageerror` dans les parcours initial et Areva vérifiés ; aucune requête vers un domaine tiers pendant l'exploration initiale. L'aperçu utilise les instantanés locaux. Aucun push ni déploiement distant.
 
 Limites : recherche inverse plafonnée à 60 profils par institution, corpus non exhaustif et non représentatif. Les 17 activités HATVP constituent un premier lot limité aux organismes explicitement identifiés, pas l'ensemble des déclarations d'intérêts. Une présence attestée en 2009 ou une promotion de 2004 ne crée pas une durée individuelle continue. Les données sans fin ne prouvent pas une activité actuelle. La véracité indépendante de toutes les déclarations Wikidata et la disponibilité future des sources ne sont pas garanties par les tests. Les limites de navigateurs et d'appareils signalées plus haut demeurent.
+
+## Réseau complet par distance temporelle et Profil — 6 septembre 2026
+
+Les deux commentaires ont été reproduits sur leurs URL, à 1982 × 1103 : Assas affichait 14 nœuds sur 69 ; la fiche d'Albane Gaillot s'ouvrait sur Connexions et n'avait pas de Profil. Deux tests navigateur ont constaté ces comportements avant l'implémentation.
+
+Le réseau filtré est maintenant rendu intégralement. Les périodes exploitables déterminent des couronnes d'écart croissant ; les périodes inconnues sont placées dans une zone distincte, hors échelle. La référence reprend la période sélectionnée ou l'année de l'instantané, explicitement affichée et modifiable. Le champ `year` conserve cette personnalisation ; le code, les contrôles et le paramètre actif de pagination sont retirés.
+
+Le Profil s'ouvre par défaut pour une personne. Il présente une synthèse et une sélection de repères issus des déclarations du corpus complet, indépendamment des filtres du graphe. Les preuves ouvrent Sources ; le retour vers Profil et Connexions fonctionne. Les institutions gardent Connexions comme onglet initial.
+
+| Contrôle | Résultat observé |
+| --- | --- |
+| Domaine et corpus | 53 tests réussis dans 10 fichiers ; les 2 tests du profil sont également repassés après l'ajustement de son texte |
+| TypeScript, lint et compilation | Réussis ; TypeScript est également exécuté par le build final |
+| Suite navigateur complète | 39 parcours réussis, 3 cas réservés à l'ordinateur explicitement ignorés sur mobile |
+| Après le dernier ajustement des noms au faible zoom | Lint et build réussis ; 10 parcours ciblés repassés sur ordinateur et mobile : réseau complet, Profil, sélection réelle, pivot, URL anciennes et périodes Attali |
+| Assas | 69 nœuds et 70 liens rendus ; 2026 puis 2000 comme année repère ; rechargement restauré |
+| Sens des distances | Gabriel Attal (2008–2010) plus proche du repère 2026 qu'Abel Mestre (1998–2004) ; ordre inversé avec le repère 2000. La fin seule de Nicole Belloubet reste hors échelle |
+| Sélection dans les dates inconnues | Clic réel sur le nœud d'Albane Gaillot dans le réseau complet ; Profil ouvert puis pivot, avec Lecornu et Assas conservés dans le parcours |
+| Profil | Fonction parlementaire datée 2017–2022 et études à Assas sans date inventée ; preuve Wikidata accessible ; mêmes repères lorsque toutes les catégories du graphe sont masquées |
+| Réseaux denses | ENA : 123 entités et 130 déclarations, conservées après rechargement et disponibles en liste |
+| Navigation antérieure | Comparaison, preuves, partage, retour/avance, transitions de 620 ms, réduction des animations et recentrage vérifiés |
+
+Les captures ont été inspectées à 1982 × 1103, 1440 × 1000 et 390 × 844. Le cadrage utilise les positions de destination et les libellés pour conserver tous les nœuds à l'ouverture. Un échec de clic sur mobile, dû à l'ancien zoom minimal qui plaçait l'ENA hors champ, a été corrigé et le test est repassé. Les noms trop rapprochés au faible zoom s'affichent progressivement au zoom, au survol ou à la sélection ; le centre conserve une taille lisible. Le mode Liste permet une consultation complète au clavier. Captures locales dans `test-results/chronology-assas-*.png`, `profile-albane-*.png` et `enrichment-dense-*.png`.
+
+Le corpus et ses données sources n'ont pas été modifiés. Le Profil n'est pas une biographie vérifiée auprès de nouvelles sources et ne prétend pas être exhaustif. Les couronnes représentent des plages d'écart, pas une échelle métrique continue ni une preuve de rencontre. Les dates manquantes restent manquantes. Journal d'erreurs du serveur vide après la suite complète ; aucun push ni déploiement distant.

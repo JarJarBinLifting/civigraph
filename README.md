@@ -40,7 +40,11 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 | Voir les relations communes | Entités communes et preuves de chaque côté, avec périodes distinctes |
 | Partager une vue | URL comprenant point de départ, centre actif, parcours, sélection, filtres, période, comparaison et mode liste |
 
-Les grands réseaux s’affichent par pages de 12 voisins au-delà de 24 voisins supplémentaires. Le centre et les étapes du parcours restent présents ; la page se conserve dans l’URL. La sélection dans une fiche rejoint la page du voisin. La liste donne accès à toutes les déclarations du réseau.
+Toutes les entités du réseau filtré sont affichées sans pagination. Les voisins aux dates exploitables occupent des couronnes d’écart croissant avec la période de référence : jusqu’à 5 ans, de 5 à 20 ans, de 20 à 50 ans, puis au-delà. Le passage documenté le plus proche détermine la couronne. Les dates inconnues sont regroupées à droite, hors de l’échelle temporelle ; le parcours reste à gauche. Le repère reprend la période choisie ou, à défaut, l’année de l’instantané. Une année personnalisée peut être saisie et partagée avec le paramètre `year`. Les anciennes URL paginées ouvrent le réseau complet.
+
+Le cadrage initial inclut tous les nœuds. Pour les réseaux denses, les noms se révèlent au zoom, au survol ou à la sélection ; le nœud actif reste identifiable. La distance décrit un écart entre périodes, sans démontrer une rencontre ou une proximité personnelle.
+
+Les personnes s’ouvrent sur **Profil** : une présentation et des repères de fonctions, formations et activités, issus du corpus complet et reliés à leurs preuves. Ce profil reste indépendant des filtres du graphe ; **Connexions** et **Sources** permettent de poursuivre l’exploration. Les institutions conservent Connexions comme onglet initial.
 
 Le mode **Liste** permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
 
@@ -96,6 +100,8 @@ src/app/                 Page Next.js, styles et métadonnées
 src/components/          Exploration, graphe, recherche, fiches, comparaison
 src/lib/graph.ts         Recherche, sous-graphe, comparaison, contrat d'URL
 src/lib/temporal.ts      Chevauchements selon la précision des dates
+src/lib/graph-layout.ts  Couronnes temporelles, dates inconnues et placement
+src/lib/profile.ts       Repères biographiques sourcés
 src/lib/dataset.ts       Fusion du corpus et des participations officielles
 src/lib/presentation.ts  Libellés, catégories et affichage des dates
 src/lib/types.ts         Contrat du corpus et de la vue

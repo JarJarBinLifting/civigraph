@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
-import { careerView, focusView, getGraphPage, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
+import { careerView, focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
 import { categoryInfo, initials, periodLabel, shortLabel } from '@/lib/presentation';
 import { EntitySearch } from './EntitySearch';
 import { GraphCanvas } from './GraphCanvas';
+import { ChronologyControls } from './ChronologyControls';
+import { getChronology, getTimeReference } from '@/lib/graph-layout';
 import { DetailPanel } from './DetailPanel';
 import { Comparison } from './Comparison';
 import { Modal } from './Modal';
@@ -25,7 +27,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   const [corpusQuery, setCorpusQuery] = useState('');
   const { root, focus, expanded, categories, compare, temporal, period } = view;
   const visible = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare, temporal, period }), [data, root, focus, expanded, categories, compare, temporal, period]);
-  const graphPage = useMemo(() => getGraphPage(visible, { root, focus, expanded, page: view.page }), [visible, root, focus, expanded, view.page]);
+  const chronology = useMemo(() => getChronology(visible, focus, getTimeReference(data, { year: view.year, period })), [visible, focus, data, view.year, period]);
   const periodContext = getPeriodContext(data, view);
   const entitiesById = useMemo(() => new Map(data.entities.map(entity => [entity.id, entity])), [data]);
   const rootEntity = entitiesById.get(root)!;
@@ -43,22 +45,18 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   }, [data]);
 
   const update = useCallback((patch: Partial<ViewState>) => {
-    const changedScope = (['root', 'focus', 'categories', 'temporal', 'period', 'compare'] as const).some(key => patch[key] !== undefined && patch[key] !== view[key]);
-    const next = { ...view, ...(changedScope ? { page: 0 } : {}), ...patch };
+    const next = { ...view, ...patch };
     setView(next);
     const search = serializeView(next);
     if (window.location.search !== search) window.history.pushState(null, '', `${window.location.pathname}${search}`);
   }, [view]);
 
   function startFrom(entity: Entity) {
-    update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null, period: null, temporal: 'all' });
+    update({ root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null, period: null, temporal: 'all', year: null });
     setComparisonOpen(false); setShowDetail(true); setShowFilters(false); setModal(null);
   }
-  function pageForSelection(id: string) {
-    const index = graphPage.neighborIds.indexOf(id);
-    return index >= 0 ? Math.floor(index / graphPage.pageSize) : view.page;
-  }
-  function select(id: string) { update({ selected: id, edge: null, page: pageForSelection(id) }); setShowDetail(true); }
+
+  function select(id: string) { update({ selected: id, edge: null }); setShowDetail(true); }
   function expand(id: string) {
     update(focusView(view, id, data));
     setShowDetail(true);
@@ -70,7 +68,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   function inspectEdge(id: string | null) {
     const relation = data.relations.find(item => item.id === id);
     const selected = relation && view.selected !== relation.source && view.selected !== relation.target ? relation.source : view.selected;
-    update({ edge: id, selected, page: pageForSelection(selected) });
+    update({ edge: id, selected });
     setShowDetail(true);
   }
   function toggleCategory(category: Category) {
@@ -110,7 +108,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
         </div>
         <div className="scope-section"><div className="section-heading"><h2>Périmètre</h2><Info size={13} /></div><p><CalendarIcon />{temporal === 'same' && periodContext.anchor ? periodContext.anchor.cohort?.label ?? periodLabel(periodContext.anchor) : 'Toutes les périodes documentées'}</p><span>{temporal === 'same' ? 'Les dates insuffisantes se consultent séparément ; chaque personne permet de repartir vers sa carrière complète.' : 'Les dates sont précisées dans les fiches.'}</span></div>
         {expanded.length > 1 && <div className="expanded-section"><span className="eyebrow">Parcours d’exploration</span>{expanded.filter(id => id !== root).map(id => <div key={id}><button aria-current={id === focus ? 'step' : undefined} onClick={() => expand(id)}>{shortLabel(entitiesById.get(id)!)}</button><button className="icon-button" aria-label={`Revenir avant ${shortLabel(entitiesById.get(id)!)}`} onClick={() => expand(expanded[expanded.indexOf(id) - 1] ?? root)}><X size={12} /></button></div>)}</div>}
-        <button className="reset-button" onClick={() => { update({ focus: root, expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null, period: null, temporal: 'all' }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
+        <button className="reset-button" onClick={() => { update({ focus: root, expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null, period: null, temporal: 'all', year: null }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
         <div className="suggested-paths"><span className="eyebrow">Une piste à explorer</span><button onClick={() => startFrom(entitiesById.get('Q273579')!)}><span className="path-icon"><GraduationCap size={18} /></span><span><strong>Les parcours de l’ENA</strong><small>Une école, plusieurs trajectoires</small></span><ArrowUpRight size={15} /></button><button onClick={() => startFrom(entitiesById.get('Q1587677')!)}><span className="path-icon blue"><Landmark size={17} /></span><span><strong>Passages à Matignon</strong><small>Explorer une fonction publique</small></span><ArrowUpRight size={15} /></button></div>
         <div className="sidebar-bottom"><div className="prototype-tag"><span className="status-dot" />Prototype exploratoire</div><p>{data.meta.peopleCount} personnalités · corpus limité</p><button onClick={() => setModal('corpus')}>Découvrir le corpus<ArrowUpRight size={12} /></button></div>
       </aside>
@@ -125,8 +123,8 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
           <div className="graph-meta"><span><i className="status-dot" />{visible.entities.length} entités</span><span>{visible.relations.length} liens</span><span className="graph-scope">dans ce réseau</span>{!showDetail && <button className="subtle-link" onClick={() => setShowDetail(true)}>Ouvrir la fiche<ArrowUpRight size={12} /></button>}</div>
           <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />
           {notice && <p className="inline-notice" role="status">{notice}</p>}
-          {view.mode === 'graph' && graphPage.pageCount > 1 && <nav className="graph-pages" aria-label="Pages du réseau"><span>{graphPage.entities.length} entités affichées sur {visible.entities.length}</span><div><button disabled={graphPage.page === 0} onClick={() => update({ page: graphPage.page - 1, edge: null })} aria-label="Page précédente du réseau">←</button><span>{graphPage.page + 1} / {graphPage.pageCount}</span><button disabled={graphPage.page + 1 === graphPage.pageCount} onClick={() => update({ page: graphPage.page + 1, edge: null })} aria-label="Page suivante du réseau">→</button></div><button className="subtle-link" onClick={() => update({ mode: 'list' })}>Tout voir en liste<ArrowUpRight size={12} /></button></nav>}
-          {view.mode === 'graph' ? <GraphCanvas entities={graphPage.entities} relations={graphPage.relations} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
+          {view.mode === 'graph' && <ChronologyControls key={`${focus}:${chronology.reference.label}`} chronology={chronology} customYear={view.year} onYear={year => update({ year })} />}
+          {view.mode === 'graph' ? <GraphCanvas entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {visible.relations.map(relation => <article className="graph-list-row" key={relation.id}>
               <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
               <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p>{relation.role && <small className="connection-role">{relation.role}</small>}<small>{relation.cohort?.label ?? periodLabel(relation)}</small></div>
@@ -145,7 +143,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     {modal === 'share' && <Modal title="Partager cette exploration" onClose={() => setModal(null)}><div className="modal-emblem"><Share2 size={25} /></div><p>Retrouvez le point de départ, les réseaux développés, la sélection, les filtres, la période et la comparaison dans une même URL.</p><label className="share-label" htmlFor="share-url">Lien vers cette vue</label><div className="share-input"><input id="share-url" readOnly value={shareUrl} onFocus={event => event.target.select()} /><button className="primary-button" onClick={copyShare}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? 'Copié' : 'Copier'}</button></div>{copyError && <p className="source-limit" role="status">La copie automatique est indisponible. Sélectionnez le lien puis utilisez Ctrl+C ou Cmd+C.</p>}<p className="local-share-note">Cette instance fonctionne en local. Le lien s’ouvre sur cet ordinateur ; il deviendra accessible à d’autres personnes lorsque l’application sera hébergée.</p></Modal>}
     {modal === 'method' && <Modal title="Comprendre les liens" onClose={() => setModal(null)}><p className="modal-lede">La transparence fait partie du graphe.</p><p>Civigraph représente des relations publiques : formations, fonctions, affiliations politiques, employeurs et organisations. Les déclarations Wikidata sont complétées par les mandats de l’Assemblée nationale, des déclarations HATVP distribuées par Integrity Watch France et des compositions officielles d’institutions. Chaque trait donne accès à sa provenance.</p><div className="method-grid"><article><span>01</span><h3>Une relation, une provenance</h3><p>Les fiches donnent accès aux déclarations Wikidata et à leur version à l’import, ou au document officiel avec son article ou sa page. Les rôles et dates restent attachés à chaque source.</p></article><article><span>02</span><h3>Des périodes explicites</h3><p>« Même période » retient un chevauchement établi par les dates ou une même composition officielle. Les dates insuffisantes se consultent séparément ; chaque personne permet de repartir vers sa carrière complète. Une fin manquante ne signifie pas que la fonction continue.</p></article><article><span>03</span><h3>Des parcours, sans présomption</h3><p>Une période ou une institution commune ne démontre pas une rencontre. Une composition officielle, une promotion et un mandat individuel sont des preuves distinctes. Un repère ponctuel ne devient pas une présence continue.</p></article><article><span>04</span><h3>Un corpus à ses débuts</h3><p>Cette V0 couvre {data.meta.peopleCount} personnes. Elle est non exhaustive, non représentative et ne se met pas à jour en continu.</p></article></div><div className="method-note"><Info size={19} /><p>Les déclarations Wikidata ne sont pas vérifiées indépendamment ici. {wikidataRelations.filter(relation => relation.references.some(reference => reference.urls.length)).length} sur {wikidataRelations.length} comportent une URL de référence externe. Les autres restent signalées comme déclarations à recouper. {officialCount} déclarations supplémentaires proviennent de sources publiques identifiées. Les données HATVP décrivent ce qui a été déclaré à leur date de dépôt.</p></div><a className="subtle-link" href="https://www.wikidata.org/wiki/Wikidata:Data_access/fr" target="_blank" rel="noopener noreferrer">Accès aux données et licence Wikidata<ArrowUpRight size={14} /></a><p className="section-caption">Autres sources : <a href="https://data.assemblee-nationale.fr/acteurs/historique-des-deputes" target="_blank" rel="noopener noreferrer">Assemblée nationale</a> · <a href="https://www.integritywatch.fr/" target="_blank" rel="noopener noreferrer">Integrity Watch France</a> · <a href="https://www.hatvp.fr/open-data/" target="_blank" rel="noopener noreferrer">HATVP</a>.</p></Modal>}
     {modal === 'corpus' && <Modal title="Le corpus de la V0" onClose={() => setModal(null)}><p>Le corpus initial est enrichi depuis douze écoles, entreprises et organisations : jusqu’à 60 profils publics par institution, sélectionnés par identifiant Wikidata, avec une notice française. Pour les écoles, la recherche retient des parcours politiques français. Cette sélection est non exhaustive et non représentative.</p><div className="corpus-stats"><div><strong>{data.meta.peopleCount}</strong><span>personnalités</span></div><div><strong>{data.meta.entityCount}</strong><span>entités</span></div><div><strong>{data.meta.relationCount}</strong><span>déclarations</span></div></div><p className="section-caption">Import Wikidata du {importedDate} · données Wikidata sous CC0. Les documents officiels conservent leurs conditions de réutilisation.</p><input className="corpus-search" aria-label="Filtrer les personnes du corpus" value={corpusQuery} onChange={event => setCorpusQuery(event.target.value)} placeholder="Retrouver un nom dans le corpus…" /><div className="corpus-list">{filteredPeople.map(entity => <button key={entity.id} onClick={() => startFrom(entity)}><span className="mini-avatar">{initials(entity.label)}</span><span>{entity.label}</span><ArrowUpRight size={15} /></button>)}</div>{!filteredPeople.length && <p className="empty-search">Aucune personne trouvée dans ce corpus.</p>}</Modal>}
-    <span className="sr-only" aria-live="polite">Vue centrée sur {shortLabel(focusEntity)}. {visible.entities.length} entités dans le réseau. {view.mode === 'graph' ? `${graphPage.entities.length} entités et ${graphPage.relations.length} déclarations affichées, page ${graphPage.page + 1} sur ${graphPage.pageCount}.` : `${visible.relations.length} déclarations dans la liste.`} {temporal === 'same' ? 'Filtre par période actif.' : 'Toutes les périodes.'}</span>
+    <span className="sr-only" aria-live="polite">Vue centrée sur {shortLabel(focusEntity)}. {visible.entities.length} entités dans le réseau. {view.mode === 'graph' ? `${visible.entities.length} entités et ${visible.relations.length} déclarations affichées.` : `${visible.relations.length} déclarations dans la liste.`} {temporal === 'same' ? 'Filtre par période actif.' : 'Toutes les périodes.'}</span>
   </div>;
 }
 
