@@ -1,13 +1,14 @@
 import type { Category, Entity, GraphData, Relation } from './types';
 import { periodBounds } from './temporal';
 import { periodLabel, shortLabel } from './presentation';
+import { getGraphIndex } from './graph-index';
 
 export interface ProfileFact { entity: Entity; relation: Relation }
 const categories: Category[] = ['office', 'employment', 'education', 'party', 'membership'];
 
 export function getPersonProfile(data: GraphData, person: Entity) {
-  const entities = new Map(data.entities.map(entity => [entity.id, entity]));
-  const statements = data.relations.filter(relation => relation.source === person.id);
+  const { entities, outgoing } = getGraphIndex(data);
+  const statements = outgoing.get(person.id) ?? [];
   // These are selected individual statements, never merged into a continuous tenure.
   const order = (a: Relation, b: Relation) => Number(Boolean(periodBounds(b))) - Number(Boolean(periodBounds(a))) || (b.start?.value ?? b.pointInTime?.value ?? '').localeCompare(a.start?.value ?? a.pointInTime?.value ?? '') || Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)) || a.id.localeCompare(b.id);
   const sections = categories.flatMap(category => {

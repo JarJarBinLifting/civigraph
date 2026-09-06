@@ -6,10 +6,12 @@ import { categoryInfo, hasExternalReference, initials, periodLabel, shortLabel, 
 import type { Category, Entity, GraphData, Relation, ViewState } from '@/lib/types';
 import { matchesPeriod } from '@/lib/graph';
 import { PersonProfile } from './PersonProfile';
+import { getGraphIndex } from '@/lib/graph-index';
 
 export function RelationEvidence({ relation, data, compact = false }: { relation: Relation; data: GraphData; compact?: boolean }) {
-  const source = data.entities.find(entity => entity.id === relation.source)!;
-  const target = data.entities.find(entity => entity.id === relation.target)!;
+  const { entities } = getGraphIndex(data);
+  const source = entities.get(relation.source)!;
+  const target = entities.get(relation.target)!;
   const urls = [...new Set(relation.references.flatMap(reference => reference.urls))];
   const statedIn = [...new Set(relation.references.flatMap(reference => reference.statedIn))];
   return <article className={`evidence-card ${compact ? 'compact' : ''}`}>
@@ -47,7 +49,8 @@ interface Props {
 
 export function DetailPanel({ data, entity, categories, temporal, periodAnchor, selectedEdge, focused, onSelect, onEdge, onExpand, onClose, onAllPeriods, onCareer }: Props) {
   const [tab, setTab] = useState<'profile' | 'connections' | 'sources'>(entity.type === 'person' ? 'profile' : 'connections');
-  const availableRelations = data.relations.filter(relation => (relation.source === entity.id || relation.target === entity.id) && categories.includes(relation.category));
+  const index = getGraphIndex(data);
+  const availableRelations = (index.incident.get(entity.id) ?? []).filter(relation => categories.includes(relation.category));
   const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort((a, b) => Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)));
   const groups = new Map<string, Relation[]>();
   for (const relation of allRelations) {
@@ -81,7 +84,7 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
         {[...groups.entries()].map(([key, group]) => {
           const relation = group[0];
           const neighborId = relation.source === entity.id ? relation.target : relation.source;
-          const neighbor = data.entities.find(item => item.id === neighborId)!;
+          const neighbor = index.entities.get(neighborId)!;
           return <div className="connection-row" key={key}>
             <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
             <div><span className="connection-category">{categoryInfo[relation.category].singular}</span>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
-import type { Core, Position } from 'cytoscape';
+import type { Core, Position, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, initials, shortLabel, typeInfo } from '@/lib/presentation';
 import type { Entity, Relation } from '@/lib/types';
 import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
@@ -56,10 +56,16 @@ function frame(instance: Core, positions: Map<string, Position>) {
 }
 
 function markSelection(instance: Core, { selected, selectedEdge, compare }: Props) {
-  instance.elements().removeClass('active compared');
+  instance.elements().removeClass('active compared inspected-neighbor dimmed');
   instance.getElementById(selected).addClass('active');
   if (selectedEdge) instance.getElementById(selectedEdge).addClass('active');
   if (compare) instance.getElementById(compare).addClass('compared');
+  const inspected = selectedEdge ? instance.getElementById(selectedEdge) : instance.getElementById(selected);
+  if (inspected.length && (!inspected.hasClass('root') || selectedEdge)) {
+    const neighborhood = instance.collection().union(inspected).union(inspected.nodes().closedNeighborhood()).union(inspected.edges().connectedNodes());
+    neighborhood.addClass('inspected-neighbor');
+    instance.elements().difference(neighborhood).addClass('dimmed');
+  }
   scaleLabels(instance);
 }
 
@@ -72,9 +78,20 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
     sparseDates.removeClass('compact-labels');
     instance.nodes().removeStyle('text-max-width');
     const readable = !overview && instance.width() >= 500 && instance.nodes().length <= 28;
-    const revealed = readable ? instance.nodes() : instance.nodes('.root, .active, .hover').union(sparseDates);
+    const revealed = readable ? instance.nodes() : instance.nodes('.root, .active, .hover, .history-node').union(sparseDates);
     revealed.style('font-size', Math.max(14, 12 / zoom)).style('text-max-width', Math.max(115, 110 / zoom));
     instance.nodes('.root').style('width', Math.max(76, 36 / zoom)).style('height', Math.max(76, 36 / zoom));
+    instance.nodes().removeClass('collision-label');
+    // Keep important labels first; other labels can be revealed by zoom, hover or selection.
+    const priority = (node: SingularElementArgument) => Number(node.hasClass('root')) * 8 + Number(node.hasClass('active')) * 4 + Number(node.hasClass('hover')) * 2 + Number(node.hasClass('history-node'));
+    const visible = instance.nodes().filter(node => Number(node.style('text-opacity')) > 0).sort((a, b) => priority(b) - priority(a) || a.id().localeCompare(b.id()));
+    const occupied: { x1: number; x2: number; y1: number; y2: number }[] = [];
+    for (const node of visible) {
+      const box = node.boundingBox({ includeNodes: false, includeEdges: false, includeLabels: true, includeOverlays: false });
+      const overlaps = occupied.some(other => box.x1 < other.x2 + 5 / zoom && box.x2 > other.x1 - 5 / zoom && box.y1 < other.y2 + 5 / zoom && box.y2 > other.y1 - 5 / zoom);
+      if (overlaps && priority(node) === 0) node.addClass('collision-label');
+      else occupied.push(box);
+    }
   });
 }
 
@@ -195,6 +212,7 @@ export function GraphCanvas(props: Props) {
     let disposed = false;
     let observer: ResizeObserver | undefined;
     let cancelTransition = () => {};
+    let zoomFrame = 0;
     import('cytoscape').then(({ default: cytoscape }) => {
       if (disposed || !container.current) return;
       const instance = cytoscape({
@@ -215,9 +233,14 @@ export function GraphCanvas(props: Props) {
           { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#34463d', 'text-background-color': '#fafbf8', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
           { selector: 'node.unknown-date', style: { 'border-style': 'dashed' } },
           { selector: 'node.compact-labels', style: { 'text-opacity': 0 } },
-          { selector: 'node.root, node.active, node.hover', style: { 'text-opacity': 1 } },
+          { selector: 'node.root, node.active, node.hover, node.history-node', style: { 'text-opacity': 1 } },
+          { selector: 'node.collision-label', style: { 'text-opacity': 0 } },
           { selector: 'edge.undated-edge', style: { opacity: .17, 'line-style': 'dashed' } },
           { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
+          { selector: 'node.dimmed', style: { opacity: .38 } },
+          { selector: 'edge.dimmed', style: { opacity: .08 } },
+          { selector: 'edge.inspected-neighbor', style: { opacity: .8, width: 1.8 } },
+          { selector: 'node.root.dimmed, node.history-node.dimmed', style: { opacity: .7 } },
           { selector: '.leaving', style: { events: 'no' } },
         ],
       });
@@ -229,7 +252,11 @@ export function GraphCanvas(props: Props) {
       instance.on('mouseout', 'edge', event => { event.target.removeClass('hover'); if (container.current) container.current.style.cursor = 'grab'; });
       instance.on('mouseover', 'node', event => { event.target.addClass('hover'); scaleLabels(instance); if (container.current) container.current.style.cursor = 'pointer'; });
       instance.on('mouseout', 'node', event => { event.target.removeClass('hover'); scaleLabels(instance); if (container.current) container.current.style.cursor = 'grab'; });
-      instance.on('pan zoom', () => { syncGuides(guides.current, instance); scaleLabels(instance); });
+      instance.on('pan', () => syncGuides(guides.current, instance));
+      instance.on('zoom', () => {
+        syncGuides(guides.current, instance);
+        if (!zoomFrame) zoomFrame = requestAnimationFrame(() => { zoomFrame = 0; if (!disposed) scaleLabels(instance); });
+      });
       cancelTransition = updateScene(instance, callbacks.current, false, guides.current);
       refresh.current = (animate = true, overview = false) => {
         cancelTransition();
@@ -253,7 +280,7 @@ export function GraphCanvas(props: Props) {
       observer.observe(container.current);
       setReady(true);
     }).catch(() => { if (!disposed) callbacks.current.onFallback(); });
-    return () => { disposed = true; observer?.disconnect(); cancelTransition(); refresh.current = () => {}; cy.current?.destroy(); cy.current = null; };
+    return () => { disposed = true; observer?.disconnect(); cancelAnimationFrame(zoomFrame); cancelTransition(); refresh.current = () => {}; cy.current?.destroy(); cy.current = null; };
   }, []);
 
   useEffect(() => { refresh.current(); }, [entities, relations, focus, anchor, chronology, trail]);

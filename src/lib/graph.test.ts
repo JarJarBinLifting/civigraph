@@ -55,6 +55,15 @@ describe('progressive exploration', () => {
 });
 
 describe('common connections', () => {
+  it('keeps parallel statements in source order without multiplying the common entity', () => {
+    const extra = { ...relations[0], id: 'another-source', start: { value: '2002-00-00', precision: 9 } };
+    const snapshot = { ...data, relations: [...relations, extra] };
+    const common = getCommonConnections(snapshot, 'Q1', 'Q2', ['education']);
+    expect(common.map(item => item.entity.id)).toEqual(['Q3']);
+    expect(common[0].left).toEqual([relations[0], extra]);
+    expect(getVisibleGraph(snapshot, state).relations.map(item => item.id)).toEqual(['r1', 'r3', 'another-source']);
+    expect(getCommonConnections(data, 'Q1', 'Q2', ['education'])[0].left).toEqual([relations[0]]);
+  });
   it('returns each side’s actual evidence for a common entity', () => {
     const common = getCommonConnections(data, 'Q1', 'Q2', [...CATEGORIES]);
     expect(common.map(connection => connection.entity.id)).toEqual(['Q3']);

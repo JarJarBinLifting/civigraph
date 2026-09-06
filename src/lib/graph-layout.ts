@@ -1,6 +1,7 @@
 import type { GraphData, ViewState } from './types';
 import { periodBounds } from './temporal';
 import { periodLabel } from './presentation';
+import { getGraphIndex } from './graph-index';
 
 type Graph = Pick<GraphData, 'entities' | 'relations'>;
 export const TIME_BANDS = ['0 à 5 ans', '5 à 20 ans', '20 à 50 ans', 'Plus de 50 ans'];
@@ -15,7 +16,7 @@ export interface GraphLayout {
 }
 
 export function getTimeReference(data: GraphData, view: Pick<ViewState, 'year' | 'period'>): TimeReference {
-  const relation = data.relations.find(relation => relation.id === view.period);
+  const relation = getGraphIndex(data).relations.get(view.period ?? '');
   const bounds = relation && periodBounds(relation);
   if (view.year === null && bounds) return { ...bounds, label: relation.cohort?.label ?? periodLabel(relation), year: new Date(bounds.first).getUTCFullYear(), kind: 'passage' };
   const year = view.year ?? Number(data.meta.fetchedAt.slice(0, 4));
@@ -28,14 +29,18 @@ export function getTimeReference(data: GraphData, view: Pick<ViewState, 'year' |
 
 export function getChronology(graph: Graph, focus: string, reference: TimeReference): Chronology {
   const nodes: Chronology['nodes'] = new Map();
+  const gaps = new Map<string, number>();
+  for (const relation of graph.relations) {
+    if (relation.source !== focus && relation.target !== focus) continue;
+    const bounds = periodBounds(relation);
+    if (!bounds) continue;
+    const neighbor = relation.source === focus ? relation.target : relation.source;
+    const gap = Math.max(0, reference.first - bounds.last, bounds.first - reference.last) / (365.2425 * 86_400_000);
+    gaps.set(neighbor, Math.min(gaps.get(neighbor) ?? Infinity, gap));
+  }
   for (const entity of graph.entities) {
     if (entity.id === focus) continue;
-    const gaps = graph.relations.filter(relation => (relation.source === focus && relation.target === entity.id) || (relation.target === focus && relation.source === entity.id))
-      .flatMap(relation => {
-        const bounds = periodBounds(relation);
-        return bounds ? [Math.max(0, reference.first - bounds.last, bounds.first - reference.last) / (365.2425 * 86_400_000)] : [];
-      });
-    const gap = gaps.length ? Math.min(...gaps) : null;
+    const gap = gaps.get(entity.id) ?? null;
     nodes.set(entity.id, { gap, band: gap === null ? null : gap <= 5 ? 0 : gap <= 20 ? 1 : gap <= 50 ? 2 : 3 });
   }
   const values = [...nodes.values()];

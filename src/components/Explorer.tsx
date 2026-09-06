@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, BookOpen, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
 import { careerView, focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
@@ -13,12 +13,16 @@ import { DetailPanel } from './DetailPanel';
 import { Comparison } from './Comparison';
 import { Modal } from './Modal';
 import { PeriodControls } from './PeriodControls';
+import { getGraphIndex } from '@/lib/graph-index';
+import { containFocus } from '@/lib/focus';
 
 export function Explorer({ data, initialView }: { data: GraphData; initialView: ViewState }) {
   const [view, setView] = useState(initialView);
   const [comparisonOpen, setComparisonOpen] = useState(Boolean(initialView.compare));
   const [showFilters, setShowFilters] = useState(false);
   const [showDetail, setShowDetail] = useState(true);
+  const [enlarged, setEnlarged] = useState(false);
+  const workspace = useRef<HTMLElement>(null);
   const [modal, setModal] = useState<'method' | 'share' | 'corpus' | null>(null);
   const [shareUrl, setShareUrl] = useState('');
   const [copied, setCopied] = useState(false);
@@ -28,14 +32,15 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
   const { root, focus, expanded, categories, compare, temporal, period } = view;
   const visible = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare, temporal, period }), [data, root, focus, expanded, categories, compare, temporal, period]);
   const chronology = useMemo(() => getChronology(visible, focus, getTimeReference(data, { year: view.year, period })), [visible, focus, data, view.year, period]);
-  const periodContext = getPeriodContext(data, view);
-  const entitiesById = useMemo(() => new Map(data.entities.map(entity => [entity.id, entity])), [data]);
+  const periodContext = useMemo(() => getPeriodContext(data, { root, focus, expanded, period, categories }), [data, root, focus, expanded, period, categories]);
+  const index = useMemo(() => getGraphIndex(data), [data]);
+  const entitiesById = index.entities;
   const rootEntity = entitiesById.get(root)!;
   const focusEntity = entitiesById.get(focus)!;
   const selectedEntity = entitiesById.get(view.selected) ?? rootEntity;
-  const selectedEdge = data.relations.find(relation => relation.id === view.edge);
-  const importedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' }).format(new Date(data.meta.fetchedAt));
-  const wikidataRelations = data.relations.filter(relation => !relation.evidence);
+  const selectedEdge = index.relations.get(view.edge ?? '');
+  const importedDate = useMemo(() => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' }).format(new Date(data.meta.fetchedAt)), [data.meta.fetchedAt]);
+  const wikidataRelations = useMemo(() => data.relations.filter(relation => !relation.evidence), [data]);
   const officialCount = data.relations.length - wikidataRelations.length;
 
   useEffect(() => {
@@ -43,6 +48,29 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     window.addEventListener('popstate', restore);
     return () => window.removeEventListener('popstate', restore);
   }, [data]);
+
+  useEffect(() => {
+    if (!enlarged || !workspace.current) return;
+    const element = workspace.current;
+    const previous = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow;
+    const siblings = [...element.parentElement!.children].filter(item => item !== element) as HTMLElement[];
+    const wasInert = siblings.map(item => item.inert);
+    siblings.forEach(item => { item.inert = true; });
+    document.body.style.overflow = 'hidden';
+    element.querySelector<HTMLButtonElement>('.enlarged-close')?.focus();
+    const keyboard = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); setEnlarged(false); }
+      else containFocus(event, element);
+    };
+    document.addEventListener('keydown', keyboard);
+    return () => {
+      document.removeEventListener('keydown', keyboard);
+      siblings.forEach((item, i) => { item.inert = wasInert[i]; });
+      document.body.style.overflow = overflow;
+      previous?.focus();
+    };
+  }, [enlarged]);
 
   const update = useCallback((patch: Partial<ViewState>) => {
     const next = { ...view, ...patch };
@@ -66,7 +94,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     setShowDetail(true);
   }
   function inspectEdge(id: string | null) {
-    const relation = data.relations.find(item => item.id === id);
+    const relation = index.relations.get(id ?? '');
     const selected = relation && view.selected !== relation.source && view.selected !== relation.target ? relation.source : view.selected;
     update({ edge: id, selected });
     setShowDetail(true);
@@ -86,7 +114,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     try { await navigator.clipboard.writeText(shareUrl); setCopied(true); setCopyError(false); }
     catch { setCopyError(true); }
   }
-  const ownRelations = getVisibleGraph(data, { root, focus, expanded, categories: [...CATEGORIES], compare, temporal, period }).relations;
+  const ownRelations = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories: [...CATEGORIES], compare, temporal, period }).relations, [data, root, focus, expanded, compare, temporal, period]);
   const filteredPeople = data.entities.filter(entity => entity.inCorpus && entity.label.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().includes(corpusQuery.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()));
   const defaultComparisonLeft = rootEntity.type === 'person' ? rootEntity : data.entities.find(entity => entity.id === 'Q3052772')!;
 
@@ -99,7 +127,8 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
     </header>
     <section className="intro-bar"><div><p className="eyebrow">Cartographie de la vie publique française</p><h1>Les liens éclairent les parcours<span>.</span></h1><p className="intro-subtitle">Explorez les institutions, les trajectoires et ce qui les relie.</p></div><div className="intro-side"><span className="mini-orbit" aria-hidden="true"><i /><i /><i /></span><p>Chaque lien a une histoire.<br /><strong>Et une source.</strong></p></div></section>
     <div className="workspace-toolbar"><div className="search-area"><EntitySearch data={data} onSelect={startFrom} /></div><div className="toolbar-actions"><button className="secondary-button mobile-filter-toggle" onClick={() => { setShowFilters(!showFilters); setShowDetail(false); }} aria-expanded={showFilters}><SlidersHorizontal size={16} /><span>Filtres</span></button><button className="secondary-button compare-trigger" onClick={openComparison}><GitCompareArrows size={16} /><span>Comparer deux personnes</span></button><button className="primary-button share-trigger" onClick={openShare}><Share2 size={15} /><span>Partager la vue</span></button></div></div>
-    <main id="exploration" className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''}`}>
+    <main id="exploration" ref={workspace} role={enlarged ? 'dialog' : undefined} aria-modal={enlarged || undefined} aria-label={enlarged ? 'Carte agrandie' : undefined} className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''} ${enlarged ? 'map-expanded' : ''}`}>
+      {enlarged && <div className="enlarged-bar"><button className="secondary-button enlarged-close" onClick={() => setEnlarged(false)}><X size={16} />Réduire la carte</button><span>Explorer, filtrer, consulter les sources</span><button className="secondary-button mobile-only" onClick={() => setShowFilters(!showFilters)} aria-expanded={showFilters}>Filtres</button></div>}
       <aside className={`sidebar ${showFilters ? 'mobile-open' : ''}`} aria-label="Filtres et parcours">
         <div className="sidebar-heading"><span className="eyebrow">Votre exploration</span><button className="icon-button mobile-only" aria-label="Fermer les filtres" onClick={() => setShowFilters(false)}><X size={17} /></button><Compass size={16} className="desktop-only" /></div>
         <button className="root-receipt" onClick={() => expand(root)}><span className="mini-avatar">{initials(rootEntity.label)}</span><span><small>Point de départ</small><strong>{shortLabel(rootEntity)}</strong></span><ChevronRight size={15} /></button>
@@ -119,7 +148,7 @@ export function Explorer({ data, initialView }: { data: GraphData; initialView: 
           onRight={entity => update({ compare: entity.id, edge: null })}
           onExplore={id => { expand(id); setComparisonOpen(false); }}
           onClose={() => { setComparisonOpen(false); update({ compare: null }); }} /> : <>
-          <div className="graph-topbar"><div className="breadcrumb"><span>Au centre</span><ChevronRight size={12} /><strong>{shortLabel(focusEntity)}</strong></div><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={14} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={15} /><span>Liste</span></button></div></div>
+          <div className="graph-topbar"><div className="breadcrumb"><span>Au centre</span><ChevronRight size={12} /><strong>{shortLabel(focusEntity)}</strong></div><div className="map-display-controls"><button className="enlarge-trigger" onClick={() => setEnlarged(true)} aria-hidden={enlarged || undefined} tabIndex={enlarged ? -1 : undefined} style={enlarged ? { visibility: 'hidden' } : undefined}>Agrandir la carte</button><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={14} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={15} /><span>Liste</span></button></div></div></div>
           <div className="graph-meta"><span><i className="status-dot" />{visible.entities.length} entités</span><span>{visible.relations.length} liens</span><span className="graph-scope">dans ce réseau</span>{!showDetail && <button className="subtle-link" onClick={() => setShowDetail(true)}>Ouvrir la fiche<ArrowUpRight size={12} /></button>}</div>
           <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />
           {notice && <p className="inline-notice" role="status">{notice}</p>}
