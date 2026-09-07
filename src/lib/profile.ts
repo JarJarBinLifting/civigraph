@@ -1,7 +1,8 @@
 import type { Category, Entity, GraphData, Relation } from './types';
-import { dateBounds, periodBounds } from './temporal';
+import { periodBounds } from './temporal';
 import { periodLabel, shortLabel } from './presentation';
 import { getGraphIndex } from './graph-index';
+import { compareRelationsChronologically, relationSortDate } from './chronology';
 
 export interface ProfileFact { entity: Entity; relation: Relation }
 export interface CareerEntry { entity: Entity; relations: Relation[]; category: Category; sortDate: number | null; key: string }
@@ -14,9 +15,7 @@ export function getCareerTimeline(data: GraphData, person: Entity): { dated: Car
     const key = JSON.stringify([entity.id, relation.category, relation.label, relation.role, relation.start, relation.end, relation.pointInTime, relation.cohort]);
     const existing = entries.get(key);
     if (existing) { existing.relations.push(relation); continue; }
-    const validPeriod = !relation.start || !relation.end || periodBounds(relation);
-    const date = validPeriod ? dateBounds(relation.start) ?? dateBounds(relation.pointInTime) ?? dateBounds(relation.end) : null;
-    entries.set(key, { key, entity, category: relation.category, relations: [relation], sortDate: date?.first ?? null });
+    entries.set(key, { key, entity, category: relation.category, relations: [relation], sortDate: relationSortDate(relation) });
   }
   const all = [...entries.values()];
   return {
@@ -40,7 +39,7 @@ export function getPersonProfile(data: GraphData, person: Entity) {
       targets.add(entity.id);
       return [{ entity, relation }];
     });
-    return facts.length ? [{ category, facts: facts.slice(0, category === 'membership' ? 2 : 3), total: facts.length }] : [];
+    return facts.length ? [{ category, facts: facts.slice(0, category === 'membership' ? 2 : 3).sort((a, b) => compareRelationsChronologically(a.relation, b.relation)), total: facts.length }] : [];
   });
   const offices = statements.filter(relation => relation.category === 'office' && !relation.id.startsWith('AN:')).sort(order);
   const headline = offices[0] ?? sections.find(section => section.category === 'office')?.facts[0]?.relation;

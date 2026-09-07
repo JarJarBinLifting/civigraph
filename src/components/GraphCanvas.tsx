@@ -267,7 +267,7 @@ export function GraphCanvas(props: Props) {
         container: container.current,
         elements: [],
         layout: { name: 'preset', fit: false },
-        minZoom: 0.02, maxZoom: 2.8, wheelSensitivity: 0.22,
+        minZoom: 0.02, maxZoom: 2.8, wheelSensitivity: 0.8,
         style: [
           { selector: 'node', style: { width: 'data(size)', height: 'data(size)', 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-width': '76%', 'background-height': '76%', 'border-width': 1.2, 'border-color': 'data(color)', label: 'data(label)', 'font-family': 'Arial, sans-serif', 'font-size': 'data(fontSize)', color: '#343d38', 'text-valign': 'bottom', 'text-margin-y': 10, 'text-wrap': 'wrap', 'text-max-width': '115px', 'text-background-color': '#fafbf8', 'text-background-opacity': 0.93, 'text-background-padding': '3px', 'text-background-shape': 'roundrectangle', 'overlay-opacity': 0 } },
           { selector: 'node.label-left', style: { 'text-halign': 'left', 'text-valign': 'center', 'text-margin-x': -11, 'text-margin-y': 0 } },
@@ -343,8 +343,8 @@ export function GraphCanvas(props: Props) {
     <svg className="graph-guides" ref={guides} aria-hidden="true" />
     <div className="graph-canvas" ref={container} role="img" aria-label={`Graphe de ${entities.length} entités et ${relations.length} relations. Utilisez le mode Liste pour explorer au clavier.`} />
     <div className="graph-controls" aria-label="Contrôles du graphe">
-      <button className="icon-button" aria-label="Zoom avant" onClick={() => cy.current?.zoom({ level: cy.current.zoom() * 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Plus size={18} /></button>
-      <button className="icon-button" aria-label="Zoom arrière" onClick={() => cy.current?.zoom({ level: cy.current.zoom() / 1.25, renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Minus size={18} /></button>
+      <button className="icon-button" aria-label="Zoom avant" onClick={() => cy.current?.zoom({ level: Math.min(cy.current.maxZoom(), cy.current.zoom() * 2), renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Plus size={18} /></button>
+      <button className="icon-button" aria-label="Zoom arrière" onClick={() => cy.current?.zoom({ level: Math.max(cy.current.minZoom(), cy.current.zoom() / 2), renderedPosition: { x: (container.current?.clientWidth ?? 0) / 2, y: (container.current?.clientHeight ?? 0) / 2 } })}><Minus size={18} /></button>
       <span /><button className="icon-button" aria-label="Recentrer le graphe" onClick={() => refresh.current(false, true)}><Maximize size={17} /></button>
       <span /><button className="icon-button" aria-label="Exporter la carte en PNG" title="Exporter la carte en PNG" disabled={!ready || exporting} onClick={download}><Download size={17} /></button>
     </div>

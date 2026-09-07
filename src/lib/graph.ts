@@ -1,6 +1,7 @@
 import { CATEGORIES, type Category, type CommonConnection, type GraphData, type Relation, type ViewState } from './types';
 import { comparePeriods, periodBounds, supportsPeriods } from './temporal';
 import { getGraphIndex, normalizeName, orderedEntities } from './graph-index';
+import { sortRelationsChronologically } from './chronology';
 
 export function focusView(state: ViewState, id: string, data?: GraphData): ViewState {
   const trail = [...new Set([state.root, ...state.expanded])];
@@ -33,7 +34,7 @@ export function getUncertainConnections(data: GraphData, state: ViewState) {
     if (overlap === 'unknown' || overlap === 'possible') groups.set(relation.source, [...(groups.get(relation.source) ?? []), relation]);
   }
   return data.entities.filter(entity => entity.type === 'person' && groups.has(entity.id))
-    .map(entity => ({ entity, relations: groups.get(entity.id)! }))
+    .map(entity => ({ entity, relations: sortRelationsChronologically(groups.get(entity.id)!) }))
     .sort((a, b) => a.entity.label.localeCompare(b.entity.label, 'fr'));
 }
 
@@ -99,7 +100,7 @@ export function getCommonConnections(data: GraphData, leftId: string, rightId: s
   const left = group(leftId), right = group(rightId);
   return [...left.entries()].flatMap(([id, statements]) => {
     const entity = index.entities.get(id), other = right.get(id);
-    return entity && other ? [{ entity, left: statements, right: other }] : [];
+    return entity && other ? [{ entity, left: sortRelationsChronologically(statements), right: sortRelationsChronologically(other) }] : [];
   }).sort((a, b) => Number(b.entity.type === 'school') - Number(a.entity.type === 'school') || a.entity.label.localeCompare(b.entity.label, 'fr'));
 }
 

@@ -8,6 +8,7 @@ import { categoryInfo, formatDate, periodLabel, typeInfo } from '@/lib/presentat
 import { documentMetadata, eligibleEntity, entityPath } from '@/lib/publication';
 import { DocumentLayout } from '@/components/DocumentLayout';
 import { ImageCredit } from '@/components/ImageCredit';
+import { sortRelationsChronologically } from '@/lib/chronology';
 
 export const dynamic = 'force-dynamic';
 const dataset = cache(loadDataset);
@@ -24,7 +25,7 @@ export default async function EntityDocument({ params }: Props) {
   const { id } = await params;
   const data = dataset(), index = getGraphIndex(data), entity = index.entities.get(id);
   if (!entity) notFound();
-  const relations = index.incident.get(id) ?? [];
+  const relations = sortRelationsChronologically(index.incident.get(id) ?? []);
   const neighbors = new Set(relations.map(relation => relation.source === id ? relation.target : relation.source));
   const profile = entity.type === 'person' ? getPersonProfile(data, entity) : null;
   const career = entity.type === 'person' ? getCareerTimeline(data, entity) : null;

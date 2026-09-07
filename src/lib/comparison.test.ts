@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { comparisonPeriods } from './comparison';
+import { comparisonPeriods, comparisonDateLabel } from './comparison';
 import type { CommonConnection, Relation } from './types';
 function passage(id: string, start?: number, end?: number): Relation {
   return { id, source: id, target: 'school', category: 'education', property: 'P69', label: 'A étudié à', statementUrl: 'https://www.wikidata.org/', references: [], ...(start ? { start: { value: `${start}-00-00`, precision: 9 } } : {}), ...(end ? { end: { value: `${end}-00-00`, precision: 9 } } : {}) };
@@ -11,4 +11,14 @@ test('a documented pair never labels unrelated or undated passages as simultaneo
 test('a shared boundary year stays possible rather than documented', () => {
   const connection = { entity: { id: 'school' }, left: [passage('a', 2000, 2005)], right: [passage('b', 2005, 2008)] } as CommonConnection;
   expect(comparisonPeriods(connection)).toEqual({ documented: 0, outside: 0, possible: 1, unknown: 0, total: 1 });
+});
+
+test('comparison edge dates preserve separate passages and remove duplicate periods', () => {
+  expect(comparisonDateLabel([passage('a', 1976, 2008), passage('b', 1976, 2008), passage('c', 2012, 2015)]))
+    .toBe('1976 – 2008\n2012 – 2015');
+});
+
+test('comparison edge dates do not invent dates for incomplete passages', () => {
+  expect(comparisonDateLabel([passage('a', 2006)])).toBe('Début : 2006 · fin non renseignée');
+  expect(comparisonDateLabel([passage('b')])).toBe('Période non renseignée');
 });

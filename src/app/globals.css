@@ -292,8 +292,24 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .compare-pickers .entity-search { height: 36px; box-shadow: none; }
 .compare-pickers .entity-search input { font-size: 11px; }
 .compare-pickers .search-hint { display: none; }
-.comparison-suggestions { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 22px; }
-.comparison-suggestions button { font-size: 11px; display: flex; align-items: center; gap: 7px; padding: 9px 11px; border: 1px solid #e2e9d8; border-radius: 5px; color: #657851; background: #fff; }
+.comparison-discovery { margin-top: 30px; }
+.comparison-discovery h3 { font-family: var(--serif); font-size: 24px; font-weight: 400; margin: 0 0 8px; }
+.comparison-discovery > p { color: var(--muted); font-size: 12px; line-height: 1.7; }
+.comparison-candidates { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; margin: 20px 0; }
+.comparison-candidate { min-width: 0; padding: 19px; border: 1px solid #dce4dc; border-radius: 7px; background: #fff; display: flex; flex-direction: column; }
+.candidate-person { display: flex; align-items: center; gap: 12px; }
+.candidate-person .entity-avatar { width: 44px; height: 44px; flex-shrink: 0; }
+.candidate-person h4 { margin: 0; font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+.candidate-count { margin: 18px 0 5px; color: var(--forest); font-size: 13px; }
+.candidate-count strong { font-size: 21px; }
+.candidate-periods { margin: 0; font-size: 11px; color: var(--muted); line-height: 1.6; }
+.comparison-candidate ul { list-style: none; padding: 0; margin: 14px 0; border-top: 1px solid var(--line); }
+.comparison-candidate li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.5; }
+.comparison-candidate li small { display: block; font-size: 10px; color: var(--forest); }
+.candidate-more { margin: 0 0 15px; font-size: 11px; color: var(--muted); }
+.candidate-action { margin-top: auto; justify-content: space-between; min-height: 44px; width: 100%; font-size: 12px; }
+.comparison-candidate .image-credit { margin: 10px 0 0; }
+.comparison-discovery .discovery-method, .comparison-discovery .discovery-limit { font-size: 11px; }
 .comparison-result-heading { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin: 27px 0 10px; }
 .comparison-result-heading strong { font-size: 14px; font-weight: 500; }
 .comparison-result-heading > span { font-size: 10px; color: #6e7665; }
@@ -566,8 +582,7 @@ svg { flex-shrink: 0; vertical-align: middle; }
   .compare-person strong { font-size: 21px; }
   .compare-pickers .entity-search { height: 40px; }
   .compare-pickers .entity-search input { font-size: 12px; }
-  .comparison-suggestions { gap: 9px; }
-  .comparison-suggestions > .eyebrow { width: 100%; }
+  .comparison-candidates { gap: 12px; }
   .comparison-result-heading { align-items: flex-start; flex-direction: column; gap: 7px; }
   .comparison-note { font-size: 11px; }
   .common-evidence { grid-template-columns: 1fr; gap: 0; }

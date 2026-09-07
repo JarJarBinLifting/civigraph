@@ -1,6 +1,7 @@
 import type { Category, Entity, GraphData, Relation } from './types';
 import { getGraphIndex } from './graph-index';
 import { supportsPeriods } from './temporal';
+import { compareRelationsChronologically } from './chronology';
 export interface InstitutionalPath { entities: Entity[]; segments: { from: string; to: string; relations: Relation[] }[] }
 export function findInstitutionalPaths(data: GraphData, left: string, right: string, categories: Category[], options: { maxDepth?: number; maxResults?: number; maxWork?: number } = {}) {
   const bound = (value: number | undefined, ceiling: number) => Number.isFinite(value) ? Math.max(0, Math.min(ceiling, Math.floor(value!))) : ceiling;
@@ -22,7 +23,7 @@ export function findInstitutionalPaths(data: GraphData, left: string, right: str
       const statements = grouped.get(otherId);
       if (statements) statements.push(relation); else grouped.set(otherId, [relation]);
     }
-    const entries = [...grouped].sort(([a], [b]) => a.localeCompare(b, 'en')).map(([id, relations]) => ({ id, relations: relations.sort((a, b) => a.id.localeCompare(b.id, 'en')) }));
+    const entries = [...grouped].sort(([a], [b]) => a.localeCompare(b, 'en')).map(([id, relations]) => ({ id, relations: relations.sort(compareRelationsChronologically) }));
     adjacency.set(id, entries);
     return entries;
   }

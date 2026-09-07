@@ -10,6 +10,7 @@ import { getGraphIndex } from '@/lib/graph-index';
 import { entityPath } from '@/lib/publication';
 import { EntityAvatar } from './EntityAvatar';
 import { ImageCredit } from './ImageCredit';
+import { compareRelationsChronologically } from '@/lib/chronology';
 
 export function RelationEvidence({ relation, data, compact = false }: { relation: Relation; data: GraphData; compact?: boolean }) {
   const { entities } = getGraphIndex(data);
@@ -55,7 +56,7 @@ export function DetailPanel({ data, entity, categories, temporal, periodAnchor, 
   const [profileMode, setProfileMode] = useState<'overview' | 'career'>('overview');
   const index = getGraphIndex(data);
   const availableRelations = (index.incident.get(entity.id) ?? []).filter(relation => categories.includes(relation.category));
-  const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort((a, b) => Number(Boolean(b.evidence)) - Number(Boolean(a.evidence)));
+  const allRelations = availableRelations.filter(relation => matchesPeriod(relation, periodAnchor, temporal)).sort(compareRelationsChronologically);
   const groups = new Map<string, Relation[]>();
   for (const relation of allRelations) {
     const neighbor = relation.source === entity.id ? relation.target : relation.source;

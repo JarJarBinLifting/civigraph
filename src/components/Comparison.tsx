@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, ArrowUpRight, GitCompareArrows, X } from 'lucide-react';
+import { ArrowRight, GitCompareArrows, X } from 'lucide-react';
 import { useMemo } from 'react';
 import { EntitySearch } from './EntitySearch';
 import { RelationEvidence } from './DetailPanel';
@@ -13,6 +13,7 @@ import { ComparisonGraph } from './ComparisonGraph';
 import { comparisonPeriods } from '@/lib/comparison';
 import { supportsPeriods } from '@/lib/temporal';
 import { InstitutionPaths } from './InstitutionPaths';
+import { ComparisonSuggestions } from './ComparisonSuggestions';
 
 export function Comparison({ data, left, right, categories, selected, presentation = 'map', mode = 'common', onMode, onSelect, onPresentation, onLeft, onRight, onExplore, onClose }: {
   data: GraphData; left: Entity; right: Entity | undefined; categories: Category[];
@@ -32,10 +33,7 @@ export function Comparison({ data, left, right, categories, selected, presentati
       <GitCompareArrows size={24} className="compare-symbol" />
       <div>{right ? <div className="compare-person"><EntityAvatar entity={right} className="mini-avatar ochre" /><strong>{right.label}</strong></div> : <p className="compare-person muted">Choisir un second parcours</p>}<EntitySearch data={data} peopleOnly exclude={left.id} onSelect={onRight} label="Deuxième personne à comparer" placeholder="Rechercher une personne…" />{right?.image && <ImageCredit image={right.image} />}</div>
     </div>
-    {!right && <div className="comparison-suggestions"><span className="eyebrow">Pour commencer</span>{['Q3579995', 'Q20020731', 'Q157'].filter(id => id !== left.id).map(id => {
-      const person = data.entities.find(entity => entity.id === id)!;
-      return <button key={id} onClick={() => onRight(person)}>{person.label}<ArrowUpRight size={15} /></button>;
-    })}</div>}
+    {!right && <ComparisonSuggestions data={data} person={left} categories={categories} onChoose={onRight} />}
     {right && <div className="comparison-mode" role="group" aria-label="Question de comparaison"><button aria-pressed={mode === 'common'} onClick={() => onMode('common')}>Points communs</button><button aria-pressed={mode === 'paths'} onClick={() => onMode('paths')}>Chemins</button></div>}
     {right && mode === 'paths' && <InstitutionPaths data={data} left={left} right={right} categories={categories} onExplore={onExplore} />}
     {right && mode === 'common' && <><div className="comparison-result-heading"><strong>{common.length} {common.length === 1 ? 'point commun documenté' : 'points communs documentés'}</strong><span>Selon les filtres actifs</span></div>
