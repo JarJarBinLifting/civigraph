@@ -6,5 +6,5 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
   const params = await searchParams;
   const query = new URLSearchParams(Object.entries(params).flatMap(([key, value]) => typeof value === 'string' ? [[key, value]] : []));
   const data = loadDataset();
-  return <Explorer data={data} initialView={parseView(query.toString(), data)} />;
+  return <Explorer data={data} initialView={parseView(query.toString(), data)} initialDetailOpen={query.has('selected') || query.has('edge')} />;
 }

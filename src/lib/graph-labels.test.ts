@@ -15,7 +15,7 @@ test('center and selection remain readable without overlapping each other or oth
   const labels = placeLabels(nodes, { level: 1, small: false, measure });
   expect(labels.map(label => label.id)).toContain('root'); expect(labels.map(label => label.id)).toContain('selected');
   for (const label of labels) {
-    expect(label.fontSize).toBeGreaterThanOrEqual(12); expect(label.fontSize).toBeLessThanOrEqual(14);
+    expect(label.fontSize).toBeGreaterThanOrEqual(14); expect(label.fontSize).toBeLessThanOrEqual(15);
     expect(label.text.split('\n').length).toBeLessThanOrEqual(2);
     expect(labels.filter(other => other.id !== label.id).some(other => overlap(label.box, other.box))).toBe(false);
     expect(nodes.some(node => overlap(label.box, { x1: node.x - node.radius, x2: node.x + node.radius, y1: node.y - node.radius, y2: node.y + node.radius }))).toBe(false);
@@ -46,4 +46,14 @@ test('the viewport changes label placement without shrinking or moving its nodes
   expect(result[0].box.x1).toBeGreaterThanOrEqual(viewport.x1); expect(result[0].box.x2).toBeLessThanOrEqual(viewport.x2);
   expect(source[0].x).toBe(145);
   expect(placeLabels([{ ...source[0], x: 400 }], { level: 2, small: true, measure, viewport })).toEqual([]);
+});
+
+test('fractional screen coordinates do not hide unobstructed names in a spacious overview', () => {
+  for (let i = 0; i < 40; i++) {
+    const source: LabelCandidate[] = [{ id: 'school', text: 'Sciences Po Paris', x: 544.923076923 + i / 13, y: -92 + i / 17, radius: 17, priority: 0, side: 'bottom' }];
+    const result = placeLabels(source, { level: 0, small: false, prominent: true, measure: (text, size) => measure(text, size) + i / 37, viewport: { x1: -481.154, x2: 912.846, y1: -219, y2: 219 } });
+    expect(result).toHaveLength(1);
+    expect(result[0].side).toBe('bottom');
+    expect(result[0].fontSize).toBe(16);
+  }
 });

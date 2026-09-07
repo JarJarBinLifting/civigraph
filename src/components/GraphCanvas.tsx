@@ -11,6 +11,7 @@ import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/li
 import type { GraphExportInfo } from '@/lib/graph-export';
 
 interface Props {
+  enlarged?: boolean;
   entities: Entity[];
   relations: Relation[];
   focus: string;
@@ -27,20 +28,25 @@ interface Props {
   onFallback: () => void;
 }
 
+function layoutFor(props: Props) {
+  // Use the window proportions so opening a profile does not reshuffle the map.
+  const xScale = Math.max(1, Math.min(3.5, 2.2 * window.innerWidth / window.innerHeight));
+  return layoutGraph(props, props.focus, props.trail, props.chronology, xScale);
+}
+
 function frame(instance: Core, layout: GraphLayout) {
   const { positions } = layout;
   // Fit factual positions and guides first. Screen-sized labels adapt to this viewport,
   // rather than shrinking the entire network to make room for a peripheral name.
   const radius = Math.max(60, ...layout.rings.map(ring => ring.radius));
-  let x1 = -radius, x2 = radius, y1 = -radius, y2 = radius;
-  if (layout.unknownBox) {
-    const box = layout.unknownBox;
-    x2 = Math.max(x2, box.x + box.width); y1 = Math.min(y1, box.y); y2 = Math.max(y2, box.y + box.height);
+  let x1 = -radius * layout.xScale, x2 = radius * layout.xScale, y1 = -radius, y2 = radius;
+  for (const box of layout.unknownZones) {
+    x1 = Math.min(x1, box.x); x2 = Math.max(x2, box.x + box.width); y1 = Math.min(y1, box.y - 170); y2 = Math.max(y2, box.y + box.height);
   }
+  for (const sector of layout.sectors) { x1 = Math.min(x1, sector.x); x2 = Math.max(x2, sector.x); y1 = Math.min(y1, sector.y); y2 = Math.max(y2, sector.y); }
   for (const point of positions.values()) { x1 = Math.min(x1, point.x); x2 = Math.max(x2, point.x); y1 = Math.min(y1, point.y); y2 = Math.max(y2, point.y); }
-  // Retain the existing centered-pivot contract on small networks. A dense overview
-  // balances the whole extent, including unknown dates and the navigation trail.
-  if (positions.size <= 28) { x2 = Math.max(Math.abs(x1), x2); x1 = -x2; y2 = Math.max(Math.abs(y1), y2); y1 = -y2; }
+  // Balance the actual extent, including unknown dates and the navigation trail.
+  // Mirroring that extent around the focus wastes half the width on small networks.
   const center = { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
   const zoom = Math.max(.02, Math.min((instance.width() - 58) / (x2 - x1), (instance.height() - 82) / (y2 - y1), 1.1));
   return { zoom, pan: { x: instance.width() / 2 - center.x * zoom, y: instance.height() / 2 - center.y * zoom } };
@@ -89,23 +95,24 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
   });
   instance.batch(() => {
     const sceneNodes = instance.nodes().not('.leaving');
+    const prominent = sceneNodes.length <= 28 && instance.width() >= 560;
     const candidates: LabelCandidate[] = sceneNodes.map(node => {
       const priority = node.hasClass('root') ? 100 : node.hasClass('active') ? 90 : node.hasClass('hover') ? 80 : node.hasClass('edge-endpoint') ? 75 : node.hasClass('compared') ? 70 : node.hasClass('history-node') ? 60 : node.hasClass('inspected-neighbor') ? 20 : 0;
       const position = (node as NodeSingular).position();
-      const diameter = node.hasClass('root') ? 46 : Math.max(priority >= 60 ? 25 : 12, Math.min(46, 47 * zoom));
+      const diameter = node.hasClass('root') ? prominent ? Math.max(76, Math.min(104, 180 * zoom)) : 52 : prominent ? Math.max(44, Math.min(68, 130 * zoom)) : Math.max(priority >= 60 ? 30 : 18, Math.min(52, 64 * zoom));
       styleChanged(node, { width: diameter / zoom, height: diameter / zoom, 'border-width': (priority >= 60 ? 2 : 1.2) / zoom });
       const side = node.hasClass('root') || node.hasClass('unknown-date') || node.hasClass('history-node') ? 'bottom' : Math.abs(position.x) > Math.abs(position.y) ? position.x < 0 ? 'left' : 'right' : position.y < 0 ? 'top' : 'bottom';
       return { id: node.id(), text: node.data('label'), x: position.x * zoom, y: position.y * zoom, radius: diameter / 2, priority, side };
     });
     const pan = instance.pan();
-    const placements = placeLabels(candidates, { level: state.level, previous: state.previous, small: instance.width() < 500, measure, obstacles, viewport: { x1: 6 - pan.x, x2: instance.width() - pan.x - 6, y1: 6 - pan.y, y2: instance.height() - pan.y - 6 } });
+    const placements = placeLabels(candidates, { level: state.level, previous: state.previous, small: instance.width() < 500, prominent, measure, obstacles, viewport: { x1: 6 - pan.x, x2: instance.width() - pan.x - 6, y1: 6 - pan.y, y2: instance.height() - pan.y - 6 } });
     const byId = new Map(placements.map(label => [label.id, label]));
     for (const node of sceneNodes) {
       const label = byId.get(node.id());
       styleChanged(node, atlasLabelStyle(label, zoom, node.is('.root, .active, .hover, .history-node, .edge-endpoint')));
     }
     state.previous = new Set(byId.keys());
-    for (const edge of instance.edges()) styleChanged(edge, { width: (edge.hasClass('active') || edge.hasClass('hover') ? 1.8 : edge.hasClass('inspected-neighbor') ? 1.2 : .65) / zoom, 'font-size': 12 / zoom, 'text-background-padding': 3 / zoom });
+    for (const edge of instance.edges()) styleChanged(edge, { width: (edge.hasClass('active') || edge.hasClass('hover') ? 2.8 : edge.hasClass('inspected-neighbor') ? 2 : prominent ? 1.7 : 1) / zoom, 'font-size': 14 / zoom, 'text-background-padding': 3 / zoom });
   });
 }
 
@@ -115,8 +122,20 @@ function syncGuides(svg: SVGSVGElement | null, instance: Core) {
 }
 
 function sizeGuides(svg: SVGSVGElement | null, instance: Core, zoom = instance.zoom()) {
-  svg?.querySelectorAll('text').forEach(label => { label.style.fontSize = `${11 / zoom}px`; });
-  svg?.querySelector('.guide-history-label')?.setAttribute('y', String(-64 / zoom));
+  svg?.querySelectorAll('text').forEach(label => {
+    label.style.fontSize = `${13 / zoom}px`;
+    if (label.dataset.full) label.textContent = instance.width() < 560 ? label.dataset.short! : label.dataset.full;
+    if (label.dataset.anchorX) {
+      const anchor = Number(label.dataset.anchorX), screenX = anchor * zoom + instance.pan().x;
+      label.setAttribute('x', String(anchor));
+      if (screenX >= 0 && screenX <= instance.width()) {
+        const half = label.getBBox().width * zoom / 2;
+        const clamped = Math.max(half + 6, Math.min(screenX, instance.width() - half - 6));
+        label.setAttribute('x', String((clamped - instance.pan().x) / zoom));
+      }
+    }
+  });
+  svg?.querySelectorAll<SVGTextElement>('.guide-history-label').forEach(label => label.setAttribute('y', String(Number(label.dataset.anchorY) - 64 / zoom)));
 }
 
 function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Core) {
@@ -124,35 +143,47 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
   const ns = 'http://www.w3.org/2000/svg';
   const group = document.createElementNS(ns, 'g');
   for (const ring of layout.rings) {
-    const circle = document.createElementNS(ns, 'circle');
-    circle.setAttribute('r', String(ring.radius));
+    const circle = document.createElementNS(ns, 'ellipse');
+    circle.setAttribute('rx', String(ring.radius * layout.xScale));
+    circle.setAttribute('ry', String(ring.radius));
     circle.setAttribute('class', `guide-ring band-${ring.band}`);
     group.append(circle);
     const label = document.createElementNS(ns, 'text');
-    label.setAttribute('x', String(-ring.radius / Math.SQRT2 - 8));
+    label.setAttribute('x', String(-ring.radius * layout.xScale / Math.SQRT2 - 8));
     label.setAttribute('y', String(-ring.radius / Math.SQRT2));
     label.setAttribute('text-anchor', 'middle');
     label.textContent = TIME_BANDS[ring.band];
     group.append(label);
   }
-  if (layout.unknownBox) {
+  for (const zone of layout.unknownZones) {
     const box = document.createElementNS(ns, 'rect');
-    for (const [key, value] of Object.entries(layout.unknownBox)) box.setAttribute(key, String(value));
+    for (const key of ['x', 'y', 'width', 'height'] as const) box.setAttribute(key, String(zone[key]));
     box.setAttribute('rx', '14');
     box.setAttribute('class', 'guide-unknown');
     group.append(box);
     const label = document.createElementNS(ns, 'text');
-    label.setAttribute('x', String(layout.unknownBox.x + layout.unknownBox.width));
-    label.setAttribute('y', String(layout.unknownBox.y - 16));
-    label.setAttribute('text-anchor', 'end');
+    label.setAttribute('x', String(zone.x + zone.width / 2));
+    label.setAttribute('y', String(zone.y - 16));
+    label.setAttribute('text-anchor', 'middle');
     label.textContent = 'Dates inconnues · hors échelle';
+    label.dataset.full = label.textContent; label.dataset.short = 'Sans dates · hors échelle';
+    label.dataset.anchorX = String(zone.x + zone.width / 2);
     group.append(label);
+  }
+  for (const sector of layout.sectors) {
+    const label = document.createElementNS(ns, 'text');
+    label.setAttribute('x', String(sector.x)); label.setAttribute('y', String(sector.y));
+    label.setAttribute('text-anchor', 'middle'); label.setAttribute('class', 'guide-sector-label');
+    label.style.fill = typeInfo[sector.type].color; label.style.fontWeight = 'bold';
+    label.textContent = sector.label; label.dataset.full = sector.label;
+    label.dataset.short = { school: 'Formations', office: 'Fonctions', organization: 'Organisations', party: 'Affiliations', person: 'Personnalités' }[sector.type];
+    label.dataset.anchorX = String(sector.x); group.append(label);
   }
   if (layout.historyIds.length) {
     const label = document.createElementNS(ns, 'text');
     label.setAttribute('class', 'guide-history-label');
     label.setAttribute('x', String(Math.min(...layout.historyIds.map(id => layout.positions.get(id)!.x))));
-    label.setAttribute('y', '-90');
+    label.dataset.anchorY = String(layout.positions.get(layout.historyIds[0])!.y);
     label.textContent = 'Parcours exploré';
     group.append(label);
   }
@@ -165,7 +196,7 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
 function updateScene(instance: Core, props: Props, animate: boolean, guides: SVGSVGElement | null) {
   const { entities, relations, focus } = props;
   const mobile = instance.width() < 500;
-  const layout = layoutGraph(props, focus, props.trail, props.chronology);
+  const layout = layoutFor(props);
   const positions = layout.positions;
   drawGuides(guides, layout, instance);
   const origin = { ...(instance.getElementById(focus).position() ?? { x: 0, y: 0 }) };
@@ -277,13 +308,13 @@ export function GraphCanvas(props: Props) {
           { selector: 'node.active', style: { 'border-width': 3, 'border-color': '#254d40', 'underlay-color': '#254d40', 'underlay-opacity': 0.07, 'underlay-padding': 8 } },
           { selector: 'node.root.active', style: { 'underlay-opacity': 0, 'text-max-width': '180px', 'font-size': 15 } },
           { selector: 'node.compared', style: { 'border-width': 3, 'border-color': '#a47947', 'underlay-color': '#a47947', 'underlay-opacity': 0.08, 'underlay-padding': 8 } },
-          { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.52, 'curve-style': 'bezier', 'control-point-step-size': 16, 'overlay-padding': 5, 'overlay-opacity': 0 } },
+          { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.72, 'curve-style': 'bezier', 'control-point-step-size': 16, 'overlay-padding': 5, 'overlay-opacity': 0 } },
           { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#34463d', 'text-background-color': '#fafbf8', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
           { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
-          { selector: 'node.dimmed', style: { opacity: .38 } },
-          { selector: 'edge.dimmed', style: { opacity: .08 } },
+          { selector: 'node.dimmed', style: { opacity: .85 } },
+          { selector: 'edge.dimmed', style: { opacity: .36 } },
           { selector: 'edge.inspected-neighbor', style: { opacity: .8, width: 1.8 } },
-          { selector: 'node.root.dimmed, node.history-node.dimmed', style: { opacity: .7 } },
+          { selector: 'node.root.dimmed, node.history-node.dimmed', style: { opacity: .9 } },
           { selector: '.leaving', style: { events: 'no' } },
           ...atlasNodeStyles,
           { selector: 'node', style: { 'line-height': 1.2 } },
@@ -311,21 +342,36 @@ export function GraphCanvas(props: Props) {
         cancelTransition();
         cancelTransition = updateScene(instance, callbacks.current, animate, guides.current);
         if (overview) {
-          const layout = layoutGraph(callbacks.current, callbacks.current.focus, callbacks.current.trail, callbacks.current.chronology);
+          const layout = layoutFor(callbacks.current);
           instance.viewport(frame(instance, layout));
         }
       };
       let width = container.current.clientWidth;
       let height = container.current.clientHeight;
+      let wasEnlarged = Boolean(callbacks.current.enlarged);
+      let previousCamera: { zoom: number; x: number; y: number; focus: string } | undefined;
       observer = new ResizeObserver(() => {
         if (!container.current || (width === container.current.clientWidth && height === container.current.clientHeight)) return;
+        const enlarged = Boolean(callbacks.current.enlarged);
+        const changedMode = enlarged !== wasEnlarged;
+        if (changedMode && enlarged) previousCamera = { zoom: instance.zoom(), x: (width / 2 - instance.pan().x) / instance.zoom(), y: (height / 2 - instance.pan().y) / instance.zoom(), focus: callbacks.current.focus };
         const dx = (container.current.clientWidth - width) / 2, dy = (container.current.clientHeight - height) / 2;
         width = container.current.clientWidth;
         height = container.current.clientHeight;
         const moving = instance.animated() || instance.nodes().filter(':animated').length > 0;
         instance.resize();
-        if (moving) { cancelTransition(); cancelTransition = updateScene(instance, callbacks.current, true, guides.current); }
+        if (changedMode) {
+          cancelTransition();
+          cancelTransition = updateScene(instance, callbacks.current, false, guides.current);
+          if (!enlarged && previousCamera?.focus === callbacks.current.focus) {
+            const camera = previousCamera;
+            instance.viewport({ zoom: camera.zoom, pan: { x: width / 2 - camera.x * camera.zoom, y: height / 2 - camera.y * camera.zoom } });
+          } else instance.viewport(frame(instance, layoutFor(callbacks.current)));
+          scaleLabels(instance);
+        }
+        else if (moving) { cancelTransition(); cancelTransition = updateScene(instance, callbacks.current, true, guides.current); }
         else { instance.panBy({ x: dx, y: dy }); scaleLabels(instance); }
+        wasEnlarged = enlarged;
       });
       observer.observe(container.current);
       setReady(true);
@@ -349,6 +395,6 @@ export function GraphCanvas(props: Props) {
       <span /><button className="icon-button" aria-label="Exporter la carte en PNG" title="Exporter la carte en PNG" disabled={!ready || exporting} onClick={download}><Download size={17} /></button>
     </div>
     {exportMessage && <p className="graph-export-message" role="status">{exportMessage}</p>}
-    <p className="graph-tip"><MousePointer2 size={13} /><span className="desktop-tip">{entities.length > 28 ? 'Zoomez pour lire les noms. Un clic ouvre la fiche.' : 'Un clic pour comprendre. Deux pour explorer.'}</span><span className="mobile-tip">Glissez ou zoomez pour explorer.</span></p>
+    <p className="graph-tip"><MousePointer2 size={18} /><span className="desktop-tip">{entities.length > 28 ? 'Zoomez pour lire les noms. Cliquez pour voir les liens et leurs sources.' : 'Cliquez sur une entité pour voir ses liens et leurs sources.'}</span><span className="mobile-tip">Touchez une entité pour ouvrir sa fiche.</span></p>
   </div>;
 }

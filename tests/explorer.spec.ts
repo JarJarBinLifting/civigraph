@@ -15,17 +15,24 @@ async function closeFilters(page: Page) {
   if (await button.isVisible()) await button.click();
 }
 
-test('initial graph, complete corpus and source transparency', async ({ page }, info) => {
+test('initial graph, complete corpus and source transparency', async ({ page, baseURL }, info) => {
   const errors: string[] = [];
   const externalRequests: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  page.on('request', request => { if (/^https?:/.test(request.url()) && !request.url().startsWith('http://127.0.0.1:4300')) externalRequests.push(request.url()); });
+  page.on('request', request => { if (/^https?:/.test(request.url()) && new URL(request.url()).origin !== new URL(baseURL!).origin) externalRequests.push(request.url()); });
   await ready(page);
+  await expect(page.locator('.workspace')).toHaveClass(/detail-closed/);
+  await page.getByRole('button', { name: 'Ouvrir la fiche', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Emmanuel Macron', exact: true })).toBeVisible();
   await expect(page.getByText('19 liens', { exact: true })).toBeVisible();
   await page.screenshot({ path: `test-results/${info.project.name}-explorer.png`, fullPage: true });
   await page.getByRole('tab', { name: /Connexions/ }).click();
   await page.getByRole('button', { name: 'Voir la source du lien avec ENA', exact: true }).click();
+  await expect(page.getByRole('tabpanel', { name: 'Sources des relations' })).toContainText('Emmanuel Macron');
+  // The connection groups multiple declarations. Select the dated official repère
+  // explicitly instead of depending on the first declaration in that group.
+  await page.getByRole('tab', { name: 'Profil', exact: true }).click();
+  await page.getByRole('button', { name: 'Source du repère ENA', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Consulter le document officiel', exact: true })).toHaveAttribute('href', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000437029');
   const originalEducation = original.relations.find(relation => relation.source === 'Q3052772' && relation.target === 'Q273579')!;
   await ready(page, `?root=Q3052772&edge=${encodeURIComponent(originalEducation.id)}`);

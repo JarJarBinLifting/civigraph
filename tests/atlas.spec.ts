@@ -46,14 +46,14 @@ test('dense names use readable screen pixels and reveal progressively without dr
   });
   const overview = await labels();
   expect(overview.count).toBeGreaterThanOrEqual(info.project.name === 'desktop' ? 5 : 3);
-  expect(overview.min).toBeGreaterThanOrEqual(11.9); expect(overview.max).toBeLessThanOrEqual(14.1);
+  expect(overview.min).toBeGreaterThanOrEqual(13.9); expect(overview.max).toBeLessThanOrEqual(15.1);
   await page.locator('.graph-canvas').evaluate(element => { const cy = (element as Canvas)._cyreg.cy; cy.zoom({ level: .42, renderedPosition: cy.nodes('.root')[0].renderedPosition() }); });
   // A closer camera contains fewer nodes, especially on mobile. Compare the share
   // of named local nodes rather than requiring off-screen names to remain rendered.
   await expect.poll(async () => (await labels()).namedShare).toBeGreaterThan(overview.namedShare);
   if (info.project.name === 'desktop') expect((await labels()).count).toBeGreaterThan(overview.count);
   const detail = await labels();
-  expect(detail.min).toBeGreaterThanOrEqual(11.9); expect(detail.max).toBeLessThanOrEqual(14.1);
+  expect(detail.min).toBeGreaterThanOrEqual(13.9); expect(detail.max).toBeLessThanOrEqual(15.1);
   expect(detail.nodes).toBe(123); expect(detail.edges).toBe(130);
 });
 
@@ -95,8 +95,8 @@ test('comparison names remain readable after zoom and keyboard selection preserv
     const cy = (element as Canvas)._cyreg.cy;
     return cy.nodes().filter(node => Number(node.style('text-opacity')) > 0 && node.style('label') !== '').map(node => Number.parseFloat(node.style('font-size')) * cy.zoom());
   });
-  await expect.poll(async () => Math.min(...await fontSizes())).toBeGreaterThanOrEqual(11.9);
-  expect(Math.max(...await fontSizes())).toBeLessThanOrEqual(14.1);
+  await expect.poll(async () => Math.min(...await fontSizes())).toBeGreaterThanOrEqual(13.9);
+  expect(Math.max(...await fontSizes())).toBeLessThanOrEqual(15.1);
   await graph.evaluate(element => {
     const cy = (element as Canvas)._cyreg.cy;
     cy.scratch('atlasComparisonCamera', { zoom: cy.zoom(), pan: cy.pan() });

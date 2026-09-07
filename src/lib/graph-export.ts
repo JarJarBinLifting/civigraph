@@ -25,6 +25,7 @@ export function graphExportInfo(data: GraphData, view: ViewState, graph: Pick<Gr
     notes: [
       `Entités du réseau : ${graph.entities.map(entity => entity.label).join(' · ')}.`,
       `Couronnes : ${TIME_BANDS.join(' · ')}. Dates inconnues : hors échelle.`,
+      'Secteurs : écoles en haut, fonctions à droite, entreprises et organisations à gauche, partis et statuts en bas. Les zones de dates inconnues sont séparées de l’échelle temporelle. Les réseaux de personnes se répartissent autour du centre.',
       'Disque : personne. Pictogramme : type d’entité. La taille du centre indique son rôle dans l’exploration. Contour marqué : sélection ; double contour : étape du parcours.',
       'Les distances représentent des classes d’écart temporel, pas une mesure d’influence. L’année repère seule ne filtre pas les personnes en fonction.',
       'Un lien documenté n’implique pas une proximité personnelle. Plusieurs déclarations peuvent documenter un même fait. Corpus non exhaustif.',

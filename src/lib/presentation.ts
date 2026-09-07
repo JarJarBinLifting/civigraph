@@ -1,18 +1,18 @@
 import { type Category, type Entity, type EntityType, type Relation, type SourceDate } from './types';
 
 export const categoryInfo: Record<Category, { label: string; singular: string; color: string; soft: string }> = {
-  education: { label: 'Formations', singular: 'Formation', color: '#658774', soft: '#edf3ed' },
-  office: { label: 'Fonctions publiques', singular: 'Fonction', color: '#637e9c', soft: '#eef2f8' },
-  party: { label: 'Partis & statuts', singular: 'Affiliation politique', color: '#b28b5c', soft: '#f9f1e5' },
-  employment: { label: 'Parcours professionnel', singular: 'Employeur', color: '#96789d', soft: '#f4eef6' },
-  membership: { label: 'Organisations', singular: 'Organisation', color: '#7d8e93', soft: '#eef2f2' },
+  education: { label: 'Formations', singular: 'Formation', color: '#27664c', soft: '#e5efe8' },
+  office: { label: 'Fonctions publiques', singular: 'Fonction', color: '#315d92', soft: '#e8eef7' },
+  party: { label: 'Partis & statuts', singular: 'Affiliation politique', color: '#94521d', soft: '#f6eadb' },
+  employment: { label: 'Parcours professionnel', singular: 'Employeur', color: '#784780', soft: '#efe7f1' },
+  membership: { label: 'Organisations', singular: 'Organisation', color: '#366675', soft: '#e4eef0' },
 };
 export const typeInfo: Record<EntityType, { label: string; color: string; soft: string }> = {
   person: { label: 'Personnalité', color: '#254d40', soft: '#e6eee9' },
-  school: { label: 'Établissement', color: '#658774', soft: '#edf3ed' },
-  office: { label: 'Fonction', color: '#637e9c', soft: '#eef2f8' },
-  party: { label: 'Parti / statut', color: '#b28b5c', soft: '#f9f1e5' },
-  organization: { label: 'Organisation', color: '#96789d', soft: '#f4eef6' },
+  school: { ...categoryInfo.education, label: 'Établissement' },
+  office: { ...categoryInfo.office, label: 'Fonction' },
+  party: { ...categoryInfo.party, label: 'Parti / statut' },
+  organization: { ...categoryInfo.employment, label: 'Organisation' },
 };
 
 const displayAliases: Record<string, string> = {

@@ -31,6 +31,13 @@ test('enlarging the map keeps its instance, filters and navigation, with an acce
   await page.keyboard.press('Shift+Tab');
   expect(await enlarged.evaluate(element => element.contains(document.activeElement))).toBe(true);
   expect(await page.locator('.graph-canvas').evaluate(element => (element as Canvas)._cyreg.cy.scratch('beforeEnlarge'))).toBe(true);
+  const filters = enlarged.getByRole('button', { name: 'Filtres', exact: true });
+  await filters.click();
+  await expect(enlarged.getByRole('complementary', { name: 'Filtres et parcours' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(enlarged).toBeVisible();
+  await expect(enlarged.getByRole('complementary', { name: 'Filtres et parcours' })).toBeHidden();
+  await expect(filters).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(enlarged).toHaveCount(0);
   await expect(trigger).toBeFocused();

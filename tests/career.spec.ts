@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 test('career includes dated and undated evidence even with all graph filters disabled', async ({ page }, info) => {
-  await page.goto('/?root=Q30527240&categories=');
+  await page.goto('/?root=Q30527240&selected=Q30527240&categories=');
   await page.getByRole('button', { name: 'Parcours', exact: true }).click();
   const timeline = page.getByRole('region', { name: 'Parcours chronologique' });
   await expect(timeline).toContainText('2017');

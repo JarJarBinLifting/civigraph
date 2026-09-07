@@ -11,7 +11,8 @@ async function centered(page: Page, id: string) {
     const cy = (element as Canvas)._cyreg.cy;
     const node = cy.getElementById(id);
     const point = node.renderedPosition();
-    return node.hasClass('root') && Math.abs(point.x - cy.width() / 2) < 1 && Math.abs(point.y - cy.height() / 2) < 1 && !cy.nodes().filter(':animated').length && !cy.animated();
+    // The focus is the layout origin; the camera balances the complete network.
+    return node.hasClass('root') && Math.hypot(node.position().x, node.position().y) < 1 && point.x > 0 && point.x < cy.width() && point.y > 0 && point.y < cy.height() && !cy.nodes().filter(':animated').length && !cy.animated();
   }, id)).toBe(true);
 }
 
@@ -84,7 +85,7 @@ test('legacy URLs restore their latest center and reduced motion skips the trans
     })).toBe(true);
   }
   await page.screenshot({ path: `test-results/pivot-reduced-${test.info().project.name}.png`, fullPage: true });
-  await page.getByRole('button', { name: 'Bernard Cazeneuve', exact: true }).click();
+  await page.getByRole('tabpanel', { name: 'Connexions de l’entité' }).getByRole('button', { name: 'Bernard Cazeneuve', exact: true }).click();
   await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
   const result = await page.locator('.graph-canvas').evaluate(element => {
     const cy = (element as Canvas)._cyreg.cy;
@@ -99,7 +100,7 @@ test('a return during a transition cancels stale removals and keeps the restored
   await page.goto(initial);
   await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
   await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
-  await page.getByRole('button', { name: /Point de départ Bernard Cazeneuve/ }).click();
+  await page.getByRole('navigation', { name: 'Parcours d’exploration' }).getByRole('button', { name: 'Bernard Cazeneuve', exact: true }).click();
   await centered(page, bernard);
   await expect(page.locator('.graph-meta')).toContainText('21 entités');
   const result = await page.locator('.graph-canvas').evaluate(element => {
