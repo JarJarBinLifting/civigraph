@@ -57,3 +57,37 @@ test('fractional screen coordinates do not hide unobstructed names in a spacious
     expect(result[0].fontSize).toBe(16);
   }
 });
+
+test('a system label budget stays bounded at close zoom and preserves the selected name', () => {
+  const source: LabelCandidate[] = Array.from({ length: 100 }, (_, i) => ({ id: `n${i}`, text: `Name ${i}`, x: i * 200, y: 0, radius: 3, priority: i === 99 ? 100 : 0, side: 'bottom' }));
+  const result = placeLabels(source, { level: 2, small: false, measure, maxLabels: 20, maxCandidates: 40 });
+  expect(result).toHaveLength(20);
+  expect(result.map(label => label.id)).toContain('n99');
+});
+
+test('dense systems stop trying hidden names after the candidate budget is spent', () => {
+  const source: LabelCandidate[] = Array.from({ length: 1000 }, (_, i) => ({ id: `n${i}`, text: `Name${i}`, x: 0, y: 0, radius: 3, priority: 0, side: 'bottom' }));
+  const measured = new Set<string>();
+  const result = placeLabels(source, { level: 2, small: false, maxCandidates: 40,
+    measure: (text, size) => { measured.add(text.trim()); return measure(text, size); },
+    obstacles: [{ x1: -500, x2: 500, y1: -500, y2: 500 }],
+  });
+  expect(result).toEqual([]);
+  expect(measured.size).toBeLessThanOrEqual(40);
+});
+
+test('collision lookup respects nearby obstacles across negative grid boundaries', () => {
+  const source: LabelCandidate[] = [{ id: 'name', text: 'Alice', x: -64, y: -64, radius: 3, priority: 0, side: 'bottom' }];
+  const obstacle = { x1: -90, x2: -35, y1: -55, y2: -20 };
+  const result = placeLabels(source, { level: 2, small: false, measure, obstacles: [obstacle] });
+  expect(result).toHaveLength(1);
+  expect(overlap(result[0].box, obstacle)).toBe(false);
+  expect(result[0].side).toBe('top');
+});
+
+test('a dense central cluster cannot spend the entire budget before a readable peripheral name', () => {
+  const source: LabelCandidate[] = Array.from({ length: 100 }, (_, i) => ({ id: `n${i}`, text: `Name${i}`, x: 0, y: 0, radius: 3, priority: 10, side: 'bottom' }));
+  source.push({ id: 'periphery', text: 'Peripheral institution', x: 400, y: 0, radius: 3, priority: 1, side: 'bottom' });
+  const result = placeLabels(source, { level: 2, small: false, measure, maxCandidates: 10 });
+  expect(result.map(label => label.id)).toContain('periphery');
+});

@@ -1,4 +1,4 @@
-import { CATEGORIES, type GraphData, type ViewState } from './types';
+import { CATEGORIES, type Entity, type GraphData, type ViewState } from './types';
 import { getGraphIndex } from './graph-index';
 import { matchesPeriod } from './graph';
 
@@ -60,6 +60,12 @@ export function systemNeighborhood(graph: Pick<SystemGraph, 'neighbors'>, root: 
     frontier = next;
   }
   return found;
+}
+
+/** Selection can retain a filtered-out entity without rebuilding the topology. */
+export function withSystemSelection(graph: SystemGraph, selected: Entity | undefined): SystemGraph {
+  if (!selected || graph.neighbors.has(selected.id)) return graph;
+  return { ...graph, entities: [...graph.entities, selected], neighbors: new Map([...graph.neighbors, [selected.id, new Set<string>()]]) };
 }
 
 export function systemLayoutInput(graph: SystemGraph): SystemLayoutInput {

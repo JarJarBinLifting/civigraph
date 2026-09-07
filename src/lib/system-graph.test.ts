@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CATEGORIES, type GraphData, type Relation } from './types';
 import { parseView, serializeView } from './graph';
-import { getSystemGraph, systemNeighborhood, switchGraphView } from './system-graph';
+import { getSystemGraph, systemNeighborhood, switchGraphView, withSystemSelection } from './system-graph';
 
 const entities = ['a', 'b', 'school', 'party', 'isolated'].map(id => ({ id, label: id, type: id === 'school' ? 'school' : id === 'party' ? 'party' : 'person', inCorpus: true, description: '', modified: '' })) as GraphData['entities'];
 const make = (id: string, source: string, target: string, category: Relation['category'], dated = true): Relation => ({ id, source, target, category, property: 'P69', label: 'A étudié à', statementUrl: 'https://example.org', references: [], ...(dated ? { start: { value: '2002-00-00', precision: 9 }, end: { value: '2004-00-00', precision: 9 } } : {}) });
@@ -10,6 +10,19 @@ const data = { entities, relations, meta: { version: 1, fetchedAt: '2026-09-06',
 const view = { ...parseView('?root=a', data), categories: [...CATEGORIES] };
 
 describe('whole-system projection', () => {
+  it('reuses the filtered topology when selecting a visible entity', () => {
+    const graph = getSystemGraph(data, { ...view, selected: '', categories: ['education'] });
+    expect(withSystemSelection(graph, entities[1])).toBe(graph);
+  });
+  it('retains a disconnected selection without copying declarations or mutating the filter projection', () => {
+    const graph = getSystemGraph(data, { ...view, selected: '', categories: ['education'] });
+    const selected = withSystemSelection(graph, entities[4]);
+    expect(selected.entities.map(e => e.id)).toEqual(['a', 'b', 'school', 'isolated']);
+    expect(selected.neighbors.get('isolated')).toEqual(new Set());
+    expect(selected.connections).toBe(graph.connections);
+    expect(selected.relations).toBe(graph.relations);
+    expect(graph.neighbors.has('isolated')).toBe(false);
+  });
   it('includes other centers and isolated corpus entities without duplicating connections or losing declarations', () => {
     const graph = getSystemGraph(data, view);
     expect(graph.entities).toHaveLength(5);

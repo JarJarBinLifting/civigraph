@@ -20,7 +20,7 @@ import { SavedExplorations } from './SavedExplorations';
 import { EntityAvatar } from './EntityAvatar';
 import { graphExportInfo } from '@/lib/graph-export';
 import { SystemGraphCanvas } from './SystemGraphCanvas';
-import { getSystemGraph, switchGraphView, type GraphCamera, type SystemGraphMemory } from '@/lib/system-graph';
+import { getSystemGraph, switchGraphView, withSystemSelection, type GraphCamera, type SystemGraphMemory } from '@/lib/system-graph';
 
 export function Explorer({ data, initialView, initialDetailOpen = false }: { data: GraphData; initialView: ViewState; initialDetailOpen?: boolean }) {
   const [view, setView] = useState(initialView);
@@ -43,16 +43,17 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   const [corpusQuery, setCorpusQuery] = useState('');
   const { root, focus, expanded, categories, compare, temporal, period } = view;
   const isSystem = view.graphView === 'system';
+  const index = useMemo(() => getGraphIndex(data), [data]);
   const centered = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare, temporal, period }), [data, root, focus, expanded, categories, compare, temporal, period]);
   const wholeSystem = useMemo(() => getSystemGraph(data, { categories: [...CATEGORIES], temporal: 'all', period: null, selected: data.entities[0].id }), [data]);
-  const system = useMemo(() => getSystemGraph(data, { categories, temporal, period, selected: view.selected }), [data, categories, temporal, period, view.selected]);
+  const filteredSystem = useMemo(() => getSystemGraph(data, { categories, temporal, period, selected: '' }), [data, categories, temporal, period]);
+  const system = useMemo(() => withSystemSelection(filteredSystem, index.entities.get(view.selected)), [filteredSystem, index, view.selected]);
   const visible = isSystem ? system : centered;
   const listedRelations = useMemo(() => sortRelationsChronologically(visible.relations), [visible.relations]);
   const page = Math.min(listPage, Math.max(0, Math.ceil(listedRelations.length / 100) - 1));
   const chronology = useMemo(() => getChronology(centered, focus, getTimeReference(data, { year: view.year, period })), [centered, focus, data, view.year, period]);
   const periodContext = useMemo(() => getPeriodContext(data, { root, focus, expanded, period, categories }), [data, root, focus, expanded, period, categories]);
   const exportInfo = useMemo(() => graphExportInfo(data, view, visible, chronology), [data, view, visible, chronology]);
-  const index = useMemo(() => getGraphIndex(data), [data]);
   const entitiesById = index.entities;
   const rootEntity = entitiesById.get(root)!;
   const focusEntity = entitiesById.get(focus)!;

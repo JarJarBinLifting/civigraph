@@ -29,6 +29,7 @@ export function SystemGraphCanvas(props: Props) {
   const refresh = useRef<() => void>(() => {});
   const inspect = useRef<() => void>(() => {});
   const frame = useRef<() => void>(() => {});
+  const refine = useRef<() => void>(() => {});
   const [ready, setReady] = useState(false);
   const [neighborhood, setNeighborhood] = useState<{ selected: string | null; edge: string | null; depth: 1 | 2 }>({ selected: null, edge: null, depth: 1 });
   const depth = neighborhood.selected === props.selected && neighborhood.edge === props.selectedEdge ? neighborhood.depth : 1;
@@ -39,8 +40,13 @@ export function SystemGraphCanvas(props: Props) {
 
   useEffect(() => {
     let disposed = false, worker: Worker | undefined, observer: ResizeObserver | undefined;
-    let timeout: ReturnType<typeof setTimeout> | undefined, labelFrame = 0, hover: string | null = null, currentKey = '', homeZoom = 1;
+    let timeout: ReturnType<typeof setTimeout> | undefined, settleTimer: ReturnType<typeof setTimeout> | undefined;
+    let hoverTimer: ReturnType<typeof setTimeout> | undefined, markFrame = 0, moving = false;
+    let hover: string | null = null, currentKey = '', markedKey = '', homeZoom = 1, sizedZoom = 0, sizedSelected: string | null = null;
+    let nodeList: NodeSingular[] = [], hubs = new Set<string>(), highlighted = new Set<string>();
     const previousLabels = new Set<string>();
+    const labelStyles = new Map<string, string>();
+    const classes = new Map<string, string>();
     const measurements = new Map<string, number>();
     const context = document.createElement('canvas').getContext('2d');
     function saveCamera(instance: Core) {
@@ -48,70 +54,106 @@ export function SystemGraphCanvas(props: Props) {
     }
     function receipt(instance: Core) {
       if (!container.current) return;
-      container.current.dataset.nodes = String(instance.nodes().length);
-      container.current.dataset.connections = String(instance.edges().length);
-      container.current.dataset.highlighted = String(instance.nodes('.system-neighbor,.system-selected').length);
+      container.current.dataset.nodes = String(nodeList.length);
+      container.current.dataset.connections = String(latest.current.graph.connections.length);
+      container.current.dataset.highlighted = String(highlighted.size);
       container.current.dataset.zoom = String(instance.zoom());
       container.current.dataset.pan = JSON.stringify(instance.pan());
     }
     function scale(instance: Core) {
-      labelFrame = 0;
       if (disposed || instance.destroyed()) return;
       const zoom = instance.zoom(), ratio = zoom / homeZoom;
       const selected = hover ?? latest.current.selected;
-      const nodes = instance.nodes();
-      const hubs = new Set([...nodes].sort((a, b) => b.data('degree') - a.data('degree')).slice(0, 5).map(n => n.id()));
+      const zoomChanged = zoom !== sizedZoom;
       const candidates: LabelCandidate[] = [];
-      const pan = instance.pan();
+      const pan = instance.pan(), width = instance.width(), height = instance.height();
       instance.batch(() => {
-        nodes.forEach(node => {
-          const n = node as NodeSingular, degree = node.data('degree') as number;
+        nodeList.forEach(n => {
+          const degree = n.data('degree') as number;
           const important = n.id() === selected;
-          const radius = (important ? 7 : Math.min(5, .8 + Math.sqrt(degree) * .3) * (nodes.length < 80 ? 2 : 1)) * Math.pow(Math.max(.6, ratio), .23);
+          const radius = (important ? 7 : Math.min(5, .8 + Math.sqrt(degree) * .3) * (nodeList.length < 80 ? 2 : 1)) * Math.pow(Math.max(.6, ratio), .23);
           const position = n.position();
-          n.style({ width: radius * 2 / zoom, height: radius * 2 / zoom, 'border-width': important ? 2 / zoom : 0, 'underlay-padding': 6 / zoom });
-          if (!selected || important || n.hasClass('system-neighbor')) candidates.push({ id: n.id(), text: n.data('label'), x: position.x * zoom, y: position.y * zoom, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : n.hasClass('system-neighbor') ? 30 + Math.min(20, degree) : Math.min(25, degree), side: 'bottom' });
+          if (zoomChanged || selected !== sizedSelected && (important || n.id() === sizedSelected)) {
+            n.style({ width: radius * 2 / zoom, height: radius * 2 / zoom, 'border-width': important ? 2 / zoom : 0, 'underlay-padding': 6 / zoom });
+          }
+          const x = position.x * zoom, y = position.y * zoom;
+          if (x + pan.x < -20 || x + pan.x > width + 20 || y + pan.y < -20 || y + pan.y > height + 20) return;
+          if (!selected || important || highlighted.has(n.id())) candidates.push({ id: n.id(), text: n.data('label'), x, y, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : highlighted.has(n.id()) ? 30 + Math.min(20, degree) : Math.min(25, degree), side: 'bottom' });
         });
-        instance.edges().forEach(e => { e.style('width', (e.hasClass('system-edge') ? 2.5 : e.hasClass('system-trace') ? 1.2 : .5) / zoom); });
-        // Screen-space decluttering reuses the existing atlas label placement.
-        const visible = candidates.filter(n => n.x + pan.x >= -20 && n.x + pan.x <= instance.width() + 20 && n.y + pan.y >= -20 && n.y + pan.y <= instance.height() + 20);
-        const placements = placeLabels(visible, { level: ratio > 3 ? 2 : ratio > 1.6 ? 1 : 0, small: instance.width() < 550, compact: true, previous: previousLabels,
-          viewport: { x1: -pan.x + 8, y1: -pan.y + 8, x2: instance.width() - pan.x - 8, y2: instance.height() - pan.y - 8 },
+        if (zoomChanged) instance.edges().forEach(e => { e.style('width', (e.hasClass('system-edge') ? 2.5 : e.hasClass('system-trace') ? 1.2 : .5) / zoom); });
+        const placements = placeLabels(candidates, { level: ratio > 3 ? 2 : ratio > 1.6 ? 1 : 0, small: width < 550, compact: true, previous: previousLabels, maxLabels: width < 550 ? 30 : 60, maxCandidates: 160,
+          viewport: { x1: -pan.x + 8, y1: -pan.y + 8, x2: width - pan.x - 8, y2: height - pan.y - 8 },
           measure: (text, size, bold) => { const key = `${text}:${size}:${bold}`; if (!measurements.has(key)) { if (context) context.font = `${bold ? 650 : 500} ${size}px ${graphFont}`; measurements.set(key, context?.measureText(text).width ?? text.length * size * .55); } return measurements.get(key)!; },
         });
         const labels = new Map(placements.map(p => [p.id, p]));
+        // Hidden nodes already have no label. Touch only labels that changed.
+        for (const id of new Set([...previousLabels, ...labels.keys()])) {
+          const style = atlasLabelStyle(labels.get(id), zoom, id === selected), key = JSON.stringify(style);
+          if (labelStyles.get(id) !== key) instance.getElementById(id).style(style);
+          if (labels.has(id)) labelStyles.set(id, key); else labelStyles.delete(id);
+        }
         previousLabels.clear(); placements.forEach(p => previousLabels.add(p.id));
-        nodes.forEach(n => { n.style(atlasLabelStyle(labels.get(n.id()), zoom, n.id() === selected)); });
       });
+      sizedZoom = zoom; sizedSelected = selected;
       receipt(instance);
     }
-    function schedule(instance: Core) { if (!labelFrame) labelFrame = requestAnimationFrame(() => scale(instance)); }
+    function schedule(instance: Core) {
+      moving = true; hover = null;
+      clearTimeout(hoverTimer); clearTimeout(settleTimer); cancelAnimationFrame(markFrame); markFrame = 0;
+      receipt(instance);
+      // Camera gestures use the renderer's cached scene. Refine names when idle.
+      settleTimer = setTimeout(() => settle(instance), 120);
+    }
+    function settle(instance: Core) {
+      clearTimeout(settleTimer); moving = false;
+      if (!mark(instance)) scale(instance);
+    }
+    function scheduleMark(instance: Core) {
+      if (!moving && !markFrame) markFrame = requestAnimationFrame(() => { markFrame = 0; mark(instance); });
+    }
     function mark(instance: Core) {
       const { graph, selected, selectedEdge } = latest.current;
       const id = hover ?? selected;
-      instance.elements().removeClass('system-dim system-neighbor system-selected system-trace system-edge');
-      if (id && instance.getElementById(id).length) {
-        const near = systemNeighborhood(graph, id, hover ? 1 : depthRef.current);
-        instance.batch(() => {
-          instance.nodes().forEach(n => { n.addClass(n.id() === id ? 'system-selected' : near.has(n.id()) ? 'system-neighbor' : 'system-dim'); });
-          instance.edges().forEach(e => { e.addClass(near.has(e.data('source')) && near.has(e.data('target')) ? 'system-trace' : 'system-dim'); });
-          if (selectedEdge) instance.edges().filter(e => (e.data('relations') as string[]).includes(selectedEdge)).addClass('system-edge');
+      const key = JSON.stringify([id, selectedEdge, hover ? 1 : depthRef.current]);
+      if (disposed || instance.destroyed() || markedKey === key) return false;
+      markedKey = key;
+      highlighted = id ? systemNeighborhood(graph, id, hover ? 1 : depthRef.current) : new Set();
+      const active = highlighted.size > 0;
+      instance.batch(() => {
+        nodeList.forEach(n => {
+          const next = !active ? '' : n.id() === id ? 'system-selected' : highlighted.has(n.id()) ? 'system-neighbor' : 'system-dim';
+          if ((classes.get(n.id()) ?? '') !== next) { n.classes(next); classes.set(n.id(), next); }
         });
-      }
+        instance.edges().forEach(e => {
+          const traced = active && highlighted.has(e.data('source')) && highlighted.has(e.data('target'));
+          const picked = active && selectedEdge && (e.data('relations') as string[]).includes(selectedEdge);
+          const next = (!active ? '' : traced ? 'system-trace' : 'system-dim') + (picked ? ' system-edge' : '');
+          const previous = classes.get(e.id()) ?? '';
+          if (previous !== next) {
+            e.classes(next); classes.set(e.id(), next);
+            const previousWidth = previous.includes('system-edge') ? 2.5 : previous.includes('system-trace') ? 1.2 : .5;
+            const nextWidth = picked ? 2.5 : traced ? 1.2 : .5;
+            if (previousWidth !== nextWidth) e.style('width', nextWidth / instance.zoom());
+          }
+        });
+      });
       scale(instance);
+      return true;
     }
     function fit(instance: Core) {
       instance.resize(); instance.fit(instance.nodes(), instance.width() < 600 ? 22 : 45);
-      homeZoom = instance.zoom(); scale(instance);
+      homeZoom = instance.zoom(); sizedZoom = 0; scale(instance);
     }
     function populate(instance: Core) {
       if (!latest.current.memory.current.positions) return;
       const { graph, memory } = latest.current;
       const nextKey = systemGraphKey(graph);
-      if (currentKey === nextKey) { mark(instance); return; }
+      if (currentKey === nextKey) { scheduleMark(instance); return; }
       if (currentKey) saveCamera(instance);
       const saved = memory.current.camera;
       currentKey = nextKey;
+      markedKey = ''; sizedZoom = 0; hover = null; highlighted.clear();
+      previousLabels.clear(); labelStyles.clear(); classes.clear();
       const positions = memory.current.positions!;
       instance.batch(() => {
         instance.elements().remove();
@@ -120,6 +162,8 @@ export function SystemGraphCanvas(props: Props) {
           ...graph.connections.map(c => ({ data: c })),
         ]);
       });
+      nodeList = [...instance.nodes()];
+      hubs = new Set([...nodeList].sort((a, b) => b.data('degree') - a.data('degree')).slice(0, 5).map(n => n.id()));
       fit(instance);
       if (saved?.key === currentKey) instance.viewport({ zoom: saved.zoom, pan: { x: instance.width() / 2 - saved.x * saved.zoom, y: instance.height() / 2 - saved.y * saved.zoom } });
       mark(instance);
@@ -139,21 +183,22 @@ export function SystemGraphCanvas(props: Props) {
       });
       cy.current = instance;
       frame.current = () => fit(instance);
+      refine.current = () => settle(instance);
       refresh.current = () => populate(instance);
-      inspect.current = () => mark(instance);
+      inspect.current = () => scheduleMark(instance);
       instance.on('tap', 'node', e => latest.current.onSelect(e.target.id()));
       instance.on('dbltap', 'node', e => { latest.current.onSelect(e.target.id()); });
       instance.on('tap', 'edge', e => latest.current.onEdge((e.target.data('relations') as string[])[0]));
-      instance.on('mouseover', 'node', e => { hover = e.target.id(); mark(instance); });
-      instance.on('mouseout', 'node', () => { hover = null; mark(instance); });
-      instance.on('zoom pan', () => schedule(instance));
+      instance.on('mouseover', 'node', e => { if (moving) return; clearTimeout(hoverTimer); hover = e.target.id(); scheduleMark(instance); });
+      instance.on('mouseout', 'node', () => { clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { hover = null; scheduleMark(instance); }, 40); });
+      instance.on('zoom pan drag', () => schedule(instance));
       instance.on('dragfree', 'node', e => { latest.current.memory.current.positions![e.target.id()] = { ...e.target.position() }; scale(instance); });
       let width = container.current.clientWidth, height = container.current.clientHeight;
       observer = new ResizeObserver(() => {
         if (!container.current || !container.current.clientWidth || !container.current.clientHeight) return;
         const dx = (container.current.clientWidth - width) / 2, dy = (container.current.clientHeight - height) / 2;
         width = container.current.clientWidth; height = container.current.clientHeight;
-        instance.resize(); instance.panBy({ x: dx, y: dy }); scale(instance);
+        instance.resize(); instance.panBy({ x: dx, y: dy });
       });
       observer.observe(container.current);
       if (latest.current.memory.current.positions) { populate(instance); setReady(true); return; }
@@ -182,9 +227,9 @@ export function SystemGraphCanvas(props: Props) {
       worker.postMessage(systemLayoutInput(latest.current.whole));
     }).catch(() => { if (!disposed) latest.current.onFallback(); });
     return () => {
-      disposed = true; observer?.disconnect(); worker?.terminate(); clearTimeout(timeout); cancelAnimationFrame(labelFrame);
+      disposed = true; observer?.disconnect(); worker?.terminate(); clearTimeout(timeout); clearTimeout(settleTimer); clearTimeout(hoverTimer); cancelAnimationFrame(markFrame);
       if (cy.current) { if (currentKey) saveCamera(cy.current); cy.current.destroy(); cy.current = null; }
-      refresh.current = () => {}; inspect.current = () => {}; frame.current = () => {};
+      refresh.current = () => {}; inspect.current = () => {}; frame.current = () => {}; refine.current = () => {};
     };
   // This renderer owns one scene; callbacks and projections are read through latest.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,7 +250,7 @@ export function SystemGraphCanvas(props: Props) {
   async function download() {
     if (!cy.current || exporting) return;
     setExporting(true); setMessage('');
-    try { const { exportGraphPng } = await import('@/lib/export-png'); await exportGraphPng(cy.current, document.createElementNS('http://www.w3.org/2000/svg', 'svg'), latest.current.exportInfo); setMessage('PNG exporté avec la provenance et le contexte du système.'); }
+    try { const { exportGraphPng } = await import('@/lib/export-png'); refine.current(); await exportGraphPng(cy.current, document.createElementNS('http://www.w3.org/2000/svg', 'svg'), latest.current.exportInfo); setMessage('PNG exporté avec la provenance et le contexte du système.'); }
     catch (error) { setMessage(error instanceof Error ? error.message : 'L’export PNG a échoué.'); }
     finally { setExporting(false); }
   }

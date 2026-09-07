@@ -3,7 +3,7 @@ export type LabelSide = 'top' | 'bottom' | 'left' | 'right';
 export interface LabelBox { x1: number; y1: number; x2: number; y2: number }
 export interface LabelCandidate { id: string; text: string; x: number; y: number; radius: number; priority: number; side: LabelSide }
 export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox }
-export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; compact?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox }
+export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; compact?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox; maxLabels?: number; maxCandidates?: number }
 export function labelLevel(zoom: number, previous: LabelLevel): LabelLevel {
   if (zoom >= .75 || previous === 2 && zoom >= .66) return 2;
   if (zoom >= .33 || previous >= 1 && zoom >= .28) return 1;
@@ -12,6 +12,31 @@ export function labelLevel(zoom: number, previous: LabelLevel): LabelLevel {
 
 function intersection(a: LabelBox, b: LabelBox, margin = 3) {
   return Math.max(0, Math.min(a.x2, b.x2 + margin) - Math.max(a.x1, b.x1 - margin)) * Math.max(0, Math.min(a.y2, b.y2 + margin) - Math.max(a.y1, b.y1 - margin));
+}
+
+/** Only nearby rectangles can overlap a label. Preserve insertion order for ties. */
+class BoxIndex {
+  private boxes: LabelBox[] = [];
+  private cells = new Map<string, number[]>();
+  private visit(box: LabelBox, margin: number, action: (key: string) => void) {
+    for (let x = Math.floor((box.x1 - margin) / 64); x <= Math.floor((box.x2 + margin) / 64); x++) {
+      for (let y = Math.floor((box.y1 - margin) / 64); y <= Math.floor((box.y2 + margin) / 64); y++) action(`${x}:${y}`);
+    }
+  }
+  add(box: LabelBox) {
+    const id = this.boxes.push(box) - 1;
+    this.visit(box, 0, key => {
+      const cell = this.cells.get(key);
+      if (cell) cell.push(id); else this.cells.set(key, [id]);
+    });
+  }
+  overlap(box: LabelBox, margin: number) {
+    const ids = new Set<number>();
+    this.visit(box, margin, key => { for (const id of this.cells.get(key) ?? []) ids.add(id); });
+    let cost = 0;
+    for (const id of [...ids].sort((a, b) => a - b)) cost += intersection(box, this.boxes[id], margin);
+    return cost;
+  }
 }
 
 function wrap(text: string, maxWidth: number, measure: (text: string) => number) {
@@ -32,14 +57,28 @@ function wrap(text: string, maxWidth: number, measure: (text: string) => number)
 
 /** Screen-sized geometry, independent of camera translation. Never removes an entity. */
 export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): LabelPlacement[] {
-  const ordered = [...nodes].sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id));
-  const bodies = nodes.map(node => ({ x1: node.x - node.radius, x2: node.x + node.radius, y1: node.y - node.radius, y2: node.y + node.radius }));
-  const occupied: LabelBox[] = [...(options.obstacles ?? [])], result: LabelPlacement[] = [];
-  const limit = options.prominent || options.level === 2 ? Infinity : options.level === 1 ? 46 : nodes.length <= 28 ? 12 : 18;
+  let ordered = [...nodes].sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id));
+  if (options.maxCandidates !== undefined) {
+    // Reserve attempts across the screen before revisiting a crowded cell.
+    const cells = new Set<string>(), first: LabelCandidate[] = [], rest: LabelCandidate[] = [];
+    for (const node of ordered) {
+      const key = `${Math.floor(node.x / 64)}:${Math.floor(node.y / 64)}`;
+      if (node.priority >= 60 || !cells.has(key)) { first.push(node); cells.add(key); }
+      else rest.push(node);
+    }
+    ordered = [...first, ...rest];
+  }
+  const bodies = new BoxIndex(), occupied = new BoxIndex(), result: LabelPlacement[] = [];
+  nodes.forEach(node => bodies.add({ x1: node.x - node.radius, x2: node.x + node.radius, y1: node.y - node.radius, y2: node.y + node.radius }));
+  options.obstacles?.forEach(box => occupied.add(box));
+  const limit = Math.min(options.maxLabels ?? Infinity, options.prominent || options.level === 2 ? Infinity : options.level === 1 ? 46 : nodes.length <= 28 ? 12 : 18);
+  let attempted = 0;
   for (const node of ordered) {
     const essential = node.priority >= 60;
     if (options.viewport && (node.x + node.radius < options.viewport.x1 || node.x - node.radius > options.viewport.x2 || node.y + node.radius < options.viewport.y1 || node.y - node.radius > options.viewport.y2)) continue;
     if (!essential && result.length >= limit) continue;
+    if (!essential && attempted >= (options.maxCandidates ?? Infinity)) break;
+    attempted++;
     const fontSize = options.prominent ? node.priority === 100 ? options.compact ? 18 : 20 : options.compact ? 15 : 16 : node.priority >= 80 ? 15 : 14;
     const measure = (text: string) => options.measure(text, fontSize, essential);
     const lines = wrap(node.text, options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 182 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
@@ -70,13 +109,13 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
         // fully visible label with a tiny positive floating-point remainder.
         const outside = viewport && (box.x1 < viewport.x1 || box.x2 > viewport.x2 || box.y1 < viewport.y1 || box.y2 > viewport.y2)
           ? Math.max(0, width * height - intersection(box, viewport, 0)) : 0;
-        const cost = occupied.reduce((sum, obstacle) => sum + intersection(box, obstacle, margin), 0) + bodies.reduce((sum, body) => sum + intersection(box, body, 3) * 3, 0) + outside * 8;
+        const cost = occupied.overlap(box, margin) + bodies.overlap(box, 3) * 3 + outside * 8;
         if (cost < minimum) { minimum = cost; best = { id: node.id, text, side, offset, shiftX: x - origin.x, shiftY: y - origin.y, fontSize, box }; }
         if (minimum === 0) break;
       }
       if (minimum === 0) break;
     }
-    if (best && (minimum === 0 || essential)) { result.push(best); occupied.push(best.box); }
+    if (best && (minimum === 0 || essential)) { result.push(best); occupied.add(best.box); }
   }
   return result;
 }
