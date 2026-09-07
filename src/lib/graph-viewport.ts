@@ -2,14 +2,17 @@ import { layoutGraph, type Chronology, type GraphLayout } from './graph-layout';
 import type { GraphData } from './types';
 
 export function nodeDiameter(zoom: number, prominent: boolean, root: boolean, priority = 0, compact = false) {
-  if (root) return prominent ? Math.max(compact ? 64 : 76, Math.min(104, 180 * zoom)) : 52;
-  return prominent ? Math.max(compact ? 36 : 44, Math.min(68, 130 * zoom)) : Math.max(priority >= 60 ? 30 : 18, Math.min(52, 64 * zoom));
+  if (root) return prominent ? Math.max(compact ? 60 : 68, Math.min(88, 150 * zoom)) : 52;
+  return prominent ? Math.max(compact ? 34 : 40, Math.min(54, 104 * zoom)) : Math.max(priority >= 60 ? 30 : 18, Math.min(52, 64 * zoom));
 }
 
 export function layoutInViewport(graph: Pick<GraphData, 'entities' | 'relations'>, focus: string, trail: string[], chronology: Chronology, width: number, height: number) {
   // Reserve horizontal space for names beside the outer symbols. The profile
   // reduces the canvas width; the full window aspect ratio cannot describe it.
-  const xScale = Math.max(.65, Math.min(3.5, (width - 140) / height));
+  // Small networks keep a compact atlas shape on wide screens; stretching every
+  // sector to the full width otherwise flattens the rings and crowds the center.
+  const maxScale = graph.entities.length <= 28 ? 1.8 : 3.5;
+  const xScale = Math.max(.65, Math.min(maxScale, (width - 140) / height));
   return layoutGraph(graph, focus, trail, chronology, xScale);
 }
 

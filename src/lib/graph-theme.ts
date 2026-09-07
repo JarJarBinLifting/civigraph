@@ -3,7 +3,9 @@ import type { Entity } from './types';
 import { initials } from './presentation';
 import type { LabelPlacement } from './graph-labels';
 
-export const atlasTheme = { paper: '#ffffff', ink: '#172c24', forest: '#183e30', secondary: '#94521d' };
+export const graphFont = '"DM Sans Variable", Arial, sans-serif';
+
+export const atlasTheme = { paper: '#ffffff', ink: '#102a50', brand: '#083577', secondary: '#94521d' };
 
 // Diagram symbols describe entity types. Existing photographs remain in the sourced profiles.
 export function nodeSymbol(entity: Entity, anchor = false) {
@@ -19,10 +21,10 @@ export function nodeSymbol(entity: Entity, anchor = false) {
 
 // Explicit resolved colors: Cytoscape does not receive CSS var() expressions.
 export const atlasNodeStyles: StylesheetStyle[] = [
-  { selector: 'node', style: { shape: node => node.data('shape'), 'background-color': 'data(color)', 'background-image': 'data(badge)', 'background-width': '80%', 'background-height': '80%', 'border-color': 'data(color)', 'border-width': 1.6, color: atlasTheme.ink, 'font-family': 'Arial, sans-serif', 'text-background-color': atlasTheme.paper, 'text-background-opacity': .96, 'text-background-padding': '3px', 'overlay-opacity': 0 } },
-  { selector: 'node.root', style: { 'background-color': atlasTheme.forest, 'border-color': atlasTheme.forest, 'border-width': 2, 'font-weight': 'bold' } },
-  { selector: 'node.active', style: { 'border-color': atlasTheme.forest, 'border-width': 3, 'underlay-color': atlasTheme.forest, 'underlay-opacity': .09, 'underlay-padding': 7, 'font-weight': 'bold' } },
-  { selector: 'node.hover', style: { 'border-width': 3, 'underlay-color': atlasTheme.forest, 'underlay-opacity': .06, 'underlay-padding': 5 } },
+  { selector: 'node', style: { shape: node => node.data('shape'), 'background-color': 'data(color)', 'background-image': 'data(badge)', 'background-width': '80%', 'background-height': '80%', 'border-color': 'data(color)', 'border-width': 1.6, color: atlasTheme.ink, 'font-family': graphFont, 'text-background-color': atlasTheme.paper, 'text-background-opacity': .96, 'text-background-padding': '3px', 'overlay-opacity': 0 } },
+  { selector: 'node.root', style: { 'background-color': atlasTheme.brand, 'border-color': atlasTheme.brand, 'border-width': 2, 'font-weight': 'bold' } },
+  { selector: 'node.active', style: { 'border-color': atlasTheme.brand, 'border-width': 3, 'underlay-color': atlasTheme.brand, 'underlay-opacity': .09, 'underlay-padding': 7, 'font-weight': 'bold' } },
+  { selector: 'node.hover', style: { 'border-width': 3, 'underlay-color': atlasTheme.brand, 'underlay-opacity': .06, 'underlay-padding': 5 } },
   { selector: 'node.history-node', style: { 'border-width': 2.4, 'border-style': 'double' } },
 ];
 
@@ -30,5 +32,5 @@ export function nodeShape(entity: Entity) { return entity.type === 'person' ? 'e
 
 export function atlasLabelStyle(label: LabelPlacement | undefined, zoom: number, bold: boolean): Record<string, string | number> {
   if (!label) return { label: '', 'text-opacity': 0 };
-  return { label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': bold ? 'bold' : 'normal', 'text-max-width': 190 / zoom, 'text-background-padding': 3 / zoom, 'text-halign': label.side === 'left' || label.side === 'right' ? label.side : 'center', 'text-valign': label.side === 'top' || label.side === 'bottom' ? label.side : 'center', 'text-margin-x': (label.shiftX + (label.side === 'right' ? label.offset : label.side === 'left' ? -label.offset : 0)) / zoom, 'text-margin-y': (label.shiftY + (label.side === 'bottom' ? label.offset : label.side === 'top' ? -label.offset : 0)) / zoom };
+  return { label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': bold ? 600 : 500, 'text-max-width': 190 / zoom, 'text-background-padding': 3 / zoom, 'text-halign': label.side === 'left' || label.side === 'right' ? label.side : 'center', 'text-valign': label.side === 'top' || label.side === 'bottom' ? label.side : 'center', 'text-margin-x': (label.shiftX + (label.side === 'right' ? label.offset : label.side === 'left' ? -label.offset : 0)) / zoom, 'text-margin-y': (label.shiftY + (label.side === 'bottom' ? label.offset : label.side === 'top' ? -label.offset : 0)) / zoom };
 }

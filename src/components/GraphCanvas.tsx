@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
 import type { Core, NodeSingular, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
-import { atlasLabelStyle, atlasNodeStyles, nodeShape, nodeSymbol } from '@/lib/graph-theme';
+import { atlasLabelStyle, atlasNodeStyles, graphFont, nodeShape, nodeSymbol } from '@/lib/graph-theme';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import type { Entity, Relation } from '@/lib/types';
 import { TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
@@ -67,7 +67,7 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
   const measure = (text: string, size: number, bold: boolean) => {
     const key = `${size}:${bold}:${text}`;
     if (!current.widths.has(key)) {
-      if (current.context) current.context.font = `${bold ? 'bold' : 'normal'} ${size}px Arial`;
+      if (current.context) current.context.font = `${bold ? 600 : 500} ${size}px ${graphFont}`;
       current.widths.set(key, current.context?.measureText(text).width ?? text.length * size * .55);
     }
     return current.widths.get(key)!;
@@ -81,7 +81,7 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
   instance.batch(() => {
     const sceneNodes = instance.nodes().not('.leaving');
     const prominent = sceneNodes.length <= 28 && instance.width() >= 560;
-    const compact = instance.width() < 900 || instance.height() < 560;
+    const compact = instance.width() < 900;
     const candidates: LabelCandidate[] = sceneNodes.map(node => {
       const priority = node.hasClass('root') ? 100 : node.hasClass('active') ? 90 : node.hasClass('hover') ? 80 : node.hasClass('edge-endpoint') ? 75 : node.hasClass('compared') ? 70 : node.hasClass('history-node') ? 60 : node.hasClass('inspected-neighbor') ? 20 : 0;
       const position = (node as NodeSingular).position();
@@ -157,7 +157,8 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     label.textContent = 'Dates inconnues · hors échelle';
     label.dataset.full = label.textContent; label.dataset.short = 'Sans dates · hors échelle';
     label.dataset.anchorX = String(zone.x + zone.width / 2);
-    label.dataset.anchorY = String(zone.y); label.dataset.offsetY = '10';
+    label.dataset.anchorY = String(zone.type === 'party' ? zone.y + zone.height : zone.y);
+    label.dataset.offsetY = zone.type === 'party' ? '-28' : '10';
     group.append(label);
   }
   for (const sector of layout.sectors) {
@@ -170,7 +171,10 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     label.dataset.short = { school: 'Formations', office: 'Fonctions', organization: 'Organisations', party: 'Affiliations', person: 'Personnalités' }[sector.type];
     label.dataset.anchorX = String(sector.x); group.append(label);
     const unknown = layout.unknownZones.find(zone => zone.type === sector.type);
-    if (unknown) { label.dataset.anchorY = String(unknown.y); label.dataset.offsetY = '30'; }
+    if (unknown) {
+      label.dataset.anchorY = String(sector.type === 'party' ? unknown.y + unknown.height : unknown.y);
+      label.dataset.offsetY = sector.type === 'party' ? '-8' : '30';
+    }
   }
   if (layout.historyIds.length) {
     const label = document.createElementNS(ns, 'text');
@@ -286,7 +290,7 @@ export function GraphCanvas(props: Props) {
     let cancelTransition = () => {};
     let zoomFrame = 0;
     let panTimer = 0;
-    import('cytoscape').then(({ default: cytoscape }) => {
+    Promise.all([import('cytoscape'), document.fonts.load(`500 16px ${graphFont}`), document.fonts.load(`600 16px ${graphFont}`)]).then(([{ default: cytoscape }]) => {
       if (disposed || !container.current) return;
       const instance = cytoscape({
         container: container.current,
@@ -294,16 +298,16 @@ export function GraphCanvas(props: Props) {
         layout: { name: 'preset', fit: false },
         minZoom: 0.02, maxZoom: 2.8, wheelSensitivity: 0.8,
         style: [
-          { selector: 'node', style: { width: 'data(size)', height: 'data(size)', 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-width': '76%', 'background-height': '76%', 'border-width': 1.2, 'border-color': 'data(color)', label: 'data(label)', 'font-family': 'Arial, sans-serif', 'font-size': 'data(fontSize)', color: '#343d38', 'text-valign': 'bottom', 'text-margin-y': 10, 'text-wrap': 'wrap', 'text-max-width': '115px', 'text-background-color': '#fafbf8', 'text-background-opacity': 0.93, 'text-background-padding': '3px', 'text-background-shape': 'roundrectangle', 'overlay-opacity': 0 } },
+          { selector: 'node', style: { width: 'data(size)', height: 'data(size)', 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-width': '76%', 'background-height': '76%', 'border-width': 1.2, 'border-color': 'data(color)', label: 'data(label)', 'font-family': graphFont, 'font-size': 'data(fontSize)', color: '#102a50', 'text-valign': 'bottom', 'text-margin-y': 10, 'text-wrap': 'wrap', 'text-max-width': '115px', 'text-background-color': '#ffffff', 'text-background-opacity': 0.93, 'text-background-padding': '3px', 'text-background-shape': 'roundrectangle', 'overlay-opacity': 0 } },
           { selector: 'node.label-left', style: { 'text-halign': 'left', 'text-valign': 'center', 'text-margin-x': -11, 'text-margin-y': 0 } },
           { selector: 'node.label-right', style: { 'text-halign': 'right', 'text-valign': 'center', 'text-margin-x': 11, 'text-margin-y': 0 } },
           { selector: 'node.label-top', style: { 'text-valign': 'top', 'text-margin-y': -11 } },
-          { selector: 'node.root', style: { width: 76, height: 76, 'background-color': '#254d40', 'border-color': '#254d40', 'border-width': 4, 'font-size': 14, 'font-weight': 'bold', 'text-margin-y': 12 } },
-          { selector: 'node.active', style: { 'border-width': 3, 'border-color': '#254d40', 'underlay-color': '#254d40', 'underlay-opacity': 0.07, 'underlay-padding': 8 } },
+          { selector: 'node.root', style: { width: 76, height: 76, 'background-color': '#083577', 'border-color': '#083577', 'border-width': 4, 'font-size': 14, 'font-weight': 'bold', 'text-margin-y': 12 } },
+          { selector: 'node.active', style: { 'border-width': 3, 'border-color': '#083577', 'underlay-color': '#083577', 'underlay-opacity': 0.07, 'underlay-padding': 8 } },
           { selector: 'node.root.active', style: { 'underlay-opacity': 0, 'text-max-width': '180px', 'font-size': 15 } },
           { selector: 'node.compared', style: { 'border-width': 3, 'border-color': '#a47947', 'underlay-color': '#a47947', 'underlay-opacity': 0.08, 'underlay-padding': 8 } },
           { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.72, 'curve-style': 'bezier', 'control-point-step-size': 16, 'overlay-padding': 5, 'overlay-opacity': 0 } },
-          { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#34463d', 'text-background-color': '#fafbf8', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
+          { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#102a50', 'text-background-color': '#ffffff', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
           { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
           { selector: 'node.dimmed', style: { opacity: .85 } },
           { selector: 'edge.dimmed', style: { opacity: .36 } },

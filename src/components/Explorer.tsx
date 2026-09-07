@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, Waypoints, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
 import { careerView, focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
 import { categoryInfo, periodLabel, shortLabel } from '@/lib/presentation';
@@ -145,7 +145,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   return <div className="app-shell atlas-explorer">
     <a className="skip-link" href="#exploration">Aller à l’exploration</a>
     <header className="app-header">
-      <button className="brand" onClick={() => startFrom(data.entities.find(entity => entity.id === 'Q3052772')!)} aria-label="Civigraph, revenir à l’exploration initiale"><span className="brand-symbol"><Network size={22} strokeWidth={1.7} /></span>civigraph<span className="version-tag">V0</span></button>
+      <button className="brand" onClick={() => startFrom(data.entities.find(entity => entity.id === 'Q3052772')!)} aria-label="Civigraph, revenir à l’exploration initiale"><span className="brand-symbol"><Waypoints size={34} strokeWidth={1.8} /></span>civigraph<span className="version-tag">V0</span></button>
       <nav className="main-nav" aria-label="Navigation principale"><button className={!comparisonOpen ? 'active' : ''} onClick={() => { setComparisonOpen(false); if (view.compare) update({ compare: null }); }}><Compass size={16} />Explorer</button><button className={comparisonOpen ? 'active' : ''} onClick={openComparison}><GitCompareArrows size={16} />Comparer</button><button onClick={() => setModal('method')}>La méthode<ArrowUpRight size={12} /></button></nav>
       <button className="header-source" onClick={() => setModal('corpus')}><span className="status-dot" />Données ouvertes <ArrowUpRight size={14} /></button>
     </header>

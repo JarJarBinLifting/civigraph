@@ -40,9 +40,9 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
     const essential = node.priority >= 60;
     if (options.viewport && (node.x + node.radius < options.viewport.x1 || node.x - node.radius > options.viewport.x2 || node.y + node.radius < options.viewport.y1 || node.y - node.radius > options.viewport.y2)) continue;
     if (!essential && result.length >= limit) continue;
-    const fontSize = options.prominent ? node.priority === 100 ? options.compact ? 18 : 20 : options.compact ? 14 : 16 : node.priority >= 80 ? 15 : 14;
+    const fontSize = options.prominent ? node.priority === 100 ? options.compact ? 18 : 20 : options.compact ? 15 : 16 : node.priority >= 80 ? 15 : 14;
     const measure = (text: string) => options.measure(text, fontSize, essential);
-    const lines = wrap(node.text, options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 146 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
+    const lines = wrap(node.text, options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 182 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
     const text = lines.join('\n'), width = Math.max(...lines.map(measure), 1) + 6, height = lines.length * fontSize * 1.2 + 6;
     const sides = [...new Set<LabelSide>([node.side, 'bottom', 'top', 'right', 'left'])];
     const shifts = options.prominent ? [0, -12, 12, -24, 24, -48, 48] : [0];

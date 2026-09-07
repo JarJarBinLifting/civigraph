@@ -1,14 +1,14 @@
 import { type Category, type Entity, type EntityType, type Relation, type SourceDate } from './types';
 
 export const categoryInfo: Record<Category, { label: string; singular: string; color: string; soft: string }> = {
-  education: { label: 'Formations', singular: 'Formation', color: '#27664c', soft: '#e5efe8' },
-  office: { label: 'Fonctions publiques', singular: 'Fonction', color: '#315d92', soft: '#e8eef7' },
-  party: { label: 'Partis & statuts', singular: 'Affiliation politique', color: '#94521d', soft: '#f6eadb' },
-  employment: { label: 'Parcours professionnel', singular: 'Employeur', color: '#784780', soft: '#efe7f1' },
+  education: { label: 'Formations', singular: 'Formation', color: '#087565', soft: '#e5efe8' },
+  office: { label: 'Fonctions publiques', singular: 'Fonction', color: '#174b9a', soft: '#e8eef7' },
+  party: { label: 'Partis & statuts', singular: 'Affiliation politique', color: '#a36116', soft: '#f6eadb' },
+  employment: { label: 'Parcours professionnel', singular: 'Employeur', color: '#78438a', soft: '#efe7f1' },
   membership: { label: 'Organisations', singular: 'Organisation', color: '#366675', soft: '#e4eef0' },
 };
 export const typeInfo: Record<EntityType, { label: string; color: string; soft: string }> = {
-  person: { label: 'Personnalité', color: '#254d40', soft: '#e6eee9' },
+  person: { label: 'Personnalité', color: '#083577', soft: '#edf2fc' },
   school: { ...categoryInfo.education, label: 'Établissement' },
   office: { ...categoryInfo.office, label: 'Fonction' },
   party: { ...categoryInfo.party, label: 'Parti / statut' },

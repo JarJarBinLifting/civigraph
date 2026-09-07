@@ -1,5 +1,6 @@
 import type { Core } from 'cytoscape';
 import type { GraphExportInfo } from './graph-export';
+import { atlasTheme, graphFont } from './graph-theme';
 
 function imageFromBlob(blob: Blob): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -59,34 +60,34 @@ export async function exportGraphPng(instance: Core, svg: SVGSVGElement, info: G
   type TextBlock = { lines: string[]; y: number; font: string; color: string; lineHeight: number };
   const blocks: TextBlock[] = [];
   let y = margin;
-  function block(text: string, font = '18px Arial, sans-serif', lineHeight = 27, color = '#384a40', space = 8) {
+  function block(text: string, font = `18px ${graphFont}`, lineHeight = 27, color = atlasTheme.ink, space = 8) {
     context!.font = font;
     const wrapped = lines(context!, text, chartWidth);
     blocks.push({ lines: wrapped, y, font, color, lineHeight });
     y += wrapped.length * lineHeight + space;
   }
-  block('CIVIGRAPH  /  ATLAS DES LIENS DOCUMENTÉS', 'bold 17px Arial, sans-serif', 26, '#254d40', 14);
-  block(info.title, '36px Georgia, serif', 44, '#203c31', 20);
+  block('CIVIGRAPH  /  ATLAS DES LIENS DOCUMENTÉS', `650 17px ${graphFont}`, 26, atlasTheme.brand, 14);
+  block(info.title, '650 36px "Manrope Variable", Arial, sans-serif', 44, atlasTheme.ink, 20);
   for (const item of info.context) block(item);
   y += 14;
   const chartTop = y;
   y += chartHeight + 30;
-  block('Lire la carte', 'bold 20px Arial, sans-serif', 30);
-  for (const category of info.legend) block(`●  ${category.label}`, '18px Arial, sans-serif', 26, category.color, 2);
+  block('Lire la carte', `600 20px ${graphFont}`, 30);
+  for (const category of info.legend) block(`●  ${category.label}`, `18px ${graphFont}`, 26, category.color, 2);
   y += 10;
-  for (const note of info.notes) block(note, '17px Arial, sans-serif', 25, '#526454', 8);
-  block(`Référence de la vue : ${window.location.origin}${window.location.pathname}${info.query}`, '14px Arial, sans-serif', 22, '#254d40', 12);
+  for (const note of info.notes) block(note, `17px ${graphFont}`, 25, '#526481', 8);
+  block(`Référence de la vue : ${window.location.origin}${window.location.pathname}${info.query}`, `14px ${graphFont}`, 22, '#083577', 12);
   if (info.credits.length) {
-    block('Crédits des images', 'bold 17px Arial, sans-serif', 26);
-    for (const credit of info.credits) block(credit, '14px Arial, sans-serif', 21, '#526454', 8);
+    block('Crédits des images', `600 17px ${graphFont}`, 26);
+    for (const credit of info.credits) block(credit, `14px ${graphFont}`, 21, '#526481', 8);
   }
   if (y + margin > 16000) throw new Error('Cette vue contient trop de texte pour un PNG lisible. Conservez son lien avec « Partager la vue ».');
   canvas.width = outputWidth; canvas.height = Math.ceil(y + margin);
-  context.fillStyle = '#f8faf5'; context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = '#fafbf8'; context.fillRect(margin, chartTop, chartWidth, chartHeight);
+  context.fillStyle = '#ffffff'; context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = '#ffffff'; context.fillRect(margin, chartTop, chartWidth, chartHeight);
   context.drawImage(guides, margin, chartTop, chartWidth, chartHeight);
   context.drawImage(graph, margin, chartTop, chartWidth, chartHeight);
-  context.strokeStyle = '#d8e1d1'; context.strokeRect(margin, chartTop, chartWidth, chartHeight);
+  context.strokeStyle = '#d9e1ef'; context.strokeRect(margin, chartTop, chartWidth, chartHeight);
   context.textBaseline = 'top';
   for (const block of blocks) {
     context.font = block.font; context.fillStyle = block.color;

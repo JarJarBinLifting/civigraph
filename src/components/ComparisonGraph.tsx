@@ -7,7 +7,7 @@ import type { CommonConnection, Entity } from '@/lib/types';
 import { shortLabel, typeInfo } from '@/lib/presentation';
 import { supportsPeriods } from '@/lib/temporal';
 import { comparisonDateLabel } from '@/lib/comparison';
-import { atlasLabelStyle, atlasNodeStyles, atlasTheme, nodeShape, nodeSymbol } from '@/lib/graph-theme';
+import { atlasLabelStyle, atlasNodeStyles, graphFont, atlasTheme, nodeShape, nodeSymbol } from '@/lib/graph-theme';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 
 function symbolData(entity: Entity, color?: string) {
@@ -30,15 +30,15 @@ export function ComparisonGraph({ left, right, common, selected, onSelect }: { l
     let observer: ResizeObserver | undefined;
     const portraits: HTMLImageElement[] = [];
     let frame = 0, panTimer: ReturnType<typeof setTimeout> | undefined;
-    import('cytoscape').then(({ default: cytoscape }) => {
+    Promise.all([import('cytoscape'), document.fonts.load(`500 16px ${graphFont}`), document.fonts.load(`600 16px ${graphFont}`)]).then(([{ default: cytoscape }]) => {
       if (disposed || !container.current) return;
       const elements: ElementDefinition[] = [
-        { data: symbolData(left, atlasTheme.forest), position: { x: -310, y: 0 }, classes: 'person' },
+        { data: symbolData(left, atlasTheme.brand), position: { x: -310, y: 0 }, classes: 'person' },
         { data: symbolData(right, atlasTheme.secondary), position: { x: 310, y: 0 }, classes: 'person' },
       ];
       common.forEach((connection, i) => {
         elements.push({ data: symbolData(connection.entity), position: { x: 0, y: (i - (common.length - 1) / 2) * 155 }, classes: `common-entity ${supportsPeriods(connection.entity) ? '' : 'generic-entity'}` });
-        for (const [side, person, statements, color] of [['left', left, connection.left, atlasTheme.forest], ['right', right, connection.right, atlasTheme.secondary]] as const) {
+        for (const [side, person, statements, color] of [['left', left, connection.left, atlasTheme.brand], ['right', right, connection.right, atlasTheme.secondary]] as const) {
           elements.push({ data: { id: `${side}:${connection.entity.id}`, source: person.id, target: connection.entity.id, entity: connection.entity.id, label: comparisonDateLabel(statements), color, relationIds: statements.map(statement => statement.id) } });
         }
       });
@@ -49,7 +49,7 @@ export function ComparisonGraph({ left, right, common, selected, onSelect }: { l
           { selector: 'node.person', style: { 'background-color': 'data(color)', 'font-weight': 'bold' } },
           { selector: 'node.portrait', style: { 'background-image': 'data(portrait)', 'background-width': 'auto', 'background-height': 'auto', 'background-fit': 'cover', 'background-clip': 'node' } },
           { selector: 'node.generic-entity', style: { 'border-style': 'dashed' } },
-          { selector: 'edge', style: { label: 'data(label)', color: atlasTheme.ink, 'font-family': 'Arial, sans-serif', 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': .95, 'line-color': 'data(color)', 'target-arrow-color': 'data(color)', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier', 'overlay-opacity': 0, 'overlay-padding': 5, opacity: .65 } },
+          { selector: 'edge', style: { label: 'data(label)', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': .95, 'line-color': 'data(color)', 'target-arrow-color': 'data(color)', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier', 'overlay-opacity': 0, 'overlay-padding': 5, opacity: .65 } },
           { selector: '.dimmed', style: { opacity: .35 } },
           { selector: 'node.dimmed', style: { opacity: .7 } },
           { selector: 'node.active, node.hover, node.person, edge.active, edge.hover', style: { opacity: 1 } },
@@ -79,7 +79,7 @@ export function ComparisonGraph({ left, right, common, selected, onSelect }: { l
           });
           const placements = placeLabels(candidates, { level, previous, small: instance.width() < 500, viewport: { x1: 6 - pan.x, x2: instance.width() - pan.x - 6, y1: 6 - pan.y, y2: instance.height() - pan.y - 6 }, measure: (text, size, bold) => {
             const key = `${size}:${bold}:${text}`;
-            if (!widths.has(key)) { if (context) context.font = `${bold ? 'bold' : 'normal'} ${size}px Arial`; widths.set(key, context?.measureText(text).width ?? text.length * size * .55); }
+            if (!widths.has(key)) { if (context) context.font = `${bold ? 600 : 500} ${size}px ${graphFont}`; widths.set(key, context?.measureText(text).width ?? text.length * size * .55); }
             return widths.get(key)!;
           } });
           const byId = new Map(placements.map(label => [label.id, label])); previous = new Set(byId.keys());
@@ -125,7 +125,7 @@ export function ComparisonGraph({ left, right, common, selected, onSelect }: { l
     instance.zoom({ level: Math.max(instance.minZoom(), Math.min(instance.maxZoom(), instance.zoom() * factor)), renderedPosition: { x: instance.width() / 2, y: instance.height() / 2 } });
   }
   return <div className="comparison-map">
-    <div className="comparison-map-legend"><span><i style={{ background: atlasTheme.forest }} />{left.label}</span><span>→ Entités communes ←</span><span><i style={{ background: atlasTheme.secondary }} />{right.label}</span></div>
+    <div className="comparison-map-legend"><span><i style={{ background: atlasTheme.brand }} />{left.label}</span><span>→ Entités communes ←</span><span><i style={{ background: atlasTheme.secondary }} />{right.label}</span></div>
     {failed ? <p role="status">La carte n’est pas disponible dans ce navigateur. Les cartes et leurs sources restent accessibles ci-dessous.</p> : <>
       <div ref={container} className="comparison-canvas" data-testid="comparison-graph" data-ready={ready} role="img" aria-label={`Comparaison de ${left.label} et ${right.label} via ${common.length} entités communes. Les boutons ci-dessous donnent accès aux mêmes preuves au clavier.`} />
       <div className="comparison-map-tools"><button className="icon-button" aria-label="Zoom avant de la comparaison" onClick={() => zoomBy(2)}><Plus size={17} /></button><button className="icon-button" aria-label="Zoom arrière de la comparaison" onClick={() => zoomBy(1 / 2)}><Minus size={17} /></button><button className="icon-button" aria-label="Recentrer la comparaison" onClick={() => recenter.current()}><Maximize size={16} /></button><span>Les dates indiquent les périodes de participation. Touchez une entité pour ses sources.</span></div>
