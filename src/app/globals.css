@@ -959,6 +959,37 @@ svg { flex-shrink: 0; vertical-align: middle; }
 }
 
 /* French identity, shared by the explorer and source documents. */
+.graph-perspective { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; padding: 12px 28px; border-bottom: 1px solid var(--line, #d9e1ef); }
+.graph-perspective p { margin: 0; color: var(--muted); font-size: 12px; }
+.graph-perspective .view-toggle button { min-height: 38px; gap: 7px; }
+.system-reading { position: relative; margin-left: auto; font-size: 12px; color: var(--muted); }
+.system-reading summary { cursor: pointer; padding: 8px 0; }
+.system-reading > div { position: absolute; right: 0; top: 100%; z-index: 5; width: min(330px, 80vw); padding: 16px; background: #fff; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 20px #102a5012; }
+.system-reading ul { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.system-reading li { display: flex; align-items: center; gap: 6px; }
+.system-reading i { width: 7px; height: 7px; border-radius: 50%; }
+.atlas-explorer .system-stage { min-height: 0; }
+.system-loading { position: absolute; inset: 40% 20% auto; text-align: center; padding: 20px; background: #ffffffed; color: var(--muted); font-size: 14px; }
+.system-selection-tools { position: absolute; top: 14px; left: 20px; right: 20px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; }
+.system-selection-tools button { display: inline-flex; align-items: center; gap: 6px; pointer-events: auto; padding: 9px 12px; min-height: 38px; border: 1px solid #d9e1ef; border-radius: 7px; background: #fffffff5; color: var(--ink); font-size: 12px; box-shadow: 0 2px 8px #102a5008; }
+.system-selection-tools button[aria-pressed="true"] { border-color: var(--brand); background: #edf2fc; }
+.system-selection-tools button:disabled { opacity: .5; cursor: wait; }
+.system-statements { position: absolute; top: 68px; left: 20px; max-width: calc(100% - 40px); width: 320px; padding: 12px; border: 1px solid #d9e1ef; border-radius: 8px; background: #fff; font-size: 12px; box-shadow: 0 4px 18px #102a5010; }
+.system-statements[open] { max-height: 220px; overflow-y: auto; }
+.system-statements summary { cursor: pointer; }
+.system-statements button { display: block; text-align: left; padding: 10px 4px; width: 100%; border-bottom: 1px solid #edf2fc; }
+.system-statements button[aria-pressed="true"] { color: var(--brand); font-weight: 650; }
+.graph-list-pages { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 20px 0; font-size: 12px; }
+.graph-list-pages button:disabled { opacity: .4; cursor: default; }
+@media (max-width: 700px) {
+  .atlas-explorer .system-stage { min-height: 650px; }
+  .graph-perspective { padding: 12px 18px; gap: 10px; }
+  .graph-perspective .view-toggle button { min-height: 44px; }
+  .system-selection-tools { left: 12px; right: 12px; }
+  .system-selection-tools button { min-height: 44px; }
+  .system-statements { top: 120px; left: 12px; }
+  .system-loading { inset: 35% 10% auto; }
+}
 .app-header::after, .document-header::after {
   content: ''; position: absolute; left: 0; right: 0; bottom: 0;
   height: 3px; background: #fff;

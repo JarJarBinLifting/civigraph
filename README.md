@@ -28,6 +28,10 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 
 ## Explorer
 
+L’explorateur propose **Système** et **Centrée**, avec la même sélection, les mêmes filtres et les mêmes sources. L’accueil libre ouvre Système ; les anciennes URL consacrées à une entité gardent la vue Centrée. Le paramètre `graphView=system|centered` conserve cette perspective dans les liens partagés et les sauvegardes. Chaque vue retrouve son cadrage au retour.
+
+**Système** représente les 2 394 entités du corpus et 5 599 connexions regroupant 7 568 déclarations. Sélectionner une entité met en évidence ses voisins directs ; « Voisins à deux étapes » étend cette lecture et « Approcher » ajuste le cadrage. Chaque déclaration reste consultable dans la fiche. La disposition ne mesure ni influence ni proximité personnelle. Les positions précalculées sont validées contre une signature SHA-256 de la topologie ; un worker fCoSE recalcule la disposition si le corpus ne correspond plus à cet instantané.
+
 | Fonction du PRD | Dans la V0 |
 | --- | --- |
 | Rechercher une personne | Recherche tolérant casse et accents ; personnes et entités connexes, dont ENA et Sciences Po |
@@ -40,7 +44,7 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 | Voir les relations communes | Entités communes et preuves de chaque côté, avec périodes distinctes |
 | Partager une vue | URL comprenant point de départ, centre actif, parcours, sélection, filtres, période, comparaison et mode liste |
 
-Toutes les entités du réseau filtré sont affichées sans pagination. Les voisins aux dates exploitables occupent des couronnes d’écart croissant avec la période de référence : jusqu’à 5 ans, de 5 à 20 ans, de 20 à 50 ans, puis au-delà. Le passage documenté le plus proche détermine la couronne. Les types d’entités occupent des secteurs fixes : écoles et formations en haut, fonctions à droite, entreprises et organisations à gauche, partis et statuts en bas. Les couronnes sont étirées horizontalement pour utiliser la largeur de la carte. Les dates inconnues sont regroupées dans une zone hors échelle au bord de chaque secteur ; le parcours reste dans une bande séparée sous le réseau. Un réseau composé uniquement de personnes conserve sa disposition circulaire, ses dates inconnues à droite et son parcours à gauche. Le repère reprend la période choisie ou, à défaut, l’année de l’instantané. Une année personnalisée peut être saisie et partagée avec le paramètre `year`. Les anciennes URL paginées ouvrent le réseau complet.
+Les canvas affichent toutes les entités du réseau filtré. En vue **Centrée**, les voisins aux dates exploitables occupent des couronnes d’écart croissant avec la période de référence : jusqu’à 5 ans, de 5 à 20 ans, de 20 à 50 ans, puis au-delà. Le passage documenté le plus proche détermine la couronne. Les types d’entités occupent des secteurs fixes : écoles et formations en haut, fonctions à droite, entreprises et organisations à gauche, partis et statuts en bas. Les couronnes sont étirées horizontalement pour utiliser la largeur de la carte. Les dates inconnues sont regroupées dans une zone hors échelle au bord de chaque secteur ; le parcours reste dans une bande séparée sous le réseau. Un réseau composé uniquement de personnes conserve sa disposition circulaire, ses dates inconnues à droite et son parcours à gauche. Le repère reprend la période choisie ou, à défaut, l’année de l’instantané. Une année personnalisée peut être saisie et partagée avec le paramètre `year`. Les anciennes URL paginées ouvrent le réseau complet.
 
 L’écran initial réserve toute la largeur à la carte, sous le nom du réseau. Le bouton « Filtres » ouvre un panneau superposé, refermable par Échap, avec retour du focus au bouton. Le parcours reste accessible au-dessus du graphe. La fiche s’ouvre par un clic sur une entité ou « Ouvrir la fiche » ; une URL contenant une sélection ou une source l’ouvre directement. La légende détaillée se déplie avec « Lire les distances ».
 
@@ -58,7 +62,7 @@ Les listes de passages et de sources suivent le même ordre chronologique, du pl
 
 Avant de choisir la deuxième personne, **Comparer** propose jusqu’à six profils selon les filtres actifs : portraits, nombre d’institutions distinctes en commun, exemples nommés et périodes communes documentées. Le classement privilégie le nombre d’institutions communes, puis le nombre d’institutions avec au moins une paire de passages dont le chevauchement est établi. Les déclarations répétées ne multiplient pas les institutions ; les fonctions génériques et le statut « indépendant » sont exclus des suggestions. Aucun score global de similarité n’est présenté. La recherche manuelle reste disponible et chaque suggestion ouvre les points communs, dates et sources de la comparaison. Les résultats dépendent de la couverture du corpus.
 
-Le mode **Liste** permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
+Le mode **Liste** affiche 100 déclarations par page et permet d'explorer les relations au clavier et offre une alternative au canvas. Le graphe prend en charge zoom, déplacement, recentrage et sélection des liens. Sur petit écran, glisser pour parcourir le réseau ; le bouton de recentrage fournit une vue d'ensemble.
 
 **Agrandir la carte** recadre le réseau sur la surface disponible et fait croître ses symboles avec le zoom. Les filtres, la sélection et le parcours sont conservés. À la fermeture, la caméra précédente est restaurée si le centre n’a pas changé ; sinon le nouveau réseau est recadré. Le bouton de réduction ou Échap ferme cette vue ; le focus revient au déclencheur. **Mes explorations** enregistre jusqu’à 50 vues nommées sur cet appareil, dans ce navigateur. Une vue peut être restaurée ou supprimée ; les erreurs de stockage et les entités disparues sont signalées, sans remplacer des sauvegardes illisibles. Effacer les données du navigateur efface aussi ces vues.
 
@@ -95,9 +99,12 @@ npm run data:import:network
 npm run data:import:assembly
 npm run data:import:integrity
 node scripts/audit-data.mjs
+npm run data:layout
 npm test
 npm run build
 ```
+
+`npm run data:layout` régénère `src/data/system-layout.json` à partir du corpus fusionné. Le test de cohérence signale les changements de topologie nécessitant une nouvelle disposition.
 
 `scripts/people.json` définit les 40 articles français utilisés pour identifier les personnes. L'import résout leurs QID, collecte cinq propriétés, récupère les libellés des entités liées et conserve les preuves et précisions temporelles. Il écrit le snapshot seulement après une collecte complète et ses vérifications. En cas d'échec, le snapshot antérieur reste utilisable.
 

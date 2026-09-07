@@ -3,6 +3,20 @@ import { loadDataset } from './dataset';
 import { getVisibleGraph, parseView } from './graph';
 import { getChronology, getTimeReference } from './graph-layout';
 import { graphExportInfo } from './graph-export';
+import { getSystemGraph } from './system-graph';
+
+test('system export explains topology without temporal rings or an unbounded list of names', () => {
+  const data = loadDataset();
+  const view = parseView('?graphView=system&year=2001', data);
+  const graph = getSystemGraph(data, view);
+  const info = graphExportInfo(data, view, graph, getChronology(graph, view.focus, getTimeReference(data, view)));
+  expect(info.title).toBe('Système des liens documentés');
+  expect(info.notes.join(' ')).toContain('voisins');
+  expect(info.notes.join(' ')).not.toContain('Couronnes');
+  expect(info.notes.join(' ').length).toBeLessThan(2000);
+  expect(info.context.join(' ')).not.toContain('Référence temporelle');
+  expect(info.query).toContain('graphView=system');
+});
 test('the exported receipt distinguishes filtered counts, temporal reference and actual period filter', () => {
   const data = loadDataset();
   const view = parseView('?root=Q3052772&focus=Q273579&expanded=Q3052772,Q273579&selected=Q273579&categories=education&time=all&year=2001', data);

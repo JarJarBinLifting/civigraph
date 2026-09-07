@@ -17,7 +17,8 @@
     "data:discover": "node scripts/discover-institutions.mjs",
     "data:import:network": "node scripts/import-wikidata.mjs --network",
     "data:import:assembly": "node scripts/import-assembly.mjs",
-    "data:import:integrity": "node scripts/import-integrity-watch.mjs"
+    "data:import:integrity": "node scripts/import-integrity-watch.mjs",
+    "data:layout": "tsx scripts/generate-system-layout.ts"
   },
   "engines": {
     "node": ">=20.9.0"
@@ -26,6 +27,7 @@
     "@fontsource-variable/dm-sans": "5.3.0",
     "@fontsource-variable/manrope": "5.3.0",
     "cytoscape": "3.34.2",
+    "cytoscape-fcose": "2.2.0",
     "lucide-react": "1.41.0",
     "next": "16.3.4",
     "react": "19.2.8",
@@ -33,12 +35,14 @@
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
+    "@types/cytoscape-fcose": "2.2.5",
     "@types/node": "24.13.3",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "fflate": "0.8.3",
+    "tsx": "4.23.13",
     "typescript": "5.9.3",
     "vitest": "5.0.0"
   }

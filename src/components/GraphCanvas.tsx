@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
 import type { Core, NodeSingular, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
@@ -10,8 +10,10 @@ import type { Entity, Relation } from '@/lib/types';
 import { TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
 import { frameGraph, layoutInViewport, nodeDiameter } from '@/lib/graph-viewport';
 import type { GraphExportInfo } from '@/lib/graph-export';
+import type { GraphCamera } from '@/lib/system-graph';
 
 interface Props {
+  camera?: RefObject<GraphCamera | undefined>;
   enlarged?: boolean;
   entities: Entity[];
   relations: Relation[];
@@ -27,6 +29,10 @@ interface Props {
   onEdge: (id: string) => void;
   onExpand: (id: string) => void;
   onFallback: () => void;
+}
+
+function cameraKey(props: Props) {
+  return JSON.stringify([props.focus, props.trail, props.entities.map(e => e.id), props.relations.map(r => r.id), props.chronology.reference]);
 }
 
 function layoutFor(props: Props, instance: Core) {
@@ -336,6 +342,11 @@ export function GraphCanvas(props: Props) {
         if (!zoomFrame) zoomFrame = requestAnimationFrame(() => { zoomFrame = 0; if (!disposed) scaleLabels(instance); });
       });
       cancelTransition = updateScene(instance, callbacks.current, false, guides.current);
+      const savedCamera = callbacks.current.camera?.current;
+      if (savedCamera?.key === cameraKey(callbacks.current)) {
+        instance.viewport({ zoom: savedCamera.zoom, pan: { x: instance.width() / 2 - savedCamera.x * savedCamera.zoom, y: instance.height() / 2 - savedCamera.y * savedCamera.zoom } });
+        scaleLabels(instance);
+      }
       refresh.current = (animate = true, overview = false) => {
         cancelTransition();
         cancelTransition = updateScene(instance, callbacks.current, animate, guides.current);
@@ -378,7 +389,12 @@ export function GraphCanvas(props: Props) {
       observer.observe(container.current);
       setReady(true);
     }).catch(() => { if (!disposed) callbacks.current.onFallback(); });
-    return () => { disposed = true; observer?.disconnect(); cancelAnimationFrame(zoomFrame); window.clearTimeout(panTimer); cancelTransition(); refresh.current = () => {}; cy.current?.destroy(); cy.current = null; };
+    return () => {
+      disposed = true; observer?.disconnect(); cancelAnimationFrame(zoomFrame); window.clearTimeout(panTimer); cancelTransition(); refresh.current = () => {};
+      const instance = cy.current, camera = callbacks.current.camera;
+      if (instance && camera) camera.current = { key: cameraKey(callbacks.current), zoom: instance.zoom(), x: (instance.width() / 2 - instance.pan().x) / instance.zoom(), y: (instance.height() / 2 - instance.pan().y) / instance.zoom() };
+      instance?.destroy(); cy.current = null;
+    };
   }, []);
 
   useEffect(() => { refresh.current(); }, [entities, relations, focus, anchor, chronology, trail]);

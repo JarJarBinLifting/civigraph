@@ -127,13 +127,14 @@ export function parseView(search: string, data: GraphData): ViewState {
     ...(params.get('comparisonView') === 'cards' ? { comparisonView: 'cards' as const } : {}),
     ...(validComparison && params.get('comparisonMode') === 'paths' ? { comparisonMode: 'paths' as const } : {}),
     mode: params.get('mode') === 'list' ? 'list' : 'graph',
+    ...(params.get('graphView') === 'system' || (!params.has('graphView') && !['root', 'focus', 'selected', 'expanded', 'compare', 'edge'].some(key => params.has(key))) ? { graphView: 'system' as const } : params.get('graphView') === 'centered' ? { graphView: 'centered' as const } : {}),
     edge: index.relations.has(params.get('edge') ?? '') ? params.get('edge') : null,
     temporal: 'all', period: null, year: /^[1-9]\d{0,3}$/.test(params.get('year') ?? '') ? Number(params.get('year')) : null,
   };
   const requestedPeriod = params.get('period');
   const period = data.relations.find(relation => relation.id === requestedPeriod && periodBounds(relation));
   if (period) return { ...state, period: period.id, temporal: params.get('time') === 'same' && !validComparison ? 'same' : 'all' };
-  if (!requestedPeriod && !validComparison) {
+  if (!requestedPeriod && !validComparison && !state.graphView) {
     const context = getPeriodContext(data, state);
     const initialPeriod = context.options.find(option => option.cohort) ?? context.options[0];
     if (initialPeriod && focus !== root) return { ...state, period: initialPeriod.id, temporal: params.get('time') === 'all' ? 'all' : 'same' };
@@ -147,6 +148,7 @@ export function serializeView(state: ViewState): string {
   if (state.compare && state.comparisonView === 'cards') params.set('comparisonView', 'cards');
   if (state.compare && state.comparisonMode === 'paths') params.set('comparisonMode', 'paths');
   if (state.mode === 'list') params.set('mode', 'list');
+  if (state.graphView) params.set('graphView', state.graphView);
   if (state.edge) params.set('edge', state.edge);
   params.set('time', state.temporal);
   if (state.period) params.set('period', state.period);

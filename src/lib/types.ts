@@ -84,6 +84,7 @@ export interface ViewState {
   comparisonView?: 'map' | 'cards';
   comparisonMode?: 'common' | 'paths';
   mode: 'graph' | 'list';
+  graphView?: 'system' | 'centered';
   edge: string | null;
   temporal: 'all' | 'same';
   period: string | null;
