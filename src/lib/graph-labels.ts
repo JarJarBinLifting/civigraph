@@ -3,7 +3,7 @@ export type LabelSide = 'top' | 'bottom' | 'left' | 'right';
 export interface LabelBox { x1: number; y1: number; x2: number; y2: number }
 export interface LabelCandidate { id: string; text: string; x: number; y: number; radius: number; priority: number; side: LabelSide }
 export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox }
-export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox }
+export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; compact?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox }
 export function labelLevel(zoom: number, previous: LabelLevel): LabelLevel {
   if (zoom >= .75 || previous === 2 && zoom >= .66) return 2;
   if (zoom >= .33 || previous >= 1 && zoom >= .28) return 1;
@@ -40,12 +40,13 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
     const essential = node.priority >= 60;
     if (options.viewport && (node.x + node.radius < options.viewport.x1 || node.x - node.radius > options.viewport.x2 || node.y + node.radius < options.viewport.y1 || node.y - node.radius > options.viewport.y2)) continue;
     if (!essential && result.length >= limit) continue;
-    const fontSize = options.prominent ? node.priority === 100 ? 20 : 16 : node.priority >= 80 ? 15 : 14;
+    const fontSize = options.prominent ? node.priority === 100 ? options.compact ? 18 : 20 : options.compact ? 14 : 16 : node.priority >= 80 ? 15 : 14;
     const measure = (text: string) => options.measure(text, fontSize, essential);
-    const lines = wrap(node.text, options.prominent && !essential ? 146 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
+    const lines = wrap(node.text, options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 146 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
     const text = lines.join('\n'), width = Math.max(...lines.map(measure), 1) + 6, height = lines.length * fontSize * 1.2 + 6;
     const sides = [...new Set<LabelSide>([node.side, 'bottom', 'top', 'right', 'left'])];
-    const choices = sides.flatMap(side => (options.prominent ? [0, -12, 12, -24, 24] : [0]).map(shift => ({ side, shift })));
+    const shifts = options.prominent ? [0, -12, 12, -24, 24, -48, 48] : [0];
+    const choices = sides.flatMap(side => shifts.map(shift => ({ side, shift })));
     let best: LabelPlacement | undefined, minimum = Infinity;
     for (const extra of essential || options.prominent ? [0, 12, 24] : [0]) {
       for (const { side, shift } of choices) {

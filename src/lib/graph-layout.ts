@@ -35,10 +35,10 @@ function layoutSectors(focus: string, neighbors: Entity[], historyIds: string[],
     for (const sector of SECTORS) {
       const members = neighbors.filter(entity => entity.type === sector.type && chronology.nodes.get(entity.id)?.band === band);
       if (!members.length) continue;
-      let offset = 0, radius = Math.max(500 + band * 230, outer + 200);
+      let offset = 0, radius = Math.max(900 + band * 300, outer + 300);
       while (offset < members.length) {
         const hasPeople = neighbors.some(entity => entity.type === 'person');
-        const span = sector.type === 'person' ? .25 : hasPeople && (sector.type === 'school' || sector.type === 'office') ? .7 : sector.type === 'office' || sector.type === 'organization' ? 1.4 : 1;
+        const span = sector.type === 'person' ? .25 : sector.type === 'party' ? .6 : hasPeople && (sector.type === 'school' || sector.type === 'office') ? .7 : sector.type === 'office' || sector.type === 'organization' ? 1.1 : 1;
         const capacity = Math.max(1, Math.floor(radius * span / 240));
         const count = Math.min(capacity, members.length - offset);
         for (let i = 0; i < count; i++) {
@@ -46,7 +46,7 @@ function layoutSectors(focus: string, neighbors: Entity[], historyIds: string[],
           positions.set(members[offset + i].id, { x: Math.cos(angle) * radius * xScale, y: Math.sin(angle) * radius });
         }
         bandOuter = Math.max(bandOuter, radius);
-        offset += count; radius += 230;
+        offset += count; radius += 300;
       }
     }
     if (bandOuter) { outer = bandOuter; rings.push({ radius: outer + 60, band }); }
@@ -55,12 +55,15 @@ function layoutSectors(focus: string, neighbors: Entity[], historyIds: string[],
     if (!neighbors.some(entity => entity.type === sector.type)) continue;
     const unknown = neighbors.filter(entity => entity.type === sector.type && unknownIds.includes(entity.id));
     const vertical = sector.type === 'school' || sector.type === 'party';
-    const distance = outer + 340 + (xScale < 1.5 && sector.type === 'party' ? 260 : 0);
+    const distance = outer + 480 + (xScale < 1.5 && sector.type === 'party' ? 260 : 0);
     let label = { x: Math.cos(sector.angle) * (outer + 190) * xScale, y: Math.sin(sector.angle) * (outer + 190) };
     if (unknown.length) {
-      const columns = vertical ? Math.min(4, unknown.length) : Math.max(1, Math.ceil(Math.sqrt(unknown.length) / 2));
-      const rows = Math.ceil(unknown.length / columns);
-      const stepX = 440 * xScale, stepY = 500;
+      const stagger = vertical && xScale >= 1.5 && unknown.length >= 3;
+      const columns = vertical ? Math.min(stagger ? 4 : 2, unknown.length) : Math.max(1, Math.ceil(Math.sqrt(unknown.length) / 2));
+      const rows = Math.ceil(unknown.length / columns) + (stagger ? 1 : 0);
+      // Side groups have room above and below the dated fan. Use it for names
+      // instead of packing unknown functions into the gaps between its symbols.
+      const stepX = 700 * xScale, stepY = vertical ? 600 : 1200;
       const centerX = Math.cos(sector.angle) * distance * xScale;
       const centerY = Math.sin(sector.angle) * distance;
       const startX = centerX - (columns - 1) * stepX / 2;
@@ -68,7 +71,7 @@ function layoutSectors(focus: string, neighbors: Entity[], historyIds: string[],
       // Extend unknown dates away from the temporal scale, never into its rings.
       const dx = sector.type === 'organization' ? -(columns - 1) * stepX / 2 : sector.type === 'office' ? (columns - 1) * stepX / 2 : 0;
       const dy = sector.type === 'school' ? -(rows - 1) * stepY / 2 : sector.type === 'party' ? (rows - 1) * stepY / 2 : 0;
-      unknown.forEach((entity, i) => positions.set(entity.id, { x: startX + dx + (i % columns) * stepX, y: startY + dy + Math.floor(i / columns) * stepY }));
+      unknown.forEach((entity, i) => positions.set(entity.id, { x: startX + dx + (i % columns) * stepX, y: startY + dy + (Math.floor(i / columns) + (stagger ? i % 2 : 0)) * stepY }));
       const zone = { x: startX + dx - 220 * xScale, y: startY + dy - 240, width: (columns - 1) * stepX + 440 * xScale, height: (rows - 1) * stepY + 480, type: sector.type };
       unknownZones.push(zone);
       label = { x: zone.x + zone.width / 2, y: zone.y - 170 };

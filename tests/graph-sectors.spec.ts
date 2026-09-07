@@ -24,7 +24,8 @@ test('types keep the same side for dated and undated nodes when filters change',
   }, groups);
   expect(await misplaced()).toEqual([]);
   await expect(page.locator('.guide-sector-label')).toHaveCount(4);
-  await expect(page.locator('.guide-unknown')).toHaveCount(4);
+  await expect(page.locator('.guide-unknown')).toHaveCount(0);
+  await expect(page.locator('.guide-unknown-label')).toHaveCount(4);
   await page.screenshot({ path: `.working/sectors-${info.project.name}.png`, fullPage: true });
   await page.getByRole('button', { name: 'Filtres', exact: true }).click();
   await page.getByRole('checkbox', { name: /Formations/ }).uncheck();

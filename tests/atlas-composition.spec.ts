@@ -45,9 +45,10 @@ test('the map leads the initial desktop view with recognizable nodes and readabl
   expect(metrics.height).toBeGreaterThan(440);
   expect(metrics.total).toBe(17);
   expect(metrics.named).toBe(metrics.total);
-  expect(metrics.centerSize).toBeGreaterThanOrEqual(75);
-  expect(metrics.smallest).toBeGreaterThanOrEqual(43);
-  expect(metrics.text).toBeGreaterThanOrEqual(15.9);
+  // Short canvases reserve room for the complete names with compact symbols.
+  expect(metrics.centerSize).toBeGreaterThanOrEqual(63);
+  expect(metrics.smallest).toBeGreaterThanOrEqual(35);
+  expect(metrics.text).toBeGreaterThanOrEqual(13.9);
   await page.screenshot({ path: '.working/atlas-desktop.png', fullPage: true });
 });
 

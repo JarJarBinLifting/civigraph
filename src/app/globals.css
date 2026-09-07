@@ -627,7 +627,6 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .chronology-controls p { font-size: 10px; line-height: 1.5; margin: 8px 0 0; color: #75806e; }
 .graph-guides { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
 .graph-guides .guide-ring { fill: none; stroke: #d8e1d1; stroke-width: 1.2; stroke-dasharray: 5 7; }
-.graph-guides .guide-unknown { fill: #e8eee430; stroke: #bbcbb7; stroke-width: 1.2; stroke-dasharray: 5 7; }
 .graph-guides text { fill: #84937c; font: 14px Arial,sans-serif; }
 .graph-canvas { position: relative; }
 .person-biography { padding: 17px 0 8px; }
@@ -760,7 +759,6 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .graph-stage::after { display: none; }
 .graph-stage .graph-canvas, .graph-stage .graph-guides { height: calc(100% - 64px); }
 .graph-guides .guide-ring { stroke: #c4cfc3; stroke-width: 1; stroke-dasharray: 2 5; vector-effect: non-scaling-stroke; }
-.graph-guides .guide-unknown { fill: none; stroke: #c4cfc3; stroke-width: 1; stroke-dasharray: none; vector-effect: non-scaling-stroke; }
 .graph-guides text { fill: #617160; font-family: Arial, sans-serif; paint-order: stroke; stroke: #fafbf8; stroke-width: 4px; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .graph-controls { bottom: 12px; left: 18px; padding: 2px; border-radius: 5px; box-shadow: none; }
 .graph-controls .icon-button { width: 36px; height: 36px; color: var(--forest); }
@@ -871,7 +869,7 @@ svg { flex-shrink: 0; vertical-align: middle; }
 .atlas-explorer .graph-controls { bottom: 10px; left: 26px; border-color: #d6dfd2; border-radius: 6px; }
 .atlas-explorer .graph-controls .icon-button { width: 44px; height: 44px; color: var(--forest); }
 .atlas-explorer .graph-controls svg, .atlas-explorer .toolbar-actions svg, .atlas-explorer .view-toggle svg { width: 20px; height: 20px; }
-.atlas-explorer .graph-guides .guide-ring, .atlas-explorer .graph-guides .guide-unknown { stroke: #9eafa2; }
+.atlas-explorer .graph-guides .guide-ring { stroke: #9eafa2; }
 .atlas-explorer .graph-tip { display: flex; font-size: 14px; color: #334b3e; bottom: 12px; right: 28px; }
 .atlas-explorer .graph-bottom { padding: 10px 28px; background: #f3f6ee; border-top: 1px solid #e1e8da; }
 .atlas-explorer .graph-bottom > span { font-size: 14px; }
@@ -937,8 +935,8 @@ svg { flex-shrink: 0; vertical-align: middle; }
   .atlas-explorer .breadcrumb h1 { font-size: 29px; }
   .atlas-explorer .map-display-controls { padding-top: 5px; }
   .atlas-explorer .chronology-controls { margin: 10px 18px 0; }
-  .atlas-explorer .graph-stage { flex: 1 0 450px; min-height: 450px; }
-  .atlas-explorer .has-period-controls .graph-stage { flex-basis: 500px; min-height: 500px; }
+  .atlas-explorer .graph-stage { flex: 1 0 650px; min-height: 650px; }
+  .atlas-explorer .has-period-controls .graph-stage { flex-basis: 700px; min-height: 700px; }
   .atlas-explorer .graph-stage .graph-canvas, .atlas-explorer .graph-stage .graph-guides { height: calc(100% - 100px); }
   .atlas-explorer .graph-tip { bottom: 68px; left: 18px; right: 18px; font-size: 14px; max-width: none; }
   .atlas-explorer .graph-controls { left: 14px; bottom: 10px; }

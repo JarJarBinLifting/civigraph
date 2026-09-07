@@ -7,7 +7,8 @@ import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
 import { atlasLabelStyle, atlasNodeStyles, nodeShape, nodeSymbol } from '@/lib/graph-theme';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import type { Entity, Relation } from '@/lib/types';
-import { layoutGraph, TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
+import { TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
+import { frameGraph, layoutInViewport, nodeDiameter } from '@/lib/graph-viewport';
 import type { GraphExportInfo } from '@/lib/graph-export';
 
 interface Props {
@@ -28,28 +29,12 @@ interface Props {
   onFallback: () => void;
 }
 
-function layoutFor(props: Props) {
-  // Use the window proportions so opening a profile does not reshuffle the map.
-  const xScale = Math.max(1, Math.min(3.5, 2.2 * window.innerWidth / window.innerHeight));
-  return layoutGraph(props, props.focus, props.trail, props.chronology, xScale);
+function layoutFor(props: Props, instance: Core) {
+  return layoutInViewport(props, props.focus, props.trail, props.chronology, instance.width(), instance.height());
 }
 
 function frame(instance: Core, layout: GraphLayout) {
-  const { positions } = layout;
-  // Fit factual positions and guides first. Screen-sized labels adapt to this viewport,
-  // rather than shrinking the entire network to make room for a peripheral name.
-  const radius = Math.max(60, ...layout.rings.map(ring => ring.radius));
-  let x1 = -radius * layout.xScale, x2 = radius * layout.xScale, y1 = -radius, y2 = radius;
-  for (const box of layout.unknownZones) {
-    x1 = Math.min(x1, box.x); x2 = Math.max(x2, box.x + box.width); y1 = Math.min(y1, box.y - 170); y2 = Math.max(y2, box.y + box.height);
-  }
-  for (const sector of layout.sectors) { x1 = Math.min(x1, sector.x); x2 = Math.max(x2, sector.x); y1 = Math.min(y1, sector.y); y2 = Math.max(y2, sector.y); }
-  for (const point of positions.values()) { x1 = Math.min(x1, point.x); x2 = Math.max(x2, point.x); y1 = Math.min(y1, point.y); y2 = Math.max(y2, point.y); }
-  // Balance the actual extent, including unknown dates and the navigation trail.
-  // Mirroring that extent around the focus wastes half the width on small networks.
-  const center = { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
-  const zoom = Math.max(.02, Math.min((instance.width() - 58) / (x2 - x1), (instance.height() - 82) / (y2 - y1), 1.1));
-  return { zoom, pan: { x: instance.width() / 2 - center.x * zoom, y: instance.height() / 2 - center.y * zoom } };
+  return frameGraph(layout, instance.width(), instance.height());
 }
 
 function markSelection(instance: Core, { selected, selectedEdge, compare }: Props, hovered?: SingularElementArgument) {
@@ -96,16 +81,20 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
   instance.batch(() => {
     const sceneNodes = instance.nodes().not('.leaving');
     const prominent = sceneNodes.length <= 28 && instance.width() >= 560;
+    const compact = instance.width() < 900 || instance.height() < 560;
     const candidates: LabelCandidate[] = sceneNodes.map(node => {
       const priority = node.hasClass('root') ? 100 : node.hasClass('active') ? 90 : node.hasClass('hover') ? 80 : node.hasClass('edge-endpoint') ? 75 : node.hasClass('compared') ? 70 : node.hasClass('history-node') ? 60 : node.hasClass('inspected-neighbor') ? 20 : 0;
       const position = (node as NodeSingular).position();
-      const diameter = node.hasClass('root') ? prominent ? Math.max(76, Math.min(104, 180 * zoom)) : 52 : prominent ? Math.max(44, Math.min(68, 130 * zoom)) : Math.max(priority >= 60 ? 30 : 18, Math.min(52, 64 * zoom));
+      const diameter = nodeDiameter(zoom, prominent, node.hasClass('root'), priority, compact);
       styleChanged(node, { width: diameter / zoom, height: diameter / zoom, 'border-width': (priority >= 60 ? 2 : 1.2) / zoom });
-      const side = node.hasClass('root') || node.hasClass('unknown-date') || node.hasClass('history-node') ? 'bottom' : Math.abs(position.x) > Math.abs(position.y) ? position.x < 0 ? 'left' : 'right' : position.y < 0 ? 'top' : 'bottom';
+      const side = node.hasClass('unknown-date') && node.data('type') === 'office' ? 'right'
+        : node.hasClass('unknown-date') && node.data('type') === 'organization' ? 'left'
+        : node.hasClass('root') || node.hasClass('unknown-date') || node.hasClass('history-node') ? 'bottom'
+        : Math.abs(position.x) > Math.abs(position.y) ? position.x < 0 ? 'left' : 'right' : position.y < 0 ? 'top' : 'bottom';
       return { id: node.id(), text: node.data('label'), x: position.x * zoom, y: position.y * zoom, radius: diameter / 2, priority, side };
     });
     const pan = instance.pan();
-    const placements = placeLabels(candidates, { level: state.level, previous: state.previous, small: instance.width() < 500, prominent, measure, obstacles, viewport: { x1: 6 - pan.x, x2: instance.width() - pan.x - 6, y1: 6 - pan.y, y2: instance.height() - pan.y - 6 } });
+    const placements = placeLabels(candidates, { level: state.level, previous: state.previous, small: instance.width() < 500, compact, prominent, measure, obstacles, viewport: { x1: 6 - pan.x, x2: instance.width() - pan.x - 6, y1: 6 - pan.y, y2: instance.height() - pan.y - 6 } });
     const byId = new Map(placements.map(label => [label.id, label]));
     for (const node of sceneNodes) {
       const label = byId.get(node.id());
@@ -124,7 +113,11 @@ function syncGuides(svg: SVGSVGElement | null, instance: Core) {
 function sizeGuides(svg: SVGSVGElement | null, instance: Core, zoom = instance.zoom()) {
   svg?.querySelectorAll('text').forEach(label => {
     label.style.fontSize = `${13 / zoom}px`;
-    if (label.dataset.full) label.textContent = instance.width() < 560 ? label.dataset.short! : label.dataset.full;
+    if (label.dataset.offsetY) label.setAttribute('y', String(Number(label.dataset.anchorY) - Number(label.dataset.offsetY) / zoom));
+    if (label.dataset.full) {
+      const shortened = instance.width() < 560 || label.dataset.sector === 'organization' && instance.width() < 900;
+      label.textContent = shortened ? label.dataset.short! : label.dataset.full;
+    }
     if (label.dataset.anchorX) {
       const anchor = Number(label.dataset.anchorX), screenX = anchor * zoom + instance.pan().x;
       label.setAttribute('x', String(anchor));
@@ -156,18 +149,15 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     group.append(label);
   }
   for (const zone of layout.unknownZones) {
-    const box = document.createElementNS(ns, 'rect');
-    for (const key of ['x', 'y', 'width', 'height'] as const) box.setAttribute(key, String(zone[key]));
-    box.setAttribute('rx', '14');
-    box.setAttribute('class', 'guide-unknown');
-    group.append(box);
     const label = document.createElementNS(ns, 'text');
+    label.setAttribute('class', 'guide-unknown-label');
     label.setAttribute('x', String(zone.x + zone.width / 2));
     label.setAttribute('y', String(zone.y - 16));
     label.setAttribute('text-anchor', 'middle');
     label.textContent = 'Dates inconnues · hors échelle';
     label.dataset.full = label.textContent; label.dataset.short = 'Sans dates · hors échelle';
     label.dataset.anchorX = String(zone.x + zone.width / 2);
+    label.dataset.anchorY = String(zone.y); label.dataset.offsetY = '10';
     group.append(label);
   }
   for (const sector of layout.sectors) {
@@ -176,8 +166,11 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
     label.setAttribute('text-anchor', 'middle'); label.setAttribute('class', 'guide-sector-label');
     label.style.fill = typeInfo[sector.type].color; label.style.fontWeight = 'bold';
     label.textContent = sector.label; label.dataset.full = sector.label;
+    label.dataset.sector = sector.type;
     label.dataset.short = { school: 'Formations', office: 'Fonctions', organization: 'Organisations', party: 'Affiliations', person: 'Personnalités' }[sector.type];
     label.dataset.anchorX = String(sector.x); group.append(label);
+    const unknown = layout.unknownZones.find(zone => zone.type === sector.type);
+    if (unknown) { label.dataset.anchorY = String(unknown.y); label.dataset.offsetY = '30'; }
   }
   if (layout.historyIds.length) {
     const label = document.createElementNS(ns, 'text');
@@ -196,7 +189,8 @@ function drawGuides(svg: SVGSVGElement | null, layout: GraphLayout, instance: Co
 function updateScene(instance: Core, props: Props, animate: boolean, guides: SVGSVGElement | null) {
   const { entities, relations, focus } = props;
   const mobile = instance.width() < 500;
-  const layout = layoutFor(props);
+  const layout = layoutFor(props, instance);
+  instance.scratch('atlasLayout', layout);
   const positions = layout.positions;
   drawGuides(guides, layout, instance);
   const origin = { ...(instance.getElementById(focus).position() ?? { x: 0, y: 0 }) };
@@ -212,7 +206,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
       const isFocus = entity.id === focus;
       const location = layout.unknownIds.includes(entity.id) ? 'unknown-date' : layout.historyIds.includes(entity.id) ? 'history-node' : Math.abs(point.x) > 180 ? (point.x < 0 ? 'label-left' : 'label-right') : point.y < 0 ? 'label-top' : '';
       const label = entity.label.length > 65 && entity.abbreviatedLabel ? entity.abbreviatedLabel : shortLabel(entity);
-      const data = { id: entity.id, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), shape: nodeShape(entity), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: nodeSymbol(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
+      const data = { id: entity.id, type: entity.type, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), shape: nodeShape(entity), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: nodeSymbol(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
       let node = instance.getElementById(entity.id);
       if (!node.length) {
         node = instance.add({ group: 'nodes', data, position: { ...(motion ? origin : point) } });
@@ -342,7 +336,7 @@ export function GraphCanvas(props: Props) {
         cancelTransition();
         cancelTransition = updateScene(instance, callbacks.current, animate, guides.current);
         if (overview) {
-          const layout = layoutFor(callbacks.current);
+          const layout = layoutFor(callbacks.current, instance);
           instance.viewport(frame(instance, layout));
         }
       };
@@ -352,6 +346,10 @@ export function GraphCanvas(props: Props) {
       let previousCamera: { zoom: number; x: number; y: number; focus: string } | undefined;
       observer = new ResizeObserver(() => {
         if (!container.current || (width === container.current.clientWidth && height === container.current.clientHeight)) return;
+        const previousLayout = instance.scratch('atlasLayout') as GraphLayout;
+        const overview = frameGraph(previousLayout, width, height);
+        const wasOverview = Math.abs(instance.zoom() / overview.zoom - 1) < .01
+          && Math.hypot(instance.pan().x - overview.pan.x, instance.pan().y - overview.pan.y) < 2;
         const enlarged = Boolean(callbacks.current.enlarged);
         const changedMode = enlarged !== wasEnlarged;
         if (changedMode && enlarged) previousCamera = { zoom: instance.zoom(), x: (width / 2 - instance.pan().x) / instance.zoom(), y: (height / 2 - instance.pan().y) / instance.zoom(), focus: callbacks.current.focus };
@@ -366,10 +364,10 @@ export function GraphCanvas(props: Props) {
           if (!enlarged && previousCamera?.focus === callbacks.current.focus) {
             const camera = previousCamera;
             instance.viewport({ zoom: camera.zoom, pan: { x: width / 2 - camera.x * camera.zoom, y: height / 2 - camera.y * camera.zoom } });
-          } else instance.viewport(frame(instance, layoutFor(callbacks.current)));
+          } else instance.viewport(frame(instance, layoutFor(callbacks.current, instance)));
           scaleLabels(instance);
         }
-        else if (moving) { cancelTransition(); cancelTransition = updateScene(instance, callbacks.current, true, guides.current); }
+        else if (moving || wasOverview) { cancelTransition(); cancelTransition = updateScene(instance, callbacks.current, moving, guides.current); }
         else { instance.panBy({ x: dx, y: dy }); scaleLabels(instance); }
         wasEnlarged = enlarged;
       });
