@@ -20,17 +20,21 @@ import { SavedExplorations } from './SavedExplorations';
 import { EntityAvatar } from './EntityAvatar';
 import { graphExportInfo } from '@/lib/graph-export';
 import { SystemGraphCanvas } from './SystemGraphCanvas';
+import { categoriesForSystem, politicalAffiliations, SYSTEMS } from '@/lib/system-reading';
+import { InstitutionCrossings, PersonAffiliations } from './SystemEvidence';
+import { SystemExplorer } from './SystemExplorer';
 import { getSystemGraph, switchGraphView, withSystemSelection, type GraphCamera, type SystemGraphMemory } from '@/lib/system-graph';
 
 export function Explorer({ data, initialView, initialDetailOpen = false }: { data: GraphData; initialView: ViewState; initialDetailOpen?: boolean }) {
   const [view, setView] = useState(initialView);
   const [comparisonOpen, setComparisonOpen] = useState(Boolean(initialView.compare));
   const [showFilters, setShowFilters] = useState(false);
-  const [showDetail, setShowDetail] = useState(initialDetailOpen);
+  const [showDetail, setShowDetail] = useState(initialDetailOpen && initialView.spotlight !== 'off');
   const [enlarged, setEnlarged] = useState(false);
   const systemMemory = useRef<SystemGraphMemory>({});
   const centeredCamera = useRef<GraphCamera | undefined>(undefined);
-  const [hasSelection, setHasSelection] = useState(initialDetailOpen);
+  const [hasSelection, setHasSelection] = useState(initialDetailOpen && initialView.spotlight !== 'off');
+  const [mapFocusRequest, setMapFocusRequest] = useState<{ id: string } | null>(null);
   const [listPage, setListPage] = useState(0);
   const workspace = useRef<HTMLElement>(null);
   const filtersTrigger = useRef<HTMLButtonElement>(null);
@@ -46,8 +50,11 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   const index = useMemo(() => getGraphIndex(data), [data]);
   const centered = useMemo(() => getVisibleGraph(data, { root, focus, expanded, categories, compare, temporal, period }), [data, root, focus, expanded, categories, compare, temporal, period]);
   const wholeSystem = useMemo(() => getSystemGraph(data, { categories: [...CATEGORIES], temporal: 'all', period: null, selected: data.entities[0].id }), [data]);
-  const filteredSystem = useMemo(() => getSystemGraph(data, { categories, temporal, period, selected: '' }), [data, categories, temporal, period]);
-  const system = useMemo(() => withSystemSelection(filteredSystem, index.entities.get(view.selected)), [filteredSystem, index, view.selected]);
+  const politics = useMemo(() => politicalAffiliations(data), [data]);
+  const effectiveCategories = useMemo(() => categoriesForSystem(view.system ?? 'all', categories), [view.system, categories]);
+  const organizedSystem = useMemo(() => getSystemGraph(data, { categories: categoriesForSystem(view.system ?? 'all', [...CATEGORIES]), temporal: 'all', period: null, selected: '' }), [data, view.system]);
+  const filteredSystem = useMemo(() => getSystemGraph(data, { categories: effectiveCategories, temporal, period, selected: '' }), [data, effectiveCategories, temporal, period]);
+  const system = useMemo(() => withSystemSelection(filteredSystem, hasSelection ? index.entities.get(view.selected) : undefined), [filteredSystem, index, view.selected, hasSelection]);
   const visible = isSystem ? system : centered;
   const listedRelations = useMemo(() => sortRelationsChronologically(visible.relations), [visible.relations]);
   const page = Math.min(listPage, Math.max(0, Math.ceil(listedRelations.length / 100) - 1));
@@ -64,7 +71,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   const officialCount = data.relations.length - wikidataRelations.length;
 
   useEffect(() => {
-    const restore = () => { const next = parseView(window.location.search, data); setView(next); setHasSelection(new URLSearchParams(window.location.search).has('selected')); setComparisonOpen(Boolean(next.compare)); setListPage(0); };
+    const restore = () => { const next = parseView(window.location.search, data); setView(next); setHasSelection(new URLSearchParams(window.location.search).has('selected') && next.spotlight !== 'off'); setShowDetail(new URLSearchParams(window.location.search).has('selected') && next.spotlight !== 'off'); setComparisonOpen(Boolean(next.compare)); setListPage(0); };
     window.addEventListener('popstate', restore);
     return () => window.removeEventListener('popstate', restore);
   }, [data]);
@@ -104,17 +111,23 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   }, [enlarged]);
 
   const update = useCallback((patch: Partial<ViewState>) => {
-    const next = { ...view, ...patch };
+    setMapFocusRequest(null);
+    const next = { ...view, ...patch, spotlight: 'spotlight' in patch ? patch.spotlight : 'selected' in patch ? undefined : !hasSelection ? 'off' as const : view.spotlight };
     setView(next);
     if (['categories', 'root', 'focus', 'expanded', 'temporal', 'period', 'graphView'].some(key => key in patch)) setListPage(0);
     const search = serializeView(next);
     if (window.location.search !== search) window.history.pushState(null, '', `${window.location.pathname}${search}`);
-  }, [view]);
+  }, [view, hasSelection]);
 
   function startFrom(entity: Entity) {
-    update(isSystem ? { selected: entity.id, edge: null, compare: null } : { root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null, period: null, temporal: 'all', year: null });
+    update(isSystem ? { selected: entity.id, edge: null, compare: null, systemLens: 'entities' } : { root: entity.id, focus: entity.id, selected: entity.id, expanded: [entity.id], edge: null, compare: null, period: null, temporal: 'all', year: null });
     setHasSelection(true);
     setComparisonOpen(false); setShowDetail(true); setShowFilters(false); setModal(null);
+  }
+
+  function searchFrom(entity: Entity) {
+    startFrom(entity);
+    if (isSystem) setMapFocusRequest({ id: entity.id });
   }
 
   function select(id: string) { update({ selected: id, edge: null }); setHasSelection(true); setShowDetail(true); setShowFilters(false); }
@@ -140,7 +153,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
     update({ categories: categories.includes(category) ? categories.filter(item => item !== category) : CATEGORIES.filter(item => item === category || categories.includes(item)), edge: null });
   }
   function openComparison() {
-    const person = focusEntity.type === 'person' ? focusEntity : rootEntity.type === 'person' ? rootEntity : entitiesById.get('Q3052772')!;
+    const person = selectedEntity.type === 'person' ? selectedEntity : focusEntity.type === 'person' ? focusEntity : rootEntity.type === 'person' ? rootEntity : entitiesById.get('Q3052772')!;
     if (root !== person.id || focus !== person.id || temporal !== 'all' || period) {
       update({ root: person.id, focus: person.id, selected: person.id, expanded: [person.id], compare: null, edge: null, temporal: 'all', period: null });
     }
@@ -151,7 +164,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
     setView(next);
     setHasSelection(true); setListPage(0);
     window.history.pushState(null, '', `${window.location.pathname}${serializeView(next)}`);
-    setComparisonOpen(Boolean(next.compare)); setShowDetail(true); setShowFilters(false); setModal(null);
+    setComparisonOpen(Boolean(next.compare)); setShowDetail(next.spotlight !== 'off'); setShowFilters(false); setModal(null);
     setNotice(adjusted ? 'Exploration restaurée avec les éléments encore disponibles dans le corpus.' : 'Exploration restaurée.');
   }
   async function copyShare() {
@@ -169,9 +182,9 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
       <nav className="main-nav" aria-label="Navigation principale"><button className={!comparisonOpen ? 'active' : ''} onClick={() => { setComparisonOpen(false); if (view.compare) update({ compare: null }); }}><Compass size={16} />Explorer</button><button className={comparisonOpen ? 'active' : ''} onClick={openComparison}><GitCompareArrows size={16} />Comparer</button><button onClick={() => setModal('method')}>La méthode<ArrowUpRight size={12} /></button></nav>
       <button className="header-source" onClick={() => setModal('corpus')}><span className="status-dot" />Données ouvertes <ArrowUpRight size={14} /></button>
     </header>
-    <div className="workspace-toolbar"><div className="search-area"><EntitySearch data={data} onSelect={startFrom} /></div><div className="toolbar-actions"><button ref={filtersTrigger} className="secondary-button filter-toggle" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters"><SlidersHorizontal size={17} /><span>Filtres</span>{categories.length !== CATEGORIES.length && <span className="filter-count" aria-hidden="true">{categories.length}/{CATEGORIES.length}</span>}</button><button className="secondary-button saved-trigger" onClick={() => setModal('saved')} aria-label="Mes explorations" title="Mes explorations"><Bookmark size={17} /><span>Mes explorations</span></button><button className="secondary-button share-trigger" onClick={openShare}><Share2 size={17} /><span>Partager la vue</span></button></div></div>
+    <div className="workspace-toolbar"><div className="search-area"><EntitySearch data={data} onSelect={searchFrom} /></div><div className="toolbar-actions"><button ref={filtersTrigger} className="secondary-button filter-toggle" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters"><SlidersHorizontal size={17} /><span>Filtres</span>{categories.length !== CATEGORIES.length && <span className="filter-count" aria-hidden="true">{categories.length}/{CATEGORIES.length}</span>}</button><button className="secondary-button saved-trigger" onClick={() => setModal('saved')} aria-label="Mes explorations" title="Mes explorations"><Bookmark size={17} /><span>Mes explorations</span></button><button className="secondary-button share-trigger" onClick={openShare}><Share2 size={17} /><span>Partager la vue</span></button></div></div>
     <main id="exploration" ref={workspace} role={enlarged ? 'dialog' : undefined} aria-modal={enlarged || undefined} aria-label={enlarged ? 'Carte agrandie' : undefined} className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''} ${enlarged ? 'map-expanded' : ''}`}>
-      {enlarged && <div className="enlarged-bar"><button className="secondary-button enlarged-close" onClick={() => setEnlarged(false)}><X size={16} />Réduire la carte</button><span>Explorer, filtrer, consulter les sources</span><button className="secondary-button" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters">Filtres</button></div>}
+      {enlarged && <div className="enlarged-bar"><button className="secondary-button enlarged-close" onClick={() => setEnlarged(false)}><X size={16} />Réduire la carte</button><div className="enlarged-search"><EntitySearch data={data} onSelect={searchFrom} label="Rechercher dans la carte agrandie" /></div><button className="secondary-button" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters">Filtres</button></div>}
       <aside id="exploration-filters" className={`sidebar ${showFilters ? 'mobile-open' : ''}`} aria-label="Filtres et parcours">
         <div className="sidebar-heading"><span className="eyebrow">Votre exploration</span><button className="icon-button" aria-label="Fermer les filtres" onClick={() => { setShowFilters(false); (filtersReturnTarget.current ?? filtersTrigger.current)?.focus(); }}><X size={19} /></button></div>
         <button className="root-receipt" onClick={() => expand(root)}><EntityAvatar entity={rootEntity} /><span><small>Point de départ</small><strong>{shortLabel(rootEntity)}</strong></span><ChevronRight size={15} /></button>
@@ -199,12 +212,12 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
             </div>
             <div className="map-display-controls"><button className="enlarge-trigger" onClick={() => setEnlarged(true)} aria-hidden={enlarged || undefined} tabIndex={enlarged ? -1 : undefined} style={enlarged ? { visibility: 'hidden' } : undefined}>Agrandir la carte</button><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={16} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={16} /><span>Liste</span></button></div></div>
           </div>
-          <div className="graph-perspective"><div className="view-toggle" role="group" aria-label="Perspective du graphe"><button aria-pressed={isSystem} onClick={() => changeGraphView('system')}><Network size={16} />Système</button><button aria-pressed={!isSystem} onClick={() => changeGraphView('centered')}><GitBranch size={16} />Centrée</button></div><p>{isSystem ? `${categories.length === CATEGORIES.length && temporal === 'all' ? 'Ensemble du corpus' : 'Corpus selon vos filtres'} · taille selon le nombre de voisins documentés` : 'Parcours d’une entité · repères temporels'}</p>{isSystem && <details className="system-reading"><summary>Lire la carte</summary><div><p>Un trait regroupe les déclarations entre deux entités. La disposition aide à suivre les liens ; elle ne mesure ni influence ni proximité personnelle.</p><ul>{Object.entries(typeInfo).map(([type, info]) => <li key={type}><i style={{ background: info.color }} />{info.label}</li>)}</ul></div></details>}</div>
+          <div className="graph-perspective"><div className="view-toggle" role="group" aria-label="Perspective du graphe"><button aria-pressed={isSystem} onClick={() => changeGraphView('system')}><Network size={16} />Système</button><button aria-pressed={!isSystem} onClick={() => changeGraphView('centered')}><GitBranch size={16} />Centrée</button></div><p>{isSystem ? `${SYSTEMS.find(s => s.id === (view.system ?? 'all'))!.label} · ${effectiveCategories.length === (view.system && view.system !== 'all' ? 1 : CATEGORIES.length) && temporal === 'all' ? 'tous les parcours documentés' : 'selon vos filtres'}` : 'Parcours d’une entité · repères temporels'}</p>{isSystem && <details className="system-reading"><summary>Lire la carte</summary><div><p>Un trait regroupe les déclarations entre deux entités. La disposition aide à suivre les liens ; elle ne mesure ni influence ni proximité personnelle. Carrés : institutions, avec le nombre de personnes distinctes en lecture Groupes. Disques : personnes, colorées selon leurs appartenances politiques documentées.</p><ul>{Object.entries(typeInfo).filter(([type]) => type !== 'person' && type !== 'party').map(([type, info]) => <li key={type}><i style={{ background: info.color }} />{info.label}</li>)}</ul></div></details>}</div>
           {!isSystem && expanded.length > 1 && <nav className="exploration-trail" aria-label="Parcours d’exploration">{expanded.map(id => <button key={id} onClick={() => expand(id)} aria-current={id === focus ? 'step' : undefined}>{shortLabel(entitiesById.get(id)!)}<ChevronRight size={13} /></button>)}</nav>}
-          <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />
+          {(!isSystem || view.mode === 'list') && <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />}
           {notice && <p className="inline-notice" role="status">{notice}</p>}
           {view.mode === 'graph' && !isSystem && <ChronologyControls key={`${focus}:${chronology.reference.label}`} chronology={chronology} customYear={view.year} onYear={year => update({ year })} />}
-          {view.mode === 'graph' ? isSystem ? <SystemGraphCanvas graph={system} whole={wholeSystem} memory={systemMemory} selected={hasSelection ? view.selected : null} selectedEdge={view.edge} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onCentered={() => changeGraphView('centered')} onFallback={() => { update({ mode: 'list' }); setNotice('La carte système n’a pas pu être calculée. Toutes les déclarations restent consultables dans la liste.'); }} /> : <GraphCanvas camera={centeredCamera} enlarged={enlarged} entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
+          {view.mode === 'graph' ? isSystem ? <SystemExplorer data={data} graph={filteredSystem} politics={politics} view={view} selected={hasSelection ? selectedEntity : undefined} onChange={update} onSelect={select}><SystemGraphCanvas focusRequest={mapFocusRequest} graph={system} whole={wholeSystem} organization={organizedSystem} system={view.system ?? 'all'} reading={view.reading ?? 'groups'} politics={politics} onClear={() => { setHasSelection(false); setShowDetail(false); update({ spotlight: 'off', edge: null }); }} memory={systemMemory} selected={hasSelection ? view.selected : null} selectedEdge={view.edge} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onCentered={() => changeGraphView('centered')} onFallback={() => { update({ mode: 'list' }); setNotice('La carte système n’a pas pu être calculée. Toutes les déclarations restent consultables dans la liste.'); }} /></SystemExplorer> : <GraphCanvas camera={centeredCamera} enlarged={enlarged} entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {listedRelations.slice(page * 100, (page + 1) * 100).map(relation => <article className="graph-list-row" key={relation.id}>
               <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
               <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p>{relation.role && <small className="connection-role">{relation.role}</small>}<small>{relation.cohort?.label ?? periodLabel(relation)}</small></div>
@@ -217,7 +230,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
           <div className="graph-bottom"><span><Info size={13} />Un lien documenté n’implique pas une proximité personnelle.</span><button onClick={() => setModal('method')}>Lire la méthode<ArrowUpRight size={12} /></button></div>
         </>}
       </section>
-      {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={categories} temporal={temporal} periodAnchor={periodContext.anchor} selectedEdge={selectedEdge} focused={!isSystem && focus === selectedEntity.id} onSelect={select} onEdge={inspectEdge} onExpand={expand} onCareer={exploreCareer} onAllPeriods={() => update({ temporal: 'all', edge: null })} onClose={() => setShowDetail(false)} />}
+      {!comparisonOpen && showDetail && <DetailPanel key={selectedEntity.id} data={data} entity={selectedEntity} categories={isSystem ? effectiveCategories : categories} systemProfile={isSystem && <PersonAffiliations person={selectedEntity} politics={politics} data={data} />} systemConnections={isSystem && selectedEntity.type !== 'person' ? <InstitutionCrossings institution={selectedEntity} graph={filteredSystem} politics={politics} data={data} group={view.group ?? []} onGroup={group => update({ group })} onSelect={select} /> : undefined} temporal={temporal} periodAnchor={periodContext.anchor} selectedEdge={selectedEdge} focused={!isSystem && focus === selectedEntity.id} onSelect={select} onEdge={inspectEdge} onExpand={expand} onCareer={exploreCareer} onAllPeriods={() => update({ temporal: 'all', edge: null })} onClose={() => setShowDetail(false)} />}
     </main>
     <footer className="app-footer"><span><BookOpen size={12} />Wikidata et sources officielles · {importedDate}</span><a href="/methode">Méthode et couverture</a><button onClick={() => setModal('method')}>À propos de Civigraph<ArrowUpRight size={12} /></button></footer>
 

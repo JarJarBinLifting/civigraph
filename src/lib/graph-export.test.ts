@@ -5,6 +5,17 @@ import { getChronology, getTimeReference } from './graph-layout';
 import { graphExportInfo } from './graph-export';
 import { getSystemGraph } from './system-graph';
 
+test('a formation export keeps the political color key and the actual system filter', () => {
+  const data = loadDataset();
+  const view = parseView('?graphView=system&system=education&reading=individuals', data);
+  const graph = getSystemGraph(data, { ...view, categories: ['education'] });
+  const info = graphExportInfo(data, view, graph, getChronology(graph, view.focus, getTimeReference(data, view)));
+  expect(info.context).toContain('Système : Formation · lecture Individus');
+  expect(info.context).toContain('Catégories : Formations');
+  expect(info.legend.some(item => item.label === 'Parti socialiste')).toBe(true);
+  expect(info.legend.some(item => item.label === 'Personnalité')).toBe(false);
+});
+
 test('system export explains topology without temporal rings or an unbounded list of names', () => {
   const data = loadDataset();
   const view = parseView('?graphView=system&year=2001', data);

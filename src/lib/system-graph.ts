@@ -4,10 +4,10 @@ import { matchesPeriod } from './graph';
 
 export interface SystemConnection { id: string; source: string; target: string; relations: string[] }
 export interface SystemGraph extends Pick<GraphData, 'entities' | 'relations'> { connections: SystemConnection[]; neighbors: Map<string, Set<string>> }
-export interface GraphCamera { key: string; zoom: number; x: number; y: number }
+export interface GraphCamera { key: string; zoom: number; x: number; y: number; baseZoom?: number }
 export interface SystemLayoutInput { nodes: { id: string; degree: number }[]; edges: { id: string; source: string; target: string }[] }
 export type SystemPositions = Record<string, { x: number; y: number }>;
-export interface SystemGraphMemory { positions?: SystemPositions; camera?: GraphCamera }
+export interface SystemGraphMemory { positions?: SystemPositions; camera?: GraphCamera; layouts?: Record<string, SystemPositions>; cameras?: Record<string, GraphCamera> }
 
 /** Geometry depends on the topology, not labels or additional source statements. */
 export async function systemTopologyHash(graph: SystemGraph): Promise<string> {

@@ -119,11 +119,23 @@ export function parseView(search: string, data: GraphData): ViewState {
   const compare = params.get('compare');
   const rootIsPerson = data.entities.some(entity => entity.id === root && entity.type === 'person');
   const validComparison = rootIsPerson && compare !== root && data.entities.some(entity => entity.id === compare && entity.type === 'person' && entity.inCorpus);
+  const group = [...new Set((params.get('group') ?? '').split(',').filter(id => ids.get(id)?.type === 'person'))];
+  const institution = ids.get(params.get('institution') ?? '');
+  const bridge = ids.get(params.get('bridge') ?? '');
   const state: ViewState = {
     root, focus, expanded,
     categories: categories.length || requestedCategories === '' ? categories : [...CATEGORIES],
     selected: ids.has(params.get('selected') ?? '') ? params.get('selected')! : root,
     compare: validComparison ? compare : null,
+    ...(params.get('spotlight') === 'off' ? { spotlight: 'off' as const } : {}),
+    ...(['all', ...CATEGORIES].includes(params.get('system') ?? '') ? { system: params.get('system') as ViewState['system'] } : {}),
+    ...(['groups', 'individuals'].includes(params.get('reading') ?? '') ? { reading: params.get('reading') as ViewState['reading'] } : {}),
+    ...(['institutions', 'entities', 'common'].includes(params.get('systemLens') ?? '') ? { systemLens: params.get('systemLens') as ViewState['systemLens'] } : {}),
+    ...(group.length ? { group } : {}),
+    ...(['all', 'two'].includes(params.get('commonThreshold') ?? '') ? { commonThreshold: params.get('commonThreshold') as ViewState['commonThreshold'] } : {}),
+    ...(['map', 'matrix'].includes(params.get('commonDisplay') ?? '') ? { commonDisplay: params.get('commonDisplay') as ViewState['commonDisplay'] } : {}),
+    ...(institution && supportsPeriods(institution) ? { institution: institution.id } : {}),
+    ...(institution && supportsPeriods(institution) && bridge && bridge.id !== institution.id && supportsPeriods(bridge) ? { bridge: bridge.id } : {}),
     ...(params.get('comparisonView') === 'cards' ? { comparisonView: 'cards' as const } : {}),
     ...(validComparison && params.get('comparisonMode') === 'paths' ? { comparisonMode: 'paths' as const } : {}),
     mode: params.get('mode') === 'list' ? 'list' : 'graph',
@@ -149,6 +161,15 @@ export function serializeView(state: ViewState): string {
   if (state.compare && state.comparisonMode === 'paths') params.set('comparisonMode', 'paths');
   if (state.mode === 'list') params.set('mode', 'list');
   if (state.graphView) params.set('graphView', state.graphView);
+  if (state.system) params.set('system', state.system);
+  if (state.reading) params.set('reading', state.reading);
+  if (state.spotlight) params.set('spotlight', state.spotlight);
+  if (state.systemLens) params.set('systemLens', state.systemLens);
+  if (state.group?.length) params.set('group', [...new Set(state.group)].join(','));
+  if (state.commonThreshold) params.set('commonThreshold', state.commonThreshold);
+  if (state.commonDisplay) params.set('commonDisplay', state.commonDisplay);
+  if (state.institution) params.set('institution', state.institution);
+  if (state.bridge) params.set('bridge', state.bridge);
   if (state.edge) params.set('edge', state.edge);
   params.set('time', state.temporal);
   if (state.period) params.set('period', state.period);

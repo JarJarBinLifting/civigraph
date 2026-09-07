@@ -4,7 +4,7 @@ import type { Core } from 'cytoscape';
 type Canvas = HTMLElement & { _cyreg: { cy: Core } };
 
 test('continuous panning preserves geometry without restyling the whole corpus', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?graphView=system&systemLens=entities');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const canvas = page.locator('.system-stage .graph-canvas');
   await page.waitForTimeout(350);
@@ -29,7 +29,7 @@ test('continuous panning preserves geometry without restyling the whole corpus',
 });
 
 test('rapid hover settles on the last entity and leaving restores the selection', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?graphView=system&systemLens=entities');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const canvas = page.locator('.system-stage .graph-canvas');
   const ids = await canvas.evaluate(element => {
@@ -49,7 +49,7 @@ test('rapid hover settles on the last entity and leaving restores the selection'
 });
 
 test('labels settle at readable sizes after zoom and the camera survives switching views', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?graphView=system&systemLens=entities');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const canvas = page.locator('.system-stage .graph-canvas');
   await page.getByRole('button', { name: 'Zoom avant', exact: true }).click();
@@ -79,7 +79,7 @@ test('labels settle at readable sizes after zoom and the camera survives switchi
 });
 
 test('selection, two-step neighbors, filters and PNG export remain usable', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?graphView=system&systemLens=entities');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const canvas = page.locator('.system-stage .graph-canvas');
   await canvas.evaluate(element => (element as Canvas)._cyreg.cy.$id('Q3052772').emit('tap'));

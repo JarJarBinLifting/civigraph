@@ -85,6 +85,15 @@ export interface ViewState {
   comparisonMode?: 'common' | 'paths';
   mode: 'graph' | 'list';
   graphView?: 'system' | 'centered';
+  system?: 'all' | Category;
+  reading?: 'groups' | 'individuals';
+  spotlight?: 'off';
+  systemLens?: 'institutions' | 'entities' | 'common';
+  group?: string[];
+  commonThreshold?: 'all' | 'two';
+  commonDisplay?: 'map' | 'matrix';
+  institution?: string;
+  bridge?: string;
   edge: string | null;
   temporal: 'all' | 'same';
   period: string | null;
