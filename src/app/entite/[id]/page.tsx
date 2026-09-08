@@ -18,7 +18,8 @@ export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const data = dataset(), entity = getGraphIndex(data).entities.get(id);
   if (!entity) notFound();
-  return documentMetadata(entity.label, entity.description || `Relations documentées de ${entity.label} dans le corpus Civigraph. Sources et périodes disponibles.`, entityPath(id), eligibleEntity(entity, data));
+  const description = `${entity.label}${entity.description ? `, ${entity.description}` : ''}. Consultez ses relations documentées, les périodes disponibles et les sources du corpus Civigraph.`;
+  return documentMetadata(entity.label, description, entityPath(id), eligibleEntity(entity, data));
 }
 
 export default async function EntityDocument({ params }: Props) {

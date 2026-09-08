@@ -1,7 +1,7 @@
 import type { Entity, GraphData } from './types';
 import { getGraphIndex } from './graph-index';
 import { supportsPeriods } from './temporal';
-import type { Metadata } from 'next';
+import type { Metadata, MetadataRoute } from 'next';
 export interface Publication { enabled: boolean; siteUrl: string | null }
 export function publicationConfig(env: Record<string, string | undefined> = process.env): Publication {
   const disabled = { enabled: false, siteUrl: null };
@@ -22,7 +22,23 @@ export function eligibleEntity(entity: Entity, data: GraphData) {
 export function documentarySitemap(data: GraphData, config: Publication): { url: string; lastModified: string }[] {
   if (!config.enabled || !config.siteUrl) return [];
   const lastModified = data.meta.supplementedAt ?? data.meta.fetchedAt;
-  return [{ url: `${config.siteUrl}/methode`, lastModified }, ...data.entities.filter(entity => eligibleEntity(entity, data)).map(entity => ({ url: `${config.siteUrl}${entityPath(entity.id)}`, lastModified }))];
+  return [{ url: `${config.siteUrl}/`, lastModified }, { url: `${config.siteUrl}/methode`, lastModified }, ...data.entities.filter(entity => eligibleEntity(entity, data)).map(entity => ({ url: `${config.siteUrl}${entityPath(entity.id)}`, lastModified }))];
+}
+export function publicationRobots(): MetadataRoute.Robots {
+  const config = publicationConfig();
+  // Crawlers must fetch scripts, images and filtered pages to see their noindex metadata.
+  return config.enabled ? { rules: { userAgent: '*', allow: '/' }, sitemap: `${config.siteUrl}/sitemap.xml` } : { rules: { userAgent: '*', disallow: '/' } };
+}
+export const homeDescription = 'Explorez les parcours politiques, formations, fonctions et organisations de la vie publique française. Consultez les périodes et les sources de chaque lien.';
+export function homeMetadata(hasQuery: boolean): Metadata {
+  const config = publicationConfig();
+  const metadata = documentMetadata('Parcours et réseaux de la vie publique française', homeDescription, '/', !hasQuery);
+  return { ...metadata, title: 'Civigraph — Parcours et réseaux de la vie publique française', robots: { index: config.enabled && !hasQuery, follow: config.enabled } };
+}
+export function websiteStructuredData() {
+  const config = publicationConfig();
+  if (!config.enabled || !config.siteUrl) return null;
+  return { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${config.siteUrl}/#website`, name: 'Civigraph', url: `${config.siteUrl}/`, description: homeDescription, inLanguage: 'fr-FR' };
 }
 export function documentMetadata(title: string, description: string, path: string, eligible = true): Metadata {
   const config = publicationConfig();

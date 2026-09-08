@@ -32,7 +32,7 @@ try {
   const page = await browser.newPage({ javaScriptEnabled: false });
   const remoteRequests = [];
   page.on('request', request => { if (!request.url().startsWith(`${origin}/`)) remoteRequests.push(request.url()); });
-  for (const path of ['/entite/Q3052772', '/methode']) {
+  for (const path of ['/', '/entite/Q3052772', '/methode']) {
     assert.equal((await page.goto(`${origin}${path}`)).status(), 200);
     assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'), 'index, follow');
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), `${fixture}${path}`);
@@ -48,11 +48,12 @@ try {
   const sitemap = await (await fetch(`${origin}/sitemap.xml`)).text();
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
   assert(urls.length > 1);
-  assert(urls.every(url => url.startsWith(`${fixture}/entite/`) || url === `${fixture}/methode`));
+  assert(urls.includes(`${fixture}/`));
+  assert(urls.every(url => url.startsWith(`${fixture}/entite/`) || url === `${fixture}/methode` || url === `${fixture}/`));
   assert(urls.every(url => !url.includes('localhost') && !url.includes('127.0.0.1') && !url.includes('?')));
   assert.equal(new Set(urls).size, urls.length);
   const robots = await (await fetch(`${origin}/robots.txt`)).text();
-  assert(robots.includes(`Sitemap: ${fixture}/sitemap.xml`) && robots.includes('Disallow: /'));
+  assert(robots.includes(`Sitemap: ${fixture}/sitemap.xml`) && robots.includes('Allow: /') && !robots.includes('Disallow: /'));
   assert.equal(remoteRequests.length, 0);
   console.log(JSON.stringify({ fixture, documentaryPages: 2, indexing: 'index, follow', graph: 'noindex', unknownEntity: 404, sitemapEntries: urls.length, remoteRequests: remoteRequests.length }, null, 2));
 } finally {

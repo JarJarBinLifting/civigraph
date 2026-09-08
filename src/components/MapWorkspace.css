@@ -1,4 +1,8 @@
 /* A full-height map with primary controls in two compact bars. */
+.map-first .desktop-notice { display: flex; align-items: center; gap: 10px; flex-shrink: 0; padding: 9px 24px; color: #264768; background: #edf3fa; border-bottom: 1px solid #d8e3ef; font-size: 12px; line-height: 1.5; }
+.map-first .desktop-notice > svg { flex-shrink: 0; }
+.map-first .desktop-notice p { margin: 0; }
+@media (max-width: 700px) { .map-first .desktop-notice { padding: 9px 12px; align-items: flex-start; } .map-first .desktop-notice > svg { margin-top: 2px; } }
 .atlas-explorer.map-first { max-width: none; height: 100dvh; min-height: 480px; display: flex; flex-direction: column; }
 .atlas-explorer.map-first .app-header { height: 58px; flex: 0 0 58px; padding: 0 24px; gap: 40px; }
 .atlas-explorer.map-first .brand { font-size: 25px; }

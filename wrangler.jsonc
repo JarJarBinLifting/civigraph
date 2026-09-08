@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "civigraph",
+  "account_id": "2200d3e3c09c8663787d8f15bbf895ad",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-08",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "dev": { "host": "127.0.0.1" },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "civigraph" }],
+  "routes": [{ "pattern": "civigraph.org", "custom_domain": true }],
+  "vars": {
+    "CIVIGRAPH_SITE_URL": "https://civigraph.org",
+    "CIVIGRAPH_INDEXING": "true"
+  },
+  "observability": { "enabled": true }
+}

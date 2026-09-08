@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Maximize2, Network, PanelsTopLeft, Waypoints, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Maximize2, Monitor, Network, PanelsTopLeft, Waypoints, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
 import { careerView, focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
 import { categoryInfo, periodLabel, shortLabel } from '@/lib/presentation';
@@ -209,6 +209,10 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
       <nav className="main-nav" aria-label="Navigation principale"><button className={!comparisonOpen ? 'active' : ''} onClick={() => { setComparisonOpen(false); if (view.compare) update({ compare: null }); }}><Compass size={16} />Explorer</button><button className={comparisonOpen ? 'active' : ''} onClick={openComparison}><GitCompareArrows size={16} />Comparer</button><button onClick={() => setModal('method')}>La méthode<ArrowUpRight size={12} /></button></nav>
       <div className="header-actions"><button className="header-action" onClick={() => setModal('saved')} aria-label="Mes explorations" title="Mes explorations"><Bookmark size={17} /><span>Mes explorations</span></button><button className="header-action" onClick={openShare} aria-label="Partager la vue" title="Partager la vue"><Share2 size={17} /><span>Partager</span></button></div><button className="header-source" onClick={() => setModal('corpus')}><span className="status-dot" />Données ouvertes <ArrowUpRight size={14} /></button>
     </header>
+    <aside className="desktop-notice" aria-label="Conseil d’utilisation">
+      <Monitor size={18} aria-hidden="true" />
+      <p><strong>Plus confortable sur ordinateur.</strong> La carte et les comparaisons de Civigraph sont optimisées pour les grands écrans.</p>
+    </aside>
     <main id="exploration" ref={workspace} role={enlarged ? 'dialog' : undefined} aria-modal={enlarged || undefined} aria-label={enlarged ? 'Carte agrandie' : undefined} className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''} ${enlarged ? 'map-expanded' : ''}`}>
       <div className="workspace-toolbar map-toolbar">
         {enlarged && <button className="icon-button enlarged-close" aria-label="Réduire la carte" onClick={() => setEnlarged(false)}><X size={20} /></button>}
