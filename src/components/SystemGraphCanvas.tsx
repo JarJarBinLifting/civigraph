@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type RefObject } from 'react';
 import type { Core, NodeSingular } from 'cytoscape';
 import { Download, Maximize, Minus, MousePointer2, Plus, ScanSearch, Undo2 } from 'lucide-react';
 import { atlasLabelStyle, atlasTheme, graphFont } from '@/lib/graph-theme';
-import { placeLabels, type LabelCandidate } from '@/lib/graph-labels';
+import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import { periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
 import { matchingSystemPositions, systemGraphKey, systemLayoutInput, systemNeighborhood, type SystemGraph, type SystemGraphMemory, type SystemPositions } from '@/lib/system-graph';
 import type { GraphExportInfo } from '@/lib/graph-export';
@@ -64,6 +64,7 @@ export function SystemGraphCanvas(props: Props) {
     let world = { x1: 0, y1: 0, w: 1, h: 1 };
     let activeSystem: System = props.system, scenePositions: SystemPositions = {}, sizedReading = '';
     const previousLabels = new Set<string>();
+    let detail: LabelLevel = 0;
     type Camera = { zoom: number; pan: { x: number; y: number } };
     let homeCamera: Camera | undefined;
     const history: Camera[] = [];
@@ -104,11 +105,17 @@ export function SystemGraphCanvas(props: Props) {
     function scale(instance: Core) {
       if (disposed || instance.destroyed()) return;
       const zoom = instance.zoom(), ratio = zoom / homeZoom;
+      // Hysteresis keeps names from flickering at a zoom threshold.
+      detail = labelLevel(ratio / 4, detail);
       const selected = hover ?? focused ?? latest.current.selected;
       const groups = latest.current.reading === 'groups', readingChanged = sizedReading !== latest.current.reading;
       const zoomChanged = zoom !== sizedZoom;
       const candidates: LabelCandidate[] = [];
       const pan = instance.pan(), width = instance.width(), height = instance.height();
+      const bounds = container.current!.getBoundingClientRect();
+      const obstacles = [...container.current!.parentElement!.querySelectorAll('.graph-controls, .system-minimap, .graph-tip, .system-navigation-receipt, .system-selection-tools, .system-statements, .graph-export-message')]
+        .map(element => element.getBoundingClientRect()).filter(rect => rect.width > 0 && rect.height > 0)
+        .map(rect => ({ x1: rect.left - bounds.left - pan.x, y1: rect.top - bounds.top - pan.y, x2: rect.right - bounds.left - pan.x, y2: rect.bottom - bounds.top - pan.y }));
       instance.batch(() => {
         nodeList.forEach(n => {
           if (n.hidden()) return;
@@ -127,14 +134,14 @@ export function SystemGraphCanvas(props: Props) {
           if (eligible && (!focused || important || highlighted.has(n.id()))) candidates.push({ id: n.id(), text: groups && !person ? n.data('groupLabel') : n.data('label'), x, y, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : highlighted.has(n.id()) ? 30 + Math.min(20, degree) : groups && !person ? 26 + Math.min(25, degree) : Math.min(25, degree), side: 'bottom' });
         });
         if (zoomChanged) instance.edges().forEach(e => { e.style('width', (e.hasClass('system-edge') ? 2.5 : e.hasClass('system-trace') ? 1.2 : .5) / zoom); });
-        const placements = placeLabels(candidates, { level: ratio > 3 ? 2 : ratio > 1.6 ? 1 : 0, small: width < 550, compact: true, previous: previousLabels, maxLabels: width < 550 ? 30 : 60, maxCandidates: 160,
+        const placements = placeLabels(candidates, { level: detail, small: width < 550, compact: true, cartographic: true, previous: previousLabels, obstacles, maxLabels: width < 550 ? [8, 18, 30][detail] : [12, 32, 60][detail], maxCandidates: 160,
           viewport: { x1: -pan.x + 8, y1: -pan.y + 8, x2: width - pan.x - 8, y2: height - pan.y - 8 },
           measure: (text, size, bold) => { const key = `${text}:${size}:${bold}`; if (!measurements.has(key)) { if (context) context.font = `${bold ? 650 : 500} ${size}px ${graphFont}`; measurements.set(key, context?.measureText(text).width ?? text.length * size * .55); } return measurements.get(key)!; },
         });
         const labels = new Map(placements.map(p => [p.id, p]));
         // Hidden nodes already have no label. Touch only labels that changed.
         for (const id of new Set([...previousLabels, ...labels.keys()])) {
-          const style = atlasLabelStyle(labels.get(id), zoom, id === selected), key = JSON.stringify(style);
+          const style = { ...atlasLabelStyle(labels.get(id), zoom, id === selected), 'z-index': labels.has(id) ? 10 : 0 }, key = JSON.stringify(style);
           if (labelStyles.get(id) !== key) instance.getElementById(id).style(style);
           if (labels.has(id)) labelStyles.set(id, key); else labelStyles.delete(id);
         }
@@ -251,7 +258,7 @@ export function SystemGraphCanvas(props: Props) {
       if (disposed || !container.current) return;
       const instance = cytoscape({ container: container.current, elements: [], minZoom: .005, maxZoom: 4, pixelRatio: Math.min(window.devicePixelRatio, 2), hideEdgesOnViewport: props.whole.entities.length > 1000,
         style: [
-          { selector: 'node', style: { width: 8, height: 8, shape: n => n.data('shape'), 'background-color': 'data(color)', 'background-image': 'data(badge)', 'background-width': '100%', 'background-height': '100%', label: '', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': .95, 'overlay-opacity': 0 } },
+          { selector: 'node', style: { width: 8, height: 8, shape: n => n.data('shape'), 'background-color': 'data(color)', 'background-image': 'data(badge)', 'background-width': '100%', 'background-height': '100%', label: '', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': 1, 'overlay-opacity': 0 } },
           { selector: 'edge', style: { width: 1, 'line-color': '#6b83a5', opacity: .25, 'curve-style': 'straight', 'overlay-opacity': 0 } },
           { selector: 'node.system-dim', style: { opacity: .22 } },
           { selector: 'edge.system-dim', style: { opacity: .06 } },

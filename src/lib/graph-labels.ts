@@ -2,8 +2,8 @@ export type LabelLevel = 0 | 1 | 2;
 export type LabelSide = 'top' | 'bottom' | 'left' | 'right';
 export interface LabelBox { x1: number; y1: number; x2: number; y2: number }
 export interface LabelCandidate { id: string; text: string; x: number; y: number; radius: number; priority: number; side: LabelSide }
-export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox }
-export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; compact?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox; maxLabels?: number; maxCandidates?: number }
+export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox; centerOffset?: { x: number; y: number } }
+export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; compact?: boolean; cartographic?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox; maxLabels?: number; maxCandidates?: number }
 export function labelLevel(zoom: number, previous: LabelLevel): LabelLevel {
   if (zoom >= .75 || previous === 2 && zoom >= .66) return 2;
   if (zoom >= .33 || previous >= 1 && zoom >= .28) return 1;
@@ -76,18 +76,18 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
   for (const node of ordered) {
     const essential = node.priority >= 60;
     if (options.viewport && (node.x + node.radius < options.viewport.x1 || node.x - node.radius > options.viewport.x2 || node.y + node.radius < options.viewport.y1 || node.y - node.radius > options.viewport.y2)) continue;
-    if (!essential && result.length >= limit) continue;
-    if (!essential && attempted >= (options.maxCandidates ?? Infinity)) break;
+    if ((options.cartographic || !essential) && result.length >= limit) continue;
+    if ((options.cartographic || !essential) && attempted >= (options.maxCandidates ?? Infinity)) break;
     attempted++;
     const fontSize = options.prominent ? node.priority === 100 ? options.compact ? 18 : 20 : options.compact ? 15 : 16 : node.priority >= 80 ? 15 : 14;
     const measure = (text: string) => options.measure(text, fontSize, essential);
     const lines = wrap(node.text, options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 182 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
     const text = lines.join('\n'), width = Math.max(...lines.map(measure), 1) + 6, height = lines.length * fontSize * 1.2 + 6;
     const sides = [...new Set<LabelSide>([node.side, 'bottom', 'top', 'right', 'left'])];
-    const shifts = options.prominent ? [0, -12, 12, -24, 24, -48, 48] : [0];
+    const shifts = options.prominent ? [0, -12, 12, -24, 24, -48, 48] : options.cartographic ? [0, -12, 12, -24, 24] : [0];
     const choices = sides.flatMap(side => shifts.map(shift => ({ side, shift })));
     let best: LabelPlacement | undefined, minimum = Infinity;
-    for (const extra of essential || options.prominent ? [0, 12, 24] : [0]) {
+    for (const extra of essential || options.prominent || options.cartographic ? [0, 12, 24] : [0]) {
       for (const { side, shift } of choices) {
         const offset = 8 + extra;
         let x = side === 'right' ? node.x + node.radius + offset : side === 'left' ? node.x - node.radius - offset - width : node.x - width / 2;
@@ -103,19 +103,28 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
         }
         const box = { x1: x, x2: x + width, y1: y, y2: y + height };
         // A little more room is needed for a new name than for one already visible.
-        const margin = options.previous?.has(node.id) ? 2 : 4;
+        const margin = options.cartographic ? options.level === 0 ? 10 : 6 : options.previous?.has(node.id) ? 2 : 4;
         const viewport = options.viewport;
         // Test containment first: subtracting fractional areas can penalize a
         // fully visible label with a tiny positive floating-point remainder.
         const outside = viewport && (box.x1 < viewport.x1 || box.x2 > viewport.x2 || box.y1 < viewport.y1 || box.y2 > viewport.y2)
           ? Math.max(0, width * height - intersection(box, viewport, 0)) : 0;
-        const cost = occupied.overlap(box, margin) + bodies.overlap(box, 3) * 3 + outside * 8;
-        if (cost < minimum) { minimum = cost; best = { id: node.id, text, side, offset, shiftX: x - origin.x, shiftY: y - origin.y, fontSize, box }; }
+        const hardCost = occupied.overlap(box, margin) + outside * 8;
+        // On the system map, names and viewport boundaries are hard constraints.
+        // Prefer whitespace among the small dots, but never force two names to overlap.
+        if (options.cartographic && hardCost > 0) continue;
+        const cost = hardCost + bodies.overlap(box, 3) * 3;
+        if (cost < minimum) {
+          minimum = cost;
+          best = { id: node.id, text, side, offset, shiftX: x - origin.x, shiftY: y - origin.y, fontSize, box,
+            ...(options.cartographic ? { centerOffset: { x: (box.x1 + box.x2) / 2 - node.x, y: (box.y1 + box.y2) / 2 - node.y } } : {}),
+          };
+        }
         if (minimum === 0) break;
       }
       if (minimum === 0) break;
     }
-    if (best && (minimum === 0 || essential)) { result.push(best); occupied.add(best.box); }
+    if (best && (options.cartographic || minimum === 0 || essential)) { result.push(best); occupied.add(best.box); }
   }
   return result;
 }

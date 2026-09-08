@@ -32,5 +32,12 @@ export function nodeShape(entity: Entity) { return entity.type === 'person' ? 'e
 
 export function atlasLabelStyle(label: LabelPlacement | undefined, zoom: number, bold: boolean): Record<string, string | number> {
   if (!label) return { label: '', 'text-opacity': 0 };
+  if (label.centerOffset) return {
+    label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': bold ? 600 : 500,
+    // Wrapping was measured by the placer. A second renderer wrap would invalidate its boxes.
+    'text-wrap': 'wrap', 'text-max-width': 10000 / zoom, 'line-height': 1.2, 'text-background-padding': 3 / zoom,
+    'text-halign': 'center', 'text-valign': 'center',
+    'text-margin-x': label.centerOffset.x / zoom, 'text-margin-y': label.centerOffset.y / zoom,
+  };
   return { label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': bold ? 600 : 500, 'text-max-width': 190 / zoom, 'text-background-padding': 3 / zoom, 'text-halign': label.side === 'left' || label.side === 'right' ? label.side : 'center', 'text-valign': label.side === 'top' || label.side === 'bottom' ? label.side : 'center', 'text-margin-x': (label.shiftX + (label.side === 'right' ? label.offset : label.side === 'left' ? -label.offset : 0)) / zoom, 'text-margin-y': (label.shiftY + (label.side === 'bottom' ? label.offset : label.side === 'top' ? -label.offset : 0)) / zoom };
 }
