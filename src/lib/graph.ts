@@ -1,6 +1,7 @@
 import { CATEGORIES, type Category, type CommonConnection, type GraphData, type Relation, type ViewState } from './types';
 import { comparePeriods, periodBounds, supportsPeriods } from './temporal';
 import { getGraphIndex, normalizeName, orderedEntities } from './graph-index';
+import { cohortGroups } from './guided-networks';
 import { sortRelationsChronologically } from './chronology';
 import { validPreset } from './exploration-presets';
 
@@ -131,7 +132,8 @@ export function parseView(search: string, data: GraphData): ViewState {
     ...(params.get('spotlight') === 'off' ? { spotlight: 'off' as const } : {}),
     ...(['all', ...CATEGORIES].includes(params.get('system') ?? '') ? { system: params.get('system') as ViewState['system'] } : {}),
     ...(['groups', 'individuals'].includes(params.get('reading') ?? '') ? { reading: params.get('reading') as ViewState['reading'] } : {}),
-    ...(['institutions', 'entities', 'common', 'circles', 'milieus'].includes(params.get('systemLens') ?? '') ? { systemLens: params.get('systemLens') as ViewState['systemLens'] } : {}),
+    ...(['institutions', 'entities', 'common', 'circles', 'milieus', 'guided'].includes(params.get('systemLens') ?? '') ? { systemLens: params.get('systemLens') as ViewState['systemLens'] } : {}),
+    ...(params.has('journey') && cohortGroups(data).some(g => g.id === params.get('journey')) ? { journey: params.get('journey')!, journeyStep: ['0', '1', '2'].includes(params.get('journeyStep') ?? '') ? Number(params.get('journeyStep')) : 0 } : {}),
     ...(['all', 'contemporary'].includes(params.get('circleTiming') ?? '') ? { circleTiming: params.get('circleTiming') as ViewState['circleTiming'] } : {}),
     ...(group.length ? { group } : {}),
     ...(['all', 'two'].includes(params.get('commonThreshold') ?? '') ? { commonThreshold: params.get('commonThreshold') as ViewState['commonThreshold'] } : {}),
@@ -139,7 +141,7 @@ export function parseView(search: string, data: GraphData): ViewState {
     ...(institution && supportsPeriods(institution) ? { institution: institution.id } : {}),
     ...(institution && supportsPeriods(institution) && bridge && bridge.id !== institution.id && supportsPeriods(bridge) ? { bridge: bridge.id } : {}),
     ...(params.get('comparisonView') === 'cards' ? { comparisonView: 'cards' as const } : {}),
-    ...(validComparison && params.get('comparisonMode') === 'paths' ? { comparisonMode: 'paths' as const } : {}),
+    ...(validComparison && ['paths', 'crossings'].includes(params.get('comparisonMode') ?? '') ? { comparisonMode: params.get('comparisonMode') as ViewState['comparisonMode'] } : {}),
     mode: params.get('mode') === 'list' ? 'list' : 'graph',
     ...(params.get('graphView') === 'system' || (!params.has('graphView') && !['root', 'focus', 'selected', 'expanded', 'compare', 'edge'].some(key => params.has(key))) ? { graphView: 'system' as const } : params.get('graphView') === 'centered' ? { graphView: 'centered' as const } : {}),
     edge: index.relations.has(params.get('edge') ?? '') ? params.get('edge') : null,
@@ -162,7 +164,7 @@ export function serializeView(state: ViewState, hasSelection = true): string {
   const params = new URLSearchParams({ root: state.root, focus: state.focus, expanded: [...new Set(state.expanded)].join(','), categories: CATEGORIES.filter(category => state.categories.includes(category)).join(','), selected: state.selected });
   if (state.compare) params.set('compare', state.compare);
   if (state.compare && state.comparisonView === 'cards') params.set('comparisonView', 'cards');
-  if (state.compare && state.comparisonMode === 'paths') params.set('comparisonMode', 'paths');
+  if (state.compare && state.comparisonMode && state.comparisonMode !== 'common') params.set('comparisonMode', state.comparisonMode);
   if (state.mode === 'list') params.set('mode', 'list');
   if (state.graphView) params.set('graphView', state.graphView);
   if (state.preset) params.set('preset', state.preset);
@@ -170,6 +172,7 @@ export function serializeView(state: ViewState, hasSelection = true): string {
   if (state.reading) params.set('reading', state.reading);
   if (state.spotlight) params.set('spotlight', state.spotlight);
   if (state.systemLens) params.set('systemLens', state.systemLens);
+  if (state.journey) { params.set('journey', state.journey); params.set('journeyStep', String(state.journeyStep ?? 0)); }
   if (state.circleTiming) params.set('circleTiming', state.circleTiming);
   if (state.group?.length) params.set('group', [...new Set(state.group)].join(','));
   if (state.commonThreshold) params.set('commonThreshold', state.commonThreshold);

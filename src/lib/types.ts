@@ -83,13 +83,15 @@ export interface ViewState {
   selected: string;
   compare: string | null;
   comparisonView?: 'map' | 'cards';
-  comparisonMode?: 'common' | 'paths';
+  comparisonMode?: 'common' | 'paths' | 'crossings';
   mode: 'graph' | 'list';
   graphView?: 'system' | 'centered';
   system?: 'all' | Category;
   reading?: 'groups' | 'individuals';
   spotlight?: 'off';
-  systemLens?: 'institutions' | 'entities' | 'common' | 'circles' | 'milieus';
+  systemLens?: 'institutions' | 'entities' | 'common' | 'circles' | 'milieus' | 'guided';
+  journey?: string;
+  journeyStep?: number;
   circleTiming?: 'all' | 'contemporary';
   group?: string[];
   commonThreshold?: 'all' | 'two';

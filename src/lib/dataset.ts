@@ -10,6 +10,7 @@ import currentOfficial from '../data/current-official.json';
 import corrections from '../data/entity-corrections.json';
 import imageSnapshot from '../data/entity-images.json';
 import type { GraphData, Relation } from './types';
+import { cabinetDataset } from './cabinet-rosters';
 
 export function mergeDatasets(base: GraphData, extra: GraphData, official: Relation[]): GraphData {
   const entities = new Map(extra.entities.map(entity => [entity.id, entity]));
@@ -53,6 +54,7 @@ export function loadDataset(): GraphData {
   data = mergeDatasets(data, integrityWatch as GraphData, []);
   data = mergeDatasets(data, current as GraphData, []);
   data = mergeDatasets(data, currentOfficial as GraphData, []);
+  data = mergeDatasets(data, cabinetDataset(), []);
   for (const correction of corrections) {
     const entity = data.entities.find(entity => entity.id === correction.id);
     if (entity) { entity.label = correction.label; entity.labelSource = correction.labelSource; }

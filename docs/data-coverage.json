@@ -1,20 +1,21 @@
 {
-  "checkedAt": "2026-09-08T12:46:06.820Z",
-  "people": 547,
-  "entities": 2581,
+  "checkedAt": "2026-09-08T14:18:38.920Z",
+  "people": 553,
+  "entities": 2589,
   "before": {
     "statements": 797,
     "datedStatements": 496
   },
   "after": {
-    "statements": 8045,
-    "datedStatements": 5009
+    "statements": 8055,
+    "datedStatements": 5019
   },
   "sources": {
     "wikidata": 5098,
     "assembly": 2836,
     "hatvpViaIntegrityWatch": 17,
     "currentRoles": 68,
+    "cabinetNominations": 10,
     "officialCompositions": 26
   },
   "institutions": [

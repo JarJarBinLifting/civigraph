@@ -1,0 +1,30 @@
+.guided-networks { padding-bottom: 32px; }
+.atlas-explorer.map-first .workspace:has(.guided-networks) > .workspace-toolbar,
+.atlas-explorer.map-first .workspace:has(.guided-networks) .exploration-center > .graph-topbar { display: none; }
+.guide-coverage { font-size: 13px; line-height: 1.7; margin: 12px 0; }
+.guide-coverage summary { cursor: pointer; }
+.guide-catalogue,.guide-roster { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 20px 0; }
+.guide-catalogue .insight-card { min-height: 155px; }
+.guide-steps { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+.guide-steps button { flex: 1 1 200px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: white; text-align: left; color: var(--ink); }
+.guide-steps button[aria-current] { background: #e8eef9; border-color: #345c9b; font-weight: 700; }
+.guide-steps span { display: inline-grid; place-items: center; width: 25px; height: 25px; margin-right: 8px; border: 1px solid currentColor; border-radius: 50%; }
+.guide-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 24px 0; }
+.guide-actions button,.crossing-card > button { padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px; }
+.guide-actions button:disabled { opacity: .45; cursor: default; }
+.guide-person { display: flex; align-items: center; gap: 12px; }
+.crossing-card { border: 1px solid var(--line); border-radius: 10px; padding: 20px; background: #fff; min-width: 0; }
+.crossing-card h4 { margin: 0 0 12px; font-size: 18px; }
+.crossing-card p,.guided-networks > p,.temporal-crossings > p { font-size: 14px; line-height: 1.7; }
+.crossing-card details { margin: 16px 0; }
+.crossing-card summary { cursor: pointer; font-weight: 600; line-height: 1.6; }
+.crossing-card a { overflow-wrap: anywhere; }
+.crossing-dates { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 16px 0; }
+.crossing-dates div { display: grid; gap: 8px; border-left: 3px solid #8b9cb8; padding-left: 12px; }
+.crossing-status { display: inline-block; padding: 5px 10px; font-size: 13px; background: #f0eee7; border-radius: 4px; }
+.crossing-status.status-documented { background: #e4f1e9; color: #215738; }
+.temporal-crossings .crossing-card { margin: 16px 0; }
+.temporal-crossings select { display: block; max-width: 100%; padding: 10px; margin-top: 8px; }
+.guide-comparison a { display: inline-flex; text-decoration: none; padding: 12px 18px; }
+.guided-networks button:focus-visible,.guided-networks a:focus-visible,.guided-networks select:focus-visible,.guided-networks summary:focus-visible,.temporal-crossings summary:focus-visible { outline: 3px solid #315b9f; outline-offset: 3px; }
+@media(max-width: 650px) { .guide-catalogue,.guide-roster,.crossing-dates { grid-template-columns: minmax(0,1fr); } .guide-steps { display: grid; } .crossing-card { padding: 16px; } }

@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-09-08",
+  "rosters": [
+    {
+      "id": "bercy-moscovici-2012",
+      "label": "Cabinet de Pierre Moscovici · Bercy, juin 2012",
+      "leader": "Q356919",
+      "date": "2012-06-28",
+      "source": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000026116374/",
+      "title": "Arrêté du 28 juin 2012 portant nomination au cabinet du ministre",
+      "note": "Sélection de trois des quinze personnes nommées à l’article 1. Repère de nomination, sans reconstitution des dates de départ ni de l’ensemble des équipes successives.",
+      "participants": [
+        { "id": "official:remy-rioux", "label": "Rémy Rioux", "role": "Directeur du cabinet" },
+        { "id": "official:alexis-kohler", "label": "Alexis Kohler", "role": "Directeur adjoint du cabinet" },
+        { "id": "Q33103571", "label": "Cédric O", "role": "Conseiller chargé des relations avec le Parlement et des affaires réservées" }
+      ]
+    },
+    {
+      "id": "bercy-macron-2014",
+      "label": "Cabinet d’Emmanuel Macron · Bercy, septembre 2014",
+      "leader": "Q3052772",
+      "date": "2014-09-01",
+      "source": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000029422598",
+      "title": "Arrêté du 1er septembre 2014 portant nomination au cabinet du ministre de l’économie, de l’industrie et du numérique",
+      "note": "Les cinq personnes nommées à l’article 1 sont présentes. Cet arrêté ne décrit pas l’intégralité du cabinet ni ses évolutions ultérieures. Aucune date de départ n’est déduite.",
+      "participants": [
+        { "id": "official:alexis-kohler", "label": "Alexis Kohler", "role": "Directeur du cabinet" },
+        { "id": "official:julien-denormandie", "label": "Julien Denormandie", "role": "Directeur adjoint du cabinet" },
+        { "id": "official:emmanuel-lacresse", "label": "Emmanuel Lacresse", "role": "Directeur adjoint du cabinet" },
+        { "id": "official:anne-rubinstein", "label": "Anne Rubinstein", "role": "Cheffe de cabinet" },
+        { "id": "official:ismael-emelien", "label": "Ismaël Emelien", "role": "Conseiller auprès du ministre, chargé de la communication et des affaires stratégiques" }
+      ]
+    }
+  ]
+}

@@ -14,12 +14,13 @@ import { comparisonPeriods } from '@/lib/comparison';
 import { supportsPeriods } from '@/lib/temporal';
 import { InstitutionPaths } from './InstitutionPaths';
 import { ComparisonSuggestions } from './ComparisonSuggestions';
+import { TemporalCrossings } from './TemporalCrossings';
 
 export function Comparison({ data, left, right, categories, selected, presentation = 'map', mode = 'common', guided = false, onMode, onSelect, onPresentation, onLeft, onRight, onExplore, onClose }: {
   guided?: boolean;
   data: GraphData; left: Entity; right: Entity | undefined; categories: Category[];
   selected: string; presentation?: 'map' | 'cards'; onSelect: (id: string) => void; onPresentation: (view: 'map' | 'cards') => void;
-  mode?: 'common' | 'paths'; onMode: (mode: 'common' | 'paths') => void;
+  mode?: 'common' | 'paths' | 'crossings'; onMode: (mode: 'common' | 'paths' | 'crossings') => void;
   onLeft: (entity: Entity) => void; onRight: (entity: Entity) => void; onExplore: (id: string) => void; onClose: () => void;
 }) {
   const common = useMemo(() => right ? getCommonConnections(data, left.id, right.id, categories) : [], [data, left.id, right, categories]);
@@ -35,7 +36,8 @@ export function Comparison({ data, left, right, categories, selected, presentati
       <div>{right ? <div className="compare-person"><EntityAvatar entity={right} className="mini-avatar ochre" /><strong>{right.label}</strong></div> : <p className="compare-person muted">Choisir un second parcours</p>}<EntitySearch data={data} peopleOnly exclude={left.id} onSelect={onRight} label="Deuxième personne à comparer" placeholder="Rechercher une personne…" />{right?.image && <ImageCredit image={right.image} />}</div>
     </div>
     {!right && <ComparisonSuggestions data={data} person={left} categories={categories} onChoose={onRight} />}
-    {right && <div className="comparison-mode" role="group" aria-label="Question de comparaison"><button aria-pressed={mode === 'common'} onClick={() => onMode('common')}>Points communs</button><button aria-pressed={mode === 'paths'} onClick={() => onMode('paths')}>Chemins</button></div>}
+    {right && <div className="comparison-mode" role="group" aria-label="Question de comparaison"><button aria-pressed={mode === 'common'} onClick={() => onMode('common')}>Points communs</button><button aria-pressed={mode === 'crossings'} onClick={() => onMode('crossings')}>Se sont-ils croisés ?</button><button aria-pressed={mode === 'paths'} onClick={() => onMode('paths')}>Chemins</button></div>}
+    {right && mode === 'crossings' && <TemporalCrossings key={`${left.id}:${right.id}`} common={common} data={data} />}
     {right && mode === 'paths' && <InstitutionPaths data={data} left={left} right={right} categories={categories} onExplore={onExplore} />}
     {right && mode === 'common' && <><div className="comparison-result-heading"><strong>{common.length} {common.length === 1 ? 'point commun documenté' : 'points communs documentés'}</strong><span>Selon les filtres actifs</span></div>
       <p className="comparison-counts">{institutions} institutions · {common.length - institutions} autres entités ou fonctions · {statementCount} déclarations</p>

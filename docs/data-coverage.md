@@ -1,8 +1,8 @@
 # Couverture du corpus — 2026-09-08
 
-547 personnes, 2581 entités, 8045 déclarations. Les 797 déclarations antérieures sont conservées. Les compteurs portent sur les déclarations de sources, pas sur des faits indépendants : un même passage peut être documenté plusieurs fois.
+553 personnes, 2589 entités, 8055 déclarations. Les 797 déclarations antérieures sont conservées. Les compteurs portent sur les déclarations de sources, pas sur des faits indépendants : un même passage peut être documenté plusieurs fois.
 
-Les périodes utilisables passent de **496/797** à **5009/8045**. Une période utilisable possède deux bornes valides ou un repère ponctuel ; cela ne garantit pas un chevauchement avec n’importe quelle période de référence.
+Les périodes utilisables passent de **496/797** à **5019/8055**. Une période utilisable possède deux bornes valides ou un repère ponctuel ; cela ne garantit pas un chevauchement avec n’importe quelle période de référence.
 
 | Institution | Personnes liées avant → après | Avec au moins une période utilisable avant → après |
 | --- | ---: | ---: |
@@ -19,10 +19,10 @@ Les périodes utilisables passent de **496/797** à **5009/8045**. Une période 
 | Paris-Nanterre | 4 → 63 | 0 → 10 |
 | Paris-Panthéon-Assas | 8 → 68 | 1 → 3 |
 
-Sources : 5098 déclarations Wikidata ; 2836 mandats de l’Assemblée ; 17 activités HATVP via Integrity Watch ; 26 participations de compositions officielles ; 68 fonctions du socle 2026. Voir [le détail du socle](current-coverage.md).
+Sources : 5098 déclarations Wikidata ; 2836 mandats de l’Assemblée ; 17 activités HATVP via Integrity Watch ; 26 participations de compositions officielles ; 68 fonctions du socle 2026 ; 10 nominations et rattachements de cabinets. Voir [le détail du socle](current-coverage.md).
 
 L’Assemblée est rapprochée pour 119 personnes. Deux mandats aux dates inversées dans la source sont écartés et consignés dans le manifeste. Integrity Watch : 29 déclarants rapprochés par identifiant avec contrôle de l’UUID du document HATVP ; 11 ont des activités dans les organismes identifiés. 175 intitulés d’organismes restent à rapprocher et ne créent pas de nouveaux liens.
 
 La recherche inverse est plafonnée à 60 profils par institution. Elle ne représente ni tous les membres ni une sélection statistique ; son manifeste conserve requêtes et résultats. Aucune absence de résultat ne permet de conclure à l’absence de relation.
 
-Reproduction : Node.js 24, `node scripts/audit-data.mjs`. Les indicateurs détaillés sont dans [data-coverage.json](data-coverage.json).
+Reproduction : Node.js 24, `npx tsx scripts/audit-data.mjs`. Les indicateurs détaillés sont dans [data-coverage.json](data-coverage.json).

@@ -6,9 +6,11 @@ V0 locale, construite à partir du mini PRD « Cartographie interactive du pouvo
 
 L’enrichissement du 6 septembre depuis douze institutions a porté le corpus à **492 personnes, 2 394 entités et 7 568 déclarations** : Wikidata, mandats de l’Assemblée nationale, activités HATVP via Integrity Watch France et compositions officielles. Les 797 déclarations de la version précédente restent conservées. [Couverture avant/après](docs/data-coverage.md).
 
-Le socle national vérifié au **8 septembre 2026** couvre **65 personnes**, dont **55 nouvelles**, et ajoute **68 fonctions attestées** par le gouvernement, les chambres et les sites des formations. Avec les dix participations Young Leaders sourcées ajoutées le même jour, le corpus fusionné contient **547 personnes, 2 581 entités et 8 045 déclarations**. [Couverture du socle et lacunes](docs/current-coverage.md) · [Sources et actualisation](docs/current-sources.md).
+Le socle national vérifié au **8 septembre 2026** couvre **65 personnes**, dont **55 nouvelles**, et ajoute **68 fonctions attestées** par le gouvernement, les chambres et les sites des formations. Avec les dix participations Young Leaders sourcées ajoutées le même jour, le corpus fusionné contenait **547 personnes, 2 581 entités et 8 045 déclarations**. [Couverture du socle et lacunes](docs/current-coverage.md) · [Sources et actualisation](docs/current-sources.md).
 
 Le menu **Explorer** propose **Cercles entre partis** (institutions partagées, partis historiques ou contemporanéité établie, quatre preuves par rapprochement) et **Parcours entre milieux** (parcours entre partis, administration, cabinets, entreprises, médias, formations et cercles). Les milieux documentés apparaissent aussi dans les profils personnels. [Règles, sources et limites de ces lectures](docs/political-circles.md).
+
+Le menu **Explorer → Équipes et promotions · visite guidée** ouvre huit groupes sourcés : deux cabinets ministériels et six promotions/programmes. Chaque visite relie composition, passages ultérieurs et comparaison **Se sont-ils croisés ?**, avec partage et sauvegarde de l’étape. Le complément de cabinets porte le corpus à **553 personnes, 2 589 entités et 8 055 déclarations**. [Couverture et règles des visites](docs/guided-networks.md).
 
 ## Démarrer
 
@@ -34,7 +36,7 @@ Les commandes écoutent uniquement sur l'interface locale, port 4300. Arrêter l
 
 L’explorateur propose **Système** et **Centrée**, avec la même sélection, les mêmes filtres et les mêmes sources. L’accueil libre ouvre Système ; les anciennes URL consacrées à une entité gardent la vue Centrée. Le paramètre `graphView=system|centered` conserve cette perspective dans les liens partagés et les sauvegardes. Chaque vue retrouve son cadrage au retour.
 
-**Système** représente les 2 581 entités du corpus et 5 978 connexions regroupant 8 045 déclarations. Sélectionner une entité met en évidence ses voisins directs ; « Voisins à deux étapes » étend cette lecture et « Approcher » ajuste le cadrage. Chaque déclaration reste consultable dans la fiche. La disposition ne mesure ni influence ni proximité personnelle. Les positions précalculées sont validées contre une signature SHA-256 de la topologie ; un worker fCoSE recalcule la disposition si le corpus ne correspond plus à cet instantané.
+**Système** représente les 2 589 entités du corpus et 5 988 connexions regroupant 8 055 déclarations. Sélectionner une entité met en évidence ses voisins directs ; « Voisins à deux étapes » étend cette lecture et « Approcher » ajuste le cadrage. Chaque déclaration reste consultable dans la fiche. La disposition ne mesure ni influence ni proximité personnelle. Les positions précalculées sont validées contre une signature SHA-256 de la topologie ; un worker fCoSE recalcule la disposition si le corpus ne correspond plus à cet instantané.
 
 | Fonction du PRD | Dans la V0 |
 | --- | --- |
@@ -104,7 +106,7 @@ npm run data:import:current
 npm run data:audit:current
 npm run data:import:assembly
 npm run data:import:integrity
-node scripts/audit-data.mjs
+npx tsx scripts/audit-data.mjs
 npm run data:layout
 npm test
 npm run build
