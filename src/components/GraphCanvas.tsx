@@ -5,6 +5,7 @@ import { Download, Maximize, Minus, Plus, MousePointer2 } from 'lucide-react';
 import type { Core, NodeSingular, SingularElementArgument } from 'cytoscape';
 import { categoryInfo, shortLabel, typeInfo } from '@/lib/presentation';
 import { atlasLabelStyle, atlasNodeStyles, graphFont, nodeShape, nodeSymbol } from '@/lib/graph-theme';
+import { graphMotion, graphMotionEnabled, graphNodeAppearance, quietNodeStyles } from '@/lib/graph-appearance';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import type { Entity, Relation } from '@/lib/types';
 import { TIME_BANDS, type Chronology, type GraphLayout } from '@/lib/graph-layout';
@@ -91,7 +92,7 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
     const candidates: LabelCandidate[] = sceneNodes.map(node => {
       const priority = node.hasClass('root') ? 100 : node.hasClass('active') ? 90 : node.hasClass('hover') ? 80 : node.hasClass('edge-endpoint') ? 75 : node.hasClass('compared') ? 70 : node.hasClass('history-node') ? 60 : node.hasClass('inspected-neighbor') ? 20 : 0;
       const position = (node as NodeSingular).position();
-      const diameter = nodeDiameter(zoom, prominent, node.hasClass('root'), priority, compact);
+      const diameter = nodeDiameter(zoom, prominent, node.hasClass('root'), priority, compact) * (node.data('type') === 'person' || node.hasClass('root') ? 1 : 1.12);
       styleChanged(node, { width: diameter / zoom, height: diameter / zoom, 'border-width': (priority >= 60 ? 2 : 1.2) / zoom });
       const side = node.hasClass('unknown-date') && node.data('type') === 'office' ? 'right'
         : node.hasClass('unknown-date') && node.data('type') === 'organization' ? 'left'
@@ -107,7 +108,7 @@ function scaleLabels(instance: Core, zoom = instance.zoom()) {
       styleChanged(node, atlasLabelStyle(label, zoom, node.is('.root, .active, .hover, .history-node, .edge-endpoint')));
     }
     state.previous = new Set(byId.keys());
-    for (const edge of instance.edges()) styleChanged(edge, { width: (edge.hasClass('active') || edge.hasClass('hover') ? 2.8 : edge.hasClass('inspected-neighbor') ? 2 : prominent ? 1.7 : 1) / zoom, 'font-size': 14 / zoom, 'text-background-padding': 3 / zoom });
+    for (const edge of instance.edges()) styleChanged(edge, { width: (edge.hasClass('active') || edge.hasClass('hover') ? 1.8 : edge.hasClass('inspected-neighbor') ? 1.15 : prominent ? .85 : .6) / zoom, 'font-size': 14 / zoom, 'text-background-padding': 3 / zoom });
   });
 }
 
@@ -207,8 +208,8 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
   const ids = new Set([...entities, ...relations].map(item => item.id));
   const leaving = instance.elements().filter(element => !ids.has(element.id()));
   const entering = new Set<string>();
-  const duration = 620;
-  const motion = animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const duration = graphMotion.scene;
+  const motion = animate && graphMotionEnabled();
   instance.batch(() => {
     instance.elements().removeStyle('opacity').removeClass('leaving');
     for (const entity of entities) {
@@ -216,7 +217,7 @@ function updateScene(instance: Core, props: Props, animate: boolean, guides: SVG
       const isFocus = entity.id === focus;
       const location = layout.unknownIds.includes(entity.id) ? 'unknown-date' : layout.historyIds.includes(entity.id) ? 'history-node' : Math.abs(point.x) > 180 ? (point.x < 0 ? 'label-left' : 'label-right') : point.y < 0 ? 'label-top' : '';
       const label = entity.label.length > 65 && entity.abbreviatedLabel ? entity.abbreviatedLabel : shortLabel(entity);
-      const data = { id: entity.id, type: entity.type, label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), shape: nodeShape(entity), color: typeInfo[entity.type].color, soft: typeInfo[entity.type].soft, badge: nodeSymbol(entity, isFocus), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
+      const data = { id: entity.id, ...graphNodeAppearance(entity.type), label: label.replace('président ou présidente', 'président').replace('Président ou présidente', 'Président'), shape: nodeShape(entity), badge: nodeSymbol(entity, isFocus), quietBadge: nodeSymbol(entity, isFocus, typeInfo[entity.type].color), size: mobile ? 60 : 47, fontSize: mobile ? 16 : 12, timeBand: layout.historyIds.includes(entity.id) ? 'history' : props.chronology.nodes.get(entity.id)?.band ?? 'unknown' };
       let node = instance.getElementById(entity.id);
       if (!node.length) {
         node = instance.add({ group: 'nodes', data, position: { ...(motion ? origin : point) } });
@@ -312,15 +313,17 @@ export function GraphCanvas(props: Props) {
           { selector: 'node.active', style: { 'border-width': 3, 'border-color': '#083577', 'underlay-color': '#083577', 'underlay-opacity': 0.07, 'underlay-padding': 8 } },
           { selector: 'node.root.active', style: { 'underlay-opacity': 0, 'text-max-width': '180px', 'font-size': 15 } },
           { selector: 'node.compared', style: { 'border-width': 3, 'border-color': '#a47947', 'underlay-color': '#a47947', 'underlay-opacity': 0.08, 'underlay-padding': 8 } },
-          { selector: 'edge', style: { width: 1.1, 'line-color': 'data(color)', opacity: 0.72, 'curve-style': 'bezier', 'control-point-step-size': 16, 'overlay-padding': 5, 'overlay-opacity': 0 } },
+          { selector: 'edge', style: { width: .9, 'line-color': '#99aabc', opacity: .48, 'curve-style': 'bezier', 'control-point-step-size': 22, 'overlay-padding': 5, 'overlay-opacity': 0 } },
           { selector: 'edge.hover, edge.active', style: { width: 2.2, opacity: 1, label: 'data(label)', 'font-size': 10, 'text-rotation': 'autorotate', color: '#102a50', 'text-background-color': '#ffffff', 'text-background-opacity': 1, 'text-background-padding': '4px' } },
           { selector: 'edge.active, edge.hover', style: { opacity: 1 } },
-          { selector: 'node.dimmed', style: { opacity: .85 } },
-          { selector: 'edge.dimmed', style: { opacity: .36 } },
-          { selector: 'edge.inspected-neighbor', style: { opacity: .8, width: 1.8 } },
+          { selector: 'node.dimmed', style: { opacity: .6 } },
+          { selector: 'edge.dimmed', style: { opacity: .14 } },
+          { selector: 'edge.inspected-neighbor', style: { 'line-color': 'data(color)', opacity: .72, width: 1.3 } },
           { selector: 'node.root.dimmed, node.history-node.dimmed', style: { opacity: .9 } },
           { selector: '.leaving', style: { events: 'no' } },
           ...atlasNodeStyles,
+          ...quietNodeStyles,
+          { selector: 'edge.active, edge.hover', style: { 'line-color': '#083577', width: 2, opacity: 1 } },
           { selector: 'node', style: { 'line-height': 1.2 } },
           { selector: 'node.active.dimmed, node.hover.dimmed', style: { opacity: 1 } },
         ],

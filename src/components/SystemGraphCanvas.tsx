@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type RefObject } from 'react';
 import type { Core, NodeSingular } from 'cytoscape';
 import { Download, Maximize, Minus, MousePointer2, Plus, ScanSearch, Undo2 } from 'lucide-react';
 import { atlasLabelStyle, atlasTheme, graphFont } from '@/lib/graph-theme';
+import { graphMotion, graphMotionEnabled, graphNodeAppearance } from '@/lib/graph-appearance';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import { periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
 import { matchingSystemPositions, systemGraphKey, systemLayoutInput, systemNeighborhood, type SystemGraph, type SystemGraphMemory, type SystemPositions } from '@/lib/system-graph';
@@ -23,6 +24,7 @@ interface Props {
   memory: RefObject<SystemGraphMemory>;
   exportInfo: GraphExportInfo;
   onSelect: (id: string) => void;
+  onDeselect: () => void;
   onEdge: (id: string) => void;
   onCentered: () => void;
   onFallback: () => void;
@@ -122,18 +124,21 @@ export function SystemGraphCanvas(props: Props) {
           const degree = n.data('degree') as number;
           const important = n.id() === selected;
           const person = n.data('kind') === 'person';
-          const baseRadius = person ? groups && ratio < 1.8 ? 1.3 : 3.2 : degree < 4 && groups ? 1.2 : groups ? Math.min(12, 2 + Math.sqrt(degree) * .45) : 3.5;
-          const radius = (important ? Math.max(7, baseRadius) : baseRadius) * Math.pow(Math.max(.6, ratio), .23);
+          const baseRadius = person ? groups && ratio < 1.8 ? 1.5 : Math.min(3.2, 1.5 + Math.sqrt(degree) * .16) : groups ? Math.min(12, 2.6 + Math.sqrt(degree) * .45) : Math.min(6, 2.6 + Math.sqrt(degree) * .24);
+          const radius = (important ? Math.max(person ? 7 : 8.5, baseRadius) : baseRadius) * Math.pow(Math.max(.6, ratio), .23);
           const position = n.position();
           if (zoomChanged || readingChanged || selected !== sizedSelected && (important || n.id() === sizedSelected)) {
-            n.style({ width: radius * 2 / zoom, height: radius * 2 / zoom, 'border-width': important ? 2 / zoom : 0, 'underlay-padding': 6 / zoom });
+            n.style({ width: radius * 2 / zoom, height: radius * 2 / zoom, 'border-width': (important ? 1.8 : person ? .65 : .9) / zoom, 'underlay-padding': 4 / zoom });
           }
           const x = position.x * zoom, y = position.y * zoom;
           if (x + pan.x < -20 || x + pan.x > width + 20 || y + pan.y < -20 || y + pan.y > height + 20) return;
           const eligible = !groups || ratio >= 1.8 || !person && degree >= 4 || important || highlighted.has(n.id());
           if (eligible && (!focused || important || highlighted.has(n.id()))) candidates.push({ id: n.id(), text: groups && !person ? n.data('groupLabel') : n.data('label'), x, y, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : highlighted.has(n.id()) ? 30 + Math.min(20, degree) : groups && !person ? 26 + Math.min(25, degree) : Math.min(25, degree), side: 'bottom' });
         });
-        if (zoomChanged) instance.edges().forEach(e => { e.style('width', (e.hasClass('system-edge') ? 2.5 : e.hasClass('system-trace') ? 1.2 : .5) / zoom); });
+        if (zoomChanged) instance.edges().forEach(e => {
+          e.style('width', (e.hasClass('system-edge') ? 1.8 : e.hasClass('system-trace') ? .95 : .45) / zoom);
+          if (e.hasClass('system-curve')) e.style('control-point-distances', 12 / zoom);
+        });
         const placements = placeLabels(candidates, { level: detail, small: width < 550, compact: true, cartographic: true, previous: previousLabels, obstacles, maxLabels: width < 550 ? [8, 18, 30][detail] : [12, 32, 60][detail], maxCandidates: 160,
           viewport: { x1: -pan.x + 8, y1: -pan.y + 8, x2: width - pan.x - 8, y2: height - pan.y - 8 },
           measure: (text, size, bold) => { const key = `${text}:${size}:${bold}`; if (!measurements.has(key)) { if (context) context.font = `${bold ? 650 : 500} ${size}px ${graphFont}`; measurements.set(key, context?.measureText(text).width ?? text.length * size * .55); } return measurements.get(key)!; },
@@ -192,29 +197,36 @@ export function SystemGraphCanvas(props: Props) {
           if (e.style('display') !== display) e.style('display', display);
           const traced = active && highlighted.has(e.data('source')) && highlighted.has(e.data('target'));
           const picked = active && selectedEdge && (e.data('relations') as string[]).includes(selectedEdge);
-          const next = (!active ? '' : traced ? 'system-trace' : focused ? 'system-dim' : '') + (picked ? ' system-edge' : '');
+          // Curve only a small inspected neighborhood; a full corpus stays inexpensive to draw.
+          const curved = traced && highlighted.size <= 80;
+          const next = (!active ? '' : traced ? 'system-trace' : focused ? 'system-dim' : '') + (picked ? ' system-edge' : '') + (curved ? ' system-curve' : '');
           const previous = classes.get(e.id()) ?? '';
           if (previous !== next) {
             e.classes(next); classes.set(e.id(), next);
-            const previousWidth = previous.includes('system-edge') ? 2.5 : previous.includes('system-trace') ? 1.2 : .5;
-            const nextWidth = picked ? 2.5 : traced ? 1.2 : .5;
+            const previousWidth = previous.includes('system-edge') ? 1.8 : previous.includes('system-trace') ? .95 : .45;
+            const nextWidth = picked ? 1.8 : traced ? .95 : .45;
             if (previousWidth !== nextWidth) e.style('width', nextWidth / instance.zoom());
+            if (curved) e.style('control-point-distances', 12 / instance.zoom());
           }
         });
       });
       scale(instance);
       return true;
     }
-    function fit(instance: Core) {
-      instance.resize(); instance.fit(instance.nodes().filter(n => n.visible()), instance.width() < 600 ? 18 : 24);
-      homeZoom = instance.zoom(); sizedZoom = 0; scale(instance);
-      homeCamera = { zoom: instance.zoom(), pan: { ...instance.pan() } };
+    function fit(instance: Core, animate = false) {
+      instance.stop(true, false); instance.resize();
+      const nodes = instance.nodes().filter(n => n.visible()), padding = instance.width() < 600 ? 18 : 24;
+      const finish = () => { if (disposed) return; homeZoom = instance.zoom(); sizedZoom = 0; settle(instance); homeCamera = { zoom: instance.zoom(), pan: { ...instance.pan() } }; };
+      if (animate && graphMotionEnabled()) instance.animate({ fit: { eles: nodes, padding } }, { duration: graphMotion.camera, easing: 'ease-out-cubic', queue: false, complete: finish });
+      else { instance.fit(nodes, padding); finish(); }
     }
     function populate(instance: Core) {
       if (!latest.current.memory.current.positions) return;
       const { graph, memory, system, organization, politics } = latest.current;
       const nextKey = `${system}:${systemGraphKey(graph)}`;
       if (currentKey === nextKey) { scheduleMark(instance); return; }
+      const hadScene = Boolean(currentKey);
+      instance.stop(true, false);
       if (currentKey) saveCamera(instance);
       const saved = memory.current.cameras?.[system];
       if (activeSystem !== system || focused && !graph.neighbors.has(focused)) focused = null;
@@ -241,7 +253,7 @@ export function SystemGraphCanvas(props: Props) {
           ...graph.entities.map(e => {
             const affiliations = politics.people.get(e.id) ?? [];
             const people = [...(graph.neighbors.get(e.id) ?? [])].filter(id => entityById.get(id)?.type === 'person').length;
-            return { data: { id: e.id, label: shortLabel(e), groupLabel: people ? `${shortLabel(e)} · ${people}` : shortLabel(e), kind: e.type, shape: e.type === 'person' ? 'ellipse' : 'roundrectangle', color: e.type === 'person' ? affiliations[0]?.color ?? UNKNOWN_POLITICAL_COLOR : partyColors.get(e.id) ?? typeInfo[e.type].color, badge: e.type === 'person' ? affiliationSymbol(affiliations) ?? 'none' : 'none', degree: graph.neighbors.get(e.id)?.size ?? 0 }, position: { ...(scenePositions[e.id] ?? { x: 0, y: 0 }) } };
+            return { data: { id: e.id, label: shortLabel(e), groupLabel: people ? `${shortLabel(e)} · ${people}` : shortLabel(e), kind: e.type, ...graphNodeAppearance(e.type), color: e.type === 'person' ? affiliations[0]?.color ?? UNKNOWN_POLITICAL_COLOR : partyColors.get(e.id) ?? typeInfo[e.type].color, badge: e.type === 'person' ? affiliationSymbol(affiliations) ?? 'none' : 'none', degree: graph.neighbors.get(e.id)?.size ?? 0 }, position: { ...(scenePositions[e.id] ?? { x: 0, y: 0 }) } };
           }),
           ...graph.connections.map(c => ({ data: c })),
         ]);
@@ -250,7 +262,7 @@ export function SystemGraphCanvas(props: Props) {
       const bounds = instance.nodes().boundingBox(); world = { x1: bounds.x1, y1: bounds.y1, w: Math.max(1, bounds.w), h: Math.max(1, bounds.h) };
       miniPoints.current?.setAttribute('d', nodeList.map(n => `M${((n.position('x') - world.x1) / world.w * 100).toFixed(1)},${((n.position('y') - world.y1) / world.h * 70).toFixed(1)}h.1`).join(''));
       hubs = new Set([...nodeList].sort((a, b) => b.data('degree') - a.data('degree')).slice(0, 5).map(n => n.id()));
-      fit(instance);
+      fit(instance, hadScene && !saved);
       if (saved) { homeZoom = saved.baseZoom ?? homeZoom; instance.viewport({ zoom: saved.zoom, pan: { x: instance.width() / 2 - saved.x * saved.zoom, y: instance.height() / 2 - saved.y * saved.zoom } }); }
       mark(instance);
     }
@@ -258,21 +270,24 @@ export function SystemGraphCanvas(props: Props) {
       if (disposed || !container.current) return;
       const instance = cytoscape({ container: container.current, elements: [], minZoom: .005, maxZoom: 4, pixelRatio: Math.min(window.devicePixelRatio, 2), hideEdgesOnViewport: props.whole.entities.length > 1000,
         style: [
-          { selector: 'node', style: { width: 8, height: 8, shape: n => n.data('shape'), 'background-color': 'data(color)', 'background-image': 'data(badge)', 'background-width': '100%', 'background-height': '100%', label: '', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': 1, 'overlay-opacity': 0 } },
-          { selector: 'edge', style: { width: 1, 'line-color': '#6b83a5', opacity: .25, 'curve-style': 'straight', 'overlay-opacity': 0 } },
-          { selector: 'node.system-dim', style: { opacity: .22 } },
-          { selector: 'edge.system-dim', style: { opacity: .06 } },
-          { selector: 'node.system-selected', style: { 'border-color': atlasTheme.brand, 'underlay-color': atlasTheme.brand, 'underlay-opacity': .12, 'font-weight': 600 } },
-          { selector: 'edge.system-trace', style: { 'line-color': atlasTheme.brand, opacity: .85, width: 2 } },
-          { selector: 'edge.system-edge', style: { 'line-color': atlasTheme.brand, opacity: 1, width: 4 } },
+          { selector: 'node', style: { width: 8, height: 8, shape: node => node.data('shape'), 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-image-opacity': .2, 'background-width': '100%', 'background-height': '100%', 'border-color': 'data(outline)', 'border-width': 1, label: '', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': 1, 'overlay-opacity': 0 } },
+          { selector: 'edge', style: { width: .45, 'line-color': '#92a3b8', opacity: .18, 'curve-style': 'straight', 'overlay-opacity': 0 } },
+          { selector: 'node.system-dim', style: { opacity: .32 } },
+          { selector: 'edge.system-dim', style: { opacity: .045 } },
+          { selector: 'node.system-neighbor', style: { 'background-color': 'data(color)', 'background-image-opacity': 1, 'border-color': 'data(color)' } },
+          { selector: 'node.system-selected', style: { 'background-color': 'data(color)', 'background-image-opacity': 1, 'border-color': atlasTheme.brand, 'underlay-color': atlasTheme.brand, 'underlay-opacity': .1, 'underlay-shape': node => node.data('type') === 'person' ? 'ellipse' : 'round-rectangle', 'font-weight': 600 } },
+          { selector: 'edge.system-trace', style: { 'line-color': '#557494', opacity: .72 } },
+          { selector: 'edge.system-curve', style: { 'curve-style': 'unbundled-bezier', 'control-point-weights': .5 } },
+          { selector: 'edge.system-edge', style: { 'line-color': atlasTheme.brand, opacity: 1 } },
         ],
       });
       cy.current = instance;
-      frame.current = () => { remember(instance); fit(instance); };
+      frame.current = () => { remember(instance); fit(instance, true); };
       checkpoint.current = () => remember(instance);
       undo.current = () => {
         const camera = history.pop();
         if (!camera) return;
+        instance.stop(true, false);
         settledCamera = undefined; moving = true;
         instance.viewport(camera); settle(instance); setCanUndo(history.length > 0);
       };
@@ -284,12 +299,20 @@ export function SystemGraphCanvas(props: Props) {
         scheduleMark(instance);
       };
       instance.on('tap', 'node', e => { focused = null; latest.current.onSelect(e.target.id()); scheduleMark(instance); });
-      instance.on('tap', e => { if (e.target === instance) { focused = null; hover = null; latest.current.onClear(); scheduleMark(instance); } });
+      instance.on('tap', event => {
+        if (event.target !== instance || !latest.current.selected && !latest.current.selectedEdge && !isolatedRef.current) return;
+        instance.stop(true, false);
+        clearTimeout(hoverTimer); hover = null; focused = null; isolationCamera.current = undefined;
+        isolatedRef.current = null; depthRef.current = 1;
+        setIsolated(null); setNeighborhood({ selected: null, edge: null, depth: 1 });
+        latest.current.onDeselect();
+      });
       instance.on('dbltap', 'node', e => { focused = e.target.id(); latest.current.onSelect(e.target.id()); scheduleMark(instance); });
       instance.on('tap', 'edge', e => { focused = null; latest.current.onEdge((e.target.data('relations') as string[])[0]); scheduleMark(instance); });
       instance.on('mouseover', 'node', e => { if (moving) return; clearTimeout(hoverTimer); hover = e.target.id(); scheduleMark(instance); });
       instance.on('mouseout', 'node', () => { clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { hover = null; scheduleMark(instance); }, 40); });
       instance.on('zoom pan drag', () => schedule(instance));
+      instance.on('mousedown touchstart', () => { instance.stop(true, false); });
       instance.on('dragfree', 'node', e => {
         if (!isolatedRef.current) {
           const positions = latest.current.memory.current.layouts![latest.current.system];
@@ -359,15 +382,23 @@ export function SystemGraphCanvas(props: Props) {
       isolatedRef.current = props.selected; setIsolated(props.selected); refine.current(); approach();
     }
   }
-  function zoom(factor: number) { checkpoint.current(); const instance = cy.current; if (instance) instance.zoom({ level: Math.min(instance.maxZoom(), Math.max(instance.minZoom(), instance.zoom() * factor)), renderedPosition: { x: instance.width() / 2, y: instance.height() / 2 } }); }
+  function zoom(factor: number) {
+    checkpoint.current(); const instance = cy.current;
+    if (!instance) return;
+    instance.stop(true, false);
+    const zoom = { level: Math.min(instance.maxZoom(), Math.max(instance.minZoom(), instance.zoom() * factor)), renderedPosition: { x: instance.width() / 2, y: instance.height() / 2 } };
+    if (graphMotionEnabled()) instance.animate({ zoom }, { duration: graphMotion.camera, easing: 'ease-out-cubic', queue: false });
+    else instance.zoom(zoom);
+  }
   function approach() {
     const instance = cy.current, selected = latest.current.selected;
     if (!instance || !selected) return;
     checkpoint.current();
+    instance.stop(true, false);
     const ids = systemNeighborhood(latest.current.graph, selected, depthRef.current);
     const nodes = instance.nodes().filter(n => ids.has(n.id()));
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) instance.fit(nodes, 70);
-    else instance.animate({ fit: { eles: nodes, padding: 70 } }, { duration: 500 });
+    if (!graphMotionEnabled()) instance.fit(nodes, 70);
+    else instance.animate({ fit: { eles: nodes, padding: 70 } }, { duration: graphMotion.camera, easing: 'ease-out-cubic', queue: false });
   }
   async function download() {
     if (!cy.current || exporting) return;
@@ -387,6 +418,6 @@ export function SystemGraphCanvas(props: Props) {
     <div className="graph-controls" aria-label="Contrôles du système"><button className="icon-button" aria-label="Revenir au cadrage précédent" disabled={!canUndo} onClick={() => undo.current()}><Undo2 size={17} /></button><button className="icon-button" aria-label="Zoom avant" disabled={!ready} onClick={() => zoom(1.5)}><Plus size={18} /></button><button className="icon-button" aria-label="Zoom arrière" disabled={!ready} onClick={() => zoom(1 / 1.5)}><Minus size={18} /></button><span /><button className="icon-button" aria-label="Recentrer le système" disabled={!ready} onClick={() => frame.current()}><Maximize size={17} /></button><span /><button className="icon-button" aria-label="Exporter la carte en PNG" disabled={!ready || exporting} onClick={download}><Download size={17} /></button></div>
     {message && <p className="graph-export-message" role="status">{message}</p>}
     <div className="system-minimap"><svg viewBox="0 0 100 70" role="img" aria-label="Position du cadrage dans le système"><path ref={miniPoints} fill="none" stroke="#6b83a5" strokeWidth=".7" /><rect ref={miniViewport} fill="#08357715" stroke="#083577" strokeWidth="1" /></svg><span>Zone visible</span></div>
-    <span className="system-navigation-receipt" ref={navigation} /><p className="graph-tip"><MousePointer2 size={18} /><span>Un clic ouvre la fiche. Double-cliquez pour atténuer le reste de la carte ; cliquez dans le fond pour tout revoir.</span></p>
+    <span className="system-navigation-receipt" ref={navigation} /><p className="graph-tip"><MousePointer2 size={18} /><span>Un clic ouvre la fiche. Double-cliquez pour atténuer le reste de la carte ; cliquez dans le fond pour désélectionner.</span></p>
   </div>;
 }

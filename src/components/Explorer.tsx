@@ -77,7 +77,13 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   const officialCount = data.relations.length - wikidataRelations.length;
 
   useEffect(() => {
-    const restore = () => { const next = parseView(window.location.search, data); setView(next); setHasSelection(new URLSearchParams(window.location.search).has('selected') && next.spotlight !== 'off'); setShowDetail(new URLSearchParams(window.location.search).has('selected') && next.spotlight !== 'off' && (!next.preset || next.selected !== next.root || Boolean(next.edge))); setComparisonOpen(Boolean(next.compare)); setListPage(0); setPresetPicker(null); if (next.preset) setPresetRevision(revision => revision + 1); };
+    const restore = () => {
+      const next = parseView(window.location.search, data), params = new URLSearchParams(window.location.search);
+      const selection = (params.has('selected') || params.has('edge')) && next.spotlight !== 'off';
+      setView(next); setHasSelection(selection); setComparisonOpen(Boolean(next.compare)); setListPage(0); setPresetPicker(null);
+      setShowDetail(selection && (!next.preset || next.selected !== next.root || Boolean(next.edge)));
+      if (next.preset) setPresetRevision(revision => revision + 1);
+    };
     window.addEventListener('popstate', restore);
     return () => window.removeEventListener('popstate', restore);
   }, [data]);
@@ -117,14 +123,14 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
     };
   }, [enlarged]);
 
-  const update = useCallback((patch: Partial<ViewState>) => {
+  const update = useCallback((patch: Partial<ViewState>, selection = typeof patch.selected === 'string' || Boolean(patch.edge) || hasSelection) => {
     setMapFocusRequest(null);
     const next = { ...view, ...patch, spotlight: 'spotlight' in patch ? patch.spotlight : 'selected' in patch ? undefined : !hasSelection ? 'off' as const : view.spotlight };
     const preset = validPreset(data, next, next.preset);
     if (preset) next.preset = preset; else delete next.preset;
     setView(next);
     if (['categories', 'root', 'focus', 'expanded', 'temporal', 'period', 'graphView'].some(key => key in patch)) setListPage(0);
-    const search = serializeView(next);
+    const search = serializeView(next, selection);
     if (window.location.search !== search) window.history.pushState(null, '', `${window.location.pathname}${search}`);
   }, [view, hasSelection, data]);
 
@@ -150,6 +156,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   }
 
   function select(id: string) { update({ selected: id, edge: null }); setHasSelection(true); setShowDetail(true); setShowFilters(false); }
+  function deselect() { update({ edge: null, spotlight: 'off' }, false); setHasSelection(false); setShowDetail(false); }
   function changeGraphView(graphView: 'system' | 'centered') { if (graphView === (view.graphView ?? 'centered')) return; update(switchGraphView(view, graphView)); setHasSelection(true); }
   function expand(id: string) {
     update(isSystem ? switchGraphView({ ...view, selected: id }, 'centered') : focusView(view, id, data));
@@ -178,7 +185,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
     }
     setComparisonOpen(true); setShowFilters(false);
   }
-  function openShare() { setShareUrl(`${window.location.origin}${window.location.pathname}${serializeView(view)}`); setCopied(false); setCopyError(false); setModal('share'); }
+  function openShare() { setShareUrl(`${window.location.origin}${window.location.pathname}${serializeView(view, hasSelection)}`); setCopied(false); setCopyError(false); setModal('share'); }
   function restoreExploration(next: ViewState, adjusted: boolean) {
     setView(next);
     setHasSelection(true); setListPage(0);
@@ -258,7 +265,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
           {temporal === 'same' && <button className="map-active-period" onClick={() => setShowFilters(true)}>Période : {periodContext.anchor ? periodContext.anchor.cohort?.label ?? periodLabel(periodContext.anchor) : 'filtre actif'}<SlidersHorizontal size={13} /></button>}
           {!isSystem && expanded.length > 1 && <nav className="exploration-trail" aria-label="Parcours d’exploration">{expanded.map(id => <button key={id} onClick={() => expand(id)} aria-current={id === focus ? 'step' : undefined}>{shortLabel(entitiesById.get(id)!)}<ChevronRight size={13} /></button>)}</nav>}
           {notice && <p className="inline-notice" role="status">{notice}</p>}
-          {view.mode === 'graph' ? isSystem ? <SystemExplorer data={data} graph={filteredSystem} politics={politics} view={view} selected={hasSelection ? selectedEntity : undefined} onChange={update} onSelect={select}><SystemGraphCanvas focusRequest={mapFocusRequest} graph={system} whole={wholeSystem} organization={organizedSystem} system={view.system ?? 'all'} reading={view.reading ?? 'groups'} politics={politics} onClear={() => { setHasSelection(false); setShowDetail(false); update({ spotlight: 'off', edge: null }); }} memory={systemMemory} selected={hasSelection ? view.selected : null} selectedEdge={view.edge} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onCentered={() => changeGraphView('centered')} onFallback={() => { update({ mode: 'list' }); setNotice('La carte système n’a pas pu être calculée. Toutes les déclarations restent consultables dans la liste.'); }} /></SystemExplorer> : <GraphCanvas key={presetRevision} camera={view.preset ? undefined : centeredCamera} enlarged={enlarged} entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
+          {view.mode === 'graph' ? isSystem ? <SystemExplorer data={data} graph={filteredSystem} politics={politics} view={view} selected={hasSelection ? selectedEntity : undefined} onChange={update} onSelect={select}><SystemGraphCanvas focusRequest={mapFocusRequest} graph={system} whole={wholeSystem} organization={organizedSystem} system={view.system ?? 'all'} reading={view.reading ?? 'groups'} politics={politics} onClear={deselect} memory={systemMemory} selected={hasSelection ? view.selected : null} selectedEdge={view.edge} exportInfo={exportInfo} onSelect={select} onDeselect={deselect} onEdge={inspectEdge} onCentered={() => changeGraphView('centered')} onFallback={() => { update({ mode: 'list' }); setNotice('La carte système n’a pas pu être calculée. Toutes les déclarations restent consultables dans la liste.'); }} /></SystemExplorer> : <GraphCanvas key={presetRevision} camera={view.preset ? undefined : centeredCamera} enlarged={enlarged} entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {listedRelations.slice(page * 100, (page + 1) * 100).map(relation => <article className="graph-list-row" key={relation.id}>
               <span className="connection-dot" style={{ background: categoryInfo[relation.category].color }} />
               <div><span className="eyebrow">{categoryInfo[relation.category].singular}</span><p><button onClick={() => select(relation.source)}>{shortLabel(entitiesById.get(relation.source)!)}</button><ArrowRight size={13} /><button onClick={() => select(relation.target)}>{shortLabel(entitiesById.get(relation.target)!)}</button></p>{relation.role && <small className="connection-role">{relation.role}</small>}<small>{relation.cohort?.label ?? periodLabel(relation)}</small></div>

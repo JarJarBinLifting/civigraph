@@ -157,7 +157,7 @@ export function parseView(search: string, data: GraphData): ViewState {
   return state;
 }
 
-export function serializeView(state: ViewState): string {
+export function serializeView(state: ViewState, hasSelection = true): string {
   const params = new URLSearchParams({ root: state.root, focus: state.focus, expanded: [...new Set(state.expanded)].join(','), categories: CATEGORIES.filter(category => state.categories.includes(category)).join(','), selected: state.selected });
   if (state.compare) params.set('compare', state.compare);
   if (state.compare && state.comparisonView === 'cards') params.set('comparisonView', 'cards');
@@ -178,5 +178,6 @@ export function serializeView(state: ViewState): string {
   params.set('time', state.temporal);
   if (state.period) params.set('period', state.period);
   if (state.year !== null) params.set('year', String(state.year));
+  if (state.graphView === 'system' && !hasSelection) { params.delete('selected'); params.delete('edge'); }
   return `?${params}`;
 }

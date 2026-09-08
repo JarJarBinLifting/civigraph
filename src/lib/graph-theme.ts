@@ -8,8 +8,7 @@ export const graphFont = '"DM Sans Variable", Arial, sans-serif';
 export const atlasTheme = { paper: '#ffffff', ink: '#102a50', brand: '#083577', secondary: '#94521d' };
 
 // Diagram symbols describe entity types. Existing photographs remain in the sourced profiles.
-export function nodeSymbol(entity: Entity, anchor = false) {
-  const color = '#ffffff';
+export function nodeSymbol(entity: Entity, anchor = false, color = '#ffffff') {
   const content = entity.type === 'person'
     ? `<text x="32" y="42" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" font-weight="600" stroke="none" fill="${color}">${initials(entity.label).replace(/[<>&"']/g, '')}</text>`
     : entity.type === 'school' ? '<path d="m12 25 20-10 20 10-20 10-20-10m8 5v13c8 6 16 6 24 0V30M52 26v16"/>'

@@ -82,6 +82,17 @@ describe('shareable views', () => {
     expect(parseView(serializeView(view), data)).toEqual(view);
   });
   it('preserves an explicitly empty category filter', () => expect(parseView('?root=Q1&categories=', data).categories).toEqual([]));
+  it('can share a system view without a selection while keeping its filters and exploration', () => {
+    const view = parseView('?root=Q1&focus=Q3&expanded=Q1,Q3&selected=Q3&graphView=system&systemLens=entities&categories=education&time=all&year=2001', data);
+    const selected = new URLSearchParams(serializeView(view));
+    const cleared = new URLSearchParams(serializeView({ ...view, edge: 'inspected-link' }, false));
+    expect(cleared.has('selected')).toBe(false);
+    expect(cleared.has('edge')).toBe(false);
+    selected.delete('selected');
+    expect([...cleared]).toEqual([...selected]);
+    expect(parseView(cleared.toString(), data).categories).toEqual(['education']);
+    expect(view.selected).toBe('Q3');
+  });
   it('restores the latest expanded node as center for an old shared URL', () => {
     expect(parseView('?root=Q1&expanded=Q1,Q3&selected=Q3', data).focus).toBe('Q3');
   });
