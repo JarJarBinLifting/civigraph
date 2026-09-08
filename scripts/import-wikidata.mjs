@@ -5,9 +5,11 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const supplement = process.argv.includes('--attali');
 const network = process.argv.includes('--network');
-if (supplement && network) throw new Error('Choisir un seul complément à importer.');
-const titles = JSON.parse(await readFile(path.join(root, network ? 'scripts/people-network.json' : supplement ? 'scripts/people-attali.json' : 'scripts/people.json'), 'utf8'));
-const cache = path.join(root, network ? '.cache/wikidata-network' : supplement ? '.cache/wikidata-attali' : '.cache/wikidata');
+const current = process.argv.includes('--current');
+if ([supplement, network, current].filter(Boolean).length > 1) throw new Error('Choisir un seul complément à importer.');
+const roster = current ? JSON.parse(await readFile(path.join(root, 'scripts/people-2026.json'), 'utf8')) : null;
+const titles = current ? roster.people.map(person => person.id) : JSON.parse(await readFile(path.join(root, network ? 'scripts/people-network.json' : supplement ? 'scripts/people-attali.json' : 'scripts/people.json'), 'utf8'));
+const cache = path.join(root, current ? '.cache/wikidata-current' : network ? '.cache/wikidata-network' : supplement ? '.cache/wikidata-attali' : '.cache/wikidata');
 await mkdir(cache, { recursive: true });
 const propertyMap = {
   P69: { category: 'education', label: 'A étudié à', type: 'school' },
@@ -41,7 +43,7 @@ async function api(params) {
 const people = [];
 for (let offset = 0; offset < titles.length; offset += 10) {
   const chunk = titles.slice(offset, offset + 10);
-  const result = await api({ ...(network ? { ids: chunk.join('|') } : { sites: 'frwiki', titles: chunk.join('|') }), props: 'info|labels|descriptions|claims|sitelinks', languages: 'fr|en|mul', sitefilter: 'frwiki' });
+  const result = await api({ ...((network || current) ? { ids: chunk.join('|') } : { sites: 'frwiki', titles: chunk.join('|') }), props: 'info|labels|descriptions|claims|sitelinks', languages: 'fr|en|mul', sitefilter: 'frwiki' });
   if (result.length !== chunk.length || result.some(entity => !entity.id || entity.missing !== undefined)) {
     throw new Error(`Résolution incomplète des personnes : ${chunk.join(', ')}`);
   }
@@ -49,7 +51,8 @@ for (let offset = 0; offset < titles.length; offset += 10) {
   console.log(`Personnes résolues : ${people.length}/${titles.length}`);
 }
 const personIds = new Set(people.map(person => person.id));
-if (personIds.size !== titles.length || (!supplement && !network && (personIds.size < 30 || personIds.size > 50))) throw new Error('Effectif du corpus incohérent avec la sélection.');
+if (personIds.size !== titles.length || (!supplement && !network && !current && (personIds.size < 30 || personIds.size > 50))) throw new Error('Effectif du corpus incohérent avec la sélection.');
+if (current && people.some(person => !(person.claims?.P31 ?? []).some(claim => claim.mainsnak?.datavalue?.value?.id === 'Q5'))) throw new Error('Une identité du socle ne désigne pas une personne.');
 const label = entity => entity.labels?.fr?.value || entity.labels?.mul?.value || entity.labels?.en?.value || entity.id;
 const targetTypes = new Map();
 const rawRelations = [];
@@ -148,7 +151,7 @@ const data = {
 await writeFile(path.join(cache, 'raw-entities.json'), JSON.stringify(allRaw));
 const destination = path.join(root, 'src/data');
 await mkdir(destination, { recursive: true });
-const filename = network ? 'network-wikidata.json' : supplement ? 'attali-wikidata.json' : 'graph.json';
+const filename = current ? 'current-wikidata.json' : network ? 'network-wikidata.json' : supplement ? 'attali-wikidata.json' : 'graph.json';
 const temporary = path.join(destination, `${filename}.tmp`);
 await writeFile(temporary, JSON.stringify(data, null, 2) + '\n');
 await rename(temporary, path.join(destination, filename));

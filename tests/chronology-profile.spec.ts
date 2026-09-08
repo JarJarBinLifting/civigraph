@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 import type { Core } from 'cytoscape';
+import coverage from '../docs/current-coverage.json' with { type: 'json' };
+
+const assasCount = coverage.graphCounts.assas;
 
 type Canvas = HTMLElement & { _cyreg: { cy: Core } };
 const assas = '/?root=Q20089181&focus=Q662976&expanded=Q20089181,Q662976&selected=Q662976&time=all';
@@ -17,14 +20,17 @@ test('the full Assas network stays visible and a chosen time reference survives 
   // At the 2026 reference, 2008–2010 is nearer than 1998–2004; a lone end is unknown.
   expect(placement.attal).toBeLessThan(placement.mestre);
   expect(placement.unknown).toBe('unknown');
-  expect(await page.locator('.graph-canvas').evaluate(element => (element as Canvas)._cyreg.cy.nodes().length)).toBe(69);
+  expect(await page.locator('.graph-canvas').evaluate(element => (element as Canvas)._cyreg.cy.nodes().length)).toBe(assasCount);
   await expect(page.getByRole('navigation', { name: 'Pages du réseau' })).toHaveCount(0);
   await expect(page.getByLabel('Année repère')).toHaveValue('2026');
   await expect(page.locator('.chronology-controls')).toContainText('Dates inconnues');
+  await page.getByRole('button', { name: 'Fermer la fiche', exact: true }).click();
+  await page.getByRole('button', { name: 'Filtres', exact: true }).click();
   await page.getByLabel('Année repère').fill('2000');
   await page.getByLabel('Année repère').press('Enter');
   await expect(page).toHaveURL(/year=2000/);
   await page.reload();
+  await page.getByRole('button', { name: 'Fermer la fiche', exact: true }).click();
   await expect(page.getByLabel('Année repère')).toHaveValue('2000');
   await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
   expect(await page.locator('.graph-canvas').evaluate(element => {

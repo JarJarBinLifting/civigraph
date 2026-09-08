@@ -5,6 +5,8 @@ import network from '../data/network-wikidata.json';
 import assembly from '../data/assembly.json';
 import integrityWatch from '../data/integrity-watch.json';
 import institutions from '../data/institution-participations.json';
+import current from '../data/current-wikidata.json';
+import currentOfficial from '../data/current-official.json';
 import corrections from '../data/entity-corrections.json';
 import imageSnapshot from '../data/entity-images.json';
 import type { GraphData, Relation } from './types';
@@ -49,6 +51,8 @@ export function loadDataset(): GraphData {
   data = mergeDatasets(data, network as GraphData, dated);
   data = mergeDatasets(data, assembly as GraphData, []);
   data = mergeDatasets(data, integrityWatch as GraphData, []);
+  data = mergeDatasets(data, current as GraphData, []);
+  data = mergeDatasets(data, currentOfficial as GraphData, []);
   for (const correction of corrections) {
     const entity = data.entities.find(entity => entity.id === correction.id);
     if (entity) { entity.label = correction.label; entity.labelSource = correction.labelSource; }

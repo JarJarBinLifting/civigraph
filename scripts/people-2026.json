@@ -1,0 +1,939 @@
+{
+  "checkedAt": "2026-09-08",
+  "scope": "Socle national : les 36 membres du gouvernement, les 11 présidences des groupes de l’Assemblée, les 7 présidences nommées par le Sénat et les responsables de 13 formations explicitement listées. Pas un recensement de tous les élus ni de tous les cadres de partis.",
+  "unresolved": [
+    {
+      "section": "senate-groups",
+      "organization": "Rassemblement des démocrates, progressistes et indépendants",
+      "reason": "La liste du Sénat ne nomme pas de président le 8 septembre 2026. François Patriat est décédé en août ; aucun successeur inféré.",
+      "url": "https://www.senat.fr/senateurs/grp.html",
+      "corroboratingUrl": "https://www.senat.fr/salle-de-presse/communiques-de-presse/presse/19-08-2026/hommage-president-senat-suite-deces-francois-patriat-senateur-cote-dor-president-groupe-rassemblement-des-democrates-progressistes-independants-du-senat.html"
+    }
+  ],
+  "people": [
+    {
+      "name": "Sébastien Lecornu",
+      "wikipediaTitle": "Sébastien Lecornu",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Premier ministre",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q20089181"
+    },
+    {
+      "name": "Laurent Panifous",
+      "wikipediaTitle": "Laurent Panifous",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q65595138"
+    },
+    {
+      "name": "Maud Bregeon",
+      "wikipediaTitle": "Maud Bregeon",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q104032664"
+    },
+    {
+      "name": "Aurore Bergé",
+      "wikipediaTitle": "Aurore Bergé",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q29570183"
+    },
+    {
+      "name": "Laurent Nuñez",
+      "wikipediaTitle": "Laurent Nuñez",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q30729111"
+    },
+    {
+      "name": "Jean-Didier Berger",
+      "wikipediaTitle": "Jean-Didier Berger",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q17496948"
+    },
+    {
+      "name": "Marie-Pierre Vedrenne",
+      "wikipediaTitle": "Marie-Pierre Vedrenne",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q63965965"
+    },
+    {
+      "name": "Catherine Vautrin",
+      "wikipediaTitle": "Catherine Vautrin",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q2942097"
+    },
+    {
+      "name": "Alice Rufo",
+      "wikipediaTitle": "Alice Rufo",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q47312015"
+    },
+    {
+      "name": "Jean-Pierre Farandou",
+      "wikipediaTitle": "Jean-Pierre Farandou",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q33106208"
+    },
+    {
+      "name": "Sabrina Roubache",
+      "wikipediaTitle": "Sabrina Agresti-Roubache",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q112079050"
+    },
+    {
+      "name": "Monique Barbut",
+      "wikipediaTitle": "Monique Barbut",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q2403964"
+    },
+    {
+      "name": "Catherine Chabaud",
+      "wikipediaTitle": "Catherine Chabaud",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q2941852"
+    },
+    {
+      "name": "Mathieu Lefèvre",
+      "wikipediaTitle": "Mathieu Lefèvre",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q112654129"
+    },
+    {
+      "name": "Gérald Darmanin",
+      "wikipediaTitle": "Gérald Darmanin",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q3123610"
+    },
+    {
+      "name": "Roland Lescure",
+      "wikipediaTitle": "Roland Lescure",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q30130489"
+    },
+    {
+      "name": "Sébastien Martin",
+      "wikipediaTitle": "Sébastien Martin",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q63766436"
+    },
+    {
+      "name": "Anne Le Hénanff",
+      "wikipediaTitle": "Anne Le Hénanff",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q112651320"
+    },
+    {
+      "name": "Serge Papin",
+      "wikipediaTitle": "Serge Papin",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q3479475"
+    },
+    {
+      "name": "Annie Genevard",
+      "wikipediaTitle": "Annie Genevard",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q2414678"
+    },
+    {
+      "name": "Édouard Geffray",
+      "wikipediaTitle": "Édouard Geffray",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q33138734"
+    },
+    {
+      "name": "Jean-Noël Barrot",
+      "wikipediaTitle": "Jean-Noël Barrot",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q30339198"
+    },
+    {
+      "name": "Benjamin Haddad",
+      "wikipediaTitle": "Benjamin Haddad",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q112572505"
+    },
+    {
+      "name": "Nicolas Forissier",
+      "wikipediaTitle": "Nicolas Forissier",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q3340330"
+    },
+    {
+      "name": "Éléonore Caroit",
+      "wikipediaTitle": "Éléonore Caroit",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q112654771"
+    },
+    {
+      "name": "Stéphanie Rist",
+      "wikipediaTitle": "Stéphanie Rist",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q30339281"
+    },
+    {
+      "name": "Camille Galliard-Minier",
+      "wikipediaTitle": "Camille Galliard-Minier",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q85328250"
+    },
+    {
+      "name": "Catherine Pégard",
+      "wikipediaTitle": "Catherine Pégard",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q2942038"
+    },
+    {
+      "name": "Naïma Moutchou",
+      "wikipediaTitle": "Naïma Moutchou",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q30379800"
+    },
+    {
+      "name": "Françoise Gatel",
+      "wikipediaTitle": "Françoise Gatel",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q18202579"
+    },
+    {
+      "name": "Michel Fournier",
+      "wikipediaTitle": "Michel Fournier (homme politique)",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q65582016"
+    },
+    {
+      "name": "David Amiel",
+      "wikipediaTitle": "David Amiel",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q47502155"
+    },
+    {
+      "name": "Philippe Baptiste",
+      "wikipediaTitle": "Philippe Baptiste",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q106287381"
+    },
+    {
+      "name": "Marina Ferrari",
+      "wikipediaTitle": "Marina Ferrari",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q63764396"
+    },
+    {
+      "name": "Philippe Tabarot",
+      "wikipediaTitle": "Philippe Tabarot",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q63371158"
+    },
+    {
+      "name": "Vincent Jeanbrun",
+      "wikipediaTitle": "Vincent Jeanbrun",
+      "roles": [
+        {
+          "section": "government",
+          "organization": "Gouvernement français",
+          "role": "Membre du gouvernement",
+          "url": "https://www.info.gouv.fr/composition-du-gouvernement",
+          "organizationId": "current:government-france"
+        }
+      ],
+      "id": "Q62078135"
+    },
+    {
+      "name": "Marine Le Pen",
+      "wikipediaTitle": "Marine Le Pen",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Rassemblement National",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845401"
+        }
+      ],
+      "id": "Q12927"
+    },
+    {
+      "name": "Gabriel Attal",
+      "wikipediaTitle": "Gabriel Attal",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Ensemble pour la République",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845407"
+        },
+        {
+          "section": "parties",
+          "organization": "Renaissance",
+          "role": "Secrétaire général",
+          "url": "https://parti-renaissance.fr/le-parti",
+          "organizationId": "Q23731823"
+        }
+      ],
+      "id": "Q30339350"
+    },
+    {
+      "name": "Mathilde Panot",
+      "wikipediaTitle": "Mathilde Panot",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "La France insoumise - Nouveau Front Populaire",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845413"
+        }
+      ],
+      "id": "Q30343128"
+    },
+    {
+      "name": "Boris Vallaud",
+      "wikipediaTitle": "Boris Vallaud",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Socialistes et apparentés",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845419"
+        }
+      ],
+      "id": "Q29021094"
+    },
+    {
+      "name": "Laurent Wauquiez",
+      "wikipediaTitle": "Laurent Wauquiez",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Droite Républicaine",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845425"
+        }
+      ],
+      "id": "Q984375"
+    },
+    {
+      "name": "Cyrielle Chatelain",
+      "wikipediaTitle": "Cyrielle Chatelain",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Écologiste et Social",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845439"
+        }
+      ],
+      "id": "Q112648926"
+    },
+    {
+      "name": "Marc Fesneau",
+      "wikipediaTitle": "Marc Fesneau",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Les Démocrates",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845454"
+        }
+      ],
+      "id": "Q6755549"
+    },
+    {
+      "name": "Laurent Marcangeli",
+      "wikipediaTitle": "Laurent Marcangeli",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Horizons & Indépendants",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845470"
+        }
+      ],
+      "id": "Q2514772"
+    },
+    {
+      "name": "Christophe Naegelen",
+      "wikipediaTitle": "Christophe Naegelen",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Libertés, Indépendants, Outre-mer et Territoires",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845485"
+        }
+      ],
+      "id": "Q30530164"
+    },
+    {
+      "name": "Stéphane Peu",
+      "wikipediaTitle": "Stéphane Peu",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Gauche Démocrate et Républicaine",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO845514"
+        }
+      ],
+      "id": "Q30380891"
+    },
+    {
+      "name": "Éric Ciotti",
+      "wikipediaTitle": "Éric Ciotti",
+      "roles": [
+        {
+          "section": "assembly-groups",
+          "organization": "Union des droites pour la République",
+          "role": "Présidence du groupe à l’Assemblée nationale",
+          "url": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+          "organizationId": "AN:PO872880"
+        },
+        {
+          "section": "parties",
+          "organization": "Union des droites pour la République",
+          "role": "Président",
+          "url": "https://www.udr.fr/voteconfiance",
+          "organizationId": "Q127038760"
+        }
+      ],
+      "id": "Q1844180"
+    },
+    {
+      "name": "Mathieu Darnaud",
+      "wikipediaTitle": "Mathieu Darnaud",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Les Républicains · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        }
+      ],
+      "id": "Q19628703"
+    },
+    {
+      "name": "Patrick Kanner",
+      "wikipediaTitle": "Patrick Kanner",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Socialiste, Écologiste et Républicain · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        }
+      ],
+      "id": "Q3369559"
+    },
+    {
+      "name": "Hervé Marseille",
+      "wikipediaTitle": "Hervé Marseille",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Union Centriste · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        },
+        {
+          "section": "parties",
+          "organization": "Union des démocrates et indépendants",
+          "role": "Président",
+          "url": "https://www.parti-udi.fr/la-direction-nationale-2025/",
+          "organizationId": "Q82892"
+        }
+      ],
+      "id": "Q3134586"
+    },
+    {
+      "name": "Claude Malhuret",
+      "wikipediaTitle": "Claude Malhuret",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Les Indépendants - République et Territoires · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        }
+      ],
+      "id": "Q389141"
+    },
+    {
+      "name": "Cécile Cukierman",
+      "wikipediaTitle": "Cécile Cukierman",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Communiste Républicain Citoyen et Écologiste - Kanaky · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        }
+      ],
+      "id": "Q3009722"
+    },
+    {
+      "name": "Maryse Carrère",
+      "wikipediaTitle": "Maryse Carrère",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Rassemblement Démocratique et Social Européen · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        }
+      ],
+      "id": "Q40871238"
+    },
+    {
+      "name": "Guillaume Gontard",
+      "wikipediaTitle": "Guillaume Gontard",
+      "roles": [
+        {
+          "section": "senate-groups",
+          "organization": "Groupe Écologiste - Solidarité et Territoires · Sénat",
+          "role": "Présidence du groupe au Sénat",
+          "url": "https://www.senat.fr/senateurs/grp.html"
+        }
+      ],
+      "id": "Q40914766"
+    },
+    {
+      "name": "Jordan Bardella",
+      "wikipediaTitle": "Jordan Bardella",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Rassemblement national",
+          "role": "Président",
+          "url": "https://rassemblementnational.fr/membre/jordan-bardella",
+          "organizationId": "Q205150"
+        }
+      ],
+      "id": "Q40655898"
+    },
+    {
+      "name": "Manuel Bompard",
+      "wikipediaTitle": "Manuel Bompard",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "La France insoumise",
+          "role": "Coordinateur",
+          "url": "https://lafranceinsoumise.fr/lfi-comment-ca-marche/",
+          "organizationId": "Q27978402"
+        }
+      ],
+      "id": "Q29575749"
+    },
+    {
+      "name": "Olivier Faure",
+      "wikipediaTitle": "Olivier Faure",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Parti socialiste",
+          "role": "Premier secrétaire",
+          "url": "https://parti-socialiste.fr/le-premier-secretaire/",
+          "organizationId": "Q170972"
+        }
+      ],
+      "id": "Q3351018"
+    },
+    {
+      "name": "Bruno Retailleau",
+      "wikipediaTitle": "Bruno Retailleau",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Les Républicains",
+          "role": "Président",
+          "url": "https://republicains.fr/qui-sommes-nous/",
+          "organizationId": "Q20012759"
+        }
+      ],
+      "id": "Q2926942"
+    },
+    {
+      "name": "Marine Tondelier",
+      "wikipediaTitle": "Marine Tondelier",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Les Écologistes",
+          "role": "Secrétaire nationale",
+          "url": "https://lesecologistes.fr/trombinoscope/RqKQhLKtZmERCT0kmqPoF/marine-tondelier",
+          "organizationId": "Q613786"
+        }
+      ],
+      "id": "Q29917987"
+    },
+    {
+      "name": "Fabien Roussel",
+      "wikipediaTitle": "Fabien Roussel",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Parti communiste français",
+          "role": "Secrétaire national",
+          "url": "https://www.pcf.fr/le_conseil_national_du_pcf_a_adopte_son_nouvel_executif_national",
+          "organizationId": "Q192821"
+        }
+      ],
+      "id": "Q30388733"
+    },
+    {
+      "name": "François Bayrou",
+      "wikipediaTitle": "François Bayrou",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Mouvement démocrate",
+          "role": "Président",
+          "url": "https://www.mouvementdemocrate.fr/fiche/francois-bayrou-2366",
+          "organizationId": "Q587370"
+        }
+      ],
+      "id": "Q12963"
+    },
+    {
+      "name": "Édouard Philippe",
+      "wikipediaTitle": "Édouard Philippe",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Horizons",
+          "role": "Président",
+          "url": "https://horizonsleparti.fr/organisation/",
+          "organizationId": "Q108846587"
+        }
+      ],
+      "id": "Q3579995"
+    },
+    {
+      "name": "Raphaël Glucksmann",
+      "wikipediaTitle": "Raphaël Glucksmann",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Place publique",
+          "role": "Coprésident",
+          "url": "https://place-publique.eu/trombinoscope/d7gAAtkKcvueTJRMqeYBC/raphael-glucksmann",
+          "organizationId": "Q58366009"
+        }
+      ],
+      "id": "Q556149"
+    },
+    {
+      "name": "Aurore Lalucq",
+      "wikipediaTitle": "Aurore Lalucq",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Place publique",
+          "role": "Coprésidente",
+          "url": "https://place-publique.eu/trombinoscope/7Hj8U4wKppDM3QaSslA2ZE/aurore-lalucq",
+          "organizationId": "Q58366009"
+        }
+      ],
+      "id": "Q56320702"
+    },
+    {
+      "name": "Éric Zemmour",
+      "wikipediaTitle": "Éric Zemmour",
+      "roles": [
+        {
+          "section": "parties",
+          "organization": "Reconquête",
+          "role": "Président",
+          "url": "https://www.parti-reconquete.fr/equipe",
+          "organizationId": "Q109932430"
+        }
+      ],
+      "id": "Q288477"
+    }
+  ]
+}

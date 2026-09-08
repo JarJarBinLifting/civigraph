@@ -16,6 +16,8 @@
     "data:import:attali": "node scripts/import-wikidata.mjs --attali",
     "data:discover": "node scripts/discover-institutions.mjs",
     "data:import:network": "node scripts/import-wikidata.mjs --network",
+    "data:import:current": "node scripts/import-wikidata.mjs --current && node scripts/build-current-roster.mjs",
+    "data:audit:current": "tsx scripts/audit-current.ts",
     "data:import:assembly": "node scripts/import-assembly.mjs",
     "data:import:integrity": "node scripts/import-integrity-watch.mjs",
     "data:layout": "tsx scripts/generate-system-layout.ts"

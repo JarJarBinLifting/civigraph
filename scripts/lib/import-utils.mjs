@@ -6,11 +6,11 @@ export async function writeJson(path, value) {
   await fs.rename(`${path}.tmp`, path);
 }
 export async function corpusAndRaw() {
-  const names = ['graph', 'attali-wikidata', 'network-wikidata'];
+  const names = ['graph', 'attali-wikidata', 'network-wikidata', 'current-wikidata'];
   const entities = new Map();
   for (const name of names) for (const entity of (await readJson(`src/data/${name}.json`)).entities) if (entity.inCorpus) entities.set(entity.id, entity);
   const raw = new Map();
-  for (const folder of ['wikidata', 'wikidata-attali', 'wikidata-network']) for (const entity of await readJson(`.cache/${folder}/raw-entities.json`)) if (entities.has(entity.id)) raw.set(entity.id, entity);
+  for (const folder of ['wikidata', 'wikidata-attali', 'wikidata-network', 'wikidata-current']) for (const entity of await readJson(`.cache/${folder}/raw-entities.json`)) if (entities.has(entity.id)) raw.set(entity.id, entity);
   return { entities, raw };
 }
 export function externalIds(raw, property) {

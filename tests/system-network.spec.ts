@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
 import type { Core } from 'cytoscape';
+import coverage from '../docs/current-coverage.json' with { type: 'json' };
+
+const educationCount = coverage.graphCounts.education;
+const enaCount = coverage.graphCounts.enaEducation;
 
 type Canvas = HTMLElement & { _cyreg: { cy: Core } };
 const camera = (element: Element) => {
@@ -11,9 +15,9 @@ test('default map contains the full network and changing reading preserves geome
   await page.goto('/');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const canvas = page.locator('.system-stage .graph-canvas');
-  await expect(canvas).toHaveAttribute('data-nodes', '2394');
+  await expect(canvas).toHaveAttribute('data-nodes', String(coverage.corpus.entities));
   await page.getByRole('button', { name: 'Formation', exact: true }).click();
-  await expect(canvas).toHaveAttribute('data-nodes', '735');
+  await expect(canvas).toHaveAttribute('data-nodes', String(educationCount));
   const before = await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().map(n => ({ id: n.id(), ...n.position() })));
   const framing = await canvas.evaluate(camera);
   await page.getByRole('button', { name: 'Individus', exact: true }).click();
@@ -29,16 +33,17 @@ test('default map contains the full network and changing reading preserves geome
 test('isolation retains positions and restores the preceding camera', async ({ page }) => {
   await page.goto('/?graphView=system&system=education&selected=Q273579');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
+  await page.getByRole('button', { name: 'Fermer la fiche', exact: true }).click();
   const canvas = page.locator('.system-stage .graph-canvas');
   const positions = await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().map(n => ({ id: n.id(), ...n.position() })));
   const before = await canvas.evaluate(camera);
   await page.getByRole('button', { name: 'Isoler le voisinage', exact: true }).click();
   await expect.poll(() => canvas.evaluate(element => (element as Canvas)._cyreg.cy.animated())).toBe(false);
-  expect(await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().filter(n => n.visible()).length)).toBe(121);
+  expect(await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().filter(n => n.visible()).length)).toBe(enaCount);
   expect(await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().map(n => ({ id: n.id(), ...n.position() })))).toEqual(positions);
   await page.getByRole('button', { name: 'Isoler le voisinage', exact: true }).click();
   await expect.poll(() => canvas.evaluate(camera)).toEqual(before);
-  expect(await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().filter(n => n.visible()).length)).toBe(735);
+  expect(await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().filter(n => n.visible()).length)).toBe(educationCount);
 });
 
 test('school evidence distinguishes dated overlap from an official promotion', async ({ page }) => {

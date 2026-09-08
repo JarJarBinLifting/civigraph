@@ -1,0 +1,551 @@
+{
+  "checkedAt": "2026-09-08",
+  "scope": "Socle national : les 36 membres du gouvernement, les 11 présidences des groupes de l’Assemblée, les 7 présidences nommées par le Sénat et les responsables de 13 formations explicitement listées. Pas un recensement de tous les élus ni de tous les cadres de partis.",
+  "coveredPeople": 65,
+  "addedPeople": 55,
+  "officialRoles": 68,
+  "corpus": {
+    "people": 547,
+    "entities": 2581,
+    "statements": 8035
+  },
+  "graphCounts": {
+    "education": 797,
+    "enaEducation": 125,
+    "assas": 69
+  },
+  "withoutCareerData": [
+    "Serge Papin"
+  ],
+  "unresolved": [
+    {
+      "section": "senate-groups",
+      "organization": "Rassemblement des démocrates, progressistes et indépendants",
+      "reason": "La liste du Sénat ne nomme pas de président le 8 septembre 2026. François Patriat est décédé en août ; aucun successeur inféré.",
+      "url": "https://www.senat.fr/senateurs/grp.html",
+      "corroboratingUrl": "https://www.senat.fr/salle-de-presse/communiques-de-presse/presse/19-08-2026/hommage-president-senat-suite-deces-francois-patriat-senateur-cote-dor-president-groupe-rassemblement-des-democrates-progressistes-independants-du-senat.html"
+    }
+  ],
+  "people": [
+    {
+      "id": "Q20089181",
+      "name": "Sébastien Lecornu",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 13,
+      "datedCareerStatements": 6
+    },
+    {
+      "id": "Q65595138",
+      "name": "Laurent Panifous",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 7,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q104032664",
+      "name": "Maud Bregeon",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 5
+    },
+    {
+      "id": "Q29570183",
+      "name": "Aurore Bergé",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 10,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q30729111",
+      "name": "Laurent Nuñez",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 11,
+      "datedCareerStatements": 8
+    },
+    {
+      "id": "Q17496948",
+      "name": "Jean-Didier Berger",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q63965965",
+      "name": "Marie-Pierre Vedrenne",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q2942097",
+      "name": "Catherine Vautrin",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 11,
+      "datedCareerStatements": 8
+    },
+    {
+      "id": "Q47312015",
+      "name": "Alice Rufo",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 3,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q33106208",
+      "name": "Jean-Pierre Farandou",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 8,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q112079050",
+      "name": "Sabrina Roubache",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 3,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q2403964",
+      "name": "Monique Barbut",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 0
+    },
+    {
+      "id": "Q2941852",
+      "name": "Catherine Chabaud",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q112654129",
+      "name": "Mathieu Lefèvre",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 2,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q3123610",
+      "name": "Gérald Darmanin",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 42,
+      "datedCareerStatements": 33
+    },
+    {
+      "id": "Q30130489",
+      "name": "Roland Lescure",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 42,
+      "datedCareerStatements": 38
+    },
+    {
+      "id": "Q63766436",
+      "name": "Sébastien Martin",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q112651320",
+      "name": "Anne Le Hénanff",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 7,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q3479475",
+      "name": "Serge Papin",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 0,
+      "datedCareerStatements": 0
+    },
+    {
+      "id": "Q2414678",
+      "name": "Annie Genevard",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 7,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q33138734",
+      "name": "Édouard Geffray",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q30339198",
+      "name": "Jean-Noël Barrot",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 65,
+      "datedCareerStatements": 55
+    },
+    {
+      "id": "Q112572505",
+      "name": "Benjamin Haddad",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q3340330",
+      "name": "Nicolas Forissier",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 18,
+      "datedCareerStatements": 7
+    },
+    {
+      "id": "Q112654771",
+      "name": "Éléonore Caroit",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q30339281",
+      "name": "Stéphanie Rist",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 8,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q85328250",
+      "name": "Camille Galliard-Minier",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q2942038",
+      "name": "Catherine Pégard",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q30379800",
+      "name": "Naïma Moutchou",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 6,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q18202579",
+      "name": "Françoise Gatel",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 7,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q65582016",
+      "name": "Michel Fournier",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 8,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q47502155",
+      "name": "David Amiel",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q106287381",
+      "name": "Philippe Baptiste",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 6,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q63764396",
+      "name": "Marina Ferrari",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 6,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q63371158",
+      "name": "Philippe Tabarot",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 1,
+      "datedCareerStatements": 0
+    },
+    {
+      "id": "Q62078135",
+      "name": "Vincent Jeanbrun",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 13,
+      "datedCareerStatements": 5
+    },
+    {
+      "id": "Q12927",
+      "name": "Marine Le Pen",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 30,
+      "datedCareerStatements": 23
+    },
+    {
+      "id": "Q30339350",
+      "name": "Gabriel Attal",
+      "added": false,
+      "roles": 2,
+      "careerStatements": 83,
+      "datedCareerStatements": 76
+    },
+    {
+      "id": "Q30343128",
+      "name": "Mathilde Panot",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q29021094",
+      "name": "Boris Vallaud",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 6
+    },
+    {
+      "id": "Q984375",
+      "name": "Laurent Wauquiez",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 46,
+      "datedCareerStatements": 31
+    },
+    {
+      "id": "Q112648926",
+      "name": "Cyrielle Chatelain",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 3,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q6755549",
+      "name": "Marc Fesneau",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 10,
+      "datedCareerStatements": 4
+    },
+    {
+      "id": "Q2514772",
+      "name": "Laurent Marcangeli",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 14,
+      "datedCareerStatements": 6
+    },
+    {
+      "id": "Q30530164",
+      "name": "Christophe Naegelen",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q30380891",
+      "name": "Stéphane Peu",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q1844180",
+      "name": "Éric Ciotti",
+      "added": true,
+      "roles": 2,
+      "careerStatements": 16,
+      "datedCareerStatements": 9
+    },
+    {
+      "id": "Q19628703",
+      "name": "Mathieu Darnaud",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 6,
+      "datedCareerStatements": 0
+    },
+    {
+      "id": "Q3369559",
+      "name": "Patrick Kanner",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 6,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q3134586",
+      "name": "Hervé Marseille",
+      "added": true,
+      "roles": 2,
+      "careerStatements": 10,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q389141",
+      "name": "Claude Malhuret",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 11,
+      "datedCareerStatements": 5
+    },
+    {
+      "id": "Q3009722",
+      "name": "Cécile Cukierman",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 0
+    },
+    {
+      "id": "Q40871238",
+      "name": "Maryse Carrère",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q40914766",
+      "name": "Guillaume Gontard",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 5,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q40655898",
+      "name": "Jordan Bardella",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q29575749",
+      "name": "Manuel Bompard",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 3
+    },
+    {
+      "id": "Q3351018",
+      "name": "Olivier Faure",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 45,
+      "datedCareerStatements": 36
+    },
+    {
+      "id": "Q2926942",
+      "name": "Bruno Retailleau",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 17,
+      "datedCareerStatements": 10
+    },
+    {
+      "id": "Q29917987",
+      "name": "Marine Tondelier",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 4,
+      "datedCareerStatements": 0
+    },
+    {
+      "id": "Q30388733",
+      "name": "Fabien Roussel",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 12,
+      "datedCareerStatements": 5
+    },
+    {
+      "id": "Q12963",
+      "name": "François Bayrou",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 30,
+      "datedCareerStatements": 23
+    },
+    {
+      "id": "Q3579995",
+      "name": "Édouard Philippe",
+      "added": false,
+      "roles": 1,
+      "careerStatements": 36,
+      "datedCareerStatements": 27
+    },
+    {
+      "id": "Q556149",
+      "name": "Raphaël Glucksmann",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 8,
+      "datedCareerStatements": 1
+    },
+    {
+      "id": "Q56320702",
+      "name": "Aurore Lalucq",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 8,
+      "datedCareerStatements": 2
+    },
+    {
+      "id": "Q288477",
+      "name": "Éric Zemmour",
+      "added": true,
+      "roles": 1,
+      "careerStatements": 9,
+      "datedCareerStatements": 5
+    }
+  ]
+}

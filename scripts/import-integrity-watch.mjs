@@ -38,7 +38,7 @@ const identifiers = externalIds(raw, 'P4703');
 const rules = await readJson('scripts/organization-aliases.json');
 const aliases = new Map(rules.organizations.flatMap(org => org.aliases.map(label => [normalizeLabel(label), org.id])));
 const allEntities = new Set();
-for (const name of ['graph', 'attali-wikidata', 'network-wikidata', 'assembly']) for (const entity of (await readJson(`src/data/${name}.json`)).entities) allEntities.add(entity.id);
+for (const name of ['graph', 'attali-wikidata', 'network-wikidata', 'current-wikidata', 'assembly']) for (const entity of (await readJson(`src/data/${name}.json`)).entities) allEntities.add(entity.id);
 for (const id of aliases.values()) if (!allEntities.has(id)) throw new Error(`Entité de rapprochement absente : ${id}`);
 const relations = new Map();
 const matched = [];

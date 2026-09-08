@@ -1,19 +1,20 @@
 {
-  "checkedAt": "2026-09-06T12:34:47.336Z",
-  "people": 492,
-  "entities": 2394,
+  "checkedAt": "2026-09-08T11:23:21.312Z",
+  "people": 547,
+  "entities": 2581,
   "before": {
     "statements": 797,
     "datedStatements": 496
   },
   "after": {
-    "statements": 7568,
-    "datedStatements": 4766
+    "statements": 8035,
+    "datedStatements": 4999
   },
   "sources": {
-    "wikidata": 4699,
+    "wikidata": 5098,
     "assembly": 2836,
     "hatvpViaIntegrityWatch": 17,
+    "currentRoles": 68,
     "officialCompositions": 16
   },
   "institutions": [
@@ -123,10 +124,10 @@
         "datedStatements": 16
       },
       "after": {
-        "people": 122,
-        "peopleWithUsableDates": 101,
-        "statements": 130,
-        "datedStatements": 106
+        "people": 126,
+        "peopleWithUsableDates": 105,
+        "statements": 134,
+        "datedStatements": 110
       }
     },
     {
@@ -139,9 +140,9 @@
         "datedStatements": 3
       },
       "after": {
-        "people": 170,
+        "people": 185,
         "peopleWithUsableDates": 12,
-        "statements": 179,
+        "statements": 194,
         "datedStatements": 13
       }
     },
@@ -155,9 +156,9 @@
         "datedStatements": 0
       },
       "after": {
-        "people": 79,
+        "people": 80,
         "peopleWithUsableDates": 5,
-        "statements": 81,
+        "statements": 82,
         "datedStatements": 5
       }
     },

@@ -1,0 +1,2447 @@
+{
+  "meta": {
+    "version": 1,
+    "fetchedAt": "2026-09-08",
+    "source": "Gouvernement, Assemblée nationale, Sénat et sites des formations politiques",
+    "license": "Conditions de chaque source",
+    "peopleCount": 0,
+    "entityCount": 32,
+    "relationCount": 68,
+    "properties": [
+      "official:2026-role"
+    ],
+    "description": "Socle national : les 36 membres du gouvernement, les 11 présidences des groupes de l’Assemblée, les 7 présidences nommées par le Sénat et les responsables de 13 formations explicitement listées. Pas un recensement de tous les élus ni de tous les cadres de partis."
+  },
+  "entities": [
+    {
+      "id": "current:government-france",
+      "label": "Gouvernement français",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845401",
+      "label": "Rassemblement National",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845407",
+      "label": "Ensemble pour la République",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "Q23731823",
+      "label": "Renaissance",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q23731823",
+      "revision": 2531750298,
+      "modified": "2026-08-15T19:11:33Z"
+    },
+    {
+      "id": "AN:PO845413",
+      "label": "La France insoumise - Nouveau Front Populaire",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845419",
+      "label": "Socialistes et apparentés",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845425",
+      "label": "Droite Républicaine",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845439",
+      "label": "Écologiste et Social",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845454",
+      "label": "Les Démocrates",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845470",
+      "label": "Horizons & Indépendants",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845485",
+      "label": "Libertés, Indépendants, Outre-mer et Territoires",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO845514",
+      "label": "Gauche Démocrate et Républicaine",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "AN:PO872880",
+      "label": "Union des droites pour la République",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "Q127038760",
+      "label": "Union des droites pour la République",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q127038760",
+      "revision": 2489210648,
+      "modified": "2026-05-09T12:37:23Z"
+    },
+    {
+      "id": "current:organization:b57511a3bc6e3af7",
+      "label": "Groupe Les Républicains · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "current:organization:2ab8c6f17c96d2ef",
+      "label": "Groupe Socialiste, Écologiste et Républicain · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "current:organization:b60e8425c9f1ac20",
+      "label": "Groupe Union Centriste · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "Q82892",
+      "label": "Union des démocrates et indépendants",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q82892",
+      "revision": 2517078593,
+      "modified": "2026-07-13T14:29:06Z"
+    },
+    {
+      "id": "current:organization:e0eb8a4efa576ec7",
+      "label": "Groupe Les Indépendants - République et Territoires · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "current:organization:a6097244ff851c7e",
+      "label": "Groupe Communiste Républicain Citoyen et Écologiste - Kanaky · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "current:organization:f23e92613c0caf16",
+      "label": "Groupe Rassemblement Démocratique et Social Européen · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "current:organization:f95cdbe369fe7c72",
+      "label": "Groupe Écologiste - Solidarité et Territoires · Sénat",
+      "description": "Organisation citée dans le socle national vérifié en 2026.",
+      "type": "party",
+      "inCorpus": false,
+      "modified": "2026-09-08",
+      "sourceUrl": "https://www.senat.fr/senateurs/grp.html",
+      "sourceLabel": "Source du socle 2026"
+    },
+    {
+      "id": "Q205150",
+      "label": "Rassemblement national",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q205150",
+      "revision": 2538170885,
+      "modified": "2026-08-30T12:23:05Z"
+    },
+    {
+      "id": "Q27978402",
+      "label": "La France insoumise",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q27978402",
+      "revision": 2538171901,
+      "modified": "2026-08-30T12:26:40Z"
+    },
+    {
+      "id": "Q170972",
+      "label": "Parti socialiste",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q170972",
+      "revision": 2519793233,
+      "modified": "2026-07-19T18:56:51Z"
+    },
+    {
+      "id": "Q20012759",
+      "label": "Les Républicains",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q20012759",
+      "revision": 2484627247,
+      "modified": "2026-04-25T16:41:30Z"
+    },
+    {
+      "id": "Q613786",
+      "label": "Les Écologistes – Europe Écologie Les Verts",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q613786",
+      "revision": 2538174588,
+      "modified": "2026-08-30T12:37:56Z"
+    },
+    {
+      "id": "Q192821",
+      "label": "Parti communiste français",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q192821",
+      "revision": 2535915124,
+      "modified": "2026-08-24T19:29:44Z"
+    },
+    {
+      "id": "Q587370",
+      "label": "Mouvement démocrate",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q587370",
+      "revision": 2485403817,
+      "modified": "2026-04-28T17:48:30Z"
+    },
+    {
+      "id": "Q108846587",
+      "label": "Horizons",
+      "description": "parti politique centre droit français fondé en 2021",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q108846587",
+      "revision": 2527648624,
+      "modified": "2026-08-05T14:23:52Z"
+    },
+    {
+      "id": "Q58366009",
+      "label": "Place publique",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q58366009",
+      "revision": 2464388630,
+      "modified": "2026-02-18T09:34:39Z"
+    },
+    {
+      "id": "Q109932430",
+      "label": "Reconquête",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q109932430",
+      "revision": 2531319943,
+      "modified": "2026-08-14T12:58:46Z"
+    }
+  ],
+  "relations": [
+    {
+      "id": "official:2026:Q20089181:d675b359c1471cea",
+      "source": "Q20089181",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Premier ministre",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q20089181",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Sébastien Lecornu",
+        "locator": "Sébastien Lecornu · Premier ministre",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q65595138:8328c9d59f18cbfc",
+      "source": "Q65595138",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q65595138",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Laurent Panifous",
+        "locator": "Laurent Panifous · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q104032664:8328c9d59f18cbfc",
+      "source": "Q104032664",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q104032664",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Maud Bregeon",
+        "locator": "Maud Bregeon · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q29570183:8328c9d59f18cbfc",
+      "source": "Q29570183",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q29570183",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Aurore Bergé",
+        "locator": "Aurore Bergé · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30729111:8328c9d59f18cbfc",
+      "source": "Q30729111",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q30729111",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Laurent Nuñez",
+        "locator": "Laurent Nuñez · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q17496948:8328c9d59f18cbfc",
+      "source": "Q17496948",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q17496948",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Jean-Didier Berger",
+        "locator": "Jean-Didier Berger · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q63965965:8328c9d59f18cbfc",
+      "source": "Q63965965",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q63965965",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Marie-Pierre Vedrenne",
+        "locator": "Marie-Pierre Vedrenne · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2942097:8328c9d59f18cbfc",
+      "source": "Q2942097",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q2942097",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Catherine Vautrin",
+        "locator": "Catherine Vautrin · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q47312015:8328c9d59f18cbfc",
+      "source": "Q47312015",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q47312015",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Alice Rufo",
+        "locator": "Alice Rufo · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q33106208:8328c9d59f18cbfc",
+      "source": "Q33106208",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q33106208",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Jean-Pierre Farandou",
+        "locator": "Jean-Pierre Farandou · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q112079050:8328c9d59f18cbfc",
+      "source": "Q112079050",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q112079050",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Sabrina Roubache",
+        "locator": "Sabrina Roubache · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2403964:8328c9d59f18cbfc",
+      "source": "Q2403964",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q2403964",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Monique Barbut",
+        "locator": "Monique Barbut · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2941852:8328c9d59f18cbfc",
+      "source": "Q2941852",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q2941852",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Catherine Chabaud",
+        "locator": "Catherine Chabaud · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q112654129:8328c9d59f18cbfc",
+      "source": "Q112654129",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q112654129",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Mathieu Lefèvre",
+        "locator": "Mathieu Lefèvre · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3123610:8328c9d59f18cbfc",
+      "source": "Q3123610",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q3123610",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Gérald Darmanin",
+        "locator": "Gérald Darmanin · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30130489:8328c9d59f18cbfc",
+      "source": "Q30130489",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q30130489",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Roland Lescure",
+        "locator": "Roland Lescure · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q63766436:8328c9d59f18cbfc",
+      "source": "Q63766436",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q63766436",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Sébastien Martin",
+        "locator": "Sébastien Martin · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q112651320:8328c9d59f18cbfc",
+      "source": "Q112651320",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q112651320",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Anne Le Hénanff",
+        "locator": "Anne Le Hénanff · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3479475:8328c9d59f18cbfc",
+      "source": "Q3479475",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q3479475",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Serge Papin",
+        "locator": "Serge Papin · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2414678:8328c9d59f18cbfc",
+      "source": "Q2414678",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q2414678",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Annie Genevard",
+        "locator": "Annie Genevard · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q33138734:8328c9d59f18cbfc",
+      "source": "Q33138734",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q33138734",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Édouard Geffray",
+        "locator": "Édouard Geffray · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30339198:8328c9d59f18cbfc",
+      "source": "Q30339198",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q30339198",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Jean-Noël Barrot",
+        "locator": "Jean-Noël Barrot · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q112572505:8328c9d59f18cbfc",
+      "source": "Q112572505",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q112572505",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Benjamin Haddad",
+        "locator": "Benjamin Haddad · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3340330:8328c9d59f18cbfc",
+      "source": "Q3340330",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q3340330",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Nicolas Forissier",
+        "locator": "Nicolas Forissier · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q112654771:8328c9d59f18cbfc",
+      "source": "Q112654771",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q112654771",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Éléonore Caroit",
+        "locator": "Éléonore Caroit · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30339281:8328c9d59f18cbfc",
+      "source": "Q30339281",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q30339281",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Stéphanie Rist",
+        "locator": "Stéphanie Rist · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q85328250:8328c9d59f18cbfc",
+      "source": "Q85328250",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q85328250",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Camille Galliard-Minier",
+        "locator": "Camille Galliard-Minier · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2942038:8328c9d59f18cbfc",
+      "source": "Q2942038",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q2942038",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Catherine Pégard",
+        "locator": "Catherine Pégard · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30379800:8328c9d59f18cbfc",
+      "source": "Q30379800",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q30379800",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Naïma Moutchou",
+        "locator": "Naïma Moutchou · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q18202579:8328c9d59f18cbfc",
+      "source": "Q18202579",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q18202579",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Françoise Gatel",
+        "locator": "Françoise Gatel · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q65582016:8328c9d59f18cbfc",
+      "source": "Q65582016",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q65582016",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Michel Fournier",
+        "locator": "Michel Fournier · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q47502155:8328c9d59f18cbfc",
+      "source": "Q47502155",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q47502155",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · David Amiel",
+        "locator": "David Amiel · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q106287381:8328c9d59f18cbfc",
+      "source": "Q106287381",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q106287381",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Philippe Baptiste",
+        "locator": "Philippe Baptiste · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q63764396:8328c9d59f18cbfc",
+      "source": "Q63764396",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q63764396",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Marina Ferrari",
+        "locator": "Marina Ferrari · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q63371158:8328c9d59f18cbfc",
+      "source": "Q63371158",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q63371158",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Philippe Tabarot",
+        "locator": "Philippe Tabarot · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q62078135:8328c9d59f18cbfc",
+      "source": "Q62078135",
+      "target": "current:government-france",
+      "category": "office",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Membre du gouvernement",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.info.gouv.fr/composition-du-gouvernement",
+      "references": [
+        {
+          "id": "roster-2026:Q62078135",
+          "urls": [
+            "https://www.info.gouv.fr/composition-du-gouvernement"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gouvernement français · Vincent Jeanbrun",
+        "locator": "Vincent Jeanbrun · Membre du gouvernement",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q12927:3267a18d1c65cb3a",
+      "source": "Q12927",
+      "target": "AN:PO845401",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q12927",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Rassemblement National · Marine Le Pen",
+        "locator": "Marine Le Pen · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30339350:6b933e52c5bfaf7b",
+      "source": "Q30339350",
+      "target": "AN:PO845407",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q30339350",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Ensemble pour la République · Gabriel Attal",
+        "locator": "Gabriel Attal · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30339350:8c6ab8f5823ae88a",
+      "source": "Q30339350",
+      "target": "Q23731823",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Secrétaire général",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://parti-renaissance.fr/le-parti",
+      "references": [
+        {
+          "id": "roster-2026:Q30339350",
+          "urls": [
+            "https://parti-renaissance.fr/le-parti"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Renaissance · Gabriel Attal",
+        "locator": "Gabriel Attal · Secrétaire général",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30343128:ed101e4328887953",
+      "source": "Q30343128",
+      "target": "AN:PO845413",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q30343128",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "La France insoumise - Nouveau Front Populaire · Mathilde Panot",
+        "locator": "Mathilde Panot · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q29021094:de9dbe10a53d70e9",
+      "source": "Q29021094",
+      "target": "AN:PO845419",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q29021094",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Socialistes et apparentés · Boris Vallaud",
+        "locator": "Boris Vallaud · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q984375:847b46f79e4ed917",
+      "source": "Q984375",
+      "target": "AN:PO845425",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q984375",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Droite Républicaine · Laurent Wauquiez",
+        "locator": "Laurent Wauquiez · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q112648926:42d1a0304df883cb",
+      "source": "Q112648926",
+      "target": "AN:PO845439",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q112648926",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Écologiste et Social · Cyrielle Chatelain",
+        "locator": "Cyrielle Chatelain · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q6755549:6e9676191f3de9bb",
+      "source": "Q6755549",
+      "target": "AN:PO845454",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q6755549",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Les Démocrates · Marc Fesneau",
+        "locator": "Marc Fesneau · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2514772:50c591f4b6ae6deb",
+      "source": "Q2514772",
+      "target": "AN:PO845470",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q2514772",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Horizons & Indépendants · Laurent Marcangeli",
+        "locator": "Laurent Marcangeli · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30530164:db1474d5033cc815",
+      "source": "Q30530164",
+      "target": "AN:PO845485",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q30530164",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Libertés, Indépendants, Outre-mer et Territoires · Christophe Naegelen",
+        "locator": "Christophe Naegelen · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30380891:a6bd20dc29a54111",
+      "source": "Q30380891",
+      "target": "AN:PO845514",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q30380891",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Gauche Démocrate et Républicaine · Stéphane Peu",
+        "locator": "Stéphane Peu · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q1844180:05d9e745d51f57a8",
+      "source": "Q1844180",
+      "target": "AN:PO872880",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe à l’Assemblée nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369",
+      "references": [
+        {
+          "id": "roster-2026:Q1844180",
+          "urls": [
+            "https://www2.assemblee-nationale.fr/layout/set/ajax/content/view/embed/189369"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Union des droites pour la République · Éric Ciotti",
+        "locator": "Éric Ciotti · Présidence du groupe à l’Assemblée nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q1844180:6336e99bf52510ab",
+      "source": "Q1844180",
+      "target": "Q127038760",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.udr.fr/voteconfiance",
+      "references": [
+        {
+          "id": "roster-2026:Q1844180",
+          "urls": [
+            "https://www.udr.fr/voteconfiance"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Union des droites pour la République · Éric Ciotti",
+        "locator": "Éric Ciotti · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q19628703:528e80f35d1c3265",
+      "source": "Q19628703",
+      "target": "current:organization:b57511a3bc6e3af7",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q19628703",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Les Républicains · Sénat · Mathieu Darnaud",
+        "locator": "Mathieu Darnaud · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3369559:267c4be9942ca532",
+      "source": "Q3369559",
+      "target": "current:organization:2ab8c6f17c96d2ef",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q3369559",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Socialiste, Écologiste et Républicain · Sénat · Patrick Kanner",
+        "locator": "Patrick Kanner · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3134586:afc57f17cfb9473a",
+      "source": "Q3134586",
+      "target": "current:organization:b60e8425c9f1ac20",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q3134586",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Union Centriste · Sénat · Hervé Marseille",
+        "locator": "Hervé Marseille · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3134586:96629f74983cfc13",
+      "source": "Q3134586",
+      "target": "Q82892",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.parti-udi.fr/la-direction-nationale-2025/",
+      "references": [
+        {
+          "id": "roster-2026:Q3134586",
+          "urls": [
+            "https://www.parti-udi.fr/la-direction-nationale-2025/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Union des démocrates et indépendants · Hervé Marseille",
+        "locator": "Hervé Marseille · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q389141:70ab93a85b520a74",
+      "source": "Q389141",
+      "target": "current:organization:e0eb8a4efa576ec7",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q389141",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Les Indépendants - République et Territoires · Sénat · Claude Malhuret",
+        "locator": "Claude Malhuret · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3009722:290b42cd25690818",
+      "source": "Q3009722",
+      "target": "current:organization:a6097244ff851c7e",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q3009722",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Communiste Républicain Citoyen et Écologiste - Kanaky · Sénat · Cécile Cukierman",
+        "locator": "Cécile Cukierman · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q40871238:caf8789e60a9c8b8",
+      "source": "Q40871238",
+      "target": "current:organization:f23e92613c0caf16",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q40871238",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Rassemblement Démocratique et Social Européen · Sénat · Maryse Carrère",
+        "locator": "Maryse Carrère · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q40914766:8f7b27df6394cbc2",
+      "source": "Q40914766",
+      "target": "current:organization:f95cdbe369fe7c72",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Présidence du groupe au Sénat",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateurs/grp.html",
+      "references": [
+        {
+          "id": "roster-2026:Q40914766",
+          "urls": [
+            "https://www.senat.fr/senateurs/grp.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Groupe Écologiste - Solidarité et Territoires · Sénat · Guillaume Gontard",
+        "locator": "Guillaume Gontard · Présidence du groupe au Sénat",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q40655898:a27374855a2ec68d",
+      "source": "Q40655898",
+      "target": "Q205150",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://rassemblementnational.fr/membre/jordan-bardella",
+      "references": [
+        {
+          "id": "roster-2026:Q40655898",
+          "urls": [
+            "https://rassemblementnational.fr/membre/jordan-bardella"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Rassemblement national · Jordan Bardella",
+        "locator": "Jordan Bardella · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q29575749:c170beb8c070db68",
+      "source": "Q29575749",
+      "target": "Q27978402",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Coordinateur",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://lafranceinsoumise.fr/lfi-comment-ca-marche/",
+      "references": [
+        {
+          "id": "roster-2026:Q29575749",
+          "urls": [
+            "https://lafranceinsoumise.fr/lfi-comment-ca-marche/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "La France insoumise · Manuel Bompard",
+        "locator": "Manuel Bompard · Coordinateur",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3351018:571af3612d9f7a9b",
+      "source": "Q3351018",
+      "target": "Q170972",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Premier secrétaire",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://parti-socialiste.fr/le-premier-secretaire/",
+      "references": [
+        {
+          "id": "roster-2026:Q3351018",
+          "urls": [
+            "https://parti-socialiste.fr/le-premier-secretaire/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parti socialiste · Olivier Faure",
+        "locator": "Olivier Faure · Premier secrétaire",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q2926942:a2d50b5c771f4bd0",
+      "source": "Q2926942",
+      "target": "Q20012759",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://republicains.fr/qui-sommes-nous/",
+      "references": [
+        {
+          "id": "roster-2026:Q2926942",
+          "urls": [
+            "https://republicains.fr/qui-sommes-nous/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Les Républicains · Bruno Retailleau",
+        "locator": "Bruno Retailleau · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q29917987:67ffc6f9c8e82df5",
+      "source": "Q29917987",
+      "target": "Q613786",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Secrétaire nationale",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://lesecologistes.fr/trombinoscope/RqKQhLKtZmERCT0kmqPoF/marine-tondelier",
+      "references": [
+        {
+          "id": "roster-2026:Q29917987",
+          "urls": [
+            "https://lesecologistes.fr/trombinoscope/RqKQhLKtZmERCT0kmqPoF/marine-tondelier"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Les Écologistes · Marine Tondelier",
+        "locator": "Marine Tondelier · Secrétaire nationale",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q30388733:9951dcd138053ccb",
+      "source": "Q30388733",
+      "target": "Q192821",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Secrétaire national",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.pcf.fr/le_conseil_national_du_pcf_a_adopte_son_nouvel_executif_national",
+      "references": [
+        {
+          "id": "roster-2026:Q30388733",
+          "urls": [
+            "https://www.pcf.fr/le_conseil_national_du_pcf_a_adopte_son_nouvel_executif_national"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parti communiste français · Fabien Roussel",
+        "locator": "Fabien Roussel · Secrétaire national",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q12963:221dd88fe5ddf167",
+      "source": "Q12963",
+      "target": "Q587370",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.mouvementdemocrate.fr/fiche/francois-bayrou-2366",
+      "references": [
+        {
+          "id": "roster-2026:Q12963",
+          "urls": [
+            "https://www.mouvementdemocrate.fr/fiche/francois-bayrou-2366"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Mouvement démocrate · François Bayrou",
+        "locator": "François Bayrou · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q3579995:171c43b7c916ae8d",
+      "source": "Q3579995",
+      "target": "Q108846587",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://horizonsleparti.fr/organisation/",
+      "references": [
+        {
+          "id": "roster-2026:Q3579995",
+          "urls": [
+            "https://horizonsleparti.fr/organisation/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Horizons · Édouard Philippe",
+        "locator": "Édouard Philippe · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q556149:460e695099f8dc29",
+      "source": "Q556149",
+      "target": "Q58366009",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Coprésident",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://place-publique.eu/trombinoscope/d7gAAtkKcvueTJRMqeYBC/raphael-glucksmann",
+      "references": [
+        {
+          "id": "roster-2026:Q556149",
+          "urls": [
+            "https://place-publique.eu/trombinoscope/d7gAAtkKcvueTJRMqeYBC/raphael-glucksmann"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Place publique · Raphaël Glucksmann",
+        "locator": "Raphaël Glucksmann · Coprésident",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q56320702:a51cd335a7093305",
+      "source": "Q56320702",
+      "target": "Q58366009",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Coprésidente",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://place-publique.eu/trombinoscope/7Hj8U4wKppDM3QaSslA2ZE/aurore-lalucq",
+      "references": [
+        {
+          "id": "roster-2026:Q56320702",
+          "urls": [
+            "https://place-publique.eu/trombinoscope/7Hj8U4wKppDM3QaSslA2ZE/aurore-lalucq"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Place publique · Aurore Lalucq",
+        "locator": "Aurore Lalucq · Coprésidente",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:2026:Q288477:d14f89e9a2ac1a12",
+      "source": "Q288477",
+      "target": "Q109932430",
+      "category": "party",
+      "property": "official:2026-role",
+      "label": "A exercé une responsabilité dans",
+      "role": "Président",
+      "pointInTime": {
+        "value": "2026-09-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.parti-reconquete.fr/equipe",
+      "references": [
+        {
+          "id": "roster-2026:Q288477",
+          "urls": [
+            "https://www.parti-reconquete.fr/equipe"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Reconquête · Éric Zemmour",
+        "locator": "Éric Zemmour · Président",
+        "checkedAt": "2026-09-08",
+        "note": "Fonction présentée par la source consultée à cette date. Ce repère ne précise pas le début ou la fin du mandat. La source de sélection ne valide pas tous les autres éléments du parcours Wikidata."
+      }
+    }
+  ]
+}

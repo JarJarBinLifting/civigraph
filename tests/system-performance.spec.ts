@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { Core } from 'cytoscape';
+import coverage from '../docs/data-coverage.json' with { type: 'json' };
 
 type Canvas = HTMLElement & { _cyreg: { cy: Core } };
 
@@ -94,7 +95,7 @@ test('selection, two-step neighbors, filters and PNG export remain usable', asyn
   await expect(canvas).toHaveAttribute('data-connections', '0');
   await page.getByRole('button', { name: 'Tout afficher', exact: true }).click();
   await page.getByRole('button', { name: 'Fermer les filtres', exact: true }).click();
-  await expect(canvas).toHaveAttribute('data-nodes', '2394');
+  await expect(canvas).toHaveAttribute('data-nodes', String(coverage.entities));
   await page.getByRole('button', { name: 'Zoom avant', exact: true }).click();
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Exporter la carte en PNG', exact: true }).click();
