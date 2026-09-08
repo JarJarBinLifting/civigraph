@@ -1,4 +1,4 @@
-import type { StylesheetStyle } from 'cytoscape';
+import type { NodeSingular, StylesheetStyle } from 'cytoscape';
 import type { EntityType } from './types';
 import { typeInfo } from './presentation';
 import { atlasTheme } from './graph-theme';
@@ -17,6 +17,16 @@ export function graphNodeAppearance(type: EntityType) {
 }
 
 export const graphMotion = { camera: 280, scene: 320 };
+
+export function graphZoomChanged(previous: number, next: number) {
+  // A reciprocal wheel gesture can return the same zoom with floating-point noise.
+  return Math.abs(previous - next) > Math.max(Math.abs(previous), Math.abs(next)) * 1e-9;
+}
+
+export function syncBadgeOpacity(node: NodeSingular, opacity: number) {
+  // Image properties are lists in Cytoscape: numericStyle returns [0], not 0.
+  if (node.style('background-image-opacity') !== String(opacity)) node.style('background-image-opacity', opacity);
+}
 
 export function graphMotionEnabled() {
   return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
