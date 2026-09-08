@@ -7,6 +7,10 @@ export const graphFont = '"DM Sans Variable", Arial, sans-serif';
 
 export const atlasTheme = { paper: '#ffffff', ink: '#102a50', brand: '#083577', secondary: '#94521d' };
 
+// Category identity on the atlas; political affiliations retain their own badges.
+export const systemPalette = { person: '#102a50', school: '#207667', office: '#3567a1', party: '#7c548c', organization: '#946223' };
+export const systemPaper = '#f8f7f3';
+
 // Diagram symbols describe entity types. Existing photographs remain in the sourced profiles.
 export function nodeSymbol(entity: Entity, anchor = false, color = '#ffffff') {
   const content = entity.type === 'person'
@@ -34,7 +38,9 @@ export function atlasLabelStyle(label: LabelPlacement | undefined, zoom: number,
   if (label.centerOffset) return {
     label: label.text, 'text-opacity': 1, 'font-size': label.fontSize / zoom, 'font-weight': bold ? 600 : 500,
     // Wrapping was measured by the placer. A second renderer wrap would invalidate its boxes.
-    'text-wrap': 'wrap', 'text-max-width': 10000 / zoom, 'line-height': 1.2, 'text-background-padding': 3 / zoom,
+    'text-wrap': 'wrap', 'text-max-width': 10000 / zoom, 'line-height': 1.2, 'text-background-padding': (label.boxed ? 10 : 3) / zoom,
+    'text-background-shape': label.boxed ? 'roundrectangle' : 'rectangle', 'text-border-width': label.boxed ? 1 / zoom : 0,
+    'text-border-opacity': label.boxed ? 1 : 0,
     'text-halign': 'center', 'text-valign': 'center',
     'text-margin-x': label.centerOffset.x / zoom, 'text-margin-y': label.centerOffset.y / zoom,
   };

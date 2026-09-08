@@ -1,8 +1,8 @@
 export type LabelLevel = 0 | 1 | 2;
 export type LabelSide = 'top' | 'bottom' | 'left' | 'right';
 export interface LabelBox { x1: number; y1: number; x2: number; y2: number }
-export interface LabelCandidate { id: string; text: string; x: number; y: number; radius: number; priority: number; side: LabelSide }
-export interface LabelPlacement { id: string; text: string; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox; centerOffset?: { x: number; y: number } }
+export interface LabelCandidate { id: string; text: string; detail?: string; boxed?: boolean; x: number; y: number; radius: number; priority: number; side: LabelSide }
+export interface LabelPlacement { id: string; text: string; boxed?: boolean; side: LabelSide; offset: number; shiftX: number; shiftY: number; fontSize: number; box: LabelBox; centerOffset?: { x: number; y: number } }
 export interface LabelOptions { level: LabelLevel; small: boolean; prominent?: boolean; compact?: boolean; cartographic?: boolean; measure: (text: string, size: number, bold: boolean) => number; obstacles?: LabelBox[]; previous?: Set<string>; viewport?: LabelBox; maxLabels?: number; maxCandidates?: number }
 export function labelLevel(zoom: number, previous: LabelLevel): LabelLevel {
   if (zoom >= .75 || previous === 2 && zoom >= .66) return 2;
@@ -81,8 +81,11 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
     attempted++;
     const fontSize = options.prominent ? node.priority === 100 ? options.compact ? 18 : 20 : options.compact ? 15 : 16 : node.priority >= 80 ? 15 : 14;
     const measure = (text: string) => options.measure(text, fontSize, essential);
-    const lines = wrap(node.text, options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 182 : options.small ? essential ? 170 : 132 : essential ? 210 : 150, measure);
-    const text = lines.join('\n'), width = Math.max(...lines.map(measure), 1) + 6, height = lines.length * fontSize * 1.2 + 6;
+    const maxWidth = node.boxed ? options.small ? 170 : node.priority === 100 ? 260 : 210 : options.compact ? node.priority === 100 ? 120 : essential ? 180 : 132 : options.prominent && !essential ? 182 : options.small ? essential ? 170 : 132 : essential ? 210 : 150;
+    const lines = wrap(node.text, maxWidth, measure);
+    if (node.detail) lines.push(...wrap(node.detail, maxWidth, measure));
+    const padding = node.boxed ? 20 : 6;
+    const text = lines.join('\n'), width = Math.max(...lines.map(measure), 1) + padding, height = lines.length * fontSize * 1.2 + padding;
     const sides = [...new Set<LabelSide>([node.side, 'bottom', 'top', 'right', 'left'])];
     const shifts = options.prominent ? [0, -12, 12, -24, 24, -48, 48] : options.cartographic ? [0, -12, 12, -24, 24] : [0];
     const choices = sides.flatMap(side => shifts.map(shift => ({ side, shift })));
@@ -116,7 +119,7 @@ export function placeLabels(nodes: LabelCandidate[], options: LabelOptions): Lab
         const cost = hardCost + bodies.overlap(box, 3) * 3;
         if (cost < minimum) {
           minimum = cost;
-          best = { id: node.id, text, side, offset, shiftX: x - origin.x, shiftY: y - origin.y, fontSize, box,
+          best = { id: node.id, text, ...(node.boxed ? { boxed: true } : {}), side, offset, shiftX: x - origin.x, shiftY: y - origin.y, fontSize, box,
             ...(options.cartographic ? { centerOffset: { x: (box.x1 + box.x2) / 2 - node.x, y: (box.y1 + box.y2) / 2 - node.y } } : {}),
           };
         }

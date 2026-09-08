@@ -29,24 +29,92 @@ test('continuous panning preserves geometry without restyling the whole corpus',
   expect(result.styled).toBe(0);
 });
 
-test('rapid hover settles on the last entity and leaving restores the selection', async ({ page }) => {
+test('real mouse hover reaches points through edges and preserves the selection after zoom', async ({ page, isMobile }, testInfo) => {
+  test.skip(isMobile, 'A touch screen has no mouse hover.');
   await page.goto('/?graphView=system&systemLens=entities');
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const canvas = page.locator('.system-stage .graph-canvas');
-  const ids = await canvas.evaluate(element => {
-    const cy = (element as Canvas)._cyreg.cy;
-    const [a, b] = cy.nodes().slice(0, 2).map(n => n.id());
-    cy.$id(a).emit('mouseover'); cy.$id(a).emit('mouseout'); cy.$id(b).emit('mouseover');
-    return { a, b, near: cy.$id(b).closedNeighborhood().nodes().length };
+  await page.waitForTimeout(350);
+  type ObservedCanvas = Canvas & { hoverStyleEvents: string[]; lastGraphChange: number };
+  await canvas.evaluate(element => {
+    const host = element as ObservedCanvas;
+    host.hoverStyleEvents = []; host.lastGraphChange = performance.now();
+    const images = new Map(host._cyreg.cy.nodes().map(n => [n.id(), n.is(':backgrounding')]));
+    host._cyreg.cy.on('style', event => {
+      const node = event.target;
+      host.lastGraphChange = performance.now();
+      // The renderer updates :backgrounding when a badge image loads. This is not a hover restyle.
+      if (node.isNode()) {
+        const previous = images.get(node.id()), current = node.is(':backgrounding');
+        images.set(node.id(), current);
+        if (previous !== current) return;
+      }
+      host.hoverStyleEvents.push(node.id());
+    });
+    host._cyreg.cy.on('pan zoom', () => { host.lastGraphChange = performance.now(); });
   });
-  await expect.poll(() => canvas.evaluate((element, id) => (element as Canvas)._cyreg.cy.$id(id).hasClass('system-selected'), ids.b)).toBe(true);
-  await expect(canvas).toHaveAttribute('data-highlighted', String(ids.near));
-  await canvas.evaluate((element, id) => {
-    const cy = (element as Canvas)._cyreg.cy;
-    cy.$id(id).emit('tap'); cy.$id(id).emit('mouseout');
-  }, ids.a);
-  await expect(page.locator('.system-selection-tools')).toBeVisible();
-  await expect.poll(() => canvas.evaluate((element, id) => (element as Canvas)._cyreg.cy.$id(id).hasClass('system-selected'), ids.a)).toBe(true);
+  const pointerTargets = () => canvas.evaluate(element => {
+    const cy = (element as Canvas)._cyreg.cy, rect = element.getBoundingClientRect();
+    const nodes = cy.nodes().map(n => ({
+      id: n.id(), name: String(n.data('label')), visible: n.visible(), position: n.renderedPosition(), label: n.style('label'),
+      body: n.renderedBoundingBox({ includeLabels: false, includeOverlays: false, includeUnderlays: false }),
+      text: n.renderedBoundingBox({ includeNodes: false, includeEdges: false, includeOverlays: false, includeUnderlays: false }),
+    })).filter(n => n.visible);
+    const within = (x: number, y: number, box: { x1: number; y1: number; x2: number; y2: number }) => x >= box.x1 - 3 && x <= box.x2 + 3 && y >= box.y1 - 3 && y <= box.y2 + 3;
+    // Use exposed point centers, excluding points actually covered by another point or card.
+    // Read coordinates only: every interaction below uses the browser's real mouse.
+    return nodes.filter(n => !n.label && n.position.x > 12 && n.position.x < rect.width - 12 && n.position.y > 12 && n.position.y < rect.height - 12
+      && !nodes.some(other => other.id !== n.id && (within(n.position.x, n.position.y, other.body) || other.label && within(n.position.x, n.position.y, other.text))))
+      .slice(0, 6).map(n => ({ id: n.id, name: n.name, x: rect.x + n.position.x, y: rect.y + n.position.y }));
+  });
+  let selected: { id: string; name: string; x: number; y: number } | undefined;
+  for (const stage of ['overview', 'selected', 'zoomed']) {
+    if (stage === 'selected') {
+      await page.mouse.click(selected!.x, selected!.y);
+      await expect(page.getByRole('heading', { name: selected!.name, exact: true })).toBeVisible();
+      await expect(page.locator('.system-selection-tools')).toBeVisible();
+    } else if (stage === 'zoomed') {
+      await page.getByRole('button', { name: 'Zoom avant', exact: true }).click();
+    }
+    // Wait for the actual camera refinement, rather than a fixed animation delay.
+    await expect.poll(() => canvas.evaluate(element => {
+      const host = element as ObservedCanvas, cy = host._cyreg.cy;
+      return !cy.animated() && performance.now() - host.lastGraphChange > 250;
+    })).toBe(true);
+    const targets = await pointerTargets();
+    expect(targets).toHaveLength(6);
+    selected ??= targets[0];
+    await canvas.evaluate(element => { (element as ObservedCanvas).hoverStyleEvents = []; });
+    for (const target of targets) {
+      await page.mouse.move(10, 160);
+      await page.mouse.move(target.x, target.y, { steps: 6 });
+      await expect(canvas).toHaveAttribute('data-hovered', target.id);
+      await expect(canvas).toHaveAttribute('title', target.name);
+      await expect(canvas.locator('.system-hover-overlay')).toBeVisible();
+    }
+    expect(await canvas.evaluate(element => (element as ObservedCanvas).hoverStyleEvents), stage).toEqual([]);
+    await page.screenshot({ path: testInfo.outputPath(`hover-${stage}.png`) });
+    const card = await canvas.evaluate(element => {
+      const cy = (element as Canvas)._cyreg.cy, rect = element.getBoundingClientRect();
+      return cy.nodes().filter(n => n.visible() && n.style('label') !== '').map(n => {
+        const box = n.renderedBoundingBox({ includeNodes: false, includeEdges: false, includeOverlays: false, includeUnderlays: false });
+        return { id: n.id(), x: (box.x1 + box.x2) / 2, y: (box.y1 + box.y2) / 2 };
+      }).filter(n => n.x > 12 && n.x < rect.width - 12 && n.y > 12 && n.y < rect.height - 12)
+        .map(n => ({ id: n.id, x: n.x + rect.x, y: n.y + rect.y }))[0];
+    });
+    expect(card).toBeDefined();
+    await page.mouse.move(card.x, card.y, { steps: 6 });
+    await expect(canvas).toHaveAttribute('data-hovered', card.id);
+    await page.mouse.move(10, 10);
+    await expect(canvas.locator('.system-hover-overlay')).toBeHidden();
+    await expect(canvas).toHaveAttribute('title', '');
+    await page.mouse.move(card.x, card.y);
+    await expect(canvas).toHaveAttribute('data-hovered', card.id);
+    await page.mouse.move(10, 10);
+    await expect(canvas.locator('.system-hover-overlay')).toBeHidden();
+    if (stage === 'overview') await expect(canvas).toHaveAttribute('data-highlighted', '0');
+    else expect(await canvas.evaluate((element, id) => (element as Canvas)._cyreg.cy.$id(id).hasClass('system-selected'), selected.id)).toBe(true);
+  }
 });
 
 test('labels settle at readable sizes after zoom and the camera survives switching views', async ({ page }) => {

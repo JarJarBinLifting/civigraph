@@ -8,6 +8,13 @@ const nodes: LabelCandidate[] = [
   { id: 'selected', text: 'Une personne sélectionnée', x: 65, y: 30, radius: 14, priority: 90, side: 'bottom' },
   { id: 'neighbor', text: 'Une institution très longue avec un intitulé complet', x: 180, y: 30, radius: 12, priority: 0, side: 'right' },
 ];
+
+test('atlas cards keep the institution name and its distinct-person count on separate lines', () => {
+  const source = [{ id: 'school', text: 'Sciences Po Paris', detail: '178 personnes', boxed: true, x: 300, y: 200, radius: 5, priority: 65, side: 'bottom' as const }];
+  const [label] = placeLabels(source, { level: 0, small: false, compact: true, cartographic: true, measure, viewport: { x1: 0, y1: 0, x2: 600, y2: 400 } });
+  expect(label.text).toBe('Sciences Po Paris\n178 personnes');
+  expect(label.box.x2 - label.box.x1).toBeGreaterThanOrEqual(measure('Sciences Po Paris', label.fontSize) + 20);
+});
 test('label levels have different entry and exit thresholds', () => {
   expect(labelLevel(.34, 0)).toBe(1); expect(labelLevel(.30, 1)).toBe(1); expect(labelLevel(.27, 1)).toBe(0);
   expect(labelLevel(.76, 1)).toBe(2); expect(labelLevel(.70, 2)).toBe(2); expect(labelLevel(.63, 2)).toBe(1);

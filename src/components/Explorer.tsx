@@ -242,6 +242,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
           onClose={() => { setComparisonOpen(false); update({ compare: null }); }} /> : <>
           <div className="graph-topbar">
             <div className="graph-heading">{!view.preset && <div className="breadcrumb"><span>Réseau documenté</span><h1 aria-label={isSystem ? "Vue du système" : `Réseau : ${shortLabel(focusEntity)}`}>{isSystem ? "Les liens de la vie publique" : shortLabel(focusEntity)}</h1></div>}
+              {isSystem && !view.preset && <p className="atlas-description">Explorer les institutions, les fonctions et les parcours documentés.</p>}
               <div className="graph-meta"><span>{visible.entities.length} entités</span><span>{visible.relations.length} déclarations</span>{isSystem && <span>{system.connections.length} connexions</span>}{!showDetail && hasSelection && <button className="subtle-link" onClick={() => { setShowDetail(true); setHasSelection(true); }}>Ouvrir la fiche<ArrowUpRight size={14} /></button>}</div>
             </div>
             <div className="map-display-controls">

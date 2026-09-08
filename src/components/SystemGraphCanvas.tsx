@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import type { Core, NodeSingular } from 'cytoscape';
 import { Download, Maximize, Minus, MousePointer2, Plus, ScanSearch, Undo2 } from 'lucide-react';
-import { atlasLabelStyle, atlasTheme, graphFont } from '@/lib/graph-theme';
-import { graphMotion, graphMotionEnabled, graphNodeAppearance } from '@/lib/graph-appearance';
+import { atlasLabelStyle, atlasTheme, graphFont, systemPalette } from '@/lib/graph-theme';
+import { graphMotion, graphMotionEnabled, graphNodeAppearance, graphZoomChanged, syncBadgeOpacity } from '@/lib/graph-appearance';
 import { labelLevel, placeLabels, type LabelCandidate, type LabelLevel } from '@/lib/graph-labels';
 import { periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
 import { matchingSystemPositions, systemGraphKey, systemLayoutInput, systemNeighborhood, type SystemGraph, type SystemGraphMemory, type SystemPositions } from '@/lib/system-graph';
 import type { GraphExportInfo } from '@/lib/graph-export';
 import { affiliationSymbol, organizeSystem, UNKNOWN_POLITICAL_COLOR, type PoliticalIndex, type System } from '@/lib/system-reading';
+import { createSystemHoverOverlay } from '@/lib/system-hover';
 
 interface Props {
   graph: SystemGraph;
@@ -56,13 +57,15 @@ export function SystemGraphCanvas(props: Props) {
 
   useEffect(() => {
     let disposed = false, worker: Worker | undefined, observer: ResizeObserver | undefined;
+    let hoverOverlay: ReturnType<typeof createSystemHoverOverlay> | undefined;
     let timeout: ReturnType<typeof setTimeout> | undefined, settleTimer: ReturnType<typeof setTimeout> | undefined;
-    let hoverTimer: ReturnType<typeof setTimeout> | undefined, markFrame = 0, moving = false;
-    let hover: string | null = null, currentKey = '', markedKey = '', homeZoom = 1, sizedZoom = 0, sizedSelected: string | null = null;
+    let markFrame = 0, moving = false;
+    let currentKey = '', markedKey = '', homeZoom = 1, sizedZoom = 0, sizedSelected: string | null = null;
     // Opening a detail panel does not commit the map to a neighborhood.
     let focused: string | null = null;
     let appliedFocusRequest: Props['focusRequest'] = null;
     let nodeList: NodeSingular[] = [], hubs = new Set<string>(), highlighted = new Set<string>();
+    const passageDetails = new Map<string, string>();
     let world = { x1: 0, y1: 0, w: 1, h: 1 };
     let activeSystem: System = props.system, scenePositions: SystemPositions = {}, sizedReading = '';
     const previousLabels = new Set<string>();
@@ -96,7 +99,7 @@ export function SystemGraphCanvas(props: Props) {
       container.current.dataset.system = latest.current.system;
       container.current.dataset.reading = latest.current.reading;
       container.current.dataset.focused = focused ?? '';
-      if (navigation.current) navigation.current.textContent = `Zoom ×${(instance.zoom() / homeZoom).toFixed(1)} · ${isolatedRef.current ? 'Voisinage isolé' : 'Ensemble de la carte'}`;
+      if (navigation.current) navigation.current.textContent = `Zoom ×${(instance.zoom() / homeZoom).toFixed(1)} · ${isolatedRef.current ? 'Voisinage isolé' : detail === 0 ? 'Ensemble de la carte' : 'Détails des parcours'}`;
       if (miniViewport.current) {
         const extent = instance.extent(), x = Math.max(0, (extent.x1 - world.x1) / world.w * 100), y = Math.max(0, (extent.y1 - world.y1) / world.h * 70);
         const right = Math.min(100, (extent.x2 - world.x1) / world.w * 100), bottom = Math.min(70, (extent.y2 - world.y1) / world.h * 70);
@@ -109,9 +112,9 @@ export function SystemGraphCanvas(props: Props) {
       const zoom = instance.zoom(), ratio = zoom / homeZoom;
       // Hysteresis keeps names from flickering at a zoom threshold.
       detail = labelLevel(ratio / 4, detail);
-      const selected = hover ?? focused ?? latest.current.selected;
+      const selected = focused ?? latest.current.selected;
       const groups = latest.current.reading === 'groups', readingChanged = sizedReading !== latest.current.reading;
-      const zoomChanged = zoom !== sizedZoom;
+      const zoomChanged = graphZoomChanged(sizedZoom, zoom);
       const candidates: LabelCandidate[] = [];
       const pan = instance.pan(), width = instance.width(), height = instance.height();
       const bounds = container.current!.getBoundingClientRect();
@@ -124,41 +127,48 @@ export function SystemGraphCanvas(props: Props) {
           const degree = n.data('degree') as number;
           const important = n.id() === selected;
           const person = n.data('kind') === 'person';
-          const baseRadius = person ? groups && ratio < 1.8 ? 1.5 : Math.min(3.2, 1.5 + Math.sqrt(degree) * .16) : groups ? Math.min(12, 2.6 + Math.sqrt(degree) * .45) : Math.min(6, 2.6 + Math.sqrt(degree) * .24);
+          const baseRadius = person ? groups && ratio < 1.8 ? 1.8 : Math.min(4, 2 + Math.sqrt(degree) * .18) : groups ? Math.min(10, 2.6 + Math.sqrt(degree) * .4) : Math.min(6, 2.6 + Math.sqrt(degree) * .24);
           const radius = (important ? Math.max(person ? 7 : 8.5, baseRadius) : baseRadius) * Math.pow(Math.max(.6, ratio), .23);
           const position = n.position();
           if (zoomChanged || readingChanged || selected !== sizedSelected && (important || n.id() === sizedSelected)) {
             n.style({ width: radius * 2 / zoom, height: radius * 2 / zoom, 'border-width': (important ? 1.8 : person ? .65 : .9) / zoom, 'underlay-padding': 4 / zoom });
           }
+          const badgeOpacity = person && (!groups || ratio >= 1.8 || highlighted.has(n.id())) ? 1 : 0;
+          syncBadgeOpacity(n, badgeOpacity);
           const x = position.x * zoom, y = position.y * zoom;
           if (x + pan.x < -20 || x + pan.x > width + 20 || y + pan.y < -20 || y + pan.y > height + 20) return;
           const eligible = !groups || ratio >= 1.8 || !person && degree >= 4 || important || highlighted.has(n.id());
-          if (eligible && (!focused || important || highlighted.has(n.id()))) candidates.push({ id: n.id(), text: groups && !person ? n.data('groupLabel') : n.data('label'), x, y, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : highlighted.has(n.id()) ? 30 + Math.min(20, degree) : groups && !person ? 26 + Math.min(25, degree) : Math.min(25, degree), side: 'bottom' });
+          if (eligible && (!focused || important || highlighted.has(n.id()))) candidates.push({ id: n.id(), text: n.data('label'),
+            boxed: !person || important || highlighted.has(n.id()),
+            detail: !person && groups && n.data('people') ? `${n.data('people')} personnes` : person && (ratio >= 1.8 || isolatedRef.current) ? passageDetails.get(n.id()) : undefined,
+            x, y, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : highlighted.has(n.id()) ? 55 + Math.min(20, degree) : groups && !person ? 26 + Math.min(25, degree) : Math.min(25, degree), side: 'bottom' });
         });
         if (zoomChanged) instance.edges().forEach(e => {
-          e.style('width', (e.hasClass('system-edge') ? 1.8 : e.hasClass('system-trace') ? .95 : .45) / zoom);
+          e.style('width', (e.hasClass('system-edge') ? 2 : e.hasClass('system-trace') ? 1.5 : .6) / zoom);
           if (e.hasClass('system-curve')) e.style('control-point-distances', 12 / zoom);
         });
-        const placements = placeLabels(candidates, { level: detail, small: width < 550, compact: true, cartographic: true, previous: previousLabels, obstacles, maxLabels: width < 550 ? [8, 18, 30][detail] : [12, 32, 60][detail], maxCandidates: 160,
+        const placements = placeLabels(candidates, { level: detail, small: width < 550, compact: true, cartographic: true, previous: previousLabels, obstacles, maxLabels: width < 550 ? [5, 12, 22][detail] : [14, 28, 48][detail], maxCandidates: 160,
           viewport: { x1: -pan.x + 8, y1: -pan.y + 8, x2: width - pan.x - 8, y2: height - pan.y - 8 },
           measure: (text, size, bold) => { const key = `${text}:${size}:${bold}`; if (!measurements.has(key)) { if (context) context.font = `${bold ? 650 : 500} ${size}px ${graphFont}`; measurements.set(key, context?.measureText(text).width ?? text.length * size * .55); } return measurements.get(key)!; },
         });
         const labels = new Map(placements.map(p => [p.id, p]));
         // Hidden nodes already have no label. Touch only labels that changed.
         for (const id of new Set([...previousLabels, ...labels.keys()])) {
-          const style = { ...atlasLabelStyle(labels.get(id), zoom, id === selected), 'z-index': labels.has(id) ? 10 : 0 }, key = JSON.stringify(style);
+          const label = labels.get(id), node = instance.getElementById(id);
+          const style = { ...atlasLabelStyle(label, zoom, Boolean(label?.boxed)), 'text-border-color': node.data('outline'), 'text-events': 'yes', 'z-index': labels.has(id) ? 10 : 0 }, key = JSON.stringify(style);
           if (labelStyles.get(id) !== key) instance.getElementById(id).style(style);
           if (labels.has(id)) labelStyles.set(id, key); else labelStyles.delete(id);
         }
         previousLabels.clear(); placements.forEach(p => previousLabels.add(p.id));
+        if (container.current) container.current.dataset.labels = String(placements.length);
       });
       sizedZoom = zoom; sizedSelected = selected; sizedReading = latest.current.reading;
       receipt(instance);
     }
     function schedule(instance: Core) {
       if (!moving && settledCamera) remember(instance);
-      moving = true; hover = null;
-      clearTimeout(hoverTimer); clearTimeout(settleTimer); cancelAnimationFrame(markFrame); markFrame = 0;
+      moving = true; hoverOverlay?.clear(); if (container.current) container.current.title = '';
+      clearTimeout(settleTimer); cancelAnimationFrame(markFrame); markFrame = 0;
       receipt(instance);
       // Camera gestures use the renderer's cached scene. Refine names when idle.
       settleTimer = setTimeout(() => settle(instance), 120);
@@ -177,19 +187,29 @@ export function SystemGraphCanvas(props: Props) {
         appliedFocusRequest = focusRequest;
         if (focusRequest.id === selected && graph.neighbors.has(selected)) focused = selected;
       }
-      const id = focused ?? hover ?? selected;
-      const neighborhoodDepth = !focused && hover ? 1 : depthRef.current;
-      const key = JSON.stringify([id, hover, focused, selectedEdge, neighborhoodDepth, isolatedRef.current, latest.current.reading]);
+      const id = focused ?? selected;
+      const neighborhoodDepth = depthRef.current;
+      const key = JSON.stringify([id, focused, selectedEdge, neighborhoodDepth, isolatedRef.current, latest.current.reading]);
       if (disposed || instance.destroyed() || markedKey === key) return false;
       markedKey = key;
       highlighted = id ? systemNeighborhood(graph, id, neighborhoodDepth) : new Set();
+      passageDetails.clear();
+      // Display distinct source periods; never merge separate passages into a continuous tenure.
+      if (id && graph.entities.find(e => e.id === id)?.type !== 'person') {
+        const periods = new Map<string, Set<string>>();
+        for (const relation of graph.relations) {
+          const person = relation.target === id ? relation.source : relation.source === id ? relation.target : undefined;
+          if (person) { const values = periods.get(person) ?? new Set<string>(); values.add(periodLabel(relation)); periods.set(person, values); }
+        }
+        for (const [person, values] of periods) passageDetails.set(person, values.size === 1 ? [...values][0] : values.has('Période non renseignée') ? 'Plusieurs passages · dates partielles' : `${values.size} périodes documentées`);
+      }
       const active = highlighted.size > 0;
       const isolatedIds = isolatedRef.current ? systemNeighborhood(graph, isolatedRef.current, depthRef.current) : undefined;
       instance.batch(() => {
         nodeList.forEach(n => {
           const display = !isolatedIds || isolatedIds.has(n.id()) ? 'element' : 'none';
           if (n.style('display') !== display) n.style('display', display);
-          const next = !active ? '' : n.id() === id ? 'system-selected' : highlighted.has(n.id()) ? 'system-neighbor' : focused ? 'system-dim' : '';
+          const next = !active ? '' : n.id() === id ? 'system-selected' : highlighted.has(n.id()) ? 'system-neighbor' : 'system-dim';
           if ((classes.get(n.id()) ?? '') !== next) { n.classes(next); classes.set(n.id(), next); }
         });
         instance.edges().forEach(e => {
@@ -199,12 +219,12 @@ export function SystemGraphCanvas(props: Props) {
           const picked = active && selectedEdge && (e.data('relations') as string[]).includes(selectedEdge);
           // Curve only a small inspected neighborhood; a full corpus stays inexpensive to draw.
           const curved = traced && highlighted.size <= 80;
-          const next = (!active ? '' : traced ? 'system-trace' : focused ? 'system-dim' : '') + (picked ? ' system-edge' : '') + (curved ? ' system-curve' : '');
+          const next = (!active ? '' : traced ? 'system-trace' : 'system-dim') + (picked ? ' system-edge' : '') + (curved ? ' system-curve' : '');
           const previous = classes.get(e.id()) ?? '';
           if (previous !== next) {
             e.classes(next); classes.set(e.id(), next);
-            const previousWidth = previous.includes('system-edge') ? 1.8 : previous.includes('system-trace') ? .95 : .45;
-            const nextWidth = picked ? 1.8 : traced ? .95 : .45;
+            const previousWidth = previous.includes('system-edge') ? 2 : previous.includes('system-trace') ? 1.5 : .6;
+            const nextWidth = picked ? 2 : traced ? 1.5 : .6;
             if (previousWidth !== nextWidth) e.style('width', nextWidth / instance.zoom());
             if (curved) e.style('control-point-distances', 12 / instance.zoom());
           }
@@ -233,7 +253,8 @@ export function SystemGraphCanvas(props: Props) {
       if (activeSystem !== system) { history.length = 0; settledCamera = undefined; setCanUndo(false); isolatedRef.current = null; isolationCamera.current = undefined; setIsolated(null); }
       activeSystem = system;
       currentKey = nextKey;
-      markedKey = ''; sizedZoom = 0; hover = null; highlighted.clear();
+      markedKey = ''; sizedZoom = 0; highlighted.clear();
+      hoverOverlay?.clear();
       previousLabels.clear(); labelStyles.clear(); classes.clear();
       const layouts = memory.current.layouts ??= {};
       if (!layouts[system]) {
@@ -253,9 +274,9 @@ export function SystemGraphCanvas(props: Props) {
           ...graph.entities.map(e => {
             const affiliations = politics.people.get(e.id) ?? [];
             const people = [...(graph.neighbors.get(e.id) ?? [])].filter(id => entityById.get(id)?.type === 'person').length;
-            return { data: { id: e.id, label: shortLabel(e), groupLabel: people ? `${shortLabel(e)} · ${people}` : shortLabel(e), kind: e.type, ...graphNodeAppearance(e.type), color: e.type === 'person' ? affiliations[0]?.color ?? UNKNOWN_POLITICAL_COLOR : partyColors.get(e.id) ?? typeInfo[e.type].color, badge: e.type === 'person' ? affiliationSymbol(affiliations) ?? 'none' : 'none', degree: graph.neighbors.get(e.id)?.size ?? 0 }, position: { ...(scenePositions[e.id] ?? { x: 0, y: 0 }) } };
+            return { data: { id: e.id, label: shortLabel(e), people, kind: e.type, ...graphNodeAppearance(e.type), outline: systemPalette[e.type], soft: e.type === 'person' ? systemPalette.person : '#ffffff', color: e.type === 'person' ? affiliations[0]?.color ?? UNKNOWN_POLITICAL_COLOR : partyColors.get(e.id) ?? typeInfo[e.type].color, badge: e.type === 'person' ? affiliationSymbol(affiliations) ?? 'none' : 'none', degree: graph.neighbors.get(e.id)?.size ?? 0 }, position: { ...(scenePositions[e.id] ?? { x: 0, y: 0 }) } };
           }),
-          ...graph.connections.map(c => ({ data: c })),
+          ...graph.connections.map(c => ({ data: { ...c, lineColor: systemPalette[entityById.get(c.target)?.type ?? 'person'] } })),
         ]);
       });
       nodeList = [...instance.nodes()];
@@ -270,18 +291,20 @@ export function SystemGraphCanvas(props: Props) {
       if (disposed || !container.current) return;
       const instance = cytoscape({ container: container.current, elements: [], minZoom: .005, maxZoom: 4, pixelRatio: Math.min(window.devicePixelRatio, 2), hideEdgesOnViewport: props.whole.entities.length > 1000,
         style: [
-          { selector: 'node', style: { width: 8, height: 8, shape: node => node.data('shape'), 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-image-opacity': .2, 'background-width': '100%', 'background-height': '100%', 'border-color': 'data(outline)', 'border-width': 1, label: '', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': 1, 'overlay-opacity': 0 } },
-          { selector: 'edge', style: { width: .45, 'line-color': '#92a3b8', opacity: .18, 'curve-style': 'straight', 'overlay-opacity': 0 } },
-          { selector: 'node.system-dim', style: { opacity: .32 } },
-          { selector: 'edge.system-dim', style: { opacity: .045 } },
-          { selector: 'node.system-neighbor', style: { 'background-color': 'data(color)', 'background-image-opacity': 1, 'border-color': 'data(color)' } },
-          { selector: 'node.system-selected', style: { 'background-color': 'data(color)', 'background-image-opacity': 1, 'border-color': atlasTheme.brand, 'underlay-color': atlasTheme.brand, 'underlay-opacity': .1, 'underlay-shape': node => node.data('type') === 'person' ? 'ellipse' : 'round-rectangle', 'font-weight': 600 } },
-          { selector: 'edge.system-trace', style: { 'line-color': '#557494', opacity: .72 } },
+          // Automatic ordering keeps every node above edges for drawing and pointer hit testing.
+          { selector: 'node', style: { 'z-index-compare': 'auto', 'z-index': 0, width: 8, height: 8, shape: node => node.data('shape'), 'background-color': 'data(soft)', 'background-image': 'data(badge)', 'background-image-opacity': .2, 'background-width': '100%', 'background-height': '100%', 'border-color': 'data(outline)', 'border-width': 1, label: '', color: atlasTheme.ink, 'font-family': graphFont, 'text-wrap': 'wrap', 'text-background-color': atlasTheme.paper, 'text-background-opacity': 1, 'overlay-opacity': 0 } },
+          { selector: 'edge', style: { width: .6, 'line-color': 'data(lineColor)', opacity: .17, 'curve-style': 'straight', 'overlay-opacity': 0 } },
+          { selector: 'node.system-dim', style: { opacity: .38 } },
+          { selector: 'edge.system-dim', style: { opacity: .035 } },
+          { selector: 'node.system-neighbor', style: { 'border-color': 'data(outline)' } },
+          { selector: 'node.system-selected', style: { 'border-color': 'data(outline)', 'underlay-color': 'data(outline)', 'underlay-opacity': .12, 'underlay-shape': node => node.data('type') === 'person' ? 'ellipse' : 'round-rectangle', 'font-weight': 600 } },
+          { selector: 'edge.system-trace', style: { opacity: .85 } },
           { selector: 'edge.system-curve', style: { 'curve-style': 'unbundled-bezier', 'control-point-weights': .5 } },
           { selector: 'edge.system-edge', style: { 'line-color': atlasTheme.brand, opacity: 1 } },
         ],
       });
       cy.current = instance;
+      hoverOverlay = createSystemHoverOverlay(container.current);
       frame.current = () => { remember(instance); fit(instance, true); };
       checkpoint.current = () => remember(instance);
       undo.current = () => {
@@ -294,6 +317,7 @@ export function SystemGraphCanvas(props: Props) {
       refine.current = () => settle(instance);
       refresh.current = () => populate(instance);
       inspect.current = () => {
+        hoverOverlay?.clear();
         if (focused !== latest.current.selected) focused = null;
         if (isolatedRef.current && isolatedRef.current !== latest.current.selected) { isolatedRef.current = null; setIsolated(null); restoreIsolationCamera(); }
         scheduleMark(instance);
@@ -302,15 +326,21 @@ export function SystemGraphCanvas(props: Props) {
       instance.on('tap', event => {
         if (event.target !== instance || !latest.current.selected && !latest.current.selectedEdge && !isolatedRef.current) return;
         instance.stop(true, false);
-        clearTimeout(hoverTimer); hover = null; focused = null; isolationCamera.current = undefined;
+        focused = null; isolationCamera.current = undefined;
         isolatedRef.current = null; depthRef.current = 1;
         setIsolated(null); setNeighborhood({ selected: null, edge: null, depth: 1 });
         latest.current.onDeselect();
       });
       instance.on('dbltap', 'node', e => { focused = e.target.id(); latest.current.onSelect(e.target.id()); scheduleMark(instance); });
       instance.on('tap', 'edge', e => { focused = null; latest.current.onEdge((e.target.data('relations') as string[])[0]); scheduleMark(instance); });
-      instance.on('mouseover', 'node', e => { if (moving) return; clearTimeout(hoverTimer); hover = e.target.id(); scheduleMark(instance); });
-      instance.on('mouseout', 'node', () => { clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { hover = null; scheduleMark(instance); }, 40); });
+      // Draw feedback separately: keep the graph and its clickable labels stable.
+      // Mousemove also restores the preview when re-entering the same point after leaving the canvas.
+      instance.on('mouseover mousemove', 'node', e => { if (moving) return; hoverOverlay?.show(e.target); if (container.current) container.current.title = e.target.data('label'); });
+      instance.on('mouseout', e => {
+        // Cytoscape sends the next point's mousemove before the previous point's mouseout.
+        if (e.target !== instance && container.current?.dataset.hovered !== e.target.id()) return;
+        hoverOverlay?.clear(); if (container.current) container.current.title = '';
+      });
       instance.on('zoom pan drag', () => schedule(instance));
       instance.on('mousedown touchstart', () => { instance.stop(true, false); });
       instance.on('dragfree', 'node', e => {
@@ -322,6 +352,7 @@ export function SystemGraphCanvas(props: Props) {
       });
       let width = container.current.clientWidth, height = container.current.clientHeight;
       observer = new ResizeObserver(() => {
+        hoverOverlay?.clear();
         if (!container.current || !container.current.clientWidth || !container.current.clientHeight) return;
         const atHome = homeCamera && !isolatedRef.current && Math.abs(instance.zoom() - homeCamera.zoom) < .0001
           && Math.abs(instance.pan().x - homeCamera.pan.x) < 1 && Math.abs(instance.pan().y - homeCamera.pan.y) < 1;
@@ -357,7 +388,8 @@ export function SystemGraphCanvas(props: Props) {
       worker.postMessage(systemLayoutInput(latest.current.whole));
     }).catch(() => { if (!disposed) latest.current.onFallback(); });
     return () => {
-      disposed = true; observer?.disconnect(); worker?.terminate(); clearTimeout(timeout); clearTimeout(settleTimer); clearTimeout(hoverTimer); cancelAnimationFrame(markFrame);
+      hoverOverlay?.destroy();
+      disposed = true; observer?.disconnect(); worker?.terminate(); clearTimeout(timeout); clearTimeout(settleTimer); cancelAnimationFrame(markFrame);
       if (cy.current) { if (currentKey) saveCamera(cy.current); cy.current.destroy(); cy.current = null; }
       refresh.current = () => {}; inspect.current = () => {}; frame.current = () => {}; refine.current = () => {};
     };
@@ -418,6 +450,6 @@ export function SystemGraphCanvas(props: Props) {
     <div className="graph-controls" aria-label="Contrôles du système"><button className="icon-button" aria-label="Revenir au cadrage précédent" disabled={!canUndo} onClick={() => undo.current()}><Undo2 size={17} /></button><button className="icon-button" aria-label="Zoom avant" disabled={!ready} onClick={() => zoom(1.5)}><Plus size={18} /></button><button className="icon-button" aria-label="Zoom arrière" disabled={!ready} onClick={() => zoom(1 / 1.5)}><Minus size={18} /></button><span /><button className="icon-button" aria-label="Recentrer le système" disabled={!ready} onClick={() => frame.current()}><Maximize size={17} /></button><span /><button className="icon-button" aria-label="Exporter la carte en PNG" disabled={!ready || exporting} onClick={download}><Download size={17} /></button></div>
     {message && <p className="graph-export-message" role="status">{message}</p>}
     <div className="system-minimap"><svg viewBox="0 0 100 70" role="img" aria-label="Position du cadrage dans le système"><path ref={miniPoints} fill="none" stroke="#6b83a5" strokeWidth=".7" /><rect ref={miniViewport} fill="#08357715" stroke="#083577" strokeWidth="1" /></svg><span>Zone visible</span></div>
-    <span className="system-navigation-receipt" ref={navigation} /><p className="graph-tip"><MousePointer2 size={18} /><span>Un clic ouvre la fiche. Double-cliquez pour atténuer le reste de la carte ; cliquez dans le fond pour désélectionner.</span></p>
+    <span className="system-navigation-receipt" ref={navigation} /><p className="graph-tip"><MousePointer2 size={18} /><span>Un clic met les connexions en évidence et ouvre la fiche. Double-cliquez pour privilégier les noms du voisinage ; cliquez dans le fond pour désélectionner.</span></p>
   </div>;
 }
