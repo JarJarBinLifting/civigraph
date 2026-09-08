@@ -219,7 +219,10 @@ export function SystemGraphCanvas(props: Props) {
       const layouts = memory.current.layouts ??= {};
       if (!layouts[system]) {
         const aspect = Math.min(3, Math.max(.65, instance.width() / Math.max(1, instance.height()) * .85));
-        layouts[system] = Object.fromEntries(Object.entries(organizeSystem(organization)).map(([id, p]) => [id, { x: p.x * aspect, y: p.y }]));
+        // The complete network uses the topology-based layout with hub
+        // clearances. Thematic views keep their category-specific anchors.
+        const organized = system === 'all' ? memory.current.positions! : organizeSystem(organization);
+        layouts[system] = Object.fromEntries(Object.entries(organized).map(([id, p]) => [id, { x: p.x * aspect, y: p.y }]));
       }
       const positions = layouts[system];
       scenePositions = { ...memory.current.positions!, ...positions };
