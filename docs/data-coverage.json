@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-08T11:23:21.312Z",
+  "checkedAt": "2026-09-08T12:46:06.820Z",
   "people": 547,
   "entities": 2581,
   "before": {
@@ -7,15 +7,15 @@
     "datedStatements": 496
   },
   "after": {
-    "statements": 8035,
-    "datedStatements": 4999
+    "statements": 8045,
+    "datedStatements": 5009
   },
   "sources": {
     "wikidata": 5098,
     "assembly": 2836,
     "hatvpViaIntegrityWatch": 17,
     "currentRoles": 68,
-    "officialCompositions": 16
+    "officialCompositions": 26
   },
   "institutions": [
     {
@@ -92,10 +92,10 @@
         "datedStatements": 0
       },
       "after": {
-        "people": 60,
-        "peopleWithUsableDates": 2,
-        "statements": 60,
-        "datedStatements": 2
+        "people": 62,
+        "peopleWithUsableDates": 11,
+        "statements": 70,
+        "datedStatements": 12
       }
     },
     {

@@ -1,8 +1,8 @@
 # Couverture du corpus — 2026-09-08
 
-547 personnes, 2581 entités, 8035 déclarations. Les 797 déclarations antérieures sont conservées. Les compteurs portent sur les déclarations de sources, pas sur des faits indépendants : un même passage peut être documenté plusieurs fois.
+547 personnes, 2581 entités, 8045 déclarations. Les 797 déclarations antérieures sont conservées. Les compteurs portent sur les déclarations de sources, pas sur des faits indépendants : un même passage peut être documenté plusieurs fois.
 
-Les périodes utilisables passent de **496/797** à **4999/8035**. Une période utilisable possède deux bornes valides ou un repère ponctuel ; cela ne garantit pas un chevauchement avec n’importe quelle période de référence.
+Les périodes utilisables passent de **496/797** à **5009/8045**. Une période utilisable possède deux bornes valides ou un repère ponctuel ; cela ne garantit pas un chevauchement avec n’importe quelle période de référence.
 
 | Institution | Personnes liées avant → après | Avec au moins une période utilisable avant → après |
 | --- | ---: | ---: |
@@ -10,7 +10,7 @@ Les périodes utilisables passent de **496/797** à **4999/8035**. Une période 
 | Rothschild & Cie | 1 → 5 | 1 → 3 |
 | NM Rothschild & Sons | 1 → 20 | 0 → 1 |
 | Inspection générale des finances | 3 → 63 | 0 → 2 |
-| French-American Foundation | 3 → 60 | 0 → 2 |
+| French-American Foundation | 3 → 62 | 0 → 11 |
 | Commission Attali | 6 → 11 | 6 → 6 |
 | ENA | 16 → 126 | 16 → 105 |
 | Sciences Po Paris | 20 → 185 | 3 → 12 |
@@ -19,7 +19,7 @@ Les périodes utilisables passent de **496/797** à **4999/8035**. Une période 
 | Paris-Nanterre | 4 → 63 | 0 → 10 |
 | Paris-Panthéon-Assas | 8 → 68 | 1 → 3 |
 
-Sources : 5098 déclarations Wikidata ; 2836 mandats de l’Assemblée ; 17 activités HATVP via Integrity Watch ; 16 participations de compositions officielles ; 68 fonctions du socle 2026. Voir [le détail du socle](current-coverage.md).
+Sources : 5098 déclarations Wikidata ; 2836 mandats de l’Assemblée ; 17 activités HATVP via Integrity Watch ; 26 participations de compositions officielles ; 68 fonctions du socle 2026. Voir [le détail du socle](current-coverage.md).
 
 L’Assemblée est rapprochée pour 119 personnes. Deux mandats aux dates inversées dans la source sont écartés et consignés dans le manifeste. Integrity Watch : 29 déclarants rapprochés par identifiant avec contrôle de l’UUID du document HATVP ; 11 ont des activités dans les organismes identifiés. 175 intitulés d’organismes restent à rapprocher et ne créent pas de nouveaux liens.
 

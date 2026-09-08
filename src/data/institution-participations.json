@@ -7,13 +7,26 @@
       "category": "membership",
       "label": "Directoire au 31 décembre 2009",
       "relationLabel": "A siégé au directoire de",
-      "date": { "value": "2009-12-31", "precision": 11 },
+      "date": {
+        "value": "2009-12-31",
+        "precision": 11
+      },
       "source": "https://cdn.orano.group/arevasa/Finance/docs/dorref2009/Doc%20de%20ref%202009_vdef2_vFR_08042010.pdf",
       "title": "Areva — Document de référence 2009, section 14.1",
       "note": "Sélection de deux membres parmi la composition publiée au 31 décembre 2009. Ce repère ponctuel ne fixe pas une durée de mandat et ne démontre pas une rencontre.",
       "participants": [
-        { "person": "Q469310", "role": "Présidente du directoire", "locator": "Page imprimée 200 · composition au 31 décembre 2009", "pdfPage": 202 },
-        { "person": "Q3123589", "role": "Membre du directoire · directeur général délégué", "locator": "Pages imprimées 200–201 · composition au 31 décembre 2009", "pdfPage": 203 }
+        {
+          "person": "Q469310",
+          "role": "Présidente du directoire",
+          "locator": "Page imprimée 200 · composition au 31 décembre 2009",
+          "pdfPage": 202
+        },
+        {
+          "person": "Q3123589",
+          "role": "Membre du directoire · directeur général délégué",
+          "locator": "Pages imprimées 200–201 · composition au 31 décembre 2009",
+          "pdfPage": 203
+        }
       ]
     },
     {
@@ -22,15 +35,169 @@
       "category": "education",
       "label": "Promotion Senghor · sortie le 31 mars 2004",
       "relationLabel": "A terminé sa scolarité à",
-      "date": { "value": "2004-03-31", "precision": 11 },
+      "date": {
+        "value": "2004-03-31",
+        "precision": 11
+      },
       "source": "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000437029",
       "title": "Arrêté du 9 avril 2004 — affectation des élèves de la promotion Senghor",
       "note": "Sélection de quatre élèves du corpus dans la liste officielle de sortie. La date est celle de fin de scolarité, sans reconstruction d’une durée individuelle ni utilisation du classement.",
       "participants": [
-        { "person": "Q3052772", "role": "Élève de la promotion Léopold Sédar Senghor", "locator": "Rubrique Inspection générale des finances · Macron (Emmanuel)" },
-        { "person": "Q18744966", "role": "Élève de la promotion Léopold Sédar Senghor", "locator": "Rubrique Inspection générale des finances · Proto (Sébastien)" },
-        { "person": "Q1457778", "role": "Élève de la promotion Léopold Sédar Senghor", "locator": "Rubrique Cour des comptes · Aubert (Julien)" },
-        { "person": "Q30348845", "role": "Élève de la promotion Léopold Sédar Senghor", "locator": "Rubrique Tribunaux administratifs · Becht (Olivier)" }
+        {
+          "person": "Q3052772",
+          "role": "Élève de la promotion Léopold Sédar Senghor",
+          "locator": "Rubrique Inspection générale des finances · Macron (Emmanuel)"
+        },
+        {
+          "person": "Q18744966",
+          "role": "Élève de la promotion Léopold Sédar Senghor",
+          "locator": "Rubrique Inspection générale des finances · Proto (Sébastien)"
+        },
+        {
+          "person": "Q1457778",
+          "role": "Élève de la promotion Léopold Sédar Senghor",
+          "locator": "Rubrique Cour des comptes · Aubert (Julien)"
+        },
+        {
+          "person": "Q30348845",
+          "role": "Élève de la promotion Léopold Sédar Senghor",
+          "locator": "Rubrique Tribunaux administratifs · Becht (Olivier)"
+        }
+      ]
+    },
+    {
+      "id": "faf-young-leaders-2012",
+      "institution": "Q3075672",
+      "category": "membership",
+      "label": "Young Leaders · promotion 2012",
+      "relationLabel": "A participé au programme Young Leaders de",
+      "date": {
+        "value": "2012-00-00",
+        "precision": 9
+      },
+      "checkedAt": "2026-09-08",
+      "source": "https://www.french-american.org/programmes-et-evenements/young-leaders/",
+      "title": "French-American Foundation France — annuaire des Young Leaders",
+      "note": "Sélection de personnes déjà présentes dans le corpus, dans les listes annuelles publiées par la Fondation. La promotion atteste une participation au programme, sans établir une rencontre, une adhésion à la Fondation ou une durée individuelle.",
+      "participants": [
+        {
+          "person": "Q3052772",
+          "role": "Young Leader · promotion 2012",
+          "locator": "Rubrique Young Leaders 2012 · Emmanuel Macron"
+        },
+        {
+          "person": "Q268660",
+          "role": "Young Leader · promotion 2012",
+          "locator": "Rubrique Young Leaders 2012 · Fleur Pellerin"
+        },
+        {
+          "person": "Q334065",
+          "role": "Young Leader · promotion 2012",
+          "locator": "Rubrique Young Leaders 2012 · Cédric Villani"
+        }
+      ]
+    },
+    {
+      "id": "faf-young-leaders-2011",
+      "institution": "Q3075672",
+      "category": "membership",
+      "label": "Young Leaders · promotion 2011",
+      "relationLabel": "A participé au programme Young Leaders de",
+      "date": {
+        "value": "2011-00-00",
+        "precision": 9
+      },
+      "checkedAt": "2026-09-08",
+      "source": "https://www.french-american.org/programmes-et-evenements/young-leaders/",
+      "title": "French-American Foundation France — annuaire des Young Leaders",
+      "note": "Sélection de personnes déjà présentes dans le corpus, dans les listes annuelles publiées par la Fondation. La promotion atteste une participation au programme, sans établir une rencontre, une adhésion à la Fondation ou une durée individuelle.",
+      "participants": [
+        {
+          "person": "Q3579995",
+          "role": "Young Leader · promotion 2011",
+          "locator": "Rubrique Young Leaders 2011 · Édouard Philippe"
+        }
+      ]
+    },
+    {
+      "id": "faf-young-leaders-2006",
+      "institution": "Q3075672",
+      "category": "membership",
+      "label": "Young Leaders · promotion 2006",
+      "relationLabel": "A participé au programme Young Leaders de",
+      "date": {
+        "value": "2006-00-00",
+        "precision": 9
+      },
+      "checkedAt": "2026-09-08",
+      "source": "https://www.french-american.org/programmes-et-evenements/young-leaders/",
+      "title": "French-American Foundation France — annuaire des Young Leaders",
+      "note": "Sélection de personnes déjà présentes dans le corpus, dans les listes annuelles publiées par la Fondation. La promotion atteste une participation au programme, sans établir une rencontre, une adhésion à la Fondation ou une durée individuelle.",
+      "participants": [
+        {
+          "person": "Q268529",
+          "role": "Young Leader · promotion 2006",
+          "locator": "Rubrique Young Leaders 2006 · Najat Vallaud-Belkacem"
+        },
+        {
+          "person": "Q984375",
+          "role": "Young Leader · promotion 2006",
+          "locator": "Rubrique Young Leaders 2006 · Laurent Wauquiez"
+        }
+      ]
+    },
+    {
+      "id": "faf-young-leaders-1996",
+      "institution": "Q3075672",
+      "category": "membership",
+      "label": "Young Leaders · promotion 1996",
+      "relationLabel": "A participé au programme Young Leaders de",
+      "date": {
+        "value": "1996-00-00",
+        "precision": 9
+      },
+      "checkedAt": "2026-09-08",
+      "source": "https://www.french-american.org/programmes-et-evenements/young-leaders/",
+      "title": "French-American Foundation France — annuaire des Young Leaders",
+      "note": "Sélection de personnes déjà présentes dans le corpus, dans les listes annuelles publiées par la Fondation. La promotion atteste une participation au programme, sans établir une rencontre, une adhésion à la Fondation ou une durée individuelle.",
+      "participants": [
+        {
+          "person": "Q157",
+          "role": "Young Leader · promotion 1996",
+          "locator": "Rubrique Young Leaders 1996 · François Hollande"
+        },
+        {
+          "person": "Q356919",
+          "role": "Young Leader · promotion 1996",
+          "locator": "Rubrique Young Leaders 1996 · Pierre Moscovici"
+        },
+        {
+          "person": "Q469310",
+          "role": "Young Leader · promotion 1996",
+          "locator": "Rubrique Young Leaders 1996 · Anne Lauvergeon"
+        }
+      ]
+    },
+    {
+      "id": "faf-young-leaders-1982",
+      "institution": "Q3075672",
+      "category": "membership",
+      "label": "Young Leaders · promotion 1982",
+      "relationLabel": "A participé au programme Young Leaders de",
+      "date": {
+        "value": "1982-00-00",
+        "precision": 9
+      },
+      "checkedAt": "2026-09-08",
+      "source": "https://www.french-american.org/programmes-et-evenements/young-leaders/",
+      "title": "French-American Foundation France — annuaire des Young Leaders",
+      "note": "Sélection de personnes déjà présentes dans le corpus, dans les listes annuelles publiées par la Fondation. La promotion atteste une participation au programme, sans établir une rencontre, une adhésion à la Fondation ou une durée individuelle.",
+      "participants": [
+        {
+          "person": "Q215569",
+          "role": "Young Leader · promotion 1982",
+          "locator": "Rubrique Young Leaders 1982 · Alain Juppé"
+        }
       ]
     }
   ]

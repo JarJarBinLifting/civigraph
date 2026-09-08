@@ -3,9 +3,9 @@ import { expect, test } from '@playwright/test';
 test('institution bridges expose distinct people and both source passages', async ({ page }) => {
   await page.goto('/?graphView=system&systemLens=institutions');
   await page.getByRole('button', { name: /^ENA Établissement/ }).click();
-  await page.getByRole('button', { name: '80 personnes partagées avec Sciences Po Paris', exact: true }).click();
-  await expect(page.getByText('80 personnes distinctes', { exact: true })).toBeVisible();
-  await page.getByText('Emmanuel Macron', { exact: true }).first().click();
+  await page.getByRole('button', { name: '83 personnes partagées avec Sciences Po Paris', exact: true }).click();
+  await expect(page.getByText('83 personnes distinctes', { exact: true })).toBeVisible();
+  await page.locator('.analysis-person-evidence > summary').filter({ hasText: /^Emmanuel Macron/ }).click();
   await expect(page.getByRole('link', { name: 'Consulter le document officiel', exact: true })).toBeVisible();
 });
 
@@ -34,8 +34,9 @@ test('system category filters yield an honest empty state', async ({ page }) => 
   await expect(page.getByText(/Aucune institution commune selon ces critères/)).toBeVisible();
 });
 
-test('expanded system retains search and the raw graph has reversible framing', async ({ page }) => {
+test('expanded system retains search and the raw graph has reversible framing', async ({ page }, info) => {
   await page.goto('/?graphView=system&systemLens=entities&selected=Q273579');
+  if (info.project.name === 'mobile') await page.getByRole('button', { name: 'Fermer la fiche', exact: true }).click();
   await page.getByRole('button', { name: 'Agrandir la carte', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'Rechercher dans la carte agrandie' })).toBeVisible();
   await page.getByRole('button', { name: 'Zoom avant', exact: true }).click();

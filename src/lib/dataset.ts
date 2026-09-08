@@ -45,7 +45,7 @@ export function loadDataset(): GraphData {
     role: person.role, pointInTime: composition.date, cohort: { id: composition.id, label: composition.label },
     statementUrl: `${composition.source}${'pdfPage' in person ? `#page=${person.pdfPage}` : ''}`,
     references: [{ id: composition.id, urls: [composition.source], statedIn: [], importedFrom: [] }],
-    evidence: { kind: 'official', title: composition.title, locator: person.locator, note: composition.note, checkedAt: institutions.checkedAt },
+    evidence: { kind: 'official', title: composition.title, locator: person.locator, note: composition.note, checkedAt: composition.checkedAt ?? institutions.checkedAt },
   })));
   let data = mergeDatasets(original as GraphData, supplement as GraphData, official);
   data = mergeDatasets(data, network as GraphData, dated);

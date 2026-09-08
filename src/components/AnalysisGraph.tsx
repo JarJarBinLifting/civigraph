@@ -12,8 +12,8 @@ export interface AnalysisNode { entity: Entity; count?: number; column?: number 
 export interface AnalysisEdge { id: string; source: string; target: string; count: number }
 
 /** Bounded maps: every node has a readable name and an equivalent button outside the canvas. */
-export function AnalysisGraph({ nodes, edges, selected, onSelect, onEdge, columns = false }: {
-  nodes: AnalysisNode[]; edges: AnalysisEdge[]; selected?: string; columns?: boolean;
+export function AnalysisGraph({ nodes, edges, selected, onSelect, onEdge, columns = false, evidence = false }: {
+  nodes: AnalysisNode[]; edges: AnalysisEdge[]; selected?: string; columns?: boolean; evidence?: boolean;
   onSelect: (id: string) => void; onEdge?: (id: string) => void;
 }) {
   const container = useRef<HTMLDivElement>(null), cy = useRef<Core | null>(null);
@@ -33,7 +33,7 @@ export function AnalysisGraph({ nodes, edges, selected, onSelect, onEdge, column
       const instance = cytoscape({ container: container.current, elements, layout: { name: 'preset' }, minZoom: .5, maxZoom: 3, userPanningEnabled: true,
         style: [
           { selector: 'node', style: { width: 'data(diameter)', height: 'data(diameter)', shape: node => node.data('shape'), 'background-color': 'data(soft)', 'border-color': 'data(outline)', 'border-width': 1.2, label: 'data(label)', color: atlasTheme.ink, 'font-family': graphFont, 'font-size': 13, 'font-weight': 500, 'text-valign': 'bottom', 'text-margin-y': 9, 'text-wrap': 'wrap', 'text-max-width': '145px', 'text-background-color': '#fff', 'text-background-opacity': .96, 'text-background-padding': '3px', 'overlay-opacity': 0 } },
-          { selector: 'edge', style: { width: 'data(weight)', 'line-color': '#7d91ad', opacity: columns ? .35 : .09, 'curve-style': 'bezier', 'text-background-color': '#fff', 'text-background-opacity': 1, 'text-background-padding': '4px', 'font-size': 13, color: atlasTheme.ink, 'overlay-opacity': 0 } },
+          { selector: 'edge', style: { width: evidence ? 1.8 : 'data(weight)', 'line-color': evidence ? '#42668c' : '#7d91ad', opacity: evidence ? .8 : columns ? .35 : .09, 'curve-style': 'bezier', 'text-background-color': '#fff', 'text-background-opacity': 1, 'text-background-padding': '4px', 'font-size': 13, color: atlasTheme.ink, 'overlay-opacity': 0 } },
           { selector: 'node.neighbor', style: { 'background-color': 'data(color)', 'border-color': 'data(color)' } },
           { selector: 'node.active', style: { 'background-color': 'data(color)', 'border-color': atlasTheme.brand, 'border-width': 2, 'underlay-color': atlasTheme.brand, 'underlay-opacity': .08, 'underlay-padding': 5, 'underlay-shape': node => node.data('type') === 'person' ? 'ellipse' : 'round-rectangle' } },
           { selector: 'edge.active', style: { opacity: .9, 'line-color': atlasTheme.brand, label: columns ? '' : 'data(label)' } },
@@ -77,7 +77,7 @@ export function AnalysisGraph({ nodes, edges, selected, onSelect, onEdge, column
       observer = new ResizeObserver(position); observer.observe(container.current);
     }).catch(() => { if (!disposed) setFailed(true); });
     return () => { disposed = true; observer?.disconnect(); inspect.current = () => {}; cy.current?.destroy(); cy.current = null; };
-  }, [nodes, edges, columns]);
+  }, [nodes, edges, columns, evidence]);
   function zoom(factor: number) {
     const instance = cy.current; if (!instance) return;
     instance.stop(true, false);

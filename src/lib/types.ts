@@ -89,7 +89,8 @@ export interface ViewState {
   system?: 'all' | Category;
   reading?: 'groups' | 'individuals';
   spotlight?: 'off';
-  systemLens?: 'institutions' | 'entities' | 'common';
+  systemLens?: 'institutions' | 'entities' | 'common' | 'circles' | 'milieus';
+  circleTiming?: 'all' | 'contemporary';
   group?: string[];
   commonThreshold?: 'all' | 'two';
   commonDisplay?: 'map' | 'matrix';

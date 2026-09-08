@@ -11,17 +11,18 @@ import { SYSTEM_SCOPE, type PoliticalIndex } from '@/lib/system-reading';
 import { InstitutionOverview } from './InstitutionOverview';
 import { CommonInstitutions } from './CommonInstitutions';
 import { PoliticalLegend } from './PoliticalLegend';
+import { NetworkInsights } from './NetworkInsights';
 
-export function SystemExplorer({ data, graph, politics, view, onChange, onSelect, children }: {
+export function SystemExplorer({ data, graph, politics, view, onChange, onSelect, onReveal, children }: {
   data: GraphData; graph: SystemGraph; view: ViewState; selected?: Entity;
   politics: PoliticalIndex;
-  onChange: (patch: Partial<ViewState>) => void; onSelect: (id: string) => void; children: ReactNode;
+  onChange: (patch: Partial<ViewState>) => void; onSelect: (id: string) => void; onReveal: (id: string) => void; children: ReactNode;
 }) {
   const lens = view.systemLens ?? 'entities';
   const records = useMemo(() => institutionParticipation(graph), [graph]);
   return <div className={`system-explorer lens-${lens}`}>
     {view.system === 'office' && <p className="system-source-scope">{SYSTEM_SCOPE.office}</p>}
-    {lens === 'entities' ? <><PoliticalLegend politics={politics} entities={graph.entities} />{children}</> : <div className="system-analysis-scroll"><button className="return-global-map" onClick={() => onChange({ systemLens: 'entities' })}>← Revenir à la carte globale</button>{lens === 'common' ? <CommonInstitutions data={data} records={records} view={view} onChange={onChange} onSelect={onSelect} /> : <InstitutionOverview data={data} records={records} view={view} onChange={onChange} onSelect={onSelect} />}</div>}
+    {lens === 'entities' ? <><PoliticalLegend politics={politics} entities={graph.entities} />{children}</> : <div className="system-analysis-scroll"><button className="return-global-map" onClick={() => onChange({ systemLens: 'entities' })}>← Revenir à la carte globale</button>{lens === 'circles' || lens === 'milieus' ? <NetworkInsights key={lens} data={data} relations={graph.relations} view={view} onChange={onChange} onReveal={onReveal} /> : lens === 'common' ? <CommonInstitutions data={data} records={records} view={view} onChange={onChange} onSelect={onSelect} /> : <InstitutionOverview data={data} records={records} view={view} onChange={onChange} onSelect={onSelect} />}</div>}
   </div>;
 }
 

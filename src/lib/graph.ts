@@ -131,7 +131,8 @@ export function parseView(search: string, data: GraphData): ViewState {
     ...(params.get('spotlight') === 'off' ? { spotlight: 'off' as const } : {}),
     ...(['all', ...CATEGORIES].includes(params.get('system') ?? '') ? { system: params.get('system') as ViewState['system'] } : {}),
     ...(['groups', 'individuals'].includes(params.get('reading') ?? '') ? { reading: params.get('reading') as ViewState['reading'] } : {}),
-    ...(['institutions', 'entities', 'common'].includes(params.get('systemLens') ?? '') ? { systemLens: params.get('systemLens') as ViewState['systemLens'] } : {}),
+    ...(['institutions', 'entities', 'common', 'circles', 'milieus'].includes(params.get('systemLens') ?? '') ? { systemLens: params.get('systemLens') as ViewState['systemLens'] } : {}),
+    ...(['all', 'contemporary'].includes(params.get('circleTiming') ?? '') ? { circleTiming: params.get('circleTiming') as ViewState['circleTiming'] } : {}),
     ...(group.length ? { group } : {}),
     ...(['all', 'two'].includes(params.get('commonThreshold') ?? '') ? { commonThreshold: params.get('commonThreshold') as ViewState['commonThreshold'] } : {}),
     ...(['map', 'matrix'].includes(params.get('commonDisplay') ?? '') ? { commonDisplay: params.get('commonDisplay') as ViewState['commonDisplay'] } : {}),
@@ -169,6 +170,7 @@ export function serializeView(state: ViewState, hasSelection = true): string {
   if (state.reading) params.set('reading', state.reading);
   if (state.spotlight) params.set('spotlight', state.spotlight);
   if (state.systemLens) params.set('systemLens', state.systemLens);
+  if (state.circleTiming) params.set('circleTiming', state.circleTiming);
   if (state.group?.length) params.set('group', [...new Set(state.group)].join(','));
   if (state.commonThreshold) params.set('commonThreshold', state.commonThreshold);
   if (state.commonDisplay) params.set('commonDisplay', state.commonDisplay);

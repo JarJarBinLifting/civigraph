@@ -5,10 +5,13 @@ import { useMemo } from 'react';
 import { getCareerTimeline, getPersonProfile, type CareerEntry } from '@/lib/profile';
 import { categoryInfo, periodLabel, shortLabel } from '@/lib/presentation';
 import type { Entity, GraphData } from '@/lib/types';
+import { personMilieus } from '@/lib/network-insights';
+import { MilieuEvidence } from './NetworkInsights';
 
 export function PersonProfile({ data, person, mode, onMode, onSelect, onExplore, onEvidence, onConnections }: { data: GraphData; person: Entity; mode: 'overview' | 'career'; onMode: (mode: 'overview' | 'career') => void; onSelect: (id: string) => void; onExplore: (id: string) => void; onEvidence: (id: string) => void; onConnections: () => void }) {
   const profile = useMemo(() => getPersonProfile(data, person), [data, person]);
   const career = useMemo(() => getCareerTimeline(data, person), [data, person]);
+  const milieuProfile = useMemo(() => personMilieus(data, data.relations.filter(r => r.source === person.id))[0], [data, person.id]);
   return <div className="person-biography">
     <div className="profile-view-switch" role="group" aria-label="Lecture du profil"><button aria-pressed={mode === 'overview'} onClick={() => onMode('overview')}>En bref</button><button aria-pressed={mode === 'career'} onClick={() => onMode('career')}>Parcours</button></div>
     {mode === 'career' ? <section className="career-timeline" aria-label="Parcours chronologique">
@@ -21,6 +24,7 @@ export function PersonProfile({ data, person, mode, onMode, onSelect, onExplore,
     <span className="eyebrow">En bref</span>
     <div className="profile-overview">{profile.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div>
     <p className="profile-scope">Repères issus des sources du corpus, sur l’ensemble du parcours. Une fin absente ne signifie pas une fonction actuelle.</p>
+    {milieuProfile && milieuProfile.milieus.length >= 2 && <section className="profile-section"><h3>Entre plusieurs milieux</h3><MilieuEvidence profile={milieuProfile} data={data} /></section>}
     {profile.sections.map(section => <section className="profile-section" key={section.category}>
       <h3>{categoryInfo[section.category].label}</h3>
       {section.facts.map(({ entity, relation }) => <article className="profile-fact" key={relation.id}>
