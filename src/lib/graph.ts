@@ -2,6 +2,7 @@ import { CATEGORIES, type Category, type CommonConnection, type GraphData, type 
 import { comparePeriods, periodBounds, supportsPeriods } from './temporal';
 import { getGraphIndex, normalizeName, orderedEntities } from './graph-index';
 import { sortRelationsChronologically } from './chronology';
+import { validPreset } from './exploration-presets';
 
 export function focusView(state: ViewState, id: string, data?: GraphData): ViewState {
   const trail = [...new Set([state.root, ...state.expanded])];
@@ -144,6 +145,8 @@ export function parseView(search: string, data: GraphData): ViewState {
     temporal: 'all', period: null, year: /^[1-9]\d{0,3}$/.test(params.get('year') ?? '') ? Number(params.get('year')) : null,
   };
   const requestedPeriod = params.get('period');
+  const preset = validPreset(data, state, params.get('preset'));
+  if (preset) state.preset = preset;
   const period = data.relations.find(relation => relation.id === requestedPeriod && periodBounds(relation));
   if (period) return { ...state, period: period.id, temporal: params.get('time') === 'same' && !validComparison ? 'same' : 'all' };
   if (!requestedPeriod && !validComparison && !state.graphView) {
@@ -161,6 +164,7 @@ export function serializeView(state: ViewState): string {
   if (state.compare && state.comparisonMode === 'paths') params.set('comparisonMode', 'paths');
   if (state.mode === 'list') params.set('mode', 'list');
   if (state.graphView) params.set('graphView', state.graphView);
+  if (state.preset) params.set('preset', state.preset);
   if (state.system) params.set('system', state.system);
   if (state.reading) params.set('reading', state.reading);
   if (state.spotlight) params.set('spotlight', state.spotlight);

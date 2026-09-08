@@ -15,7 +15,8 @@ import { supportsPeriods } from '@/lib/temporal';
 import { InstitutionPaths } from './InstitutionPaths';
 import { ComparisonSuggestions } from './ComparisonSuggestions';
 
-export function Comparison({ data, left, right, categories, selected, presentation = 'map', mode = 'common', onMode, onSelect, onPresentation, onLeft, onRight, onExplore, onClose }: {
+export function Comparison({ data, left, right, categories, selected, presentation = 'map', mode = 'common', guided = false, onMode, onSelect, onPresentation, onLeft, onRight, onExplore, onClose }: {
+  guided?: boolean;
   data: GraphData; left: Entity; right: Entity | undefined; categories: Category[];
   selected: string; presentation?: 'map' | 'cards'; onSelect: (id: string) => void; onPresentation: (view: 'map' | 'cards') => void;
   mode?: 'common' | 'paths'; onMode: (mode: 'common' | 'paths') => void;
@@ -26,8 +27,8 @@ export function Comparison({ data, left, right, categories, selected, presentati
   const statementCount = common.reduce((sum, connection) => sum + connection.left.length + connection.right.length, 0);
   function inspect(id: string) { onSelect(id); document.getElementById(`common-${id}`)?.scrollIntoView({ block: 'nearest' }); }
   return <section className="comparison-view" aria-label="Comparer deux personnes">
-    <div className="comparison-heading"><div><span className="eyebrow">Les parcours se croisent</span><h2>Qu’ont-ils en commun ?</h2></div><button className="icon-button" aria-label="Fermer la comparaison" onClick={onClose}><X size={19} /></button></div>
-    <p className="comparison-lede">Deux parcours, des institutions communes. Retrouvez les liens et les périodes qui les documentent.</p>
+    <div className="comparison-heading"><div>{!guided && <><span className="eyebrow">Les parcours se croisent</span><h2>Qu’ont-ils en commun ?</h2></>}</div><button className="icon-button" aria-label="Fermer la comparaison" onClick={onClose}><X size={19} /></button></div>
+    {!guided && <p className="comparison-lede">Deux parcours, des institutions communes. Retrouvez les liens et les périodes qui les documentent.</p>}
     <div className="compare-pickers">
       <div><div className="compare-person"><EntityAvatar entity={left} /><strong>{left.label}</strong></div><EntitySearch data={data} peopleOnly exclude={right?.id} onSelect={onLeft} label="Première personne à comparer" placeholder="Changer la première personne…" />{left.image && <ImageCredit image={left.image} />}</div>
       <GitCompareArrows size={24} className="compare-symbol" />

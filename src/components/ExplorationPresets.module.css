@@ -1,0 +1,31 @@
+.entries { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 38px 16px; }
+.entries > button { display: flex; align-items: center; gap: 10px; min-width: 0; min-height: 62px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 6px; text-align: left; font-size: 14px; line-height: 1.4; background: var(--surface); }
+.entries > button > span { flex: 1; }
+.entries > button:hover { border-color: var(--brand); background: var(--soft); }
+.question { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 14px 18px; border-left: 3px solid var(--brand); background: var(--soft); margin-bottom: 8px; }
+.question h1 { font: 650 19px/1.4 var(--heading-font); margin: 0; }
+.question button { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; min-height: 36px; text-align: left; text-decoration: underline; text-underline-offset: 4px; }
+.controls { flex-shrink: 0; border-block: 1px solid var(--line); }
+.controls > summary { cursor: pointer; padding: 12px 18px; min-height: 44px; font-size: 14px; color: var(--brand); }
+.controls[open] { max-height: 45vh; overflow-y: auto; }
+.picker { min-height: 260px; }
+.picker :global(.search-popover) { min-width: 0; max-height: 320px; overflow-y: auto; }
+.suggestions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.suggestions > button { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; min-height: 48px; }
+.suggestions > button:hover, .examples > button:hover { background: var(--soft); border-color: var(--brand); }
+.examples { display: grid; gap: 12px; }
+.examples > button { display: flex; justify-content: space-between; align-items: center; gap: 18px; text-align: left; padding: 20px; border: 1px solid var(--line); border-radius: 6px; font-size: 17px; line-height: 1.5; }
+.comparisonPickers { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.comparisonPickers label { display: block; color: var(--muted); margin-bottom: 10px; }
+.comparisonPickers strong { display: block; margin-bottom: 10px; font-size: 16px; }
+.comparisonPickers > div { min-width: 0; }
+.picker :global(.primary-button):disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 1100px) { .entries { margin-inline: 38px; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) {
+  .entries { margin: 0 12px 14px; gap: 8px; }
+  .entries > button { padding: 10px; gap: 8px; font-size: 13px; }
+  .entries > button > svg:last-child { display: none; }
+  .question { padding: 12px; }
+  .question h1 { font-size: 17px; }
+  .comparisonPickers { grid-template-columns: 1fr; }
+}

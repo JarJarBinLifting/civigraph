@@ -75,6 +75,7 @@ export interface GraphData {
 }
 
 export interface ViewState {
+  preset?: 'person' | 'institution' | 'comparison';
   root: string;
   focus: string;
   expanded: string[];
