@@ -1,10 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Network, Waypoints, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BookOpen, Bookmark, Check, ChevronRight, Compass, Copy, GitBranch, GitCompareArrows, GraduationCap, Info, Landmark, Link2, List, Maximize2, Network, PanelsTopLeft, Waypoints, RotateCcw, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { CATEGORIES, type Category, type Entity, type GraphData, type ViewState } from '@/lib/types';
 import { careerView, focusView, getPeriodContext, getVisibleGraph, parseView, serializeView } from '@/lib/graph';
-import { categoryInfo, periodLabel, shortLabel, typeInfo } from '@/lib/presentation';
+import { categoryInfo, periodLabel, shortLabel } from '@/lib/presentation';
 import { sortRelationsChronologically } from '@/lib/chronology';
 import { EntitySearch } from './EntitySearch';
 import { GraphCanvas } from './GraphCanvas';
@@ -20,10 +20,12 @@ import { SavedExplorations } from './SavedExplorations';
 import { EntityAvatar } from './EntityAvatar';
 import { graphExportInfo } from '@/lib/graph-export';
 import { SystemGraphCanvas } from './SystemGraphCanvas';
-import { categoriesForSystem, politicalAffiliations, SYSTEMS } from '@/lib/system-reading';
+import { categoriesForSystem, politicalAffiliations, SYSTEMS, SYSTEM_SCOPE } from '@/lib/system-reading';
 import { InstitutionCrossings, PersonAffiliations } from './SystemEvidence';
-import { SystemExplorer } from './SystemExplorer';
-import { ExplorationEntries, PresetControls, PresetDialog, PresetQuestion, type PresetPicker } from './ExplorationPresets';
+import { SystemExplorer, SystemPeriodFilter } from './SystemExplorer';
+import { ExplorationEntries, PresetDialog, PresetQuestion, type PresetPicker } from './ExplorationPresets';
+import { MapPopover } from './MapPopover';
+import './MapWorkspace.css';
 import { validPreset } from '@/lib/exploration-presets';
 import { getSystemGraph, switchGraphView, withSystemSelection, type GraphCamera, type SystemGraphMemory } from '@/lib/system-graph';
 
@@ -102,6 +104,7 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
     document.body.style.overflow = 'hidden';
     element.querySelector<HTMLButtonElement>('.enlarged-close')?.focus();
     const keyboard = (event: KeyboardEvent) => {
+      if (document.querySelector('dialog[open]')) return;
       if (event.key === 'Escape') { event.preventDefault(); setEnlarged(false); }
       else containFocus(event, element);
     };
@@ -192,23 +195,28 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
   const filteredPeople = data.entities.filter(entity => entity.inCorpus && entity.label.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().includes(corpusQuery.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()));
   const defaultComparisonLeft = rootEntity.type === 'person' ? rootEntity : data.entities.find(entity => entity.id === 'Q3052772')!;
 
-  return <div className="app-shell atlas-explorer">
+  return <div className="app-shell atlas-explorer map-first">
     <a className="skip-link" href="#exploration">Aller à l’exploration</a>
     <header className="app-header">
       <button className="brand" onClick={() => startFrom(data.entities.find(entity => entity.id === 'Q3052772')!)} aria-label="Civigraph, revenir à l’exploration initiale"><span className="brand-symbol"><Waypoints size={34} strokeWidth={1.8} /></span>civigraph<span className="version-tag">V0</span></button>
       <nav className="main-nav" aria-label="Navigation principale"><button className={!comparisonOpen ? 'active' : ''} onClick={() => { setComparisonOpen(false); if (view.compare) update({ compare: null }); }}><Compass size={16} />Explorer</button><button className={comparisonOpen ? 'active' : ''} onClick={openComparison}><GitCompareArrows size={16} />Comparer</button><button onClick={() => setModal('method')}>La méthode<ArrowUpRight size={12} /></button></nav>
-      <button className="header-source" onClick={() => setModal('corpus')}><span className="status-dot" />Données ouvertes <ArrowUpRight size={14} /></button>
+      <div className="header-actions"><button className="header-action" onClick={() => setModal('saved')} aria-label="Mes explorations" title="Mes explorations"><Bookmark size={17} /><span>Mes explorations</span></button><button className="header-action" onClick={openShare} aria-label="Partager la vue" title="Partager la vue"><Share2 size={17} /><span>Partager</span></button></div><button className="header-source" onClick={() => setModal('corpus')}><span className="status-dot" />Données ouvertes <ArrowUpRight size={14} /></button>
     </header>
-    <div className="workspace-toolbar"><div className="search-area"><EntitySearch data={data} onSelect={searchFrom} /></div><div className="toolbar-actions"><button ref={filtersTrigger} className="secondary-button filter-toggle" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters"><SlidersHorizontal size={17} /><span>Filtres</span>{categories.length !== CATEGORIES.length && <span className="filter-count" aria-hidden="true">{categories.length}/{CATEGORIES.length}</span>}</button><button className="secondary-button saved-trigger" onClick={() => setModal('saved')} aria-label="Mes explorations" title="Mes explorations"><Bookmark size={17} /><span>Mes explorations</span></button><button className="secondary-button share-trigger" onClick={openShare}><Share2 size={17} /><span>Partager la vue</span></button></div></div>
-    <ExplorationEntries onChoose={setPresetPicker} />
     <main id="exploration" ref={workspace} role={enlarged ? 'dialog' : undefined} aria-modal={enlarged || undefined} aria-label={enlarged ? 'Carte agrandie' : undefined} className={`workspace ${comparisonOpen ? 'is-comparing' : ''} ${!showDetail ? 'detail-closed' : ''} ${enlarged ? 'map-expanded' : ''}`}>
-      {enlarged && <div className="enlarged-bar"><button className="secondary-button enlarged-close" onClick={() => setEnlarged(false)}><X size={16} />Réduire la carte</button><div className="enlarged-search"><EntitySearch data={data} onSelect={searchFrom} label="Rechercher dans la carte agrandie" /></div><button className="secondary-button" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters">Filtres</button></div>}
+      <div className="workspace-toolbar map-toolbar">
+        {enlarged && <button className="icon-button enlarged-close" aria-label="Réduire la carte" onClick={() => setEnlarged(false)}><X size={20} /></button>}
+        <div className="search-area"><EntitySearch data={data} onSelect={searchFrom} suggestions={<ExplorationEntries onChoose={setPresetPicker} />} label={enlarged ? 'Rechercher dans la carte agrandie' : 'Rechercher une personne ou une organisation'} /></div>
+        <div className="system-organizers" role="group" aria-label="Système organisant la carte">{SYSTEMS.map(item => <button key={item.id} title={SYSTEM_SCOPE[item.id]} aria-pressed={isSystem && (view.system ?? 'all') === item.id} onClick={() => { update({ ...(!isSystem ? switchGraphView(view, 'system') : {}), system: item.id, edge: null }); setComparisonOpen(false); }}>{item.label}</button>)}</div>
+        <button ref={filtersTrigger} className="secondary-button filter-toggle" onClick={event => { filtersReturnTarget.current = event.currentTarget; setShowFilters(!showFilters); }} aria-expanded={showFilters} aria-controls="exploration-filters"><SlidersHorizontal size={17} /><span>Filtres</span>{(categories.length !== CATEGORIES.length || temporal === 'same') && <span className="filter-count">{CATEGORIES.length - categories.length + Number(temporal === 'same')}</span>}</button>
+      </div>
       <aside id="exploration-filters" className={`sidebar ${showFilters ? 'mobile-open' : ''}`} aria-label="Filtres et parcours">
         <div className="sidebar-heading"><span className="eyebrow">Votre exploration</span><button className="icon-button" aria-label="Fermer les filtres" onClick={() => { setShowFilters(false); (filtersReturnTarget.current ?? filtersTrigger.current)?.focus(); }}><X size={19} /></button></div>
         <button className="root-receipt" onClick={() => expand(root)}><EntityAvatar entity={rootEntity} /><span><small>Point de départ</small><strong>{shortLabel(rootEntity)}</strong></span><ChevronRight size={15} /></button>
         <div className="filter-section"><div className="section-heading"><h2>Relations</h2><button onClick={() => update({ categories: categories.length === 5 ? [] : [...CATEGORIES], edge: null })}>{categories.length === 5 ? 'Tout masquer' : 'Tout afficher'}</button></div><p className="section-caption">Choisissez les liens à afficher.</p>
           <div className="category-filters">{CATEGORIES.map(category => <label key={category} style={{ '--category-color': categoryInfo[category].color } as React.CSSProperties}><input type="checkbox" checked={categories.includes(category)} onChange={() => toggleCategory(category)} /><span className="custom-checkbox"><Check size={11} /></span><span>{categoryInfo[category].label}</span><small>{ownRelations.filter(relation => relation.category === category).length}</small></label>)}</div>
         </div>
+        {isSystem ? <SystemPeriodFilter data={data} view={view} selected={hasSelection ? selectedEntity : undefined} onChange={update} /> : <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />}
+        {!isSystem && <ChronologyControls key={`${focus}:${chronology.reference.label}`} chronology={chronology} customYear={view.year} onYear={year => update({ year })} />}
         <div className="scope-section"><div className="section-heading"><h2>Périmètre</h2><Info size={13} /></div><p><CalendarIcon />{temporal === 'same' && periodContext.anchor ? periodContext.anchor.cohort?.label ?? periodLabel(periodContext.anchor) : 'Toutes les périodes documentées'}</p><span>{temporal === 'same' ? 'Les dates insuffisantes se consultent séparément ; chaque personne permet de repartir vers sa carrière complète.' : 'Les dates sont précisées dans les fiches.'}</span></div>
         {expanded.length > 1 && <div className="expanded-section"><span className="eyebrow">Parcours d’exploration</span>{expanded.filter(id => id !== root).map(id => <div key={id}><button aria-current={id === focus ? 'step' : undefined} onClick={() => expand(id)}>{shortLabel(entitiesById.get(id)!)}</button><button className="icon-button" aria-label={`Revenir avant ${shortLabel(entitiesById.get(id)!)}`} onClick={() => expand(expanded[expanded.indexOf(id) - 1] ?? root)}><X size={12} /></button></div>)}</div>}
         <button className="reset-button" onClick={() => { update({ focus: root, expanded: [root], categories: [...CATEGORIES], selected: root, compare: null, edge: null, period: null, temporal: 'all', year: null }); setComparisonOpen(false); }}><RotateCcw size={13} />Réinitialiser cette vue</button>
@@ -227,16 +235,28 @@ export function Explorer({ data, initialView, initialDetailOpen = false }: { dat
           onClose={() => { setComparisonOpen(false); update({ compare: null }); }} /> : <>
           <div className="graph-topbar">
             <div className="graph-heading">{!view.preset && <div className="breadcrumb"><span>Réseau documenté</span><h1 aria-label={isSystem ? "Vue du système" : `Réseau : ${shortLabel(focusEntity)}`}>{isSystem ? "Les liens de la vie publique" : shortLabel(focusEntity)}</h1></div>}
-              <div className="graph-meta"><span>{visible.entities.length} entités</span><span>{visible.relations.length} déclarations</span>{isSystem && <span>{system.connections.length} connexions</span>}{!showDetail && <button className="subtle-link" onClick={() => { setShowDetail(true); setHasSelection(true); }}>Ouvrir la fiche<ArrowUpRight size={14} /></button>}</div>
+              <div className="graph-meta"><span>{visible.entities.length} entités</span><span>{visible.relations.length} déclarations</span>{isSystem && <span>{system.connections.length} connexions</span>}{!showDetail && hasSelection && <button className="subtle-link" onClick={() => { setShowDetail(true); setHasSelection(true); }}>Ouvrir la fiche<ArrowUpRight size={14} /></button>}</div>
             </div>
-            <div className="map-display-controls"><button className="enlarge-trigger" onClick={() => setEnlarged(true)} aria-hidden={enlarged || undefined} tabIndex={enlarged ? -1 : undefined} style={enlarged ? { visibility: 'hidden' } : undefined}>Agrandir la carte</button><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={16} /><span>Graphe</span></button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={16} /><span>Liste</span></button></div></div>
+            <div className="map-display-controls">
+              <MapPopover label="Affichage" icon={<PanelsTopLeft size={17} />} status={view.mode === 'list' ? 'Liste' : isSystem ? `Système · ${view.reading === 'individuals' ? 'Individus' : 'Groupes'}` : 'Centrée'}>
+                <p className="map-control-label">Présentation</p><div className="view-toggle" role="group" aria-label="Mode d’affichage"><button aria-pressed={view.mode === 'graph'} onClick={() => update({ mode: 'graph' })}><Network size={16} />Graphe</button><button aria-pressed={view.mode === 'list'} onClick={() => update({ mode: 'list' })}><List size={16} />Liste</button></div>
+                <p className="map-control-label">Perspective</p><div className="view-toggle" role="group" aria-label="Perspective du graphe"><button aria-pressed={isSystem} onClick={() => changeGraphView('system')}><Network size={16} />Système</button><button aria-pressed={!isSystem} onClick={() => changeGraphView('centered')}><GitBranch size={16} />Centrée</button></div>
+                {isSystem && <><p className="map-control-label">Lecture de la carte</p><div className="view-toggle" role="group" aria-label="Lecture de la carte"><button aria-pressed={(view.reading ?? 'groups') === 'groups'} onClick={() => update({ mode: 'graph', systemLens: 'entities', reading: 'groups' })}>Groupes</button><button aria-pressed={view.reading === 'individuals'} onClick={() => update({ mode: 'graph', systemLens: 'entities', reading: 'individuals' })}>Individus</button></div></>}
+                <p className="map-control-note">{isSystem ? 'Une vue d’ensemble des liens documentés.' : 'Le parcours et les relations d’une entité.'}</p>
+              </MapPopover>
+              <MapPopover label="Explorer" icon={<Compass size={17} />} status={isSystem && view.systemLens === 'common' ? 'Points communs' : isSystem && view.systemLens === 'institutions' ? 'Institutions' : undefined} className="map-explore-tools">
+                <ExplorationEntries onChoose={setPresetPicker} />
+                <div className="map-explore-links"><button aria-pressed={isSystem && view.systemLens === 'common'} onClick={() => { update({ graphView: 'system', mode: 'graph', systemLens: 'common' }); }}>Points communs{view.group?.length ? ` (${view.group.length})` : ''}<ArrowUpRight size={15} /></button><button aria-pressed={isSystem && view.systemLens === 'institutions'} onClick={() => update({ graphView: 'system', mode: 'graph', systemLens: 'institutions' })}>Index des institutions<ArrowUpRight size={15} /></button></div>
+                {hasSelection && selectedEntity.type === 'person' && <div className="system-group-action"><span>{shortLabel(selectedEntity)}</span><button disabled={view.group?.includes(selectedEntity.id)} onClick={() => update({ group: [...(view.group ?? []), selectedEntity.id] })}>{view.group?.includes(selectedEntity.id) ? 'Dans le groupe' : 'Ajouter au groupe'}</button></div>}
+                <button className="map-help-link" onClick={() => setModal('method')}><Info size={15} />Comprendre les liens et les sources</button>
+                <a className="map-help-link" href="/methode"><BookOpen size={15} />Méthode et couverture<ArrowUpRight size={13} /></a>
+                <button className="map-help-link" onClick={() => setModal('corpus')}><BookOpen size={15} />Données ouvertes · {importedDate}</button>
+              </MapPopover>
+              <button className="icon-button enlarge-trigger" title="Agrandir la carte" aria-label="Agrandir la carte" aria-hidden={enlarged || undefined} tabIndex={enlarged ? -1 : undefined} style={enlarged ? { display: 'none' } : undefined} onClick={() => setEnlarged(true)}><Maximize2 size={18} /></button>
+            </div>
           </div>
-          <PresetControls guided={Boolean(view.preset)}>
-          <div className="graph-perspective"><div className="view-toggle" role="group" aria-label="Perspective du graphe"><button aria-pressed={isSystem} onClick={() => changeGraphView('system')}><Network size={16} />Système</button><button aria-pressed={!isSystem} onClick={() => changeGraphView('centered')}><GitBranch size={16} />Centrée</button></div><p>{isSystem ? `${SYSTEMS.find(s => s.id === (view.system ?? 'all'))!.label} · ${effectiveCategories.length === (view.system && view.system !== 'all' ? 1 : CATEGORIES.length) && temporal === 'all' ? 'tous les parcours documentés' : 'selon vos filtres'}` : 'Parcours d’une entité · repères temporels'}</p>{isSystem && <details className="system-reading"><summary>Lire la carte</summary><div><p>Un trait regroupe les déclarations entre deux entités. La disposition aide à suivre les liens ; elle ne mesure ni influence ni proximité personnelle. Carrés : institutions, avec le nombre de personnes distinctes en lecture Groupes. Disques : personnes, colorées selon leurs appartenances politiques documentées.</p><ul>{Object.entries(typeInfo).filter(([type]) => type !== 'person' && type !== 'party').map(([type, info]) => <li key={type}><i style={{ background: info.color }} />{info.label}</li>)}</ul></div></details>}</div>
+          {temporal === 'same' && <button className="map-active-period" onClick={() => setShowFilters(true)}>Période : {periodContext.anchor ? periodContext.anchor.cohort?.label ?? periodLabel(periodContext.anchor) : 'filtre actif'}<SlidersHorizontal size={13} /></button>}
           {!isSystem && expanded.length > 1 && <nav className="exploration-trail" aria-label="Parcours d’exploration">{expanded.map(id => <button key={id} onClick={() => expand(id)} aria-current={id === focus ? 'step' : undefined}>{shortLabel(entitiesById.get(id)!)}<ChevronRight size={13} /></button>)}</nav>}
-          {(!isSystem || view.mode === 'list') && <PeriodControls data={data} view={view} onChange={update} onEvidence={inspectEdge} onSelect={select} onCareer={exploreCareer} />}
-          {view.mode === 'graph' && !isSystem && <ChronologyControls key={`${focus}:${chronology.reference.label}`} chronology={chronology} customYear={view.year} onYear={year => update({ year })} />}
-          </PresetControls>
           {notice && <p className="inline-notice" role="status">{notice}</p>}
           {view.mode === 'graph' ? isSystem ? <SystemExplorer data={data} graph={filteredSystem} politics={politics} view={view} selected={hasSelection ? selectedEntity : undefined} onChange={update} onSelect={select}><SystemGraphCanvas focusRequest={mapFocusRequest} graph={system} whole={wholeSystem} organization={organizedSystem} system={view.system ?? 'all'} reading={view.reading ?? 'groups'} politics={politics} onClear={() => { setHasSelection(false); setShowDetail(false); update({ spotlight: 'off', edge: null }); }} memory={systemMemory} selected={hasSelection ? view.selected : null} selectedEdge={view.edge} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onCentered={() => changeGraphView('centered')} onFallback={() => { update({ mode: 'list' }); setNotice('La carte système n’a pas pu être calculée. Toutes les déclarations restent consultables dans la liste.'); }} /></SystemExplorer> : <GraphCanvas key={presetRevision} camera={view.preset ? undefined : centeredCamera} enlarged={enlarged} entities={visible.entities} relations={visible.relations} chronology={chronology} trail={expanded} focus={focus} anchor={expanded[expanded.indexOf(focus) - 1]} selected={view.selected} selectedEdge={view.edge} compare={view.compare} exportInfo={exportInfo} onSelect={select} onEdge={inspectEdge} onExpand={expand} onFallback={() => { update({ mode: 'list' }); setNotice('Le graphe ne peut pas être affiché dans ce navigateur. Tous les liens restent accessibles dans la liste.'); }} /> : <div className="graph-list" aria-label="Liste des relations visibles">
             {listedRelations.slice(page * 100, (page + 1) * 100).map(relation => <article className="graph-list-row" key={relation.id}>

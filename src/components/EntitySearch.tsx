@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useId, useRef, useState, type ReactNode } from 'react';
 import { Search, ArrowUpRight, X } from 'lucide-react';
 import { searchEntities } from '@/lib/graph';
 import { shortLabel, typeInfo } from '@/lib/presentation';
@@ -14,9 +14,10 @@ interface Props {
   label?: string;
   placeholder?: string;
   exclude?: string;
+  suggestions?: ReactNode;
 }
 
-export function EntitySearch({ data, onSelect, peopleOnly = false, label = 'Rechercher une personne ou une organisation', placeholder = 'Une personne, une école, un parti…', exclude }: Props) {
+export function EntitySearch({ data, onSelect, peopleOnly = false, label = 'Rechercher une personne ou une organisation', placeholder = 'Une personne, une école, un parti…', exclude, suggestions }: Props) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState('');
@@ -36,6 +37,7 @@ export function EntitySearch({ data, onSelect, peopleOnly = false, label = 'Rech
       }} />
     {query ? <button className="icon-button search-clear" aria-label="Effacer la recherche" onClick={() => { setQuery(''); input.current?.focus(); }}><X size={15} /></button> : <span className="search-hint" aria-hidden="true">Rechercher</span>}
     {open && <div className="search-popover">
+      {!query && suggestions}
       <p className="eyebrow">{query ? `${results.length}${results.length === 8 ? '+' : ''} résultat${results.length > 1 ? 's' : ''}` : 'Dans le corpus'}</p>
       <ul id={`${id}-results`} role="listbox" aria-label="Résultats de recherche">
         {results.map((entity, index) => <li key={entity.id} id={`${id}-${index}`} role="option" aria-selected={index === active}>

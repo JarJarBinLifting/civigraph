@@ -65,6 +65,7 @@ export function SystemGraphCanvas(props: Props) {
     let activeSystem: System = props.system, scenePositions: SystemPositions = {}, sizedReading = '';
     const previousLabels = new Set<string>();
     type Camera = { zoom: number; pan: { x: number; y: number } };
+    let homeCamera: Camera | undefined;
     const history: Camera[] = [];
     let settledCamera: Camera | undefined;
     function remember(instance: Core) {
@@ -198,8 +199,9 @@ export function SystemGraphCanvas(props: Props) {
       return true;
     }
     function fit(instance: Core) {
-      instance.resize(); instance.fit(instance.nodes().filter(n => n.visible()), instance.width() < 600 ? 22 : 45);
+      instance.resize(); instance.fit(instance.nodes().filter(n => n.visible()), instance.width() < 600 ? 18 : 24);
       homeZoom = instance.zoom(); sizedZoom = 0; scale(instance);
+      homeCamera = { zoom: instance.zoom(), pan: { ...instance.pan() } };
     }
     function populate(instance: Core) {
       if (!latest.current.memory.current.positions) return;
@@ -288,9 +290,12 @@ export function SystemGraphCanvas(props: Props) {
       let width = container.current.clientWidth, height = container.current.clientHeight;
       observer = new ResizeObserver(() => {
         if (!container.current || !container.current.clientWidth || !container.current.clientHeight) return;
+        const atHome = homeCamera && !isolatedRef.current && Math.abs(instance.zoom() - homeCamera.zoom) < .0001
+          && Math.abs(instance.pan().x - homeCamera.pan.x) < 1 && Math.abs(instance.pan().y - homeCamera.pan.y) < 1;
         const dx = (container.current.clientWidth - width) / 2, dy = (container.current.clientHeight - height) / 2;
         width = container.current.clientWidth; height = container.current.clientHeight;
-        instance.resize(); instance.panBy({ x: dx, y: dy });
+        if (atHome) fit(instance);
+        else { instance.resize(); instance.panBy({ x: dx, y: dy }); }
       });
       observer.observe(container.current);
       if (latest.current.memory.current.positions) { populate(instance); setReady(true); return; }
