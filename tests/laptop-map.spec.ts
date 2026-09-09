@@ -1,6 +1,32 @@
 import { expect, test } from '@playwright/test';
 
 for (const viewport of [{ width: 1366, height: 600 }, { width: 1280, height: 650 }]) {
+  test(`the centered Sciences Po trail fills a ${viewport.width}x${viewport.height} laptop`, async ({ page }, info) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/?root=Q3052772&focus=Q859363&expanded=Q3052772%2CQ859363&selected=Q859363&graphView=centered');
+    await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
+    await expect(page.locator('.detail-panel')).toContainText('Sciences Po Paris');
+    const canvas = page.locator('.graph-canvas');
+    await expect.poll(() => canvas.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(viewport.height * .58);
+    const geometry = await page.evaluate(() => {
+      const box = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
+      const canvas = box('.graph-canvas'), guides = box('.graph-guides');
+      return { canvasTop: canvas.top, canvasHeight: canvas.height, canvasRight: canvas.right, canvasWidth: canvas.width, guidesTop: guides.top, guidesHeight: guides.height, trailBottom: box('.exploration-trail').bottom, panelLeft: box('.detail-panel').left };
+    });
+    expect(geometry.canvasWidth).toBeGreaterThanOrEqual(viewport.width * .72);
+    expect(geometry.canvasTop).toBeGreaterThanOrEqual(geometry.trailBottom);
+    expect(geometry.canvasRight).toBeLessThanOrEqual(geometry.panelLeft);
+    expect(geometry.guidesTop).toBeCloseTo(geometry.canvasTop, 0);
+    expect(geometry.guidesHeight).toBeCloseTo(geometry.canvasHeight, 0);
+    await page.getByRole('button', { name: 'Zoom avant', exact: true }).click();
+    await page.getByRole('button', { name: 'Recentrer le graphe', exact: true }).click();
+    await page.getByRole('button', { name: 'Agrandir la carte', exact: true }).click();
+    await page.getByRole('button', { name: 'Réduire la carte', exact: true }).click();
+    await page.screenshot({ path: info.outputPath('centered-laptop.png'), fullPage: true });
+  });
+}
+
+for (const viewport of [{ width: 1366, height: 600 }, { width: 1280, height: 650 }]) {
   test(`the map remains the main surface with an institution open at ${viewport.width}x${viewport.height}`, async ({ page }, info) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
