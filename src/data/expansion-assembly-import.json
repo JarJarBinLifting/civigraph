@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-09-09T10:20:29.617Z",
+  "source": "https://data.assemblee-nationale.fr/static/openData/repository/17/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip",
+  "matching": "Wikidata P4123 → acteur PA",
+  "matched": [
+    {
+      "person": "Q21013136",
+      "actor": "PA795076",
+      "property": "P4123"
+    },
+    {
+      "person": "Q2980738",
+      "actor": "PA588884",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30335340",
+      "actor": "PA721960",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112640278",
+      "actor": "PA793464",
+      "property": "P4123"
+    },
+    {
+      "person": "Q21294609",
+      "actor": "PA720468",
+      "property": "P4123"
+    },
+    {
+      "person": "Q46138822",
+      "actor": "PA795778",
+      "property": "P4123"
+    },
+    {
+      "person": "Q112308110",
+      "actor": "PA795912",
+      "property": "P4123"
+    },
+    {
+      "person": "Q30351657",
+      "actor": "PA720100",
+      "property": "P4123"
+    }
+  ],
+  "missing": [],
+  "rejected": []
+}

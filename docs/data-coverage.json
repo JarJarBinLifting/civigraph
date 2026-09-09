@@ -1,18 +1,19 @@
 {
-  "checkedAt": "2026-09-08T14:18:38.920Z",
-  "people": 553,
-  "entities": 2589,
+  "checkedAt": "2026-09-09T10:25:57.196Z",
+  "people": 569,
+  "entities": 2653,
   "before": {
     "statements": 797,
     "datedStatements": 496
   },
   "after": {
-    "statements": 8055,
-    "datedStatements": 5019
+    "statements": 8522,
+    "datedStatements": 5364
   },
   "sources": {
-    "wikidata": 5098,
-    "assembly": 2836,
+    "wikidata": 5221,
+    "assembly": 3166,
+    "expansionAttestations": 14,
     "hatvpViaIntegrityWatch": 17,
     "currentRoles": 68,
     "cabinetNominations": 10,
@@ -141,10 +142,10 @@
         "datedStatements": 3
       },
       "after": {
-        "people": 185,
-        "peopleWithUsableDates": 12,
-        "statements": 194,
-        "datedStatements": 13
+        "people": 187,
+        "peopleWithUsableDates": 13,
+        "statements": 196,
+        "datedStatements": 14
       }
     },
     {
@@ -212,7 +213,7 @@
       }
     }
   ],
-  "assemblyPeopleMatched": 119,
+  "assemblyPeopleMatched": 127,
   "assemblyRejected": [
     {
       "person": "Q30348845",

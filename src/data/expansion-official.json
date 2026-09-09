@@ -1,0 +1,513 @@
+{
+  "meta": {
+    "version": 1,
+    "fetchedAt": "2026-09-09",
+    "source": "Parlement européen et Sénat",
+    "license": "Conditions de chaque source",
+    "peopleCount": 0,
+    "entityCount": 6,
+    "relationCount": 14,
+    "properties": [
+      "official:parliamentary-roster"
+    ],
+    "description": "Six membres du Parlement européen et deux sénateurs : mandats et groupes européens attestés au 9 septembre 2026. Sélection partielle."
+  },
+  "entities": [
+    {
+      "id": "Q8889",
+      "label": "Parlement européen",
+      "description": "Institution ou groupe parlementaire cité par une source officielle.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-09",
+      "sourceUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "sourceLabel": "Parlement européen"
+    },
+    {
+      "id": "Q753711",
+      "label": "Groupe de la Gauche au Parlement européen",
+      "description": "Institution ou groupe parlementaire cité par une source officielle.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-09",
+      "sourceUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "sourceLabel": "Parlement européen"
+    },
+    {
+      "id": "Q635616",
+      "label": "Groupe du Parti populaire européen",
+      "description": "Institution ou groupe parlementaire cité par une source officielle.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-09",
+      "sourceUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "sourceLabel": "Parlement européen"
+    },
+    {
+      "id": "EP:group:renew",
+      "label": "Groupe Renew Europe",
+      "description": "Institution ou groupe parlementaire cité par une source officielle.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-09",
+      "sourceUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "sourceLabel": "Parlement européen"
+    },
+    {
+      "id": "Q751935",
+      "label": "Groupe des Verts/Alliance libre européenne",
+      "description": "Institution ou groupe parlementaire cité par une source officielle.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-09",
+      "sourceUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "sourceLabel": "Parlement européen"
+    },
+    {
+      "id": "Q9705",
+      "label": "Sénat français",
+      "description": "Institution ou groupe parlementaire cité par une source officielle.",
+      "type": "organization",
+      "inCorpus": false,
+      "modified": "2026-09-09",
+      "sourceUrl": "https://www.senat.fr/senateur/ouzoulias_pierre19593h.html",
+      "sourceLabel": "Sénat"
+    }
+  ],
+  "relations": [
+    {
+      "id": "official:expansion:Q59601214:Q8889",
+      "source": "Q59601214",
+      "target": "Q8889",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Membre du Parlement européen élu en France",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q59601214",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Manon Aubry",
+        "locator": "Manon Aubry · Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q59601214:Q753711",
+      "source": "Q59601214",
+      "target": "Q753711",
+      "property": "official:parliamentary-roster",
+      "category": "membership",
+      "label": "A siégé dans le groupe",
+      "role": "Membre du groupe parlementaire",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q59601214",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Manon Aubry",
+        "locator": "Manon Aubry · Groupe de la Gauche au Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q15724624:Q8889",
+      "source": "Q15724624",
+      "target": "Q8889",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Membre du Parlement européen élu en France",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q15724624",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · François-Xavier Bellamy",
+        "locator": "François-Xavier Bellamy · Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q15724624:Q635616",
+      "source": "Q15724624",
+      "target": "Q635616",
+      "property": "official:parliamentary-roster",
+      "category": "membership",
+      "label": "A siégé dans le groupe",
+      "role": "Membre du groupe parlementaire",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q15724624",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · François-Xavier Bellamy",
+        "locator": "François-Xavier Bellamy · Groupe du Parti populaire européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q63764512:Q8889",
+      "source": "Q63764512",
+      "target": "Q8889",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Membre du Parlement européen élu en France",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q63764512",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Valérie Hayer",
+        "locator": "Valérie Hayer · Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q63764512:EP:group:renew",
+      "source": "Q63764512",
+      "target": "EP:group:renew",
+      "property": "official:parliamentary-roster",
+      "category": "membership",
+      "label": "A siégé dans le groupe",
+      "role": "Membre du groupe parlementaire",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q63764512",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Valérie Hayer",
+        "locator": "Valérie Hayer · Groupe Renew Europe",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q63347906:Q8889",
+      "source": "Q63347906",
+      "target": "Q8889",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Membre du Parlement européen élu en France",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q63347906",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Marie Toussaint",
+        "locator": "Marie Toussaint · Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q63347906:Q751935",
+      "source": "Q63347906",
+      "target": "Q751935",
+      "property": "official:parliamentary-roster",
+      "category": "membership",
+      "label": "A siégé dans le groupe",
+      "role": "Membre du groupe parlementaire",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q63347906",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Marie Toussaint",
+        "locator": "Marie Toussaint · Groupe des Verts/Alliance libre européenne",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q23058507:Q8889",
+      "source": "Q23058507",
+      "target": "Q8889",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Membre du Parlement européen élu en France",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q23058507",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · David Cormand",
+        "locator": "David Cormand · Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q23058507:Q751935",
+      "source": "Q23058507",
+      "target": "Q751935",
+      "property": "official:parliamentary-roster",
+      "category": "membership",
+      "label": "A siégé dans le groupe",
+      "role": "Membre du groupe parlementaire",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q23058507",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · David Cormand",
+        "locator": "David Cormand · Groupe des Verts/Alliance libre européenne",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q2542770:Q8889",
+      "source": "Q2542770",
+      "target": "Q8889",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Membre du Parlement européen élu en France",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q2542770",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Younous Omarjee",
+        "locator": "Younous Omarjee · Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q2542770:Q753711",
+      "source": "Q2542770",
+      "target": "Q753711",
+      "property": "official:parliamentary-roster",
+      "category": "membership",
+      "label": "A siégé dans le groupe",
+      "role": "Membre du groupe parlementaire",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.europarl.europa.eu/meps/en/full-list/all",
+      "references": [
+        {
+          "id": "expansion:Q2542770",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/full-list/all"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Parlement européen · Younous Omarjee",
+        "locator": "Younous Omarjee · Groupe de la Gauche au Parlement européen",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q3147241:Q9705",
+      "source": "Q3147241",
+      "target": "Q9705",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Sénateur de Paris",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateur/brossat_ian21088q.html",
+      "references": [
+        {
+          "id": "expansion:Q3147241",
+          "urls": [
+            "https://www.senat.fr/senateur/brossat_ian21088q.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Sénat français · Ian Brossat",
+        "locator": "Ian Brossat · Sénat français",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    },
+    {
+      "id": "official:expansion:Q41025869:Q9705",
+      "source": "Q41025869",
+      "target": "Q9705",
+      "property": "official:parliamentary-roster",
+      "category": "office",
+      "label": "A siégé au",
+      "role": "Sénateur des Hauts-de-Seine",
+      "pointInTime": {
+        "value": "2026-09-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.senat.fr/senateur/ouzoulias_pierre19593h.html",
+      "references": [
+        {
+          "id": "expansion:Q41025869",
+          "urls": [
+            "https://www.senat.fr/senateur/ouzoulias_pierre19593h.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ],
+      "evidence": {
+        "kind": "official",
+        "title": "Sénat français · Pierre Ouzoulias",
+        "locator": "Pierre Ouzoulias · Sénat français",
+        "checkedAt": "2026-09-09",
+        "note": "Présence dans la source officielle consultée à cette date. Ce repère ne fixe ni le début ni la fin du mandat et ne valide pas les autres éléments du parcours Wikidata."
+      }
+    }
+  ]
+}

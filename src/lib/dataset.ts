@@ -7,6 +7,10 @@ import integrityWatch from '../data/integrity-watch.json';
 import institutions from '../data/institution-participations.json';
 import current from '../data/current-wikidata.json';
 import currentOfficial from '../data/current-official.json';
+import expansion from '../data/expansion-wikidata.json';
+import expansionAssembly from '../data/expansion-assembly.json';
+import expansionOfficial from '../data/expansion-official.json';
+import expansionImages from '../data/expansion-images.json';
 import corrections from '../data/entity-corrections.json';
 import imageSnapshot from '../data/entity-images.json';
 import type { GraphData, Relation } from './types';
@@ -55,11 +59,14 @@ export function loadDataset(): GraphData {
   data = mergeDatasets(data, current as GraphData, []);
   data = mergeDatasets(data, currentOfficial as GraphData, []);
   data = mergeDatasets(data, cabinetDataset(), []);
+  data = mergeDatasets(data, expansion as GraphData, []);
+  data = mergeDatasets(data, expansionAssembly as GraphData, []);
+  data = mergeDatasets(data, expansionOfficial as GraphData, []);
   for (const correction of corrections) {
     const entity = data.entities.find(entity => entity.id === correction.id);
     if (entity) { entity.label = correction.label; entity.labelSource = correction.labelSource; }
   }
-  const images = new Map(imageSnapshot.images.map(image => [image.entityId, {
+  const images = new Map([...imageSnapshot.images, ...expansionImages.images].map(image => [image.entityId, {
     src: image.src, width: image.width, height: image.height, author: image.author, attribution: image.attribution, credit: image.credit,
     license: image.license, licenseUrl: image.licenseUrl, sourcePage: image.sourcePage, sourceTitle: image.sourceTitle, restrictions: image.restrictions, takenAt: image.takenAt,
   }]));

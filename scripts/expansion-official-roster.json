@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-09-09",
+  "europeanDirectory": "https://www.europarl.europa.eu/meps/en/full-list/all",
+  "groups": {
+    "left": { "id": "Q753711", "label": "Groupe de la Gauche au Parlement européen" },
+    "epp": { "id": "Q635616", "label": "Groupe du Parti populaire européen" },
+    "renew": { "id": "EP:group:renew", "label": "Groupe Renew Europe" },
+    "greens": { "id": "Q751935", "label": "Groupe des Verts/Alliance libre européenne" }
+  },
+  "people": [
+    { "id": "Q59601214", "name": "Manon Aubry", "section": "europe", "group": "left" },
+    { "id": "Q15724624", "name": "François-Xavier Bellamy", "section": "europe", "group": "epp" },
+    { "id": "Q63764512", "name": "Valérie Hayer", "section": "europe", "group": "renew" },
+    { "id": "Q63347906", "name": "Marie Toussaint", "section": "europe", "group": "greens" },
+    { "id": "Q23058507", "name": "David Cormand", "section": "europe", "group": "greens" },
+    { "id": "Q2542770", "name": "Younous Omarjee", "section": "europe", "group": "left" },
+    { "id": "Q3147241", "name": "Ian Brossat", "section": "senate", "url": "https://www.senat.fr/senateur/brossat_ian21088q.html", "role": "Sénateur de Paris" },
+    { "id": "Q41025869", "name": "Pierre Ouzoulias", "section": "senate", "url": "https://www.senat.fr/senateur/ouzoulias_pierre19593h.html", "role": "Sénateur des Hauts-de-Seine" }
+  ]
+}

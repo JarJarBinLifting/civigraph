@@ -1,0 +1,3751 @@
+{
+  "meta": {
+    "version": 1,
+    "fetchedAt": "2026-09-09T10:19:25.101Z",
+    "source": "Wikidata",
+    "license": "CC0-1.0",
+    "peopleCount": 16,
+    "entityCount": 89,
+    "relationCount": 123,
+    "properties": [
+      "P69",
+      "P39",
+      "P102",
+      "P108",
+      "P463"
+    ],
+    "description": "Corpus exploratoire de 16 personnalités de la vie politique française. Non exhaustif et non représentatif."
+  },
+  "entities": [
+    {
+      "id": "Q59601214",
+      "label": "Manon Aubry",
+      "description": "femme politique française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q59601214",
+      "revision": 2524195191,
+      "modified": "2026-07-29T05:33:27Z"
+    },
+    {
+      "id": "Q15724624",
+      "label": "François-Xavier Bellamy",
+      "description": "essayiste et homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q15724624",
+      "revision": 2517368018,
+      "modified": "2026-07-14T11:26:59Z"
+    },
+    {
+      "id": "Q63764512",
+      "label": "Valérie Hayer",
+      "description": "femme politique française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q63764512",
+      "revision": 2523825315,
+      "modified": "2026-07-28T07:45:53Z"
+    },
+    {
+      "id": "Q63347906",
+      "label": "Marie Toussaint",
+      "description": "femme politique française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q63347906",
+      "revision": 2523832718,
+      "modified": "2026-07-28T08:15:31Z"
+    },
+    {
+      "id": "Q23058507",
+      "label": "David Cormand",
+      "description": "homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q23058507",
+      "revision": 2523822419,
+      "modified": "2026-07-28T07:35:18Z"
+    },
+    {
+      "id": "Q2542770",
+      "label": "Younous Omarjee",
+      "description": "homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q2542770",
+      "revision": 2523731556,
+      "modified": "2026-07-28T02:16:19Z"
+    },
+    {
+      "id": "Q21013136",
+      "label": "Sandrine Rousseau",
+      "description": "économiste et femme politique française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q21013136",
+      "revision": 2523984209,
+      "modified": "2026-07-28T15:34:03Z"
+    },
+    {
+      "id": "Q2980738",
+      "label": "Clémentine Autain",
+      "description": "femme politique française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q2980738",
+      "revision": 2533842927,
+      "modified": "2026-08-20T18:24:54Z"
+    },
+    {
+      "id": "Q30335340",
+      "label": "Danièle Obono",
+      "description": "femme politique gabonaise naturalisé française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q30335340",
+      "revision": 2523834354,
+      "modified": "2026-07-28T08:23:11Z"
+    },
+    {
+      "id": "Q112640278",
+      "label": "Sébastien Delogu",
+      "description": "syndicaliste et politicien français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q112640278",
+      "revision": 2516975892,
+      "modified": "2026-07-13T08:26:28Z"
+    },
+    {
+      "id": "Q21294609",
+      "label": "Sébastien Chenu",
+      "description": "homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q21294609",
+      "revision": 2524010625,
+      "modified": "2026-07-28T17:07:58Z"
+    },
+    {
+      "id": "Q46138822",
+      "label": "Jean-Philippe Tanguy",
+      "description": "homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q46138822",
+      "revision": 2523937317,
+      "modified": "2026-07-28T13:18:19Z"
+    },
+    {
+      "id": "Q112308110",
+      "label": "Laure Lavalette",
+      "description": "femme politique française",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q112308110",
+      "revision": 2374727013,
+      "modified": "2025-07-06T15:59:24Z"
+    },
+    {
+      "id": "Q30351657",
+      "label": "Aurélien Pradié",
+      "description": "homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q30351657",
+      "revision": 2523743714,
+      "modified": "2026-07-28T02:50:22Z"
+    },
+    {
+      "id": "Q3147241",
+      "label": "Ian Brossat",
+      "description": "homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3147241",
+      "revision": 2523733055,
+      "modified": "2026-07-28T02:21:27Z"
+    },
+    {
+      "id": "Q41025869",
+      "label": "Pierre Ouzoulias",
+      "description": "archéologue, historien et homme politique français",
+      "type": "person",
+      "inCorpus": true,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q41025869",
+      "revision": 2524190254,
+      "modified": "2026-07-29T05:06:52Z"
+    },
+    {
+      "id": "Q859363",
+      "label": "Institut d'études politiques de Paris",
+      "description": "établissement public d’enseignement supérieur et de recherche dans les domaines des sciences humaines et sociales et des relations internationales",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q859363",
+      "revision": 2542535338,
+      "modified": "2026-09-09T02:49:01Z"
+    },
+    {
+      "id": "Q49088",
+      "label": "Université Columbia",
+      "description": "université privée américaine située à New York",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q49088",
+      "revision": 2536252809,
+      "modified": "2026-08-25T15:12:51Z"
+    },
+    {
+      "id": "Q487556",
+      "label": "Université de Sydney",
+      "description": "université australienne située à Sydney",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q487556",
+      "revision": 2537333434,
+      "modified": "2026-08-28T08:23:58Z"
+    },
+    {
+      "id": "Q27169",
+      "label": "député européen",
+      "description": "membre du Parlement européen",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q27169",
+      "revision": 2517733853,
+      "modified": "2026-07-15T10:45:22Z"
+    },
+    {
+      "id": "Q27978402",
+      "label": "La France insoumise",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q27978402",
+      "revision": 2538171901,
+      "modified": "2026-08-30T12:26:40Z"
+    },
+    {
+      "id": "Q3359040",
+      "label": "Oxfam France",
+      "description": "association française, membre d'Oxfam International",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3359040",
+      "revision": 2454741686,
+      "modified": "2026-01-14T03:44:18Z"
+    },
+    {
+      "id": "Q256538",
+      "label": "réseau international de Médecins du Monde",
+      "description": "organisation non gouvernementale internationale ayant son siège en France",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q256538",
+      "revision": 2517404059,
+      "modified": "2026-07-14T13:35:37Z"
+    },
+    {
+      "id": "Q118483",
+      "label": "fondation Carter",
+      "description": "fondation ayant pour objet la résolution pacifique des conflits,",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q118483",
+      "revision": 2535457814,
+      "modified": "2026-08-23T14:56:54Z"
+    },
+    {
+      "id": "Q83259",
+      "label": "École normale supérieure",
+      "description": "établissement français d’enseignement supérieur public (grande école) situé à Paris, rue d'Ulm",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q83259",
+      "revision": 2539611056,
+      "modified": "2026-09-03T03:05:53Z"
+    },
+    {
+      "id": "Q546118",
+      "label": "université Paris-Sorbonne",
+      "description": "université française créée en 1971 et fusionnée en 2018 avec l'université Paris-VI pour former Sorbonne Université dont elle constitue la faculté des lettres",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q546118",
+      "revision": 2511564684,
+      "modified": "2026-06-28T18:06:25Z"
+    },
+    {
+      "id": "Q1878600",
+      "label": "lycée Henri-IV",
+      "description": "lycée situé à Paris",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q1878600",
+      "revision": 2517902469,
+      "modified": "2026-07-15T21:17:04Z"
+    },
+    {
+      "id": "Q125970822",
+      "label": "collège Saint-Joseph de Saint-Cloud",
+      "description": "établissement d'enseignement secondaire en France",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q125970822",
+      "revision": 2490938233,
+      "modified": "2026-05-13T02:36:18Z"
+    },
+    {
+      "id": "Q65532792",
+      "label": "conseiller municipal de Versailles",
+      "description": "membre du conseil municipal de Versailles, dans les Yvelines, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q65532792",
+      "revision": 1628310506,
+      "modified": "2022-04-29T16:35:58Z"
+    },
+    {
+      "id": "Q66499704",
+      "label": "conseiller communautaire de Versailles Grand Parc",
+      "description": "",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q66499704",
+      "revision": 1107849038,
+      "modified": "2020-02-01T10:48:34Z"
+    },
+    {
+      "id": "Q20012759",
+      "label": "Les Républicains",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q20012759",
+      "revision": 2484627247,
+      "modified": "2026-04-25T16:41:30Z"
+    },
+    {
+      "id": "Q37790835",
+      "label": "École normale catholique",
+      "description": "école privée parisienne",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q37790835",
+      "revision": 2300623158,
+      "modified": "2025-01-21T05:01:53Z"
+    },
+    {
+      "id": "Q3269151",
+      "label": "lycée Sainte-Geneviève",
+      "description": "lycée privé français situé à Versailles, accueillant exclusivement des classes préparatoires scientifiques et commerciales",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3269151",
+      "revision": 2354507570,
+      "modified": "2025-05-30T04:20:22Z"
+    },
+    {
+      "id": "Q3269149",
+      "label": "lycée privé Notre-Dame du Grandchamp",
+      "description": "établissement d'enseignement secondaire français créé en 1969 à Versailles",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3269149",
+      "revision": 2514440817,
+      "modified": "2026-07-06T11:13:10Z"
+    },
+    {
+      "id": "Q27530858",
+      "label": "lycée Auguste-Renoir",
+      "description": "lycée français situé à Asnières-sur-Seine",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q27530858",
+      "revision": 2513578731,
+      "modified": "2026-07-03T22:28:29Z"
+    },
+    {
+      "id": "Q2822337",
+      "label": "Académie des sciences morales, des lettres et des arts de Versailles et d'Île-de-France",
+      "description": "société savante française",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q2822337",
+      "revision": 2468342341,
+      "modified": "2026-03-01T11:47:11Z"
+    },
+    {
+      "id": "Q63758935",
+      "label": "conseiller départemental de la Mayenne",
+      "description": "membre du conseil départemental de la Mayenne",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q63758935",
+      "revision": 2415219220,
+      "modified": "2025-10-11T19:42:13Z"
+    },
+    {
+      "id": "Q65518849",
+      "label": "conseiller municipal de Saint-Denis-d'Anjou",
+      "description": "membre du conseil municipal de Saint-Denis-d'Anjou, en Mayenne, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q65518849",
+      "revision": 2112370089,
+      "modified": "2024-03-27T13:55:39Z"
+    },
+    {
+      "id": "Q112632500",
+      "label": "président de Renew Europe",
+      "description": "",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q112632500",
+      "revision": 2447943682,
+      "modified": "2025-12-27T21:34:50Z"
+    },
+    {
+      "id": "Q23731823",
+      "label": "Renaissance",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q23731823",
+      "revision": 2531750298,
+      "modified": "2026-08-15T19:11:33Z"
+    },
+    {
+      "id": "Q82892",
+      "label": "Union des démocrates et indépendants",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q82892",
+      "revision": 2517078593,
+      "modified": "2026-07-13T14:29:06Z"
+    },
+    {
+      "id": "Q743390",
+      "label": "Les Verts",
+      "description": "parti politique écologiste français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q743390",
+      "revision": 2511454276,
+      "modified": "2026-06-28T11:30:56Z"
+    },
+    {
+      "id": "Q613786",
+      "label": "Les Écologistes – Europe Écologie Les Verts",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q613786",
+      "revision": 2538174588,
+      "modified": "2026-08-30T12:37:56Z"
+    },
+    {
+      "id": "Q64777785",
+      "label": "Notre Affaire à Tous",
+      "description": "association française",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q64777785",
+      "revision": 2444011758,
+      "modified": "2025-12-19T09:18:00Z"
+    },
+    {
+      "id": "Q494247",
+      "label": "université de Rouen-Normandie",
+      "description": "université française à Rouen, fondée en 1966",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q494247",
+      "revision": 2511564541,
+      "modified": "2026-06-28T18:05:47Z"
+    },
+    {
+      "id": "Q65478545",
+      "label": "conseiller municipal de Canteleu",
+      "description": "membre du conseil municipal de Canteleu, dans la Seine-Maritime, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q65478545",
+      "revision": 2461669445,
+      "modified": "2026-02-08T00:35:18Z"
+    },
+    {
+      "id": "Q66501399",
+      "label": "conseiller de la Métropole Rouen Normandie",
+      "description": "",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q66501399",
+      "revision": 1944415460,
+      "modified": "2023-08-01T18:40:34Z"
+    },
+    {
+      "id": "Q6406743",
+      "label": "droit international public",
+      "description": "règles auxquelles sont assujettis les sujets de droit international, tels les États",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q6406743",
+      "revision": 2517821837,
+      "modified": "2026-07-15T18:12:46Z"
+    },
+    {
+      "id": "Q65548686",
+      "label": "président de la Commission du développement régional",
+      "description": "",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q65548686",
+      "revision": 978818828,
+      "modified": "2019-07-13T05:52:48Z"
+    },
+    {
+      "id": "Q2054444",
+      "label": "Parti communiste réunionnais",
+      "description": "parti politique de La Réunion",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q2054444",
+      "revision": 2251007759,
+      "modified": "2024-09-21T10:31:14Z"
+    },
+    {
+      "id": "Q500740",
+      "label": "université Lille-I",
+      "description": "université publique française (1970-2017) à dominante scientifique et technologique dont le campus était à Villeneuve-d'Ascq (Nord)",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q500740",
+      "revision": 2541022247,
+      "modified": "2026-09-06T10:53:47Z"
+    },
+    {
+      "id": "Q661056",
+      "label": "université de Poitiers",
+      "description": "université française située à Poitiers",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q661056",
+      "revision": 2522329116,
+      "modified": "2026-07-24T23:34:39Z"
+    },
+    {
+      "id": "Q3044918",
+      "label": "député français",
+      "description": "membre de la chambre basse du Parlement français",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3044918",
+      "revision": 2530827404,
+      "modified": "2026-08-13T09:31:08Z"
+    },
+    {
+      "id": "Q1194988",
+      "label": "université Paris-VIII",
+      "description": "université publique française",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q1194988",
+      "revision": 2515909194,
+      "modified": "2026-07-10T15:27:18Z"
+    },
+    {
+      "id": "Q59239951",
+      "label": "conseiller régional d'Île-de-France",
+      "description": "membre du conseil régional d'Île-de-France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q59239951",
+      "revision": 2540664733,
+      "modified": "2026-09-05T21:17:08Z"
+    },
+    {
+      "id": "Q192821",
+      "label": "Parti communiste français",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q192821",
+      "revision": 2535915124,
+      "modified": "2026-08-24T19:29:44Z"
+    },
+    {
+      "id": "Q15985232",
+      "label": "Ensemble !",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q15985232",
+      "revision": 2470584909,
+      "modified": "2026-03-08T21:24:56Z"
+    },
+    {
+      "id": "Q127413320",
+      "label": "L'Après",
+      "description": "mouvement politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q127413320",
+      "revision": 2503562798,
+      "modified": "2026-06-08T20:17:08Z"
+    },
+    {
+      "id": "Q999763",
+      "label": "université Paris-I-Panthéon-Sorbonne",
+      "description": "université française dont une partie des locaux sont situés au cœur du Quartier latin, à Paris (1971-)",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q999763",
+      "revision": 2522227484,
+      "modified": "2026-07-24T19:06:10Z"
+    },
+    {
+      "id": "Q2992788",
+      "label": "Confédération nationale du logement",
+      "description": "",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q2992788",
+      "revision": 2433516205,
+      "modified": "2025-11-24T20:10:08Z"
+    },
+    {
+      "id": "Q3578552",
+      "label": "École des hautes études internationales et politiques",
+      "description": "école française de sciences politiques et relations internationales",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3578552",
+      "revision": 2483882817,
+      "modified": "2026-04-22T11:41:11Z"
+    },
+    {
+      "id": "Q62274430",
+      "label": "conseiller régional des Hauts-de-France",
+      "description": "membre du conseil régional des Hauts-de-France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q62274430",
+      "revision": 2196181094,
+      "modified": "2024-07-05T16:19:31Z"
+    },
+    {
+      "id": "Q19955577",
+      "label": "vice-président de l'Assemblée nationale",
+      "description": "fonction en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q19955577",
+      "revision": 2447789977,
+      "modified": "2025-12-27T13:26:01Z"
+    },
+    {
+      "id": "Q173152",
+      "label": "Union pour un mouvement populaire",
+      "description": "parti politique français (2002-2015)",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q173152",
+      "revision": 2511598033,
+      "modified": "2026-06-28T20:23:06Z"
+    },
+    {
+      "id": "Q3419877",
+      "label": "Rassemblement Bleu Marine",
+      "description": "coalition politique française",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3419877",
+      "revision": 2357224597,
+      "modified": "2025-06-05T14:55:24Z"
+    },
+    {
+      "id": "Q205150",
+      "label": "Rassemblement national",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q205150",
+      "revision": 2542336128,
+      "modified": "2026-09-08T16:07:49Z"
+    },
+    {
+      "id": "Q12962",
+      "label": "Debout la France",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q12962",
+      "revision": 2538875076,
+      "modified": "2026-09-01T02:45:07Z"
+    },
+    {
+      "id": "Q52319034",
+      "label": "conseiller régional de Provence-Alpes-Côte d'Azur",
+      "description": "membre du conseil régional de Provence-Alpes-Côte d'Azur",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q52319034",
+      "revision": 2487533220,
+      "modified": "2026-05-05T05:06:05Z"
+    },
+    {
+      "id": "Q65530611",
+      "label": "conseiller municipal de Toulon",
+      "description": "membre du conseil municipal de Toulon, dans le Var, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q65530611",
+      "revision": 1132637629,
+      "modified": "2020-03-09T11:35:52Z"
+    },
+    {
+      "id": "Q107877569",
+      "label": "Front national",
+      "description": "parti politique français (1972-2018)",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q107877569",
+      "revision": 2542329629,
+      "modified": "2026-09-08T15:54:54Z"
+    },
+    {
+      "id": "Q1469596",
+      "label": "Mouvement national républicain",
+      "description": "parti politique français",
+      "type": "party",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q1469596",
+      "revision": 2537549497,
+      "modified": "2026-08-28T23:38:56Z"
+    },
+    {
+      "id": "Q3425538",
+      "label": "Renouveau étudiant",
+      "description": "syndicat étudiant du Front National",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3425538",
+      "revision": 1943471967,
+      "modified": "2023-07-31T12:09:55Z"
+    },
+    {
+      "id": "Q62092301",
+      "label": "maire de Labastide-Murat",
+      "description": "exécutif municipal de Labastide-Murat, dans le Lot, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q62092301",
+      "revision": 1894487287,
+      "modified": "2023-05-11T22:39:35Z"
+    },
+    {
+      "id": "Q62092302",
+      "label": "maire de Cœur de Causse",
+      "description": "exécutif municipal de Cœur de Causse, dans le Lot, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q62092302",
+      "revision": 1894487254,
+      "modified": "2023-05-11T22:39:29Z"
+    },
+    {
+      "id": "Q62335320",
+      "label": "conseiller régional de l'Occitanie",
+      "description": "membre du conseil régional de l'Occitanie",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q62335320",
+      "revision": 1858458044,
+      "modified": "2023-03-22T19:11:23Z"
+    },
+    {
+      "id": "Q65535066",
+      "label": "conseiller municipal de Cœur de Causse",
+      "description": "membre du conseil municipal de Cœur de Causse, dans le Lot, en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q65535066",
+      "revision": 1132791663,
+      "modified": "2020-03-09T17:56:10Z"
+    },
+    {
+      "id": "Q66500600",
+      "label": "conseiller communautaire du Causse de Labastide-Murat",
+      "description": "",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q66500600",
+      "revision": 1004797068,
+      "modified": "2019-08-29T19:56:51Z"
+    },
+    {
+      "id": "Q10159",
+      "label": "École normale supérieure de Lyon",
+      "description": "grande école publique française à caractère scientifique, culturel et professionnel, située à Lyon",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q10159",
+      "revision": 2532923769,
+      "modified": "2026-08-18T22:24:22Z"
+    },
+    {
+      "id": "Q51236772",
+      "label": "conseiller de Paris",
+      "description": "membre du conseil de Paris (1977-)",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q51236772",
+      "revision": 2475892724,
+      "modified": "2026-03-28T17:09:14Z"
+    },
+    {
+      "id": "Q66501396",
+      "label": "conseiller de la Métropole du Grand Paris",
+      "description": "membre du conseil de la Métropole du Grand Paris",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q66501396",
+      "revision": 2475892800,
+      "modified": "2026-03-28T17:09:44Z"
+    },
+    {
+      "id": "Q3278478",
+      "label": "Ville de Paris",
+      "description": "administration municipale de la Ville de Paris",
+      "type": "organization",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q3278478",
+      "revision": 2476915741,
+      "modified": "2026-04-01T04:10:49Z"
+    },
+    {
+      "id": "Q829449",
+      "label": "université Marie-et-Louis-Pasteur",
+      "description": "université française publique ayant son siège à Besançon",
+      "type": "school",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q829449",
+      "revision": 2516581656,
+      "modified": "2026-07-12T09:38:42Z"
+    },
+    {
+      "id": "Q63758923",
+      "label": "conseiller départemental des Hauts-de-Seine",
+      "description": "fonction de membre du conseil départemental des Hauts-de-Seine",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q63758923",
+      "revision": 2415219151,
+      "modified": "2025-10-11T19:41:55Z"
+    },
+    {
+      "id": "Q15686806",
+      "label": "sénateur ou sénatrice",
+      "description": "membre d'un sénat, c'est-à-dire une chambre haute dans un système bicaméral",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q15686806",
+      "revision": 2539897263,
+      "modified": "2026-09-04T03:16:34Z"
+    },
+    {
+      "id": "Q1255921@P2389:Q753711",
+      "label": "président ou présidente · Groupe de la Gauche au Parlement européen",
+      "description": "personne à la tête d'une organisation, entreprise ou groupe",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q1255921",
+      "revision": 2532414313,
+      "modified": "2026-08-17T16:47:11Z",
+      "sourceEntityId": "Q1255921",
+      "contexts": [
+        {
+          "property": "P2389",
+          "id": "Q753711",
+          "label": "Groupe de la Gauche au Parlement européen",
+          "revision": 2536013660
+        }
+      ]
+    },
+    {
+      "id": "Q21664651@P1001:Q621",
+      "label": "adjoint au maire · Versailles",
+      "description": "membre d'un conseil municipal en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q21664651",
+      "revision": 2128067051,
+      "modified": "2024-04-13T15:50:56Z",
+      "sourceEntityId": "Q21664651",
+      "contexts": [
+        {
+          "property": "P1001",
+          "id": "Q621",
+          "label": "Versailles",
+          "revision": 2541335441
+        }
+      ]
+    },
+    {
+      "id": "Q1255921@P2389:Q23809245",
+      "label": "président ou présidente · Collectif CLIC",
+      "description": "personne à la tête d'une organisation, entreprise ou groupe",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q1255921",
+      "revision": 2532414313,
+      "modified": "2026-08-17T16:47:11Z",
+      "sourceEntityId": "Q1255921",
+      "contexts": [
+        {
+          "property": "P2389",
+          "id": "Q23809245",
+          "label": "Collectif CLIC",
+          "revision": 462378130
+        }
+      ]
+    },
+    {
+      "id": "Q21664651@P1001:Q174257",
+      "label": "adjoint au maire · Beauvais",
+      "description": "membre d'un conseil municipal en France",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q21664651",
+      "revision": 2128067051,
+      "modified": "2024-04-13T15:50:56Z",
+      "sourceEntityId": "Q21664651",
+      "contexts": [
+        {
+          "property": "P1001",
+          "id": "Q174257",
+          "label": "Beauvais",
+          "revision": 2527054579
+        }
+      ]
+    },
+    {
+      "id": "Q42178@P1001:Q1120065",
+      "label": "vice-président · communauté d'agglomération du Beauvaisis",
+      "description": "personne qui exerce la fonction de président en son absence, fonction au sein d’un gouvernement, une entreprise, une institution ou une association",
+      "type": "office",
+      "inCorpus": false,
+      "wikidataUrl": "https://www.wikidata.org/wiki/Q42178",
+      "revision": 2541680669,
+      "modified": "2026-09-07T12:42:50Z",
+      "sourceEntityId": "Q42178",
+      "contexts": [
+        {
+          "property": "P1001",
+          "id": "Q1120065",
+          "label": "communauté d'agglomération du Beauvaisis",
+          "revision": 2302217669
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "id": "Q59601214$52f1c9d9-456d-27d0-63c7-bd57f97aaa7b",
+      "source": "Q59601214",
+      "target": "Q859363",
+      "sourceTarget": "Q859363",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "start": {
+        "value": "2007-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2011-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-52f1c9d9-456d-27d0-63c7-bd57f97aaa7b",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": [
+        {
+          "id": "1579f27c2a9d89e013d065941f8f4a5f65775509",
+          "urls": [
+            "https://www.linkedin.com/in/manonaubry/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q59601214$47fc3884-41fa-c72d-2179-95374fa0384e",
+      "source": "Q59601214",
+      "target": "Q49088",
+      "sourceTarget": "Q49088",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "start": {
+        "value": "2012-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2012-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-47fc3884-41fa-c72d-2179-95374fa0384e",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": [
+        {
+          "id": "1579f27c2a9d89e013d065941f8f4a5f65775509",
+          "urls": [
+            "https://www.linkedin.com/in/manonaubry/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q59601214$3fd1265c-43f1-d59d-b397-c2cac874db33",
+      "source": "Q59601214",
+      "target": "Q487556",
+      "sourceTarget": "Q487556",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "start": {
+        "value": "2009-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2010-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-3fd1265c-43f1-d59d-b397-c2cac874db33",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": [
+        {
+          "id": "1579f27c2a9d89e013d065941f8f4a5f65775509",
+          "urls": [
+            "https://www.linkedin.com/in/manonaubry/"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q59601214$1277a22c-4939-15d5-77ad-4f89eea7b05f",
+      "source": "Q59601214",
+      "target": "Q1255921@P2389:Q753711",
+      "sourceTarget": "Q1255921",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-18",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-1277a22c-4939-15d5-77ad-4f89eea7b05f",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": [],
+      "contexts": [
+        {
+          "property": "P2389",
+          "id": "Q753711",
+          "label": "Groupe de la Gauche au Parlement européen",
+          "revision": 2536013660
+        }
+      ]
+    },
+    {
+      "id": "Q59601214$ca41193a-a04b-46c3-8317-a377e6e59cd5",
+      "source": "Q59601214",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-02",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-07-15",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-ca41193a-a04b-46c3-8317-a377e6e59cd5",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": [
+        {
+          "id": "d909c8c99d4934b7cb26c94c26bdaef5f4e09a52",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q59601214$d223cc31-1353-42c2-a3fb-1d8f18188378",
+      "source": "Q59601214",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-16",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-d223cc31-1353-42c2-a3fb-1d8f18188378",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": [
+        {
+          "id": "8e1ec18feb55375896ece810e64329461dfef96a",
+          "urls": [
+            "http://www.europarl.europa.eu/meps/en/197652197533"
+          ],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q59601214$7f9795fc-4f79-7492-e1be-8bcf66d3f1ea",
+      "source": "Q59601214",
+      "target": "Q27978402",
+      "sourceTarget": "Q27978402",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2018-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-7f9795fc-4f79-7492-e1be-8bcf66d3f1ea",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": []
+    },
+    {
+      "id": "Q59601214$828a1d32-4352-9e83-27ec-71705e376462",
+      "source": "Q59601214",
+      "target": "Q3359040",
+      "sourceTarget": "Q3359040",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-828a1d32-4352-9e83-27ec-71705e376462",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": []
+    },
+    {
+      "id": "Q59601214$1d8e9543-476b-4ad7-5631-6a61475e9ac0",
+      "source": "Q59601214",
+      "target": "Q256538",
+      "sourceTarget": "Q256538",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-1d8e9543-476b-4ad7-5631-6a61475e9ac0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": []
+    },
+    {
+      "id": "Q59601214$fb166d05-4c00-04f6-81d0-209564cec54b",
+      "source": "Q59601214",
+      "target": "Q118483",
+      "sourceTarget": "Q118483",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q59601214#Q59601214-fb166d05-4c00-04f6-81d0-209564cec54b",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q59601214&oldid=2524195191",
+      "references": []
+    },
+    {
+      "id": "Q15724624$8c008e71-48fa-1590-683b-2dfe00f3eb4f",
+      "source": "Q15724624",
+      "target": "Q83259",
+      "sourceTarget": "Q83259",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "start": {
+        "value": "2005-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2008-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-8c008e71-48fa-1590-683b-2dfe00f3eb4f",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": []
+    },
+    {
+      "id": "Q15724624$6a46364a-4707-8b46-3eca-914b31fc7e82",
+      "source": "Q15724624",
+      "target": "Q546118",
+      "sourceTarget": "Q546118",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "start": {
+        "value": "2007-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2008-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-6a46364a-4707-8b46-3eca-914b31fc7e82",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": []
+    },
+    {
+      "id": "Q15724624$F7322568-4AAF-4B6E-9E08-7D575C242F6A",
+      "source": "Q15724624",
+      "target": "Q1878600",
+      "sourceTarget": "Q1878600",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-F7322568-4AAF-4B6E-9E08-7D575C242F6A",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "e07533cfeb440e5eeb647448bc01aa4e636cfd32",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447",
+            "Q328"
+          ],
+          "retrieved": {
+            "value": "2019-07-10",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$e87f4c23-496d-21a9-2dfe-9a25accd6708",
+      "source": "Q15724624",
+      "target": "Q125970822",
+      "sourceTarget": "Q125970822",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "pointInTime": {
+        "value": "1999-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-e87f4c23-496d-21a9-2dfe-9a25accd6708",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "70543ba11e351ea98b3a5ca4694b5d2d5fdb59fd",
+          "urls": [
+            "https://www.valeursactuelles.com/clubvaleurs/politique/les-republicains-le-mystere-francois-xavier-bellamy"
+          ],
+          "statedIn": [],
+          "importedFrom": [],
+          "retrieved": {
+            "value": "2026-07-01",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$39970ee9-41b5-f594-b135-c28ae91193bc",
+      "source": "Q15724624",
+      "target": "Q21664651@P1001:Q621",
+      "sourceTarget": "Q21664651",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2008-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-39970ee9-41b5-f594-b135-c28ae91193bc",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [],
+      "contexts": [
+        {
+          "property": "P1001",
+          "id": "Q621",
+          "label": "Versailles",
+          "revision": 2541335441
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$25c54ce8-f041-4ea4-8f35-0c2bf4f0e0ed",
+      "source": "Q15724624",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-02",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-07-15",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-25c54ce8-f041-4ea4-8f35-0c2bf4f0e0ed",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "f01b67b878c9f839865095eaa40c098bf99ca2df",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$FE2EAF0D-CCC7-468E-B41A-072A125DEEF9",
+      "source": "Q15724624",
+      "target": "Q65532792",
+      "sourceTarget": "Q65532792",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-FE2EAF0D-CCC7-468E-B41A-072A125DEEF9",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$4A4B2712-7CFC-4B79-8AF6-5DBE488BDC1D",
+      "source": "Q15724624",
+      "target": "Q66499704",
+      "sourceTarget": "Q66499704",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2016-01-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-4A4B2712-7CFC-4B79-8AF6-5DBE488BDC1D",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$f5021075-429f-42ea-b4b0-a1bcf9107ddc",
+      "source": "Q15724624",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-16",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-f5021075-429f-42ea-b4b0-a1bcf9107ddc",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "1f23a7841272736e7cbc5b6b52d9bd5f92e6a769",
+          "urls": [
+            "http://www.europarl.europa.eu/meps/en/197652197534"
+          ],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$12e2cb24-179a-40b8-b750-6b6679c7e740",
+      "source": "Q15724624",
+      "target": "Q20012759",
+      "sourceTarget": "Q20012759",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-12e2cb24-179a-40b8-b750-6b6679c7e740",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "14d2400e3b1d36332748dc330276f099eeaa8800",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q1551807"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$5a9d8226-4caf-ba8f-b46b-f78df4e02629",
+      "source": "Q15724624",
+      "target": "Q37790835",
+      "sourceTarget": "Q37790835",
+      "property": "P108",
+      "category": "employment",
+      "label": "A travaillé pour",
+      "start": {
+        "value": "2011-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-5a9d8226-4caf-ba8f-b46b-f78df4e02629",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "21e07ccbc7f81b8aa9e70fcf6d0d2effe0781dff",
+          "urls": [
+            "https://www.radiofrance.fr/franceinter/podcasts/le-grand-reportage-de-france-inter/le-grand-reportage-du-mercredi-24-juin-2026-9231720"
+          ],
+          "statedIn": [],
+          "importedFrom": [],
+          "retrieved": {
+            "value": "2026-06-24",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$0f423f50-485b-62a3-3229-32484ab74d9d",
+      "source": "Q15724624",
+      "target": "Q3269151",
+      "sourceTarget": "Q3269151",
+      "property": "P108",
+      "category": "employment",
+      "label": "A travaillé pour",
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-0f423f50-485b-62a3-3229-32484ab74d9d",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "16b1238469fdfd613c1b50deb5cf09948bc060a7",
+          "urls": [],
+          "statedIn": [
+            "Q107214646"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$c885d4fd-44a2-5375-d0d4-3ae8cb6139da",
+      "source": "Q15724624",
+      "target": "Q3269149",
+      "sourceTarget": "Q3269149",
+      "property": "P108",
+      "category": "employment",
+      "label": "A travaillé pour",
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-c885d4fd-44a2-5375-d0d4-3ae8cb6139da",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "16b1238469fdfd613c1b50deb5cf09948bc060a7",
+          "urls": [],
+          "statedIn": [
+            "Q107214646"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$9737d566-4734-8922-db31-452b9adf488e",
+      "source": "Q15724624",
+      "target": "Q27530858",
+      "sourceTarget": "Q27530858",
+      "property": "P108",
+      "category": "employment",
+      "label": "A travaillé pour",
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-9737d566-4734-8922-db31-452b9adf488e",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "16b1238469fdfd613c1b50deb5cf09948bc060a7",
+          "urls": [],
+          "statedIn": [
+            "Q107214646"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q15724624$8233244a-44aa-8eb6-6b44-998ddb121de4",
+      "source": "Q15724624",
+      "target": "Q2822337",
+      "sourceTarget": "Q2822337",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "start": {
+        "value": "2014-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q15724624#Q15724624-8233244a-44aa-8eb6-6b44-998ddb121de4",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q15724624&oldid=2517368018",
+      "references": [
+        {
+          "id": "16b1238469fdfd613c1b50deb5cf09948bc060a7",
+          "urls": [],
+          "statedIn": [
+            "Q107214646"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63764512$FE9FEA23-04B0-4165-B84B-EF71670C74E1",
+      "source": "Q63764512",
+      "target": "Q63758935",
+      "sourceTarget": "Q63758935",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2015-04-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-FE9FEA23-04B0-4165-B84B-EF71670C74E1",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63764512$36728703-4b9c-8fa3-497e-6f4fb0aed583",
+      "source": "Q63764512",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-36728703-4b9c-8fa3-497e-6f4fb0aed583",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": [
+        {
+          "id": "e42531b28b8abad3accd1aee0097918514545c8d",
+          "urls": [
+            "https://www.europarl.europa.eu"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        },
+        {
+          "id": "31c79399df3f010226cc8b228408e9e24439c220",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63764512$91a1467b-4ea2-6723-8860-4562d8ca5d88",
+      "source": "Q63764512",
+      "target": "Q65518849",
+      "sourceTarget": "Q65518849",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2008-03-00",
+        "precision": 10
+      },
+      "end": {
+        "value": "2019-07-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-91a1467b-4ea2-6723-8860-4562d8ca5d88",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": []
+    },
+    {
+      "id": "Q63764512$9e52e7e3-4458-ffe5-d2ab-27e467f60a1c",
+      "source": "Q63764512",
+      "target": "Q112632500",
+      "sourceTarget": "Q112632500",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-01-25",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-07-15",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-9e52e7e3-4458-ffe5-d2ab-27e467f60a1c",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": [
+        {
+          "id": "86e0319482a086f13c0e6a6349c8c6b0f16b999b",
+          "urls": [
+            "https://www.europarl.europa.eu/meps/en/135511/VALERIE_HAYER/history/9"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63764512$2c64b9f3-721f-4e24-a17f-0b81d030f99b",
+      "source": "Q63764512",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-16",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-2c64b9f3-721f-4e24-a17f-0b81d030f99b",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": [
+        {
+          "id": "fb165efae0007651d66b024c1d7d59b610ce66d1",
+          "urls": [
+            "http://www.europarl.europa.eu/meps/en/197652135511"
+          ],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63764512$0C429A34-4CEF-4E8B-B301-58A711FB434D",
+      "source": "Q63764512",
+      "target": "Q23731823",
+      "sourceTarget": "Q23731823",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2017-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-0C429A34-4CEF-4E8B-B301-58A711FB434D",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": [
+        {
+          "id": "63545af295d96abd55f7316def5284458018d71d",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q328"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q63764512$7a271fc9-46ed-0552-a99a-90c08f4c86d0",
+      "source": "Q63764512",
+      "target": "Q82892",
+      "sourceTarget": "Q82892",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "end": {
+        "value": "2017-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63764512#Q63764512-7a271fc9-46ed-0552-a99a-90c08f4c86d0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63764512&oldid=2523825315",
+      "references": [
+        {
+          "id": "de6b792d0feb071edbd7724bd304c2c37d851f48",
+          "urls": [
+            "https://actu.fr/pays-de-la-loire/saint-denis-d-anjou_53210/parlement-europeen-originaire-de-la-mayenne-valerie-hayer-elue-presidente-du-groupe-renew_60608582.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63347906$63872DA8-BF5C-422C-A9C9-A4F6FD464559",
+      "source": "Q63347906",
+      "target": "Q859363",
+      "sourceTarget": "Q859363",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-63872DA8-BF5C-422C-A9C9-A4F6FD464559",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": [
+        {
+          "id": "bbe431074cb9fa6b03eb70e47bd7a7d1d6cd2ed4",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q1551807"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q63347906$6b8db9a4-4318-4285-bd60-ecfda6864c9b",
+      "source": "Q63347906",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-6b8db9a4-4318-4285-bd60-ecfda6864c9b",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": [
+        {
+          "id": "e6ac5ccbd820558929843b57a602d86a9060fc76",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63347906$5aee0920-6b29-488e-acd1-da08466a9375",
+      "source": "Q63347906",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-16",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-5aee0920-6b29-488e-acd1-da08466a9375",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": [
+        {
+          "id": "b87b791ac79f7c756fcdb8666bf28926c62ade78",
+          "urls": [
+            "http://www.europarl.europa.eu/meps/en/19765297236"
+          ],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q63347906$20b66e20-c5e6-4f5a-857c-0d6cefbba160",
+      "source": "Q63347906",
+      "target": "Q743390",
+      "sourceTarget": "Q743390",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-20b66e20-c5e6-4f5a-857c-0d6cefbba160",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": [
+        {
+          "id": "14d2400e3b1d36332748dc330276f099eeaa8800",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q1551807"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q63347906$fcb59645-4dc0-7956-0796-8cab7355855d",
+      "source": "Q63347906",
+      "target": "Q743390",
+      "sourceTarget": "Q743390",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2005-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2010-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-fcb59645-4dc0-7956-0796-8cab7355855d",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": []
+    },
+    {
+      "id": "Q63347906$d5f99618-452c-3016-1861-5dbf609719c9",
+      "source": "Q63347906",
+      "target": "Q613786",
+      "sourceTarget": "Q613786",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2010-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-d5f99618-452c-3016-1861-5dbf609719c9",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": []
+    },
+    {
+      "id": "Q63347906$846ceb4c-4785-a9d9-0703-4e29525d9edd",
+      "source": "Q63347906",
+      "target": "Q64777785",
+      "sourceTarget": "Q64777785",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q63347906#Q63347906-846ceb4c-4785-a9d9-0703-4e29525d9edd",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q63347906&oldid=2523832718",
+      "references": []
+    },
+    {
+      "id": "Q23058507$25330900-8048-4B45-BE35-D0B84F5209E3",
+      "source": "Q23058507",
+      "target": "Q494247",
+      "sourceTarget": "Q494247",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-25330900-8048-4B45-BE35-D0B84F5209E3",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "d4bd87b862b12d99d26e86472d44f26858dee639",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        },
+        {
+          "id": "1d5f67a43e0a996bcfa7b2422f37f93b5d64539f",
+          "urls": [
+            "https://www.liberation.fr/france/2016/06/09/david-cormand-un-dernier-vert_1458427"
+          ],
+          "statedIn": [],
+          "importedFrom": [],
+          "retrieved": {
+            "value": "2019-07-05",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q23058507$838f2ff2-d53d-4ad2-bb71-ac6d6f3f70cc",
+      "source": "Q23058507",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-838f2ff2-d53d-4ad2-bb71-ac6d6f3f70cc",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "52791e638fae94cf3e2e95b40d3febf5f5bbfa42",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q23058507$7BF43C08-89AF-4621-9E47-2D92E844C2CE",
+      "source": "Q23058507",
+      "target": "Q65478545",
+      "sourceTarget": "Q65478545",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-7BF43C08-89AF-4621-9E47-2D92E844C2CE",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q23058507$89622C77-903D-4C73-BF42-D919714ABEAE",
+      "source": "Q23058507",
+      "target": "Q66501399",
+      "sourceTarget": "Q66501399",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2014-03-23",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-89622C77-903D-4C73-BF42-D919714ABEAE",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q23058507$5a50141c-9b84-4884-af61-f347224d9eb2",
+      "source": "Q23058507",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-16",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-5a50141c-9b84-4884-af61-f347224d9eb2",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "fa4ed6ad63c265e54350bb61dc09ccba43e1080e",
+          "urls": [
+            "http://www.europarl.europa.eu/meps/en/197652197503"
+          ],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q23058507$9C029CFC-4A72-43E4-8AB8-F8B6B7D023E0",
+      "source": "Q23058507",
+      "target": "Q743390",
+      "sourceTarget": "Q743390",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "1999-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2010-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-9C029CFC-4A72-43E4-8AB8-F8B6B7D023E0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "1d5f67a43e0a996bcfa7b2422f37f93b5d64539f",
+          "urls": [
+            "https://www.liberation.fr/france/2016/06/09/david-cormand-un-dernier-vert_1458427"
+          ],
+          "statedIn": [],
+          "importedFrom": [],
+          "retrieved": {
+            "value": "2019-07-05",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q23058507$88324d23-484f-501a-3c1a-3fbac3acf668",
+      "source": "Q23058507",
+      "target": "Q613786",
+      "sourceTarget": "Q613786",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2010-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q23058507#Q23058507-88324d23-484f-501a-3c1a-3fbac3acf668",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q23058507&oldid=2523822419",
+      "references": [
+        {
+          "id": "1d5f67a43e0a996bcfa7b2422f37f93b5d64539f",
+          "urls": [
+            "https://www.liberation.fr/france/2016/06/09/david-cormand-un-dernier-vert_1458427"
+          ],
+          "statedIn": [],
+          "importedFrom": [],
+          "retrieved": {
+            "value": "2019-07-05",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q2542770$B1ED17AC-47F2-4EFD-AA28-6A273B615CA8",
+      "source": "Q2542770",
+      "target": "Q6406743",
+      "sourceTarget": "Q6406743",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-B1ED17AC-47F2-4EFD-AA28-6A273B615CA8",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": [
+        {
+          "id": "d4bd87b862b12d99d26e86472d44f26858dee639",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q2542770$028CA99C-A6FD-48C0-8A84-1A0C1B923773",
+      "source": "Q2542770",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2009-07-14",
+        "precision": 11
+      },
+      "end": {
+        "value": "2014-06-30",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-028CA99C-A6FD-48C0-8A84-1A0C1B923773",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": [
+        {
+          "id": "f61f97540980c5500be7b519c35ac106165c37eb",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q2542770$46a49158-4d0b-b737-4d87-3f8ae260bb46",
+      "source": "Q2542770",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2014-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-46a49158-4d0b-b737-4d87-3f8ae260bb46",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": []
+    },
+    {
+      "id": "Q2542770$b5b5eeb3-46fb-2896-6037-041df3c4de79",
+      "source": "Q2542770",
+      "target": "Q65548686",
+      "sourceTarget": "Q65548686",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-b5b5eeb3-46fb-2896-6037-041df3c4de79",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": []
+    },
+    {
+      "id": "Q2542770$1C7EE921-CCB7-4833-9453-D34B94376BF6",
+      "source": "Q2542770",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2019-07-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-1C7EE921-CCB7-4833-9453-D34B94376BF6",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": [
+        {
+          "id": "e42531b28b8abad3accd1aee0097918514545c8d",
+          "urls": [
+            "https://www.europarl.europa.eu"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q2542770$e2239876-45f4-5e1e-031c-6d69960331a7",
+      "source": "Q2542770",
+      "target": "Q27169",
+      "sourceTarget": "Q27169",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-16",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-e2239876-45f4-5e1e-031c-6d69960331a7",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": [
+        {
+          "id": "f61f97540980c5500be7b519c35ac106165c37eb",
+          "urls": [],
+          "statedIn": [
+            "Q85301215"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q2542770$F4DE4C5C-1BDF-42FE-BAB9-7FEEBD47DAC8",
+      "source": "Q2542770",
+      "target": "Q2054444",
+      "sourceTarget": "Q2054444",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-F4DE4C5C-1BDF-42FE-BAB9-7FEEBD47DAC8",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": [
+        {
+          "id": "14d2400e3b1d36332748dc330276f099eeaa8800",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q1551807"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q2542770$c1862de3-4c4c-f046-056e-0a65c1e387e8",
+      "source": "Q2542770",
+      "target": "Q27978402",
+      "sourceTarget": "Q27978402",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q2542770#Q2542770-c1862de3-4c4c-f046-056e-0a65c1e387e8",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2542770&oldid=2523731556",
+      "references": []
+    },
+    {
+      "id": "Q21013136$6A2B424C-C32C-4F78-8742-69C37A99741D",
+      "source": "Q21013136",
+      "target": "Q500740",
+      "sourceTarget": "Q500740",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-6A2B424C-C32C-4F78-8742-69C37A99741D",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": []
+    },
+    {
+      "id": "Q21013136$BB5994EC-348C-465F-A914-E17666B39D55",
+      "source": "Q21013136",
+      "target": "Q661056",
+      "sourceTarget": "Q661056",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-BB5994EC-348C-465F-A914-E17666B39D55",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": []
+    },
+    {
+      "id": "Q21013136$2EFD1BA4-77E5-4F49-AC83-1044EF350F0A",
+      "source": "Q21013136",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-2EFD1BA4-77E5-4F49-AC83-1044EF350F0A",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q21013136$8a78a9a7-4781-4d2c-8bad-ba2122bc3b77",
+      "source": "Q21013136",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-8a78a9a7-4781-4d2c-8bad-ba2122bc3b77",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": [
+        {
+          "id": "4e692875273abdaee75b33d25c4c1964633b3e80",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA795076"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q21013136$7d20884e-4820-2e4e-5a8d-4215b9344ca9",
+      "source": "Q21013136",
+      "target": "Q613786",
+      "sourceTarget": "Q613786",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-7d20884e-4820-2e4e-5a8d-4215b9344ca9",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": []
+    },
+    {
+      "id": "Q21013136$e0132abf-4f26-bb41-5013-3dfa749e3e91",
+      "source": "Q21013136",
+      "target": "Q743390",
+      "sourceTarget": "Q743390",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "end": {
+        "value": "2010-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-e0132abf-4f26-bb41-5013-3dfa749e3e91",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": []
+    },
+    {
+      "id": "Q21013136$917a3a06-aefc-43a0-9ab3-cd2998f84282",
+      "source": "Q21013136",
+      "target": "Q500740",
+      "sourceTarget": "Q500740",
+      "property": "P108",
+      "category": "employment",
+      "label": "A travaillé pour",
+      "statementUrl": "https://www.wikidata.org/wiki/Q21013136#Q21013136-917a3a06-aefc-43a0-9ab3-cd2998f84282",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21013136&oldid=2523984209",
+      "references": [
+        {
+          "id": "d4bd87b862b12d99d26e86472d44f26858dee639",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q2980738$498F84B9-0436-4DF2-A232-1B8A4B794593",
+      "source": "Q2980738",
+      "target": "Q1194988",
+      "sourceTarget": "Q1194988",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-498F84B9-0436-4DF2-A232-1B8A4B794593",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": [
+        {
+          "id": "d4bd87b862b12d99d26e86472d44f26858dee639",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q2980738$5d47ed30-4ba6-b195-ca24-9eb83c3482f9",
+      "source": "Q2980738",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2017-06-21",
+        "precision": 11
+      },
+      "end": {
+        "value": "2022-06-21",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-5d47ed30-4ba6-b195-ca24-9eb83c3482f9",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": [
+        {
+          "id": "fc37cf29487985effbc706aab423892e76bc9425",
+          "urls": [],
+          "statedIn": [
+            "Q193582"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q2980738$45cf5161-44a9-fb25-16c6-41e9fb92cdd0",
+      "source": "Q2980738",
+      "target": "Q59239951",
+      "sourceTarget": "Q59239951",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2015-12-13",
+        "precision": 11
+      },
+      "end": {
+        "value": "2017-07-27",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-45cf5161-44a9-fb25-16c6-41e9fb92cdd0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": []
+    },
+    {
+      "id": "Q2980738$CAADE06F-207E-4615-B975-7E6343771741",
+      "source": "Q2980738",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-CAADE06F-207E-4615-B975-7E6343771741",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q2980738$d37ab638-4367-82ac-728d-a613e2542f0b",
+      "source": "Q2980738",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-d37ab638-4367-82ac-728d-a613e2542f0b",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": [
+        {
+          "id": "346779acae87194c5aef38489e0eb9423ce63d3d",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA588884"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "q2980738$894550E4-89AD-4BB4-B718-3F3AF032177A",
+      "source": "Q2980738",
+      "target": "Q192821",
+      "sourceTarget": "Q192821",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#q2980738-894550E4-89AD-4BB4-B718-3F3AF032177A",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": []
+    },
+    {
+      "id": "Q2980738$70f8caf4-48ee-18b5-6399-0c8f0512759f",
+      "source": "Q2980738",
+      "target": "Q15985232",
+      "sourceTarget": "Q15985232",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2013-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-70f8caf4-48ee-18b5-6399-0c8f0512759f",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": []
+    },
+    {
+      "id": "Q2980738$cafcedcd-48d4-a83b-609a-4bc9aa88674d",
+      "source": "Q2980738",
+      "target": "Q27978402",
+      "sourceTarget": "Q27978402",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-cafcedcd-48d4-a83b-609a-4bc9aa88674d",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": []
+    },
+    {
+      "id": "Q2980738$43eab40b-4f2a-41f2-c60c-339902ea4839",
+      "source": "Q2980738",
+      "target": "Q127413320",
+      "sourceTarget": "Q127413320",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2024-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q2980738#Q2980738-43eab40b-4f2a-41f2-c60c-339902ea4839",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q2980738&oldid=2533842927",
+      "references": []
+    },
+    {
+      "id": "Q30335340$dc3a6d49-460f-3e07-4416-83fcee89cdf3",
+      "source": "Q30335340",
+      "target": "Q999763",
+      "sourceTarget": "Q999763",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q30335340#Q30335340-dc3a6d49-460f-3e07-4416-83fcee89cdf3",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30335340&oldid=2523834354",
+      "references": []
+    },
+    {
+      "id": "Q30335340$3c5dff51-4380-d09e-d008-60ccd973897f",
+      "source": "Q30335340",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2017-06-21",
+        "precision": 11
+      },
+      "end": {
+        "value": "2022-06-21",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30335340#Q30335340-3c5dff51-4380-d09e-d008-60ccd973897f",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30335340&oldid=2523834354",
+      "references": [
+        {
+          "id": "97e0d37917ef84fd54b38c7e3c7f5f1fce3990a0",
+          "urls": [
+            "http://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA721960"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q30335340$6EC834DA-E6FE-40CE-9859-8E7A9516302C",
+      "source": "Q30335340",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30335340#Q30335340-6EC834DA-E6FE-40CE-9859-8E7A9516302C",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30335340&oldid=2523834354",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q30335340$ac567ef4-4231-81ae-558b-ca4bdb585e1c",
+      "source": "Q30335340",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30335340#Q30335340-ac567ef4-4231-81ae-558b-ca4bdb585e1c",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30335340&oldid=2523834354",
+      "references": [
+        {
+          "id": "5face9afbe6e3a0bffe3471690bf77a437d1f67c",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA721960"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q30335340$583d4520-4b48-8bc9-34db-6e3b3a260672",
+      "source": "Q30335340",
+      "target": "Q27978402",
+      "sourceTarget": "Q27978402",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2016-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30335340#Q30335340-583d4520-4b48-8bc9-34db-6e3b3a260672",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30335340&oldid=2523834354",
+      "references": []
+    },
+    {
+      "id": "Q112640278$02C36BB6-E5B2-448F-9EDD-1B85A3592F7A",
+      "source": "Q112640278",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112640278#Q112640278-02C36BB6-E5B2-448F-9EDD-1B85A3592F7A",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112640278&oldid=2516975892",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q112640278$c337dad6-4a90-b99b-8183-d4096b19cd0c",
+      "source": "Q112640278",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112640278#Q112640278-c337dad6-4a90-b99b-8183-d4096b19cd0c",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112640278&oldid=2516975892",
+      "references": [
+        {
+          "id": "dc1d9b33910b020e7890fad667a741263bc2559f",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA793464"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q112640278$92d96cc6-46de-3671-f5ca-59374f7476cb",
+      "source": "Q112640278",
+      "target": "Q192821",
+      "sourceTarget": "Q192821",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2012-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "2016-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112640278#Q112640278-92d96cc6-46de-3671-f5ca-59374f7476cb",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112640278&oldid=2516975892",
+      "references": [
+        {
+          "id": "7866a1b594490ec354126568f957633900f3cbae",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q112640278$d6f0c87a-432e-87ec-d3e1-b750ee0af46c",
+      "source": "Q112640278",
+      "target": "Q27978402",
+      "sourceTarget": "Q27978402",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2017-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112640278#Q112640278-d6f0c87a-432e-87ec-d3e1-b750ee0af46c",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112640278&oldid=2516975892",
+      "references": [
+        {
+          "id": "7866a1b594490ec354126568f957633900f3cbae",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q112640278$5e944b21-4a1f-cbb1-666c-6cce2ef851b1",
+      "source": "Q112640278",
+      "target": "Q2992788",
+      "sourceTarget": "Q2992788",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q112640278#Q112640278-5e944b21-4a1f-cbb1-666c-6cce2ef851b1",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112640278&oldid=2516975892",
+      "references": []
+    },
+    {
+      "id": "Q21294609$4d8e6b46-46f0-beba-220e-b5e9c0e1c399",
+      "source": "Q21294609",
+      "target": "Q3578552",
+      "sourceTarget": "Q3578552",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-4d8e6b46-46f0-beba-220e-b5e9c0e1c399",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [
+        {
+          "id": "f6688bb97da66b6342ae6b931268e22e8f800ae1",
+          "urls": [
+            "https://www.lemonde.fr/politique/article/2017/06/28/qui-est-mon-depute-notre-moteur-de-recherche-pour-mieux-connaitre-votre-representant-a-l-assemblee-nationale_5152291_823448.html#depute_59_19"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$46b5d4d8-474d-7d8e-1676-b3f9bb0114c0",
+      "source": "Q21294609",
+      "target": "Q62274430",
+      "sourceTarget": "Q62274430",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2016-01-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-46b5d4d8-474d-7d8e-1676-b3f9bb0114c0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$334a15fb-4c4d-361a-bf5e-5045de2551fe",
+      "source": "Q21294609",
+      "target": "Q1255921@P2389:Q23809245",
+      "sourceTarget": "Q1255921",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2015-06-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-334a15fb-4c4d-361a-bf5e-5045de2551fe",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [],
+      "contexts": [
+        {
+          "property": "P2389",
+          "id": "Q23809245",
+          "label": "Collectif CLIC",
+          "revision": 462378130
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$5dc22150-4d7b-d0ec-231e-8a138b2292cf",
+      "source": "Q21294609",
+      "target": "Q21664651@P1001:Q174257",
+      "sourceTarget": "Q21664651",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2001-03-18",
+        "precision": 11
+      },
+      "end": {
+        "value": "2014-03-30",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-5dc22150-4d7b-d0ec-231e-8a138b2292cf",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [],
+      "contexts": [
+        {
+          "property": "P1001",
+          "id": "Q174257",
+          "label": "Beauvais",
+          "revision": 2527054579
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$6a088127-4c84-0c67-554c-b1a0578f1055",
+      "source": "Q21294609",
+      "target": "Q42178@P1001:Q1120065",
+      "sourceTarget": "Q42178",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2001-03-18",
+        "precision": 11
+      },
+      "end": {
+        "value": "2014-03-30",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-6a088127-4c84-0c67-554c-b1a0578f1055",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [],
+      "contexts": [
+        {
+          "property": "P1001",
+          "id": "Q1120065",
+          "label": "communauté d'agglomération du Beauvaisis",
+          "revision": 2302217669
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$eaa6ef81-493c-262c-b0a5-4e469e0c8c1e",
+      "source": "Q21294609",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2017-06-21",
+        "precision": 11
+      },
+      "end": {
+        "value": "2022-06-21",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-eaa6ef81-493c-262c-b0a5-4e469e0c8c1e",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": []
+    },
+    {
+      "id": "Q21294609$2A158E6C-71B5-4320-BA80-47C404D713E0",
+      "source": "Q21294609",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-2A158E6C-71B5-4320-BA80-47C404D713E0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$2950fb49-4d9a-77d6-fe6f-79b63acb22f7",
+      "source": "Q21294609",
+      "target": "Q19955577",
+      "sourceTarget": "Q19955577",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-29",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-2950fb49-4d9a-77d6-fe6f-79b63acb22f7",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": []
+    },
+    {
+      "id": "Q21294609$7b65695a-4f43-775b-a141-1a75340f8b1e",
+      "source": "Q21294609",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-7b65695a-4f43-775b-a141-1a75340f8b1e",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [
+        {
+          "id": "cd4d85b625fe11e797d2e96ea7c2033ee13c0442",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA720468"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q21294609$f3b990c1-4592-796b-6ba5-58fdf1f11f95",
+      "source": "Q21294609",
+      "target": "Q173152",
+      "sourceTarget": "Q173152",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "end": {
+        "value": "2014-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-f3b990c1-4592-796b-6ba5-58fdf1f11f95",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": []
+    },
+    {
+      "id": "Q21294609$2fd91557-4eeb-b276-f03b-c4f776396275",
+      "source": "Q21294609",
+      "target": "Q3419877",
+      "sourceTarget": "Q3419877",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2014-12-01",
+        "precision": 10
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-2fd91557-4eeb-b276-f03b-c4f776396275",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": []
+    },
+    {
+      "id": "Q21294609$ec842188-42e5-2eb6-7359-b15bb5a0139a",
+      "source": "Q21294609",
+      "target": "Q205150",
+      "sourceTarget": "Q205150",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2016-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q21294609#Q21294609-ec842188-42e5-2eb6-7359-b15bb5a0139a",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q21294609&oldid=2524010625",
+      "references": [
+        {
+          "id": "288ab581e7d2d02995a26dfa8b091d96e78457fc",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q206855"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q46138822$41F1652A-2BD0-4CA7-8553-A3D0FC96BB33",
+      "source": "Q46138822",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q46138822#Q46138822-41F1652A-2BD0-4CA7-8553-A3D0FC96BB33",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q46138822&oldid=2523937317",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q46138822$2e605c48-490b-e22e-8343-dd54756708af",
+      "source": "Q46138822",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q46138822#Q46138822-2e605c48-490b-e22e-8343-dd54756708af",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q46138822&oldid=2523937317",
+      "references": [
+        {
+          "id": "2e996c0032c82cf1107698cea81522ed24314f32",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA795778"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q46138822$d58f61a9-477a-5d5e-57b1-ad39d1c849c4",
+      "source": "Q46138822",
+      "target": "Q12962",
+      "sourceTarget": "Q12962",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q46138822#Q46138822-d58f61a9-477a-5d5e-57b1-ad39d1c849c4",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q46138822&oldid=2523937317",
+      "references": []
+    },
+    {
+      "id": "Q46138822$514212c9-494b-0247-4034-065f93421f28",
+      "source": "Q46138822",
+      "target": "Q205150",
+      "sourceTarget": "Q205150",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "2020-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q46138822#Q46138822-514212c9-494b-0247-4034-065f93421f28",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q46138822&oldid=2523937317",
+      "references": []
+    },
+    {
+      "id": "Q112308110$3dadec60-47dc-a919-e4ad-573393715dd5",
+      "source": "Q112308110",
+      "target": "Q52319034",
+      "sourceTarget": "Q52319034",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2021-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-3dadec60-47dc-a919-e4ad-573393715dd5",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": []
+    },
+    {
+      "id": "Q112308110$266082FE-B652-40F6-86B7-9BE8FEC8B180",
+      "source": "Q112308110",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-266082FE-B652-40F6-86B7-9BE8FEC8B180",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q112308110$f30debf7-438d-4849-75bd-3edb341122f2",
+      "source": "Q112308110",
+      "target": "Q65530611",
+      "sourceTarget": "Q65530611",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2014-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-f30debf7-438d-4849-75bd-3edb341122f2",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": []
+    },
+    {
+      "id": "Q112308110$2D114F1E-6B8E-47D9-BEA7-F54B55B161D3",
+      "source": "Q112308110",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-2D114F1E-6B8E-47D9-BEA7-F54B55B161D3",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": [
+        {
+          "id": "7a996eb9be12bcb18355f2018dbee337af46a78e",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA795912"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q112308110$b9780750-4490-24e0-44f4-821feac23721",
+      "source": "Q112308110",
+      "target": "Q107877569",
+      "sourceTarget": "Q107877569",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "1997-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "1999-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-b9780750-4490-24e0-44f4-821feac23721",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": [
+        {
+          "id": "b5bf33f82d7e83752e1201135f405fdd9d9bf2f9",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ],
+          "retrieved": {
+            "value": "2024-07-20",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q112308110$bb5fd1b2-467c-61a8-866c-90a75a93f0c4",
+      "source": "Q112308110",
+      "target": "Q1469596",
+      "sourceTarget": "Q1469596",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "pointInTime": {
+        "value": "1999-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-bb5fd1b2-467c-61a8-866c-90a75a93f0c4",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": [
+        {
+          "id": "b5bf33f82d7e83752e1201135f405fdd9d9bf2f9",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ],
+          "retrieved": {
+            "value": "2024-07-20",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q112308110$50a4ff0d-4952-098f-9e1b-1390222bf631",
+      "source": "Q112308110",
+      "target": "Q205150",
+      "sourceTarget": "Q205150",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "1999-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-50a4ff0d-4952-098f-9e1b-1390222bf631",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": [
+        {
+          "id": "b5bf33f82d7e83752e1201135f405fdd9d9bf2f9",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ],
+          "retrieved": {
+            "value": "2024-07-20",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q112308110$14b261fb-4974-392e-f69c-613ca108b6c8",
+      "source": "Q112308110",
+      "target": "Q3425538",
+      "sourceTarget": "Q3425538",
+      "property": "P463",
+      "category": "membership",
+      "label": "A été membre de",
+      "start": {
+        "value": "1996-00-00",
+        "precision": 9
+      },
+      "end": {
+        "value": "1998-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q112308110#Q112308110-14b261fb-4974-392e-f69c-613ca108b6c8",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q112308110&oldid=2374727013",
+      "references": [
+        {
+          "id": "b5bf33f82d7e83752e1201135f405fdd9d9bf2f9",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ],
+          "retrieved": {
+            "value": "2024-07-20",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q30351657$EA23BB79-251D-4627-A141-C1E9DBBEC456",
+      "source": "Q30351657",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2017-06-21",
+        "precision": 11
+      },
+      "end": {
+        "value": "2022-06-21",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-EA23BB79-251D-4627-A141-C1E9DBBEC456",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": []
+    },
+    {
+      "id": "Q30351657$cd7b91bb-42b9-0bd8-b9c8-77dae1c7f3dc",
+      "source": "Q30351657",
+      "target": "Q62092301",
+      "sourceTarget": "Q62092301",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2014-03-30",
+        "precision": 11
+      },
+      "end": {
+        "value": "2015-12-31",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-cd7b91bb-42b9-0bd8-b9c8-77dae1c7f3dc",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": []
+    },
+    {
+      "id": "Q30351657$c1ad4e52-47d6-73e3-0d8d-2fdc3a760d15",
+      "source": "Q30351657",
+      "target": "Q62092302",
+      "sourceTarget": "Q62092302",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2016-01-01",
+        "precision": 11
+      },
+      "end": {
+        "value": "2018-02-00",
+        "precision": 10
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-c1ad4e52-47d6-73e3-0d8d-2fdc3a760d15",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": []
+    },
+    {
+      "id": "Q30351657$896de318-422e-cbee-af47-7d9d92b550e4",
+      "source": "Q30351657",
+      "target": "Q62335320",
+      "sourceTarget": "Q62335320",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2016-01-01",
+        "precision": 11
+      },
+      "end": {
+        "value": "2018-01-05",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-896de318-422e-cbee-af47-7d9d92b550e4",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": [
+        {
+          "id": "0276e0c3d6e74599dd816b8f835c66956e452109",
+          "urls": [
+            "https://actu.fr/politique/en-2018-aurelien-pradie-va-continuer-etre-depute-pirate_15090261.html"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q30351657$5A92B8E4-C804-43E7-B296-636254E20929",
+      "source": "Q30351657",
+      "target": "Q65535066",
+      "sourceTarget": "Q65535066",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-5A92B8E4-C804-43E7-B296-636254E20929",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q30351657$53F30B0E-2AAD-4A97-B8E8-2AE25C488222",
+      "source": "Q30351657",
+      "target": "Q66500600",
+      "sourceTarget": "Q66500600",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2014-04-15",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-53F30B0E-2AAD-4A97-B8E8-2AE25C488222",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q30351657$9D481DEE-1966-465F-976B-5CC5ABFE6BAF",
+      "source": "Q30351657",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2022-06-22",
+        "precision": 11
+      },
+      "end": {
+        "value": "2024-06-09",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-9D481DEE-1966-465F-976B-5CC5ABFE6BAF",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": [
+        {
+          "id": "35101f9e6b012621311220475658e25a56438495",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q30351657$35A819DB-2CF4-49E3-A00C-088246CAFFB5",
+      "source": "Q30351657",
+      "target": "Q3044918",
+      "sourceTarget": "Q3044918",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2024-07-08",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-35A819DB-2CF4-49E3-A00C-088246CAFFB5",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": [
+        {
+          "id": "dee5a2811cfaa885bc208ae66ec754455e29125a",
+          "urls": [
+            "https://www.assemblee-nationale.fr/dyn/deputes/PA720100"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q30351657$aeb71211-4e50-8751-d3fb-fa020f07b0ac",
+      "source": "Q30351657",
+      "target": "Q20012759",
+      "sourceTarget": "Q20012759",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q30351657#Q30351657-aeb71211-4e50-8751-d3fb-fa020f07b0ac",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q30351657&oldid=2523743714",
+      "references": []
+    },
+    {
+      "id": "Q3147241$445B43DE-49A6-4276-B908-7A23DDB9DE45",
+      "source": "Q3147241",
+      "target": "Q10159",
+      "sourceTarget": "Q10159",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q3147241#Q3147241-445B43DE-49A6-4276-B908-7A23DDB9DE45",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q3147241&oldid=2523733055",
+      "references": [
+        {
+          "id": "d4bd87b862b12d99d26e86472d44f26858dee639",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q3147241$EF5D6ED5-B459-4251-AF77-61F4B6C46A05",
+      "source": "Q3147241",
+      "target": "Q1878600",
+      "sourceTarget": "Q1878600",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "statementUrl": "https://www.wikidata.org/wiki/Q3147241#Q3147241-EF5D6ED5-B459-4251-AF77-61F4B6C46A05",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q3147241&oldid=2523733055",
+      "references": [
+        {
+          "id": "862e22b0bc9f8d7c7143174a6a65a534da94e14d",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q328"
+          ],
+          "retrieved": {
+            "value": "2019-07-10",
+            "precision": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q3147241$b0a9e349-e351-4c80-90f2-73fd0b23c7ac",
+      "source": "Q3147241",
+      "target": "Q51236772",
+      "sourceTarget": "Q51236772",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2008-03-21",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q3147241#Q3147241-b0a9e349-e351-4c80-90f2-73fd0b23c7ac",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q3147241&oldid=2523733055",
+      "references": [
+        {
+          "id": "d4bd87b862b12d99d26e86472d44f26858dee639",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        },
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q3147241$F6696A36-ECDE-4FB9-A203-6EB42695B687",
+      "source": "Q3147241",
+      "target": "Q66501396",
+      "sourceTarget": "Q66501396",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2016-01-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q3147241#Q3147241-F6696A36-ECDE-4FB9-A203-6EB42695B687",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q3147241&oldid=2523733055",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "q3147241$C4ACAF8C-AF14-4340-8E55-C75C1D1EEFFD",
+      "source": "Q3147241",
+      "target": "Q192821",
+      "sourceTarget": "Q192821",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "start": {
+        "value": "1997-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q3147241#q3147241-C4ACAF8C-AF14-4340-8E55-C75C1D1EEFFD",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q3147241&oldid=2523733055",
+      "references": [
+        {
+          "id": "6e3037622f8ae417d7e00546fb5898a6a89a1675",
+          "urls": [
+            "https://www.pcf.fr/elections_europ_ennes_d_claration_de_ian_brossat"
+          ],
+          "statedIn": [],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q3147241$1301d9b0-4b48-0d44-abcc-15531f10f087",
+      "source": "Q3147241",
+      "target": "Q3278478",
+      "sourceTarget": "Q3278478",
+      "property": "P108",
+      "category": "employment",
+      "label": "A travaillé pour",
+      "start": {
+        "value": "2008-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q3147241#Q3147241-1301d9b0-4b48-0d44-abcc-15531f10f087",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q3147241&oldid=2523733055",
+      "references": []
+    },
+    {
+      "id": "Q41025869$264dadbf-4fdc-1c36-3948-f73e8dff6855",
+      "source": "Q41025869",
+      "target": "Q829449",
+      "sourceTarget": "Q829449",
+      "property": "P69",
+      "category": "education",
+      "label": "A étudié à",
+      "end": {
+        "value": "2006-00-00",
+        "precision": 9
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q41025869#Q41025869-264dadbf-4fdc-1c36-3948-f73e8dff6855",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q41025869&oldid=2524190254",
+      "references": []
+    },
+    {
+      "id": "Q41025869$15AF25DA-A957-4688-A4F4-C53923FF17D0",
+      "source": "Q41025869",
+      "target": "Q63758923",
+      "sourceTarget": "Q63758923",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2015-04-02",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q41025869#Q41025869-15AF25DA-A957-4688-A4F4-C53923FF17D0",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q41025869&oldid=2524190254",
+      "references": [
+        {
+          "id": "b8cc14ab1a40313f9b021168d5cdba563f149a65",
+          "urls": [],
+          "statedIn": [
+            "Q63762917"
+          ],
+          "importedFrom": []
+        }
+      ]
+    },
+    {
+      "id": "Q41025869$99dccf41-4d5f-15d7-ea27-40527178cae3",
+      "source": "Q41025869",
+      "target": "Q15686806",
+      "sourceTarget": "Q15686806",
+      "property": "P39",
+      "category": "office",
+      "label": "A exercé la fonction de",
+      "start": {
+        "value": "2017-10-01",
+        "precision": 11
+      },
+      "statementUrl": "https://www.wikidata.org/wiki/Q41025869#Q41025869-99dccf41-4d5f-15d7-ea27-40527178cae3",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q41025869&oldid=2524190254",
+      "references": []
+    },
+    {
+      "id": "Q41025869$710AADD9-1D61-4C7E-99EC-007A5E965A63",
+      "source": "Q41025869",
+      "target": "Q192821",
+      "sourceTarget": "Q192821",
+      "property": "P102",
+      "category": "party",
+      "label": "A été membre de",
+      "statementUrl": "https://www.wikidata.org/wiki/Q41025869#Q41025869-710AADD9-1D61-4C7E-99EC-007A5E965A63",
+      "revisionUrl": "https://www.wikidata.org/w/index.php?title=Q41025869&oldid=2524190254",
+      "references": [
+        {
+          "id": "489ac9912fc242ebe6d18972ddeeda9b37f640e4",
+          "urls": [],
+          "statedIn": [],
+          "importedFrom": [
+            "Q8447"
+          ]
+        }
+      ]
+    }
+  ]
+}

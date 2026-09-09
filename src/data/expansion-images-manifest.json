@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "checkedAt": "2026-09-09T10:21:28.243Z",
+  "candidates": 16,
+  "imported": 13,
+  "people": 13,
+  "other": 0,
+  "bytes": 417137,
+  "skipped": [
+    {
+      "entityId": "Q15724624",
+      "file": "François-Xavier Bellamy intervenant en Session Plénière (crop).jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q21294609",
+      "file": "Denain - Sébastien Chenu lors du conseil municipal du 27 juin 2016 (cropped).JPG",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    },
+    {
+      "entityId": "Q63347906",
+      "file": "1720621117032 20240710 TOUSSAINT Marie FR 011.jpg",
+      "reason": "Licence, attribution ou statut non retenu par le contrôle automatique."
+    }
+  ]
+}

@@ -6,6 +6,8 @@ import { readJson, writeJson } from './lib/import-utils.mjs';
 import { imageLicense } from './lib/image-license.mjs';
 
 const cachedOnly = process.argv.includes('--cached'), refresh = process.argv.includes('--refresh');
+const expansion = process.argv.includes('--expansion');
+const snapshotName = expansion ? 'expansion-images' : 'entity-images';
 const limit = Number(process.argv.find(arg => arg.startsWith('--limit='))?.split('=')[1] ?? Infinity);
 if (!(limit > 0)) throw new Error('La limite doit être positive.');
 const cachePath = '.cache/entity-images';
@@ -49,12 +51,12 @@ async function api(origin, params) {
   return result;
 }
 const entities = new Map(), raw = new Map();
-for (const name of ['integrity-watch', 'assembly', 'network-wikidata', 'attali-wikidata', 'graph']) {
+for (const name of (expansion ? ['expansion-wikidata'] : ['integrity-watch', 'assembly', 'network-wikidata', 'attali-wikidata', 'graph'])) {
   for (const entity of (await readJson(`src/data/${name}.json`)).entities) entities.set(entity.id, { ...entity, inCorpus: entity.inCorpus || entities.get(entity.id)?.inCorpus });
 }
-for (const folder of ['wikidata-network', 'wikidata-attali', 'wikidata']) for (const entity of await readJson(`.cache/${folder}/raw-entities.json`)) raw.set(entity.id, entity);
+for (const folder of (expansion ? ['wikidata-expansion'] : ['wikidata-network', 'wikidata-attali', 'wikidata'])) for (const entity of await readJson(`.cache/${folder}/raw-entities.json`)) raw.set(entity.id, entity);
 const overrides = await readJson('scripts/image-overrides.json');
-const candidates = [...entities.values()].filter(entity => /^Q\d+$/.test(entity.id) && entity.wikidataUrl === `https://www.wikidata.org/wiki/${entity.id}` && entity.type !== 'office' && (overrides[entity.id] || ['P18', ...(entity.type === 'person' ? [] : ['P154'])].some(property => raw.get(entity.id)?.claims?.[property]?.some(claim => claim.rank !== 'deprecated' && typeof claim.mainsnak?.datavalue?.value === 'string'))))
+const candidates = [...entities.values()].filter(entity => (!expansion || entity.inCorpus) && /^Q\d+$/.test(entity.id) && entity.wikidataUrl === `https://www.wikidata.org/wiki/${entity.id}` && entity.type !== 'office' && (overrides[entity.id] || ['P18', ...(entity.type === 'person' ? [] : ['P154'])].some(property => raw.get(entity.id)?.claims?.[property]?.some(claim => claim.rank !== 'deprecated' && typeof claim.mainsnak?.datavalue?.value === 'string'))))
   .sort((a, b) => Number(Boolean(overrides[b.id])) - Number(Boolean(overrides[a.id])) || Number(Boolean(b.inCorpus)) - Number(Boolean(a.inCorpus)) || a.id.localeCompare(b.id)).slice(0, limit);
 
 // Confirm the association against public Wikidata before sending a file title to Commons.
@@ -109,10 +111,10 @@ for (let offset = 0; offset < selected.length; offset += 3) {
   }));
   if (offset % 30 === 0 || offset + 3 >= selected.length) {
     await writeJson(`${cachePath}/progress.json`, { images: [...images.values()] });
-    await writeJson('src/data/entity-images.json', { version: 1, checkedAt: new Date().toISOString(), images: included.sort((a, b) => a.entityId.localeCompare(b.entityId)) });
+    await writeJson(`src/data/${snapshotName}.json`, { version: 1, checkedAt: new Date().toISOString(), images: included.sort((a, b) => a.entityId.localeCompare(b.entityId)) });
     console.log(`Images locales : ${included.length} ; non importées : ${skipped.length} ; traitées : ${Math.min(offset + 3, selected.length)}/${selected.length}`);
   }
 }
 const people = included.filter(image => entities.get(image.entityId)?.type === 'person').length;
-await writeJson('src/data/entity-images-manifest.json', { version: 1, checkedAt: new Date().toISOString(), candidates: candidates.length, imported: included.length, people, other: included.length - people, bytes: included.reduce((sum, image) => sum + image.bytes, 0), skipped: skipped.sort((a, b) => a.entityId.localeCompare(b.entityId)) });
+await writeJson(`src/data/${snapshotName}-manifest.json`, { version: 1, checkedAt: new Date().toISOString(), candidates: candidates.length, imported: included.length, people, other: included.length - people, bytes: included.reduce((sum, image) => sum + image.bytes, 0), skipped: skipped.sort((a, b) => a.entityId.localeCompare(b.entityId)) });
 console.log(JSON.stringify({ candidates: candidates.length, imported: included.length, people, other: included.length - people, skipped: skipped.length }));

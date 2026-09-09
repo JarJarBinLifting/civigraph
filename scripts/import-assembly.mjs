@@ -1,9 +1,10 @@
 import fs from 'node:fs/promises';
 import { unzipSync, strFromU8 } from 'fflate';
 import { assemblyEntity, assemblyRelation, ASSEMBLY_ARCHIVE, list } from './lib/assembly.mjs';
-import { corpusAndRaw, externalIds, snapshot, writeJson } from './lib/import-utils.mjs';
+import { corpusAndRaw, externalIds, readJson, snapshot, writeJson } from './lib/import-utils.mjs';
 
 const checkedAt = new Date().toISOString();
+const expansion = process.argv.includes('--expansion');
 const path = '.cache/assembly/historique.json.zip';
 await fs.mkdir('.cache/assembly', { recursive: true });
 if (!process.argv.includes('--cached')) {
@@ -11,7 +12,9 @@ if (!process.argv.includes('--cached')) {
   if (!response.ok) throw new Error(`Assemblée nationale : HTTP ${response.status}`);
   await fs.writeFile(path, new Uint8Array(await response.arrayBuffer()));
 }
-const { raw } = await corpusAndRaw();
+const { raw } = expansion
+  ? { raw: new Map((await readJson('.cache/wikidata-expansion/raw-entities.json')).filter(entity => (entity.claims?.P31 ?? []).some(claim => claim.mainsnak?.datavalue?.value?.id === 'Q5')).map(entity => [entity.id, entity])) }
+  : await corpusAndRaw();
 const identifiers = externalIds(raw, 'P4123');
 const paths = new Map([...identifiers].map(([id, qid]) => [`json/acteur/PA${id}.json`, qid]));
 const files = unzipSync(new Uint8Array(await fs.readFile(path)), { filter: file => paths.has(file.name) || /^json\/organe\/PO\d+\.json$/.test(file.name) });
@@ -36,6 +39,6 @@ for (const [path, qid] of paths) {
   }
 }
 const data = snapshot('Assemblée nationale', 'Licence ouverte 2.0', checkedAt, [...entities.values()], relations, 'Mandats nationaux, commissions, missions, délégations et groupes des personnes du corpus. Rapprochement par identifiant Assemblée nationale P4123 ; rattachements financiers à des partis exclus.');
-await writeJson('src/data/assembly.json', data);
-await writeJson('src/data/assembly-import.json', { checkedAt, source: ASSEMBLY_ARCHIVE, matching: 'Wikidata P4123 → acteur PA', matched, missing, rejected });
+await writeJson(`src/data/${expansion ? 'expansion-assembly' : 'assembly'}.json`, data);
+await writeJson(`src/data/${expansion ? 'expansion-assembly' : 'assembly'}-import.json`, { checkedAt, source: ASSEMBLY_ARCHIVE, matching: 'Wikidata P4123 → acteur PA', matched, missing, rejected });
 console.log({ ...data.meta, peopleMatched: matched.length, identifiersMissingFromArchive: missing.length, rejected: rejected.length });
