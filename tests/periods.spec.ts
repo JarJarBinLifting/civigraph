@@ -52,7 +52,7 @@ test('Attali shows sourced compositions, role changes and the matching graph and
   await expect(page.getByRole('link', { name: 'Consulter le document officiel', exact: true })).toHaveAttribute('href', 'https://www.vie-publique.fr/files/rapport/pdf/104000541.pdf#page=214');
   await expect(page.locator('.evidence-card')).toContainText('Attesté en 2010');
   await expect(page.locator('.evidence-card')).toContainText('Page imprimée 213');
-  await expect(page.getByRole('link', { name: 'Version lors de l’import', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Version utilisée par Civigraph', exact: true })).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect(errors).toEqual([]);
   await page.screenshot({ path: `test-results/periods-evidence-${info.project.name}.png`, fullPage: true });
@@ -75,7 +75,7 @@ test('the selected period survives sharing, history and continued exploration', 
   await expect(page.getByRole('button', { name: 'Toutes les périodes', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Même période', exact: true }).click();
   await page.getByRole('button', { name: 'Evelyne Gebhardt', exact: true }).click();
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   await expect.poll(async () => (await graph(page)).center).toBe('Q74191');
   await expect(page).toHaveURL(/period=attali-2010-Q3052772/);
   await expect(page.getByRole('heading', { name: 'Evelyne Gebhardt', exact: true })).toBeVisible();
@@ -118,7 +118,7 @@ test('adding temporal controls preserves the animated pivot and an existing Macr
     node.on('position', () => samples.push({ ...node.position(), retained: !edge.removed() }));
     return { cy, node: node[0], from, samples };
   });
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   await expect.poll(() => page.locator('.graph-canvas').evaluate(element => {
     const cy = (element as Canvas)._cyreg.cy;
     const node = cy.getElementById('Q2986712');

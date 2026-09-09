@@ -24,7 +24,7 @@ export function SavedExplorations({ data, view, onRestore }: { data: GraphData; 
     catch (error) { setError(error instanceof Error ? error.message : 'Suppression impossible.'); }
   }
   return <div className="saved-explorations">
-    <p>Gardez une vue nommée avec son parcours, ses filtres, sa période et sa comparaison. Les sauvegardes restent dans ce navigateur, sans compte.</p>
+    <p>Donnez un nom à cette vue pour la retrouver avec vos filtres et votre comparaison. Elle sera enregistrée dans ce navigateur, sans compte.</p>
     <form className="save-view-form" onSubmit={save}><label htmlFor="exploration-name">Nom de cette exploration</label><input id="exploration-name" value={name} onChange={event => setName(event.target.value)} maxLength={80} required placeholder="Ex. Parcours à l’ENA" /><button type="submit" className="primary-button" disabled={Boolean(result.problem)}><Bookmark size={15} />Enregistrer cette vue</button></form>
     {(problem || error) && <p className="source-limit" role="alert">{problem || error}</p>}
     <p className="saved-status" role="status">{message}</p>
@@ -34,7 +34,7 @@ export function SavedExplorations({ data, view, onRestore }: { data: GraphData; 
       const restored = restoreSavedView(saved, data);
       const root = restored.view && index.entities.get(restored.view.root);
       const compared = restored.view?.compare && index.entities.get(restored.view.compare);
-      return <li key={saved.id}><div><strong>{saved.name}</strong><p>{root?.label}{compared ? ` · ${compared.label}` : ''}</p><small>{new Date(saved.createdAt).toLocaleDateString('fr-FR')}</small>{!restored.view ? <p className="source-limit">Le point de départ n’existe plus dans ce corpus.</p> : restored.adjusted ? <p className="source-limit">Certains éléments ont changé ou disparu ; la vue sera adaptée au corpus disponible.</p> : null}</div><div className="saved-view-actions"><button className="secondary-button" disabled={!restored.view} aria-label={`Restaurer ${saved.name}`} onClick={() => restored.view && onRestore(restored.view, restored.adjusted)}>Restaurer</button><button className="icon-button" aria-label={`Supprimer ${saved.name}`} onClick={() => remove(saved.id)}><Trash2 size={16} /></button></div></li>;
+      return <li key={saved.id}><div><strong>{saved.name}</strong><p>{root?.label}{compared ? ` · ${compared.label}` : ''}</p><small>{new Date(saved.createdAt).toLocaleDateString('fr-FR')}</small>{!restored.view ? <p className="source-limit">La fiche de départ n’est plus disponible.</p> : restored.adjusted ? <p className="source-limit">Certaines fiches ont changé ou disparu. La vue sera rouverte avec les informations encore disponibles.</p> : null}</div><div className="saved-view-actions"><button className="secondary-button" disabled={!restored.view} aria-label={`Restaurer ${saved.name}`} onClick={() => restored.view && onRestore(restored.view, restored.adjusted)}>Restaurer</button><button className="icon-button" aria-label={`Supprimer ${saved.name}`} onClick={() => remove(saved.id)}><Trash2 size={16} /></button></div></li>;
     })}</ul>
     <p className="section-caption">Effacer les données de ce navigateur supprime aussi ces sauvegardes. Le lien de partage permet de conserver une copie ailleurs.</p>
   </div>;

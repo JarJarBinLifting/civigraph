@@ -29,7 +29,7 @@ export function CommonInstitutions({ data, records, view, onChange, onSelect }: 
   function inspect(id: string, person?: string) { setPersonEvidence(person); onChange({ institution: id, bridge: undefined }); }
   const evidenceEntries = active ? [...active.people].filter(([person]) => !personEvidence || person === personEvidence) : [];
   return <section className="common-institutions" aria-label="Points communs du groupe">
-    <div className="analysis-section-heading"><div><h2>Quelles institutions partagent-ils ?</h2><p>Ajoutez des personnes, puis explorez leurs passages documentés.</p></div></div>
+    <div className="analysis-section-heading"><div><h2>Quelles institutions partagent-ils ?</h2><p>Ajoutez des personnes pour voir les écoles et les organisations qu’elles ont en commun.</p></div></div>
     <EntitySearch data={data} peopleOnly label="Ajouter une personne au groupe" placeholder="Ajouter une personne…" onSelect={entity => { if (!ids.includes(entity.id)) onChange({ group: [...ids, entity.id] }); }} />
     <details className="group-editor" open={people.length <= 8}><summary>Groupe de {people.length} personnes</summary><div className="group-chips" aria-label="Personnes du groupe">{people.map(person => <button key={person.id} aria-label={`Retirer ${person.label} du groupe`} onClick={() => onChange({ group: ids.filter(id => id !== person.id) })}>{shortLabel(person)}<X size={14} /></button>)}{ids.length > 0 && <button onClick={() => onChange({ group: [], institution: undefined })}>Vider le groupe</button>}</div></details>
     {people.length < 2 ? <p className="analysis-empty">Sélectionnez au moins deux personnes pour révéler leurs institutions communes.</p> : <>

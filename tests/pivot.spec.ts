@@ -33,7 +33,7 @@ test('the new center moves continuously, retains Bernard’s edge, and opens its
     node.on('position', () => samples.push({ ...node.position(), edgeRetained: !edge.removed() }));
     return { cy, node: node[0], edge, from, samples };
   }, { bernard, regional });
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   await centered(page, regional);
   const result = await recording.evaluate(recording => {
     const cy = (document.querySelector('.graph-canvas') as Canvas)._cyreg.cy;
@@ -86,7 +86,7 @@ test('legacy URLs restore their latest center and reduced motion skips the trans
   }
   await page.screenshot({ path: `test-results/pivot-reduced-${test.info().project.name}.png`, fullPage: true });
   await page.getByRole('tabpanel', { name: 'Connexions de l’entité' }).getByRole('button', { name: 'Bernard Cazeneuve', exact: true }).click();
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   const result = await page.locator('.graph-canvas').evaluate(element => {
     const cy = (element as Canvas)._cyreg.cy;
     return { center: cy.$('node.root').id(), moving: cy.animated() || cy.nodes().filter(':animated').length > 0, position: cy.getElementById('Q560890').position() };
@@ -99,7 +99,7 @@ test('a return during a transition cancels stale removals and keeps the restored
   test.skip(info.project.name !== 'desktop', 'Rapid navigation uses the desktop exploration rail.');
   await page.goto(initial);
   await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   await page.getByRole('navigation', { name: 'Parcours d’exploration' }).getByRole('button', { name: 'Bernard Cazeneuve', exact: true }).click();
   await centered(page, bernard);
   await expect(page.locator('.graph-meta')).toContainText('21 entités');

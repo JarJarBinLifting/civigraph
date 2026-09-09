@@ -9,7 +9,7 @@ test('institutional paths expose directional evidence and restore their own comp
   const first = paths.locator('.institution-path').first();
   await first.locator('summary').first().click();
   await expect(first.locator('.evidence-card').first()).toContainText('Emmanuel Macron');
-  await expect(first.getByRole('link', { name: 'Déclaration Wikidata', exact: true }).first()).toBeVisible();
+  await expect(first.getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Partager la vue', exact: true }).click();
   const url = await page.getByLabel('Lien vers cette vue').inputValue();
   expect(url).toContain('comparisonMode=paths'); expect(url).toContain('mode=list');

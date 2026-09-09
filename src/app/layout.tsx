@@ -4,8 +4,8 @@ import '@fontsource-variable/manrope';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Civigraph — Les liens de la vie publique',
-  description: 'Explorez les parcours et les relations documentées de la vie politique française. Chaque lien a une histoire. Et une source.',
+  title: 'Civigraph — La carte des réseaux politiques',
+  description: 'Écoles, partis, institutions, entreprises : explorez les parcours et les liens entre responsables politiques.',
   robots: { index: false, follow: false },
 };
 

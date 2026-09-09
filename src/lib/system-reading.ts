@@ -9,12 +9,12 @@ export const SYSTEMS = [
 ] as const;
 export type System = typeof SYSTEMS[number]['id'];
 export const SYSTEM_SCOPE: Record<System, string> = {
-  all: 'Toutes les catégories documentées du corpus, sans limitation au nombre d’institutions.',
-  party: 'Partis, groupes parlementaires et statuts politiques explicitement documentés.',
-  education: 'Écoles et universités reliées par une déclaration de formation.',
-  employment: 'Employeurs explicitement documentés. Les titres de responsabilité sont dans les fonctions.',
-  membership: 'Adhésions et participations à des organisations, dont les compositions officielles sourcées.',
-  office: 'La catégorie des sources inclut des mandats publics et certaines responsabilités professionnelles ; elle ne permet pas de les séparer systématiquement.',
+  all: 'Afficher tous les types de liens recensés.',
+  party: 'Les partis et groupes parlementaires mentionnés dans les sources, ainsi que le statut indépendant.',
+  education: 'Les écoles et universités fréquentées.',
+  employment: 'Les employeurs cités dans les sources. Les titres de poste apparaissent dans « Fonctions publiques ».',
+  membership: 'Les associations, commissions et autres organisations auxquelles les personnes ont participé.',
+  office: 'Les sources regroupent ici les mandats publics et certains postes professionnels. Nous ne pouvons pas toujours les distinguer.',
 };
 export interface PoliticalAffiliation { party: Entity; color: string; statements: Relation[] }
 export interface PoliticalIndex { people: Map<string, PoliticalAffiliation[]>; parties: { entity: Entity; color: string; people: number }[] }

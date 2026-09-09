@@ -50,7 +50,7 @@ test('the full Assas network stays visible and a chosen time reference survives 
   await page.mouse.click(point.x, point.y);
   await expect(page.getByRole('heading', { name: 'Albane Gaillot', exact: true })).toBeVisible();
   await expect(page.getByRole('tab', { name: 'Profil', exact: true })).toHaveAttribute('aria-selected', 'true');
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   await expect.poll(() => page.locator('.graph-canvas').evaluate(element => (element as Canvas)._cyreg.cy.$('node.root').id())).toBe('Q30527240');
   expect(new URL(page.url()).searchParams.get('expanded')).toBe('Q20089181,Q662976,Q30527240');
 });
@@ -68,7 +68,7 @@ test('a person opens a sourced profile independent of the graph filters', async 
   await page.screenshot({ path: `test-results/profile-albane-${info.project.name}.png`, fullPage: true });
   await profile.getByRole('button', { name: 'Source du repère Député français', exact: true }).click();
   await expect(page.getByRole('tab', { name: 'Sources' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByRole('link', { name: 'Déclaration Wikidata', exact: true })).toHaveAttribute('href', /Q30527240#/);
+  await expect(page.getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true })).toHaveAttribute('href', /Q30527240#/);
   await page.getByRole('tab', { name: 'Profil', exact: true }).click();
   await expect(profile).toBeVisible();
   await page.goto(albane + '&categories=');

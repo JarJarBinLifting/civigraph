@@ -36,9 +36,9 @@ test('initial graph, complete corpus and source transparency', async ({ page, ba
   await expect(page.getByRole('link', { name: 'Consulter le document officiel', exact: true })).toHaveAttribute('href', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000437029');
   const originalEducation = original.relations.find(relation => relation.source === 'Q3052772' && relation.target === 'Q273579')!;
   await ready(page, `?root=Q3052772&edge=${encodeURIComponent(originalEducation.id)}`);
-  await expect(page.getByRole('link', { name: 'Déclaration Wikidata', exact: true })).toHaveAttribute('href', /wikidata\.org\/wiki\/Q3052772#/);
+  await expect(page.getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true })).toHaveAttribute('href', /wikidata\.org\/wiki\/Q3052772#/);
   await expect(page.getByText('2002 – 2004', { exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Version lors de l’import', exact: true })).toHaveAttribute('href', /oldid=\d+/);
+  await expect(page.getByRole('link', { name: 'Version utilisée par Civigraph', exact: true })).toHaveAttribute('href', /oldid=\d+/);
   expect(errors).toEqual([]);
   expect(externalRequests).toEqual([]);
 });
@@ -47,7 +47,7 @@ test('search accepts accents omitted and explains absent results', async ({ page
   await ready(page);
   const search = page.getByRole('combobox', { name: 'Rechercher une personne ou une organisation' });
   await search.fill('Personne introuvable 123');
-  await expect(page.getByText(/Aucun résultat dans ce corpus/)).toBeVisible();
+  await expect(page.getByText(/Aucun résultat. Le site recense/)).toBeVisible();
   await search.fill('edouard philippe');
   await search.press('Enter');
   await expect(page.getByRole('heading', { name: 'Édouard Philippe', exact: true })).toBeVisible();
@@ -80,10 +80,10 @@ test('canvas node click and expansion center the school and preserve the previou
   });
   await page.mouse.click(position.x, position.y);
   await expect(page.getByRole('heading', { name: 'ENA', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Développer ce réseau', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorer autour de cette fiche', exact: true }).click();
   await expect(page).toHaveURL(/expanded=Q3052772%2CQ273579/);
   await expect(page).toHaveURL(/focus=Q273579/);
-  await expect(page.getByRole('button', { name: 'Au centre du graphe', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Au centre de la carte', exact: true })).toBeDisabled();
   await expect.poll(() => page.locator('.graph-canvas').evaluate(element => {
     const cy = (element as HTMLElement & { _cyreg: { cy: Core } })._cyreg.cy;
     const center = cy.getElementById('Q273579');
@@ -97,13 +97,13 @@ test('comparison exposes both proofs and responds to filters', async ({ page }, 
   const search = page.getByRole('combobox', { name: 'Deuxième personne à comparer' });
   await search.fill('edouard');
   await search.press('Enter');
-  await expect(page.getByText('3 points communs documentés', { exact: true })).toBeVisible();
+  await expect(page.getByText('3 points communs trouvés', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'ENA', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Déclaration Wikidata', exact: true })).toHaveCount(6);
+  await expect(page.getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true })).toHaveCount(6);
   await page.screenshot({ path: `test-results/${info.project.name}-comparison.png`, fullPage: true });
   await filters(page);
   await page.getByRole('checkbox', { name: /Partis & statuts/ }).uncheck();
-  await expect(page.getByText('2 points communs documentés', { exact: true })).toBeVisible();
+  await expect(page.getByText('2 points communs trouvés', { exact: true })).toBeVisible();
   await page.getByRole('checkbox', { name: /Formations/ }).uncheck();
   await expect(page.getByText('Aucun point commun dans cette vue', { exact: true })).toBeVisible();
 });
@@ -133,18 +133,18 @@ test('invalid parameters recover and layout has no horizontal overflow', async (
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.getByRole('button', { name: 'À propos de Civigraph', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByText(/Les déclarations Wikidata ne sont pas vérifiées indépendamment/)).toBeVisible();
+  await expect(page.getByText(/Les informations de Wikidata ne sont pas toutes vérifiées une à une/)).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
 test('shared comparison restores both people and exploring a common entity shares a graph view', async ({ page }) => {
   await page.goto('/?root=Q3052772&compare=Q3579995');
-  await expect(page.getByText('3 points communs documentés', { exact: true })).toBeVisible();
+  await expect(page.getByText('3 points communs trouvés', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Partager la vue', exact: true }).click();
   const comparisonUrl = await page.getByLabel('Lien vers cette vue').inputValue();
   await page.goto(comparisonUrl);
-  await expect(page.getByText('3 points communs documentés', { exact: true })).toBeVisible();
+  await expect(page.getByText('3 points communs trouvés', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Explorer ENA', exact: true }).click();
   await expect(page.getByTestId('graph-stage')).toHaveAttribute('data-ready', 'true');
   await page.getByRole('button', { name: 'Partager la vue', exact: true }).click();

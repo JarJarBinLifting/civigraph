@@ -50,7 +50,7 @@ test('Integrity Watch activities show the original HATVP declaration and precise
   await expect(page.locator('.evidence-card')).toContainText('janv. 2020 – juil. 2022');
   await expect(page.locator('.evidence-card')).toContainText('Integrity Watch France');
   await expect(page.getByRole('link', { name: 'Consulter la déclaration HATVP', exact: true })).toHaveAttribute('href', relation.statementUrl);
-  await expect(page.getByRole('link', { name: 'Version lors de l’import', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Version utilisée par Civigraph', exact: true })).toHaveCount(0);
   await page.screenshot({ path: `test-results/enrichment-hatvp-${info.project.name}.png`, fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

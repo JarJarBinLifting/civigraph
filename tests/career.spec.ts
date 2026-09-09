@@ -5,10 +5,10 @@ test('career includes dated and undated evidence even with all graph filters dis
   const timeline = page.getByRole('region', { name: 'Parcours chronologique' });
   await expect(timeline).toContainText('2017');
   await expect(timeline).toContainText('2022');
-  await expect(timeline).toContainText('Sans dates exploitables');
+  await expect(timeline).toContainText('Dates non précisées');
   await expect(timeline).toContainText('Paris-Panthéon-Assas');
   await page.locator('.detail-panel').screenshot({ path: `.working/sprint/lot3-profile-${info.project.name}.png`, scale: 'css' });
-  await timeline.getByRole('heading', { name: 'Sans dates exploitables', exact: true }).scrollIntoViewIfNeeded();
+  await timeline.getByRole('heading', { name: 'Dates non précisées', exact: true }).scrollIntoViewIfNeeded();
   await page.locator('.panel-content').screenshot({ path: `.working/sprint/lot3-undated-${info.project.name}.png`, scale: 'css' });
   const first = timeline.locator('.career-entry').first();
   await first.getByRole('button', { name: /^Source 1 du passage/ }).click();

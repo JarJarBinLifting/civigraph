@@ -24,20 +24,20 @@ test('mixed careers expose dated source passages and reopen the selected person 
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/?graphView=system&systemLens=milieus&selected=Q3052772');
-  await expect(page.getByRole('heading', { name: 'Qui relie plusieurs milieux ?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Qui est passé par plusieurs milieux ?' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Fermer la fiche', exact: true })).toHaveCount(0);
   await page.getByRole('searchbox', { name: 'Rechercher une personne' }).fill('Macron');
   await page.getByRole('button', { name: /^Emmanuel Macron [0-9]+ milieux/ }).click();
   const detail = page.locator('.insights-detail');
   await detail.locator('summary').filter({ hasText: /^Entreprises/ }).click();
-  await expect(detail.getByRole('link', { name: 'Déclaration Wikidata', exact: true }).first()).toBeVisible();
+  await expect(detail.getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true }).first()).toBeVisible();
   await page.screenshot({ path: info.outputPath('milieus-evidence.png'), fullPage: true });
   await detail.getByRole('button', { name: 'Voir sur la carte' }).click();
   await expect(page).toHaveURL(/systemLens=entities/);
   await expect(page.getByRole('button', { name: 'Fermer la fiche', exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Entre plusieurs milieux', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Les secteurs de son parcours', exact: true })).toBeVisible();
   await page.goBack();
-  await expect(page.getByRole('heading', { name: 'Qui relie plusieurs milieux ?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Qui est passé par plusieurs milieux ?' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Fermer la fiche', exact: true })).toHaveCount(0);
   expect(errors).toEqual([]);
 });
@@ -59,7 +59,7 @@ test('both readings are reachable from the existing Explorer menu', async ({ pag
   await page.getByRole('button', { name: 'Fermer explorer', exact: true }).click();
   await page.getByRole('group', { name: 'Explorer les réseaux' }).getByRole('button', { name: 'Parcours entre milieux' }).click();
   await expect(page).toHaveURL(/systemLens=milieus/);
-  await expect(page.getByRole('heading', { name: 'Qui relie plusieurs milieux ?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Qui est passé par plusieurs milieux ?' })).toBeVisible();
 });
 
 test('the public method explains the source and classification without JavaScript', async ({ browser, baseURL }) => {

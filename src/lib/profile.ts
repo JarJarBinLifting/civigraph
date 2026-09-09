@@ -45,8 +45,8 @@ export function getPersonProfile(data: GraphData, person: Entity) {
   const headline = offices[0] ?? sections.find(section => section.category === 'office')?.facts[0]?.relation;
   const school = sections.find(section => section.category === 'education')?.facts[0];
   const paragraphs: string[] = [];
-  if (headline) paragraphs.push(`Son parcours documenté comprend la fonction « ${shortLabel(entities.get(headline.target)!)} » (${periodLabel(headline)}).`);
-  if (school) paragraphs.push(`Son parcours comprend aussi des études à l’établissement « ${shortLabel(school.entity)} »${school.relation.start || school.relation.end || school.relation.pointInTime ? ` (${periodLabel(school.relation)})` : ', sans période précisée'}.`);
-  if (!paragraphs.length) paragraphs.push('Les repères ci-dessous présentent les activités et organisations documentées dans ce corpus.');
+  if (headline) paragraphs.push(`Fonction : ${headline.role ? `${headline.role} · ` : ''}${shortLabel(entities.get(headline.target)!)} (${periodLabel(headline)}).`);
+  if (school) paragraphs.push(`Études : ${shortLabel(school.entity)}${school.relation.start || school.relation.end || school.relation.pointInTime ? ` (${periodLabel(school.relation)})` : ', dates non précisées'}.`);
+  if (!paragraphs.length) paragraphs.push('Les activités et organisations recensées sont présentées ci-dessous.');
   return { paragraphs, sections };
 }

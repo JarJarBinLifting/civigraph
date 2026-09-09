@@ -17,12 +17,12 @@ test('comparison map joins both people to common entities and opens the two sets
   const card = page.locator('.common-card').filter({ has: page.getByRole('heading', { name: 'ENA', exact: true }) });
   await expect(card).toContainText('Emmanuel Macron');
   await expect(card).toContainText('Édouard Philippe');
-  await expect(card.locator('.common-evidence > div').first().getByRole('link', { name: 'Déclaration Wikidata', exact: true }).first()).toBeVisible();
-  await expect(card.locator('.common-evidence > div').last().getByRole('link', { name: 'Déclaration Wikidata', exact: true }).first()).toBeVisible();
+  await expect(card.locator('.common-evidence > div').first().getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true }).first()).toBeVisible();
+  await expect(card.locator('.common-evidence > div').last().getByRole('link', { name: 'Voir l’information sur Wikidata', exact: true }).first()).toBeVisible();
   await expect(card.locator('.comparison-periods')).toContainText('comparaisons de passages');
-  await page.getByRole('button', { name: 'Cartes et sources', exact: true }).click();
+  await page.getByRole('button', { name: 'Détails et sources', exact: true }).click();
   await page.reload();
-  await expect(page.getByRole('button', { name: 'Cartes et sources', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'Détails et sources', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `.working/sprint/lot2a-cards-${info.project.name}.png`, fullPage: true });
   await page.getByRole('button', { name: 'Carte comparative', exact: true }).click();

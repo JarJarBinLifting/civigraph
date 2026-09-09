@@ -10,10 +10,10 @@ import { OverlapReceipt, PassageEvidence } from './PassageEvidence';
 
 export function PersonAffiliations({ person, politics, data }: { person: Entity; politics: PoliticalIndex; data: GraphData }) {
   const affiliations = politics.people.get(person.id) ?? [];
-  return <section className="person-affiliations" aria-label={`Appartenances politiques de ${person.label}`}><h3>Appartenances politiques documentées</h3><PoliticalBadges affiliations={affiliations} />
-    <p>Toutes les périodes du corpus. Une date de fin manquante ne signifie pas une adhésion actuelle.</p>
+  return <section className="person-affiliations" aria-label={`Appartenances politiques de ${person.label}`}><h3>Partis et groupes politiques</h3><PoliticalBadges affiliations={affiliations} />
+    <p>Les appartenances anciennes et récentes sont affichées. Une date de fin absente ne confirme pas une adhésion actuelle.</p>
     {affiliations.map(a => <details key={a.party.id}><summary><i style={{ background: a.color }} />{a.party.label}<small>{[...new Set(a.statements.map(periodLabel))].join(' · ')}</small></summary><PassageEvidence statements={a.statements} data={data} /></details>)}
-    {!affiliations.length && <p>Aucune déclaration disponible dans ce corpus ; cela ne signifie pas « sans appartenance ».</p>}
+    {!affiliations.length && <p>Nous n’avons pas d’information sur ses appartenances politiques. Cela ne veut pas dire que cette personne n’en a pas.</p>}
   </section>;
 }
 
@@ -35,8 +35,8 @@ export function InstitutionCrossings({ institution, graph, politics, data, group
   const safePage = Math.min(page, Math.max(0, Math.ceil(matched.length / 12) - 1));
   const referencePassages = passages.get(reference);
   return <section className="institution-crossings" aria-label="Croisements de parcours">
-    <h3>{people.length} personnes · {affiliations.size} appartenances politiques documentées</h3>
-    <p>Même {institution.type === 'school' ? 'établissement' : 'institution'}, parcours différents. Les couleurs portent sur toutes les appartenances sourcées, pas nécessairement sur celles au moment du passage. Aucun lien personnel n’est déduit.</p>
+    <h3>{people.length} personnes · {affiliations.size} partis et groupes politiques</h3>
+    <p>Même {institution.type === 'school' ? 'établissement' : 'institution'}, parcours différents. Les couleurs montrent les appartenances connues au cours des carrières, pas forcément au moment du passage. Elles ne prouvent pas que ces personnes se connaissent.</p>
     {people.length > 1 && <label>Comparer les passages avec<select aria-label="Comparer les passages avec" value={referencePassages ? reference : ''} onChange={event => setReference(event.target.value)}><option value="">Choisir une personne</option>{people.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}</select></label>}
     {people.length > 12 && <label>Retrouver un parcours<input value={query} onChange={event => { setQuery(event.target.value); setPage(0); }} placeholder="Nom d’une personne…" /></label>}
     {matched.slice(safePage * 12, safePage * 12 + 12).map(person => <details key={person.id} className="crossing-person"><summary><strong>{person.label}</strong><PoliticalBadges affiliations={politics.people.get(person.id) ?? []} /><small>{[...new Set(passages.get(person.id)!.map(periodLabel))].join(' · ')}</small></summary>

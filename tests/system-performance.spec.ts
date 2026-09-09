@@ -136,7 +136,7 @@ test('labels settle at readable sizes after zoom and the camera survives switchi
   });
   await page.getByRole('button', { name: 'Centrée', exact: true }).click();
   await expect(page.getByTestId('system-graph-stage')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Système', exact: true }).click();
+  await page.getByRole('button', { name: 'Vue d’ensemble', exact: true }).click();
   await expect(page.getByTestId('system-graph-stage')).toHaveAttribute('data-ready', 'true');
   const after = await canvas.evaluate(element => {
     const cy = (element as Canvas)._cyreg.cy;

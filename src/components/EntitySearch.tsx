@@ -38,7 +38,7 @@ export function EntitySearch({ data, onSelect, peopleOnly = false, label = 'Rech
     {query ? <button className="icon-button search-clear" aria-label="Effacer la recherche" onClick={() => { setQuery(''); input.current?.focus(); }}><X size={15} /></button> : <span className="search-hint" aria-hidden="true">Rechercher</span>}
     {open && <div className="search-popover">
       {!query && suggestions}
-      <p className="eyebrow">{query ? `${results.length}${results.length === 8 ? '+' : ''} résultat${results.length > 1 ? 's' : ''}` : 'Dans le corpus'}</p>
+      <p className="eyebrow">{query ? `${results.length}${results.length === 8 ? '+' : ''} résultat${results.length > 1 ? 's' : ''}` : 'Personnes et institutions'}</p>
       <ul id={`${id}-results`} role="listbox" aria-label="Résultats de recherche">
         {results.map((entity, index) => <li key={entity.id} id={`${id}-${index}`} role="option" aria-selected={index === active}>
           <button tabIndex={-1} onMouseDown={event => event.preventDefault()} onClick={() => choose(entity)} onMouseEnter={() => setActive(index)}>
@@ -47,7 +47,7 @@ export function EntitySearch({ data, onSelect, peopleOnly = false, label = 'Rech
           </button>
         </li>)}
       </ul>
-      {!results.length && <p className="empty-search">Aucun résultat dans ce corpus de {data.meta.peopleCount} personnes. Essayez un autre nom ou une institution.</p>}
+      {!results.length && <p className="empty-search">Aucun résultat. Le site recense {data.meta.peopleCount} personnes : essayez un autre nom, une école ou un parti.</p>}
     </div>}
   </div>;
 }

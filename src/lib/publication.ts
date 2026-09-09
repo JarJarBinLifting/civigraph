@@ -29,11 +29,11 @@ export function publicationRobots(): MetadataRoute.Robots {
   // Crawlers must fetch scripts, images and filtered pages to see their noindex metadata.
   return config.enabled ? { rules: { userAgent: '*', allow: '/' }, sitemap: `${config.siteUrl}/sitemap.xml` } : { rules: { userAgent: '*', disallow: '/' } };
 }
-export const homeDescription = 'Explorez les parcours politiques, formations, fonctions et organisations de la vie publique française. Consultez les périodes et les sources de chaque lien.';
+export const homeDescription = 'Écoles, partis, institutions, entreprises : explorez les parcours et les liens entre responsables politiques.';
 export function homeMetadata(hasQuery: boolean): Metadata {
   const config = publicationConfig();
-  const metadata = documentMetadata('Parcours et réseaux de la vie publique française', homeDescription, '/', !hasQuery);
-  return { ...metadata, title: 'Civigraph — Parcours et réseaux de la vie publique française', robots: { index: config.enabled && !hasQuery, follow: config.enabled } };
+  const metadata = documentMetadata('La carte des réseaux politiques', homeDescription, '/', !hasQuery);
+  return { ...metadata, title: 'Civigraph — La carte des réseaux politiques', robots: { index: config.enabled && !hasQuery, follow: config.enabled } };
 }
 export function websiteStructuredData() {
   const config = publicationConfig();

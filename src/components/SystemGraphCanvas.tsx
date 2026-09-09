@@ -140,7 +140,7 @@ export function SystemGraphCanvas(props: Props) {
           const eligible = !groups || ratio >= 1.8 || !person && degree >= 4 || important || highlighted.has(n.id());
           if (eligible && (!focused || important || highlighted.has(n.id()))) candidates.push({ id: n.id(), text: n.data('label'),
             boxed: !person || important || highlighted.has(n.id()),
-            detail: !person && groups && n.data('people') ? `${n.data('people')} personnes` : person && (ratio >= 1.8 || isolatedRef.current) ? passageDetails.get(n.id()) : undefined,
+            detail: !person && groups && n.data('people') ? `${n.data('people')} personne${n.data('people') > 1 ? 's' : ''}` : person && (ratio >= 1.8 || isolatedRef.current) ? passageDetails.get(n.id()) : undefined,
             x, y, radius, priority: important ? 100 : !selected && hubs.has(n.id()) ? 65 : highlighted.has(n.id()) ? 55 + Math.min(20, degree) : groups && !person ? 26 + Math.min(25, degree) : Math.min(25, degree), side: 'bottom' });
         });
         if (zoomChanged) instance.edges().forEach(e => {

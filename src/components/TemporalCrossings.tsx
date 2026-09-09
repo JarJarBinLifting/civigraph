@@ -25,7 +25,7 @@ export function TemporalCrossings({ common, data }: { common: CommonConnection[]
       <div className="crossing-dates"><div><strong>{data.entities.find(e => e.id === pair.left.source)?.label}</strong><span>{periodLabel(pair.left)}</span></div><div><strong>{data.entities.find(e => e.id === pair.right.source)?.label}</strong><span>{periodLabel(pair.right)}</span></div></div>
       <details><summary>Vérifier les deux sources</summary><PassageEvidence data={data} statements={[pair.left, pair.right]} /></details>
     </article>)}
-    {!visible.length && <p>Aucun passage correspondant dans le corpus. Cela ne démontre pas l’absence de lien.</p>}
+    {!visible.length && <p>Aucun passage trouvé avec ces filtres. Les informations disponibles peuvent être incomplètes.</p>}
     {visible.length > 12 && <nav className="guide-actions" aria-label="Pages des croisements"><button disabled={!safePage} onClick={() => setPage(safePage - 1)}>Précédents</button><span>{safePage + 1} / {Math.ceil(visible.length / 12)}</span><button disabled={(safePage + 1) * 12 >= visible.length} onClick={() => setPage(safePage + 1)}>Suivants</button></nav>}
   </section>;
 }
