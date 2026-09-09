@@ -20,7 +20,9 @@ test('default map contains the full network and changing reading preserves geome
   await expect(canvas).toHaveAttribute('data-nodes', String(educationCount));
   const before = await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().map(n => ({ id: n.id(), ...n.position() })));
   const framing = await canvas.evaluate(camera);
+  await page.locator('.map-popover > summary').filter({ hasText: 'Affichage' }).click();
   await page.getByRole('button', { name: 'Individus', exact: true }).click();
+  await page.getByRole('button', { name: 'Fermer affichage', exact: true }).click();
   await expect(canvas).toHaveAttribute('data-reading', 'individuals');
   expect(await canvas.evaluate(element => (element as Canvas)._cyreg.cy.nodes().map(n => ({ id: n.id(), ...n.position() })))).toEqual(before);
   expect(await canvas.evaluate(camera)).toEqual(framing);

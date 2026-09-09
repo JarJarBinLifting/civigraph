@@ -2,7 +2,7 @@
 
 Socle national : les 36 membres du gouvernement, les 11 présidences des groupes de l’Assemblée, les 7 présidences nommées par le Sénat et les responsables de 13 formations explicitement listées. Pas un recensement de tous les élus ni de tous les cadres de partis.
 
-65 personnes couvertes, dont 55 ajoutées au corpus ; 68 fonctions attestées. Corpus fusionné : 547 personnes, 2581 entités, 8035 déclarations.
+65 personnes couvertes, dont 55 ajoutées au corpus ; 68 fonctions attestées. Corpus fusionné : 569 personnes, 2653 entités, 8522 déclarations.
 
 La sélection, les identifiants et les preuves figurent dans [people-2026.json](../scripts/people-2026.json). Les limites et la procédure sont dans [current-sources.md](current-sources.md). Les déclarations répétées ne sont pas des faits indépendants.
 
@@ -54,7 +54,7 @@ La sélection, les identifiants et les preuves figurent dans [people-2026.json](
 | Gabriel Attal | Déjà présente | 2 | 83 | 76 |
 | Mathilde Panot | Oui | 1 | 5 | 2 |
 | Boris Vallaud | Oui | 1 | 9 | 6 |
-| Laurent Wauquiez | Déjà présente | 1 | 46 | 31 |
+| Laurent Wauquiez | Déjà présente | 1 | 47 | 32 |
 | Cyrielle Chatelain | Oui | 1 | 3 | 1 |
 | Marc Fesneau | Oui | 1 | 10 | 4 |
 | Laurent Marcangeli | Oui | 1 | 14 | 6 |
@@ -75,7 +75,7 @@ La sélection, les identifiants et les preuves figurent dans [people-2026.json](
 | Marine Tondelier | Oui | 1 | 4 | 0 |
 | Fabien Roussel | Oui | 1 | 12 | 5 |
 | François Bayrou | Déjà présente | 1 | 30 | 23 |
-| Édouard Philippe | Déjà présente | 1 | 36 | 27 |
+| Édouard Philippe | Déjà présente | 1 | 37 | 28 |
 | Raphaël Glucksmann | Oui | 1 | 8 | 1 |
 | Aurore Lalucq | Oui | 1 | 8 | 2 |
 | Éric Zemmour | Oui | 1 | 9 | 5 |

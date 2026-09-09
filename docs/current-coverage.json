@@ -5,12 +5,12 @@
   "addedPeople": 55,
   "officialRoles": 68,
   "corpus": {
-    "people": 547,
-    "entities": 2581,
-    "statements": 8035
+    "people": 569,
+    "entities": 2653,
+    "statements": 8522
   },
   "graphCounts": {
-    "education": 797,
+    "education": 812,
     "enaEducation": 125,
     "assas": 69
   },
@@ -352,8 +352,8 @@
       "name": "Laurent Wauquiez",
       "added": false,
       "roles": 1,
-      "careerStatements": 46,
-      "datedCareerStatements": 31
+      "careerStatements": 47,
+      "datedCareerStatements": 32
     },
     {
       "id": "Q112648926",
@@ -520,8 +520,8 @@
       "name": "Édouard Philippe",
       "added": false,
       "roles": 1,
-      "careerStatements": 36,
-      "datedCareerStatements": 27
+      "careerStatements": 37,
+      "datedCareerStatements": 28
     },
     {
       "id": "Q556149",
